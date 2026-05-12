@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>My Purchases — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--accent:#4A90D9;--orange:#F39C12;--danger:#E74C3C;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{overflow-x:hidden;max-width:100vw}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:12px}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--text)}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}.muted{color:var(--muted);font-size:.82rem}.back-link{color:var(--muted);font-size:.82rem;text-decoration:none;display:inline-block;margin-bottom:12px}.back-link:hover{color:var(--gold)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:16px;text-align:center;border:1px solid rgba(255,255,255,.04)}.stat-card .val{font-size:1.6rem;font-weight:800;color:var(--gold)}.stat-card .lbl{font-size:.7rem;color:var(--muted);margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:.84rem}th{text-align:left;padding:9px 10px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.1);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px}td{padding:10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.btn-sm{padding:4px 12px;font-size:.7rem;border-radius:6px;border:none;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block}.btn-sm.view{background:rgba(74,144,217,.1);color:var(--accent)}.btn-sm.rate{background:rgba(200,169,81,.12);color:var(--gold)}.btn-sm.disp{background:rgba(155,89,182,.1);color:#9B59B6}.btn-sm.track{background:rgba(46,204,113,.1);color:var(--success)}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.7rem;font-weight:600;text-transform:capitalize}.status-badge.pending{background:rgba(243,156,18,.12);color:var(--orange)}.status-badge.paid{background:rgba(74,144,217,.12);color:var(--accent)}.status-badge.shipped{background:rgba(155,89,182,.12);color:#9B59B6}.status-badge.delivered{background:rgba(46,204,113,.12);color:var(--success)}.status-badge.cancelled{background:rgba(231,76,60,.1);color:var(--muted)}
+.purchase-item{display:flex;align-items:center;gap:10px}.purchase-item img{width:40px;height:40px;border-radius:6px;object-fit:cover;background:rgba(255,255,255,.05)}
+.empty-state{text-align:center;padding:40px;color:var(--muted)}.empty-state a{color:var(--gold)}
+.filter-bar{display:flex;gap:8px;margin-bottom:14px}.filter-btn{padding:5px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}.filter-btn.active{background:rgba(200,169,81,.12);color:var(--gold)}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">📦 My Purchases</div><div class="nav-links"><a href="/shop/buyer/dashboard">← Dashboard</a><a href="/shop/">Browse</a><a href="/shop/wishlist">🤍 Wishlist</a></div></nav>
+<div class="container">
+<a href="/shop/buyer/dashboard" class="back-link">← Back to Dashboard</a>
+<h1 data-i18n="brand.myPurchases">📦 My Purchases</h1><p class="muted" data-i18n="page.sub_track_your_orders_shipping">Track your orders, shipping, and rate sellers</p>
+
+<div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl">Loading...</div></div></div>
+
+<div class="filter-bar"><span class="filter-btn active" onclick="filterPurchases('all',this)">All</span><span class="filter-btn" onclick="filterPurchases('pending',this)">Pending</span><span class="filter-btn" onclick="filterPurchases('shipped',this)">Shipped</span><span class="filter-btn" onclick="filterPurchases('delivered',this)">Delivered</span></div>
+
+<div class="card"><table><thead><tr><th>Item</th><th>Seller</th><th>Price</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="purchasesBody"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody></table></div></div>
+<script>
+var T=localStorage.getItem("token"),allPurchases=[],currentFilter='all';
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function filterPurchases(f,el){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(function(x){x.classList.toggle('active',x.textContent.trim()===el.textContent.trim())});render()}
+function render(){
+  var filtered=currentFilter==='all'?allPurchases:allPurchases.filter(function(p){return p.status===currentFilter});
+  var total=filtered.reduce(function(s,p){return s+(p.amount_cents||0)},0)/100;
+  document.getElementById('purchasesBody').innerHTML=allPurchases.length?filtered.map(function(p){
+    var d=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return'<tr><td><div class="purchase-item"><img src="'+(p.image||'/shop-banner.png')+'" alt=""><span>'+esc(p.title||'Item')+'</span></div></td><td>'+esc(p.seller_name||p.seller_email||'Seller')+'</td><td>$'+(p.amount_cents/100).toFixed(2)+'</td><td><span class="status-badge '+p.status+'">'+p.status+'</span></td><td>'+d+'</td><td><a class="btn-sm view" href="/shop/listing/'+p.listing_id+'">View</a> <a class="btn-sm rate" href="/shop/rate/'+p.id+'?type=seller">⭐ Rate</a><a class="btn-sm disp" href="/shop/disputes?tx='+p.id+'">⚖️</a></td></tr>';
+  }).join(''):'<tr><td colspan="6" class="empty-state">No purchases yet. <a href="/shop/">Start shopping →</a></td></tr>';
+}
+async function load(){
+  try{var d=await(await fetch('/api/shop/buyer/purchases',{headers:{Authorization:'Bearer '+T}})).json();allPurchases=d.purchases||[];
+  var total=(allPurchases.reduce(function(s,p){return s+(p.amount_cents||0)},0)/100).toFixed(2);
+  document.getElementById('statsGrid').innerHTML='<div class="stat-card"><div class="val">'+allPurchases.length+'</div><div class="lbl">Total Orders</div></div><div class="stat-card"><div class="val">$'+total+'</div><div class="lbl">Total Spent</div></div><div class="stat-card"><div class="val">'+allPurchases.filter(function(p){return p.status==='pending'}).length+'</div><div class="lbl">⏳ Pending</div></div><div class="stat-card"><div class="val">'+allPurchases.filter(function(p){return p.status==='delivered'}).length+'</div><div class="lbl">✅ Delivered</div></div>';render()}catch(e){console.error(e)}
+}load();
+</script><script src="/i18n.js"></script>
+</body></html>

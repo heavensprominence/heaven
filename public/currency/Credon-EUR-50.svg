@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" width="800" height="340">
+  <defs>
+    <pattern id="eurGuilloche" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M0 12 Q6 0 12 12 Q18 24 24 12" fill="none" stroke="#1a3a6e" stroke-width="0.6" opacity="0.25"/>
+      <circle cx="12" cy="12" r="8" fill="none" stroke="#254a8e" stroke-width="0.3" opacity="0.15"/>
+    </pattern>
+    <linearGradient id="eurBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8ecf5"/>
+      <stop offset="50%" stop-color="#d5dcee"/>
+      <stop offset="100%" stop-color="#c8d0e5"/>
+    </linearGradient>
+    <filter id="eurShadow"><feDropShadow dx="2" dy="3" stdDeviation="4" flood-opacity="0.15"/></filter>
+  </defs>
+
+  <rect x="0" y="0" width="800" height="340" rx="8" fill="url(#eurBg)" stroke="#1a3a6e" stroke-width="2"/>
+  <rect x="5" y="5" width="790" height="330" rx="6" fill="none" stroke="#0d1f45" stroke-width="0.5"/>
+  <rect x="12" y="12" width="776" height="316" rx="3" fill="url(#eurGuilloche)" opacity="0.4"/>
+
+  <!-- EURO stars -->
+  <g opacity="0.25">
+    <text x="400" y="35" text-anchor="middle" font-size="18" fill="#1a3a6e">★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★</text>
+  </g>
+
+  <!-- Corner values -->
+  <g>
+    <rect x="40" y="40" width="50" height="30" rx="4" fill="#1a3a6e"/>
+    <text x="65" y="62" text-anchor="middle" font-size="20" font-weight="900" fill="white" font-family="serif">50</text>
+    
+    <rect x="710" y="40" width="50" height="30" rx="4" fill="#1a3a6e"/>
+    <text x="735" y="62" text-anchor="middle" font-size="20" font-weight="900" fill="white" font-family="serif">50</text>
+    
+    <rect x="710" y="270" width="50" height="30" rx="4" fill="#1a3a6e"/>
+    <text x="735" y="292" text-anchor="middle" font-size="20" font-weight="900" fill="white" font-family="serif">50</text>
+  </g>
+
+  <!-- ARCH BRIDGE motif (euro style) -->
+  <g transform="translate(130,170)" opacity="0.12">
+    <rect x="-40" y="-40" width="80" height="80" rx="10" fill="none" stroke="#1a3a6e" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#1a3a6e" stroke-width="0.8"/>
+    <path d="M-35,0 Q-20,-20 0,0 Q20,20 35,0" fill="none" stroke="#1a3a6e" stroke-width="1"/>
+  </g>
+
+  <!-- CENTER TEXT -->
+  <text x="400" y="90" text-anchor="middle" font-size="24" fill="#0d1f45" font-family="serif" font-weight="bold" letter-spacing="8">CREDON-EUR</text>
+  <line x1="200" y1="102" x2="600" y2="102" stroke="#1a3a6e" stroke-width="0.5"/>
+  
+  <text x="400" y="135" text-anchor="middle" font-size="13" fill="#1a3a6e" font-family="serif" font-style="italic">CINQUANTE • VIJFTIG • FÜNFZIG</text>
+  <text x="400" y="160" text-anchor="middle" font-size="16" fill="#0d1f45" font-family="serif" font-weight="bold">CREDON EUROS</text>
+  
+  <text x="400" y="185" text-anchor="middle" font-size="40" fill="#1a3a6e" font-family="serif" font-weight="900">50</text>
+  
+  <text x="400" y="210" text-anchor="middle" font-size="9" fill="#1a3a6e" font-family="serif" letter-spacing="5" opacity="0.6">DIVINELY UNDERWRITTEN</text>
+  <text x="400" y="228" text-anchor="middle" font-size="8" fill="#1a3a6e" opacity="0.4">HEAVENSLIVE • 2026 • SERIES A • HL000001</text>
+
+  <!-- MODERN ARCHITECTURE motif (right) -->
+  <g transform="translate(680,170)" opacity="0.1">
+    <rect x="-45" y="-60" width="90" height="120" rx="8" fill="none" stroke="#1a3a6e" stroke-width="1.5"/>
+    <rect x="-25" y="-40" width="50" height="80" rx="4" fill="none" stroke="#1a3a6e" stroke-width="0.5"/>
+    <circle cx="0" cy="-50" r="6" fill="#1a3a6e" opacity="0.3"/>
+  </g>
+
+  <!-- Microprint -->
+  <rect x="100" y="55" width="600" height="4" fill="#1a3a6e" opacity="0.15"/>
+  <rect x="100" y="285" width="600" height="4" fill="#1a3a6e" opacity="0.15"/>
+  <text x="400" y="62" text-anchor="middle" font-size="4" fill="#1a3a6e" opacity="0.2" font-family="monospace">CREDON-EUR ★ CREDON-EUR ★ CREDON-EUR ★ CREDON-EUR ★ CREDON-EUR</text>
+
+  <!-- Bottom -->
+  <text x="400" y="310" text-anchor="middle" font-size="7" fill="#1a3a6e" opacity="0.35" font-family="serif">THIS NOTE IS LEGAL TENDER FOR ALL CREDON TRANSACTIONS WITHIN THE CREDON UNION</text>
+  
+  <!-- Serial -->
+  <text x="560" y="25" font-size="8" fill="#0d1f45" font-family="monospace" opacity="0.6">HL000001E</text>
+</svg>

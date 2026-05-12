@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>API Documentation — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;margin-left:12px}
+.container{max-width:960px;margin:0 auto;padding:24px 20px}
+h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}h2{color:var(--gold);font-size:1.15rem;margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(200,169,81,.1)}h3{color:var(--gold);font-size:.95rem;margin:16px 0 8px}
+.endpoint{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:12px}
+.method{display:inline-block;padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:700;margin-right:8px}.GET{background:rgba(46,204,113,.15);color:var(--success)}.POST{background:rgba(74,144,217,.15);color:var(--accent)}.PUT{background:rgba(243,156,18,.15);color:#F39C12}.DELETE{background:rgba(231,76,60,.15);color:var(--danger)}
+.path{font-family:monospace;font-size:.9rem;color:var(--text)}.muted{color:var(--muted);font-size:.82rem;margin:8px 0}
+code{background:rgba(200,169,81,.08);padding:2px 8px;border-radius:4px;color:var(--gold);font-size:.82rem;font-family:'Fira Code',monospace}
+pre{background:rgba(0,0,0,.3);padding:14px;border-radius:8px;overflow-x:auto;margin:8px 0;font-size:.8rem;line-height:1.5;border:1px solid rgba(255,255,255,.05)}
+pre code{background:none;padding:0;font-size:.8rem;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:8px 0}th{text-align:left;padding:6px 10px;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.1);font-size:.7rem;text-transform:uppercase}td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.04)}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.toc a{color:var(--accent);text-decoration:none;font-size:.82rem;padding:4px 12px;background:rgba(74,144,217,.05);border-radius:6px}.toc a:hover{background:rgba(74,144,217,.1)}
+.note{background:rgba(200,169,81,.06);border-left:3px solid var(--gold);padding:12px 16px;border-radius:4px;margin:12px 0;font-size:.82rem}
+</style></head><body>
+<nav><div class="nav-brand">📡 API Docs</div><div class="nav-links"><a href="/shop/">← Shop</a><a href="/">Home</a></div></nav>
+<div class="container">
+<h1>📡 HeavensLive REST API</h1>
+<p class="muted">Public API for third-party integration. Base URL: <code>https://api.heavenslive.com</code></p>
+
+<div class="toc">
+<a href="#auth">Auth</a><a href="#listings">Listings</a><a href="#categories">Categories</a><a href="#stores">Stores</a><a href="#search">Search</a><a href="#rates">Exchange Rates</a><a href="#translations">Translations</a><a href="#errors">Errors</a>
+</div>
+
+<div class="note"><strong>Rate Limit:</strong> 60 requests/minute per IP. Authenticated endpoints require <code>Authorization: Bearer {token}</code> header. All timestamps in ISO 8601. All amounts in cents (integer).</div>
+
+<!-- AUTH -->
+<h2 id="auth">🔐 Authentication</h2>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/auth/login</span>
+<p class="muted">Authenticate and receive a JWT token. Token expires in 24 hours.</p>
+<pre><code>POST /api/auth/login
+Content-Type: application/json
+
+{"email": "user@example.com", "password": "yourpassword"}</code></pre>
+<pre><code>// Response 200
+{"success": true, "token": "eyJhbG...", "user": {"id": "...", "email": "..."}}</code></pre>
+</div>
+
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/auth/register</span>
+<p class="muted">Register a new account. Optional <code>referralCode</code> credits the referrer.</p>
+<pre><code>POST /api/auth/register
+{"email": "new@example.com", "password": "min8chars", "fullName": "Name", "referralCode": "abc123"}</code></pre>
+</div>
+
+<!-- LISTINGS -->
+<h2 id="listings">📦 Listings</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/listings</span>
+<p class="muted">Browse marketplace listings with filters, search, and pagination.</p>
+<table><tr><th>Param</th><th>Type</th><th>Description</th></tr>
+<tr><td><code>q</code></td><td>string</td><td>Search title/description (also searches translations)</td></tr>
+<tr><td><code>type</code></td><td>string</td><td>mall, classifieds, auction, reverse_auction</td></tr>
+<tr><td><code>category</code></td><td>string</td><td>Category slug (electronics, clothing, etc.)</td></tr>
+<tr><td><code>minPrice</code></td><td>number</td><td>Minimum price in dollars</td></tr>
+<tr><td><code>maxPrice</code></td><td>number</td><td>Maximum price in dollars</td></tr>
+<tr><td><code>sort</code></td><td>string</td><td>newest, price_low, price_high, ending_soon</td></tr>
+<tr><td><code>page</code></td><td>number</td><td>Page number (default 1)</td></tr>
+<tr><td><code>limit</code></td><td>number</td><td>Results per page (default 12, max 50)</td></tr>
+<tr><td><code>lang</code></td><td>string</td><td>Language code for translated titles (en, fa, ja, etc.)</td></tr>
+<tr><td><code>currency</code></td><td>string</td><td>Filter by display currency (USD, BTC, Credon-USD, etc.)</td></tr>
+<tr><td><code>lat/lng/radius</code></td><td>number</td><td>Location-based search (radius in km)</td></tr>
+</table>
+<pre><code>GET /api/shop/listings?category=electronics&sort=price_low&lang=ja&limit=20
+
+// Response
+{"listings": [{
+  "id": "uuid", "title": "日本語タイトル", "description": "...",
+  "price_cents": 89900, "type": "mall", "category": "electronics",
+  "location_city": "Tokyo", "images": ["url1"], "currency": "USD", "accepted_currencies": ["USD","EUR","Credon-BTC"], "created_at": "2026-..."
+}], "pagination": {"page": 1, "limit": 20, "total": 42, "totalPages": 3}}</code></pre>
+</div>
+
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/listings/:id</span>
+<p class="muted">Get single listing details. Add <code>?lang=fa</code> for translated content. Response includes <code>currency</code> and <code>accepted_currencies</code> fields.</p>
+</div>
+
+<!-- CATEGORIES -->
+<h2 id="categories">📂 Categories</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/categories</span>
+<p class="muted">Get top-level categories with listing counts. Add <code>?lang=fr</code> for translated names.</p>
+<pre><code>GET /api/shop/categories?lang=zh
+// Response
+{"categories": [{"slug": "electronics", "name": "电子产品", "icon": "📱", "count": 9, "subcategory_count": 1}]}</code></pre>
+</div>
+
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/categories/subcategories/:parentSlug</span>
+<p class="muted">Get subcategories under a parent category.</p>
+<pre><code>GET /api/shop/categories/subcategories/electronics?lang=ko</code></pre>
+</div>
+
+<!-- CREATE LISTING -->
+<h2 id="create">📝 Create Listing</h2>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/shop/listings</span>
+<p class="muted">Create a new marketplace listing. Requires authentication.</p>
+<pre><code>POST /api/shop/listings
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "type": "mall",
+  "title": "Vintage Record Player",
+  "description": "Fully restored...",
+  "category": "electronics",
+  "price_cents": 49900,
+  "currency": "USD",
+  "accepted_currencies": ["USD", "EUR", "Credon-BTC"],
+  "quantity_available": 1,
+  "duration": "2weeks",
+  "location_city": "London",
+  "location_country": "GB",
+  "is_featured": false
+}</code></pre>
+<table><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+<tr><td><code>type</code></td><td>string</td><td>Yes</td><td>mall, classifieds, auction, reverse_auction</td></tr>
+<tr><td><code>title</code></td><td>string</td><td>Yes</td><td>Listing title (auto-translated to 16 languages)</td></tr>
+<tr><td><code>description</code></td><td>string</td><td>No</td><td>Full description</td></tr>
+<tr><td><code>category</code></td><td>string</td><td>Yes</td><td>Category slug from /api/shop/categories</td></tr>
+<tr><td><code>price_cents</code></td><td>number</td><td>See type</td><td>Price in cents. Use 0 for free items</td></tr>
+<tr><td><code>currency</code></td><td>string</td><td>No</td><td>Display currency code (default: USD). Fiat, crypto, or Credon clone</td></tr>
+<tr><td><code>accepted_currencies</code></td><td>string[]</td><td>No</td><td>Currencies buyer can pay with (default: ["USD"])</td></tr>
+<tr><td><code>quantity_available</code></td><td>number</td><td>No</td><td>Default: 1</td></tr>
+<tr><td><code>duration</code></td><td>string</td><td>No</td><td>1day, 2weeks, 1year (default: 2weeks)</td></tr>
+<tr><td><code>images</code></td><td>string[]</td><td>No</td><td>Upload via /api/shop/upload first</td></tr>
+</table>
+<div class="note">💡 <strong>Display price</strong> is set in the chosen currency. <strong>Buyers can pay</strong> in any fiat or Credon clone currency via PayPal or Credon Wallet at live exchange rates.</div>
+</div>
+
+<!-- STORES -->
+<!-- STORES -->
+<h2 id="stores">🏪 Stores</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/stores/:slug</span>
+<p class="muted">Get public store profile and listings by store slug.</p>
+<pre><code>GET /api/shop/stores/bryans-marketplace
+// Response
+{"store": {"store_name": "...", "slug": "...", "description": "..."}, "listings": [...]}</code></pre>
+</div>
+
+<!-- EXCHANGE RATES -->
+<h2 id="rates">💱 Exchange Rates</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/wallet/exchange-rates</span>
+<p class="muted">Get live exchange rates for all 84 Credon currencies and fiat pairs. Rates update every 30 minutes from Frankfurter API and CoinGecko. Used for currency display and cross-currency payments.</p>
+<pre><code>GET /api/wallet/exchange-rates
+// Response
+{"rates": {"Credon-USD": {"rate": 1.0}, "Credon-BTC": {"rate": 0.000012},
+            "EUR": {"rate": 0.92}, "JPY": {"rate": 149.5}}, "updated_at": "..."}</code></pre>
+</div>
+
+<!-- TRANSLATIONS -->
+<h2 id="translations">🌐 Translations</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/locales/shop-{lang}.json</span>
+<p class="muted">Get UI translation strings for a language. Used by the frontend for chrome (buttons, nav, filters).</p>
+<pre><code>GET /locales/shop-fa.json  // Farsi
+GET /locales/shop-ja.json  // Japanese
+// 16 languages supported: ar, de, en, es, fa, fr, hi, ja, ko, pt, ru, sv, tl, tr, ur, vi, zh</code></pre>
+</div>
+
+<!-- API KEYS -->
+<h2 id="keys">🔑 API Keys</h2>
+<div class="endpoint">
+<p class="muted">API keys provide higher rate limits (1000 req/min) for production integrations. Generate keys from your <a href="/shop/settings" style="color:var(--accent)">Settings page</a>.</p>
+<p class="muted">Include your key in requests:</p>
+<pre><code>Authorization: Bearer hl_xxxxxxxxxxxxxxxx</code></pre>
+<p class="muted">Or as a query parameter:</p>
+<pre><code>GET /api/shop/listings?api_key=hl_xxxxxxxxxxxxxxxx</code></pre>
+</div>
+
+<!-- ERRORS -->
+<h2 id="errors">⚠️ Error Handling</h2>
+<div class="endpoint">
+<p class="muted">All errors return appropriate HTTP status codes with a JSON body:</p>
+<pre><code>// 400 Bad Request
+{"error": "Amount required"}
+
+// 401 Unauthorized
+{"error": "Invalid or expired token"}
+
+// 403 Forbidden
+{"error": "Not authorized"}
+
+// 404 Not Found
+{"error": "Listing not found"}
+
+// 429 Rate Limited
+{"error": "Too many requests"}
+
+// 500 Server Error
+{"error": "Internal server error"}</code></pre>
+</div>
+
+<div class="note" style="margin-top:32px">
+  <strong>Pricing:</strong> Public endpoints are free with rate limiting. 
+  For higher limits, API keys, or webhook access, contact <code>api@heavenslive.com</code>.
+  Full OpenAPI 3.0 spec coming soon.
+</div>
+</div>
+<footer style="background:#1A1A2E;border-top:1px solid rgba(200,169,81,.1);padding:20px;text-align:center;margin-top:40px;font-size:.75rem;color:var(--muted)">
+  HeavensLive API v1.0 · <a href="/shop/" style="color:var(--muted)">Marketplace</a> · <a href="/" style="color:var(--muted)">Home</a>
+</footer>
+</body></html>

@@ -1,0 +1,43 @@
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
+const app = express();
+const PORT = 5000;
+
+const PUBLIC_DIR = path.join(__dirname, "../../public");
+const BUILD_DIR = path.join(__dirname, "../../frontend/build");
+
+// Import routes
+const orderRoutes = require("./routes/orders");
+const authRoutes = require("./routes/auth");
+const mockPurchaseRoutes = require("./routes/mockPurchase");
+
+app.use(cors());
+app.use(express.json());
+
+// API Routes - AUTH
+app.use("/api/auth", authRoutes.router);
+
+// Orders route - use the real PayPal service
+app.use("/api/mock-purchase", mockPurchaseRoutes);
+app.use("/api/orders", orderRoutes);
+
+// Static files
+app.use(express.static(PUBLIC_DIR));
+app.use("/credon", express.static(BUILD_DIR));
+app.use("/static", express.static(path.join(BUILD_DIR, "static")));
+
+// Credon SPA
+app.get("/credon", (req, res) => {
+  res.sendFile(path.join(BUILD_DIR, "index.html"));
+});
+app.get("/credon/:path", (req, res) => {
+  res.sendFile(path.join(BUILD_DIR, "index.html"));
+});
+
+// Landing page
+app.get("/", (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+});
+
+app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));

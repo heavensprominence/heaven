@@ -1,0 +1,17 @@
+.saved-searches-page { max-width: 1000px; margin: 0 auto; padding: 30px 20px; color: #f5f5f5; }
+.saved-searches-page h1 { color: #ffd700; }
+.subtitle { color: #aaa; margin-bottom: 20px; }
+.create-btn { background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
+.search-form { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 30px; }
+.searches-list { display: flex; flex-direction: column; gap: 15px; }
+.search-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,215,0,0.2); }
+.search-card.inactive { opacity: 0.5; }
+.search-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.search-header h3 { color: #ffd700; }
+.search-type { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.search-type.buying { background: #2196F3; color: white; }
+.search-type.selling { background: #9C27B0; color: white; }
+.search-details { display: flex; flex-wrap: wrap; gap: 15px; color: #aaa; margin-bottom: 15px; }
+.search-footer { display: flex; justify-content: space-between; align-items: center; }
+.search-actions { display: flex; gap: 10px; }
+.search-actions button { padding: 6px 12px; border-radius: 6px; cursor: pointer; }

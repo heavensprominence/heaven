@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Dispute Chat — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--accent:#4A90D9;--warning:#F39C12;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);overflow-x:hidden;max-width:100vw}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:14px;align-items:center}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}
+.container{max-width:800px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.3rem;margin-bottom:4px}h2{color:var(--gold);font-size:1rem;margin:0 0 8px}.muted{color:var(--muted);font-size:.82rem}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.68rem;font-weight:600;margin-right:6px}.badge-open{background:rgba(243,156,18,.15);color:var(--warning)}.badge-resolved{background:rgba(46,204,113,.15);color:var(--success)}.badge-overdue{background:rgba(231,76,60,.15);color:var(--danger)}
+.msg-list{max-height:500px;overflow-y:auto;padding-right:8px;margin-bottom:16px}.msg{display:flex;gap:10px;margin-bottom:12px}.msg.filer{justify-content:flex-start}.msg.respondent{justify-content:flex-end}.msg.admin{justify-content:center}
+.msg .bubble{max-width:70%;padding:10px 14px;border-radius:12px;font-size:.84rem;line-height:1.4}.msg.filer .bubble{background:rgba(255,255,255,.06);border-bottom-left-radius:4px}.msg.respondent .bubble{background:rgba(200,169,81,.12);border-bottom-right-radius:4px}.msg.admin .bubble{background:rgba(74,144,217,.15);border-radius:8px;text-align:center;font-size:.8rem}.msg .meta{font-size:.65rem;color:var(--muted);margin-top:3px}
+.send-bar{display:flex;gap:8px}.send-bar input{flex:1;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.84rem}.btn{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.82rem;background:var(--gold);color:var(--darker)}.btn.agree{background:rgba(46,204,113,.15);color:var(--success);border:1px solid rgba(46,204,113,.3)}.btn.danger{background:rgba(231,76,60,.1);color:var(--danger);border:1px solid rgba(231,76,60,.3)}.btn.outline{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.82rem;margin-top:12px}.info-grid .label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.admin-bar{background:rgba(74,144,217,.06);border:1px solid rgba(74,144,217,.15);border-radius:8px;padding:14px;margin-top:12px;display:none}.admin-bar.show{display:block}.admin-bar select,.admin-bar input{width:100%;padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--text);font-size:.82rem;margin-bottom:8px}
+.deadline{text-align:center;padding:8px;border-radius:6px;font-size:.78rem;margin-top:8px}.deadline.warning{background:rgba(243,156,18,.1);color:var(--warning)}footer{background:#1A1A2E;border-top:1px solid rgba(200,169,81,.1);padding:20px;text-align:center;margin-top:40px;font-size:.75rem;color:var(--muted)}
+</style></head><body>
+<nav><div class="nav-brand">⚖️ Dispute Chat</div><div class="nav-links"><a href="/shop/disputes">← Disputes</a><a href="/shop/">Shop</a></div></nav>
+<div class="container"><div id="content"><span class="muted">Loading dispute...</span></div></div>
+<footer><a href="/shop/">Browse</a> · <a href="/shop/help">Help</a> · <a href="/shop/terms">Terms</a></footer>
+<script src="/i18n.js"></script>
+<script>
+var T=localStorage.getItem("token");
+var disputeId=window.location.pathname.split('/').pop();
+var isAdmin=false;
+var userId=null;
+var disputeData=null;
+
+async function load(){
+  if(!T){document.getElementById('content').innerHTML='<div class=\"card\" style=\"text-align:center\"><h2>Please Sign In</h2><a href=\"/credon/\" class=\"btn\">Sign In</a></div>';return}
+  try{var p=JSON.parse(atob(T.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));userId=p.id;isAdmin=p.isSuperAdmin}catch(e){}
+  
+  try{
+    var r=await(await fetch('/api/shop/disputes/'+disputeId,{headers:{'Authorization':'Bearer '+T}})).json();
+    if(r.error){document.getElementById('content').innerHTML='<div class=\"card\" style=\"text-align:center\"><h2>'+r.error+'</h2></div>';return}
+    disputeData=r.dispute;var d=disputeData;
+    
+    var daysLeft=14-Math.floor((Date.now()-new Date(d.created_at).getTime())/86400000);
+    var isOverdue=daysLeft<=0;
+    var isOpen=d.status==='open';
+    var iAmFiler=d.filed_by===userId;
+    var iAmRespondent=d.filed_against===userId;
+    var iAmParty=iAmFiler||iAmRespondent;
+    
+    document.getElementById('content').innerHTML=''+
+      '<div class=\"card\">'+
+        '<h1>⚖️ '+esc(d.title)+'</h1>'+
+        '<div style=\"margin:8px 0\">'+
+          '<span class=\"badge badge-'+(d.status==='open'?(isOverdue?'overdue':'open'):'resolved')+'\">'+d.status+(isOverdue&&isOpen?' · OVERDUE':'')+'</span>'+
+          '<span class=\"muted\">'+(d.dispute_type||'')+'</span>'+
+        '</div>'+
+        '<p class=\"muted\">'+esc(d.description)+'</p>'+
+        '<div class=\"info-grid\">'+
+          '<div><span class=\"label\">Filed By</span><br>'+esc(d.filer_name||'User')+'</div>'+
+          '<div><span class=\"label\">Filed Against</span><br>'+esc(d.against_name||'User')+'</div>'+
+          '<div><span class=\"label\">Desired Resolution</span><br>'+esc(d.desired_resolution||'Not specified')+'</div>'+
+          '<div><span class=\"label\">Filed</span><br>'+new Date(d.created_at).toLocaleDateString()+'</div>'+
+        '</div>'+
+        (isOpen&&!isOverdue?'<div class=\"deadline\">⏳ '+(daysLeft<=0?'Deadline passed':'Days remaining')+': '+(daysLeft>0?daysLeft+' days':'Escalate now')+'</div>':'')+
+        (isOverdue&&isOpen?'<div class=\"deadline warning\">⚠️ Overdue — awaiting admin review</div>':'')+
+      '</div>'+
+      '<div class=\"card\"><h2>Conversation</h2><div class=\"msg-list\" id=\"msgList\"><span class=\"muted\">Loading...</span></div>'+
+        (isOpen&&iAmParty?'<div class=\"send-bar\"><input id=\"msgInput\" placeholder=\"Type a message...\" onkeydown=\"if(event.key===\\'Enter\\')sendMsg()\"><button class=\"btn\" onclick=\"sendMsg()\">Send</button></div>':'')+
+        (isOpen&&iAmParty?'<div style=\"text-align:center;margin-top:12px\"><button class=\"btn agree\" onclick=\"agreeToResolve()\">🤝 I agree with the other party</button></div>':'')+
+      '</div>'+
+      (isAdmin&&isOpen?'<div class=\"admin-bar show\"><h2>🔧 Admin Resolution</h2><select id=\"ruling\"><option value=\"in_favor_of_buyer\">Rule in favor of filer</option><option value=\"in_favor_of_seller\">Rule in favor of respondent</option><option value=\"split\">50/50 Split</option><option value=\"dismissed\">Dismiss dispute</option></select><input id=\"refundAmt\" type=\"number\" placeholder=\"Refund amount in cents (optional)\"><input id=\"adminNotes\" placeholder=\"Resolution notes...\"><button class=\"btn danger\" onclick=\"adminResolve()\">Render Verdict</button></div>':'')+
+      (d.resolution_notes?'<div class=\"card\" style=\"background:rgba(46,204,113,.05);border-color:rgba(46,204,113,.15)\"><h2>✅ Resolution</h2><p>'+esc(d.resolution_notes)+'</p><p class=\"muted\">Resolved '+new Date(d.resolved_at).toLocaleString()+'</p></div>':'');
+    
+    loadMessages();
+  }catch(e){document.getElementById('content').innerHTML='<div class=\"card\" style=\"text-align:center\"><h2>Error loading dispute</h2></div>'}
+}
+
+async function loadMessages(){
+  try{
+    var r=await(await fetch('/api/shop/disputes/'+disputeId+'/messages',{headers:{'Authorization':'Bearer '+T}})).json();
+    var msgs=r.messages||[];
+    document.getElementById('msgList').innerHTML=msgs.length?msgs.map(function(m){
+      var cls=m.is_admin_message?'admin':(m.sender_id===disputeData.filed_by?'filer':'respondent');
+      return'<div class=\"msg '+cls+'\"><div class=\"bubble\">'+esc(m.message)+'<div class=\"meta\">'+new Date(m.created_at).toLocaleString()+'</div></div></div>';
+    }).join(''):'<div class=\"muted\" style=\"text-align:center;padding:20px\">No messages yet. Start the conversation.</div>';
+    document.getElementById('msgList').scrollTop=document.getElementById('msgList').scrollHeight;
+  }catch(e){}
+}
+
+async function sendMsg(){
+  var inp=document.getElementById('msgInput'),txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.disabled=true;
+  await fetch('/api/shop/disputes/'+disputeId+'/messages',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+T},body:JSON.stringify({message:txt})});
+  inp.disabled=false;inp.focus();
+  loadMessages();
+}
+
+async function agreeToResolve(){
+  if(!confirm('By pressing OK, you agree with the other party and this dispute will be resolved. Continue?'))return;
+  try{
+    var r=await(await fetch('/api/shop/disputes/'+disputeId+'/agree',{method:'POST',headers:{'Authorization':'Bearer '+T}})).json();
+    if(r.success){alert('Dispute resolved!');load()}else{alert(r.error||'Failed')}
+  }catch(e){alert('Error')}
+}
+
+async function adminResolve(){
+  var ruling=document.getElementById('ruling').value;
+  var notes=document.getElementById('adminNotes').value;
+  var refund=parseInt(document.getElementById('refundAmt').value)||0;
+  if(!confirm('Render verdict: '+ruling+'?'))return;
+  try{
+    var r=await(await fetch('/api/shop/disputes/admin/resolve/'+disputeId,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+T},body:JSON.stringify({ruling:ruling,resolution_notes:notes,refund_amount_cents:refund})})).json();
+    if(r.success){alert('Verdict rendered!');load()}else{alert(r.error||'Failed')}
+  }catch(e){alert('Error')}
+}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+load();
+</script>
+</body></html>

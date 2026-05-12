@@ -1,0 +1,39 @@
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+}
+
+.language-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 6px;
+  color: #f5f5f5;
+  padding: 6px 10px;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  outline: none;
+}
+
+.language-select:hover {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.language-select:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+.language-select option {
+  background: #1a1a2e;
+  color: #f5f5f5;
+  padding: 8px;
+}
+
+@media (max-width: 768px) {
+  .language-select {
+    font-size: 0.75em;
+    padding: 4px 8px;
+  }
+}

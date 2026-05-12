@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fafafa"/><stop offset="100%" stop-color="#f0f0f0"/></linearGradient></defs>
+  <rect x="0" y="0" width="760" height="320" rx="10" fill="url(#bg)" stroke="#E74C3C" stroke-width="2"/>
+  <rect x="5" y="5" width="750" height="310" rx="8" fill="none" stroke="#E74C3C" stroke-width=".5"/>
+  <rect x="20" y="14" width="720" height="42" rx="3" fill="#E74C3C" opacity=".08"/>
+  <text x="380" y="38" text-anchor="middle" font-size="20" fill="#E74C3C" font-family="serif" font-weight="bold" letter-spacing="8">CREDON-IDR</text>
+  <text x="380" y="50" text-anchor="middle" font-size="7" fill="#E74C3C" font-family="serif" letter-spacing="3">BANK CREDON INDONESIA</text>
+  <rect x="35" y="75" width="145" height="180" rx="3" fill="rgba(0,0,0,.03)" stroke="#E74C3C" stroke-width="1"/>
+  <text x="107" y="165" text-anchor="middle" font-size="10" fill="#E74C3C" opacity=".12" font-family="serif">PORTRAIT</text>
+  <rect x="210" y="75" width="340" height="180" rx="3" fill="rgba(255,255,255,.5)"/>
+  <text x="380" y="120" text-anchor="middle" font-size="13" fill="#E74C3C" font-family="serif">CREDON RUPIAH</text>
+  <text x="380" y="155" text-anchor="middle" font-size="44" fill="#E74C3C" font-family="serif" font-weight="900">Rp2000</text>
+  <text x="380" y="178" text-anchor="middle" font-size="10" fill="#E74C3C" font-family="serif" font-weight="bold">CREDON RUPIAH</text>
+  <text x="380" y="200" text-anchor="middle" font-size="8" fill="#E74C3C" font-family="serif" letter-spacing="3" opacity=".5">★★★ DIVINELY UNDERWRITTEN ★★★</text>
+  <rect x="372" y="70" width="16" height="190" fill="#E74C3C" opacity=".08"/>
+  <rect x="28" y="65" width="52" height="28" rx="3" fill="#E74C3C" opacity=".9"/>
+  <text x="54" y="84" text-anchor="middle" font-size="14" fill="white" font-family="serif" font-weight="900">Rp2000</text>
+  <rect x="680" y="65" width="52" height="28" rx="3" fill="#E74C3C" opacity=".9"/>
+  <text x="706" y="84" text-anchor="middle" font-size="14" fill="white" font-family="serif" font-weight="900">Rp2000</text>
+  <rect x="680" y="227" width="52" height="28" rx="3" fill="#E74C3C" opacity=".9"/>
+  <text x="706" y="246" text-anchor="middle" font-size="14" fill="white" font-family="serif" font-weight="900">Rp2000</text>
+  <rect x="620" y="95" width="100" height="65" rx="4" fill="url(#bg)" stroke="#E74C3C" stroke-width=".5" opacity=".3"/>
+  <text x="670" y="132" text-anchor="middle" font-size="8" fill="#E74C3C" opacity=".2">HOLOGRAM</text>
+  <circle cx="107" cy="165" r="48" fill="rgba(255,255,255,.5)" stroke="#E74C3C" stroke-width=".4" stroke-dasharray="3,4"/>
+  <text x="107" y="168" text-anchor="middle" font-size="8" fill="#E74C3C" opacity=".08" font-family="serif">CREDON</text>
+  <text x="560" y="22" font-size="8" fill="#E74C3C" font-family="monospace" opacity=".5">HL-IDR-00000001</text>
+  <text x="560" y="305" font-size="8" fill="#E74C3C" font-family="monospace" opacity=".5">HL-IDR-00000001</text>
+  <text x="380" y="305" text-anchor="middle" font-size="6" fill="#E74C3C" opacity=".25" font-family="serif">THIS NOTE IS LEGAL TENDER FOR ALL CREDON TRANSACTIONS</text>
+</svg>

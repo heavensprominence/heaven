@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Checkout — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--radius:12px;--radius-sm:8px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:750px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);margin-bottom:4px}h2{color:var(--gold);margin:12px 0 8px;font-size:1.1rem}.muted{color:var(--muted);font-size:.85rem}
+.item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}.item .price{color:var(--gold);font-weight:700}
+.summary{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);text-align:right}.summary .total{font-size:1.4rem;font-weight:800;color:var(--gold)}.summary .breakdown{font-size:.8rem;color:var(--muted)}
+.btn{padding:12px 24px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--gold);color:var(--darker)}.btn:hover{opacity:.9}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-lg{width:100%;padding:14px;font-size:1rem}
+input,select{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-sm);color:var(--text);margin-bottom:8px}input:focus,select:focus{outline:none;border-color:var(--gold)}
+.flex{display:flex;gap:8px}.section{display:none}.section.active{display:block}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700}.badge-free{background:rgba(46,204,113,.15);color:var(--success)}.badge-pickup{background:rgba(74,144,217,.15);color:#4A90D9}.badge-ship{background:rgba(200,169,81,.15);color:var(--gold)}
+.rate-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;margin:4px 0;cursor:pointer}.rate-card:hover{border-color:var(--gold)}.rate-card.selected{border-color:var(--gold);background:rgba(200,169,81,.08)}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/cart">← Cart</a><a href="/shop/">Browse</a></div></nav>
+<div class="container">
+<h1 data-i18n="brand.checkout">💳 Checkout</h1>
+<div id="checkoutContent"><span class="muted">Loading cart...</span></div>
+</div>
+<script>
+var T=localStorage.getItem("token");if(!T){document.getElementById("checkoutContent").innerHTML='<div class="muted"><a href="/credon/" style="color:var(--gold)">Sign in</a> to checkout</div>'}else{init()}
+
+async function init(){
+  var r=await fetch("/api/shop/cart",{headers:{Authorization:"Bearer "+T}});
+  var d=await r.json();
+  var items=d.cart||[];
+  if(!items.length){document.getElementById("checkoutContent").innerHTML='<div class="muted">Cart empty. <a href="/shop/" style="color:var(--gold)">Browse</a></div>';return}
+  
+  // Analyze cart
+  var hasFree = items.some(function(i){return i.price_cents===0});
+  var hasShippable = items.some(function(i){return i.weight_oz || i.allow_local_pickup===false});
+  var hasPaid = items.some(function(i){return i.price_cents>0});
+  var subtotal = items.reduce(function(s,i){return s+i.price_cents*i.quantity},0);
+  
+  var html='<div class="card"><h2 data-i18n="page.h2_order_summary">Order Summary</h2>';
+  items.forEach(function(i){
+    html+='<div class="item"><span>'+i.title+' ×'+i.quantity+'</span><span class="price">'+(i.price_cents===0?'<span class="badge badge-free">FREE</span>':'$'+(i.price_cents/100).toFixed(2))+'</span></div>'
+  });
+  html+='<div class="summary"><div class="total">Subtotal: $'+(subtotal/100).toFixed(2)+'</div></div></div>';
+  
+  // Path 1: FREE items only
+  if(!hasPaid && hasFree){
+    html+='<div class="card"><h2 data-i18n="page.h2_free_items__no_payment_requ">✅ Free Items — No Payment Required</h2>';
+    html+='<p class="muted" data-i18n="page.sub_these_items_are_free_you_j">These items are free. You just need to confirm pickup or delivery.</p>';
+    html+='<div class="flex" style="margin-top:8px"><input id="name" placeholder="Full Name"><input id="email" placeholder="Email"></div>';
+    html+='<button class="btn btn-lg" onclick="confirmFree()">📦 Confirm & Claim</button></div>';
+  }
+  
+  // Path 2: SHIPPABLE items
+  if(hasShippable && hasPaid){
+    html+='<div class="card"><h2 data-i18n="page.h2_shipping">🚚 Shipping</h2><span class="badge badge-ship">Shipping Required</span>';
+    html+='<p class="muted" style="margin-top:8px" data-i18n="page.sub_enter_destination_for_ship">Enter destination for shipping rates</p>';
+    html+='<div class="flex"><input id="sAddr" placeholder="Address"><input id="sCity" placeholder="City"></div>';
+    html+='<div class="flex"><input id="sState" placeholder="State"><input id="sZip" placeholder="ZIP Code"></div>';
+    html+='<select id="sCountry"><option value="US">United States</option><option value="CA">Canada</option></select>';
+    html+='<button class="btn" onclick="calcShipping()">📦 Calculate Shipping</button>';
+    html+='<div id="shipRates" style="margin-top:8px"></div>';
+    html+='<div id="landedCost" style="margin-top:8px"></div></div>';
+  }
+  
+  // Path 3: NO SHIPPING (local pickup / services)
+  if(!hasShippable && hasPaid){
+    html+='<div class="card"><h2 data-i18n="page.h2_local_pickup__no_shipping">📍 Local Pickup / No Shipping</h2><span class="badge badge-pickup">In-Person</span>';
+    html+='<p class="muted" style="margin-top:8px" data-i18n="page.sub_these_items_require_local_">These items require local pickup or are services that cannot be shipped.</p>';
+    html+='<p class="muted">Total to pay: <strong style="color:var(--gold);font-size:1.2rem">$'+(subtotal/100).toFixed(2)+'</strong></p>';
+    html+='<button class="btn btn-lg" onclick="payPalCheckout('+subtotal+')">💳 Pay with PayPal — $'+(subtotal/100).toFixed(2)+'</button></div>';
+  }
+  
+  // PayPal section for shippable items (hidden until shipping calculated)
+  if(hasShippable){
+    html+='<div class="card" id="paypalSection" style="display:none"><h2 data-i18n="page.h2_payment">💳 Payment</h2>';
+    html+='<p class="muted" data-i18n="page.sub_final_amount_includes_ship">Final amount includes shipping, tax, and duties calculated by EasyShip.</p>';
+    html+='<p style="font-size:1.3rem;font-weight:800;color:var(--gold)" id="finalTotal"></p>';
+    html+='<button class="btn btn-lg" id="paypalBtn" onclick="payPalCheckout(subtotal)">💳 Pay with PayPal</button></div>';
+  }
+  
+  document.getElementById("checkoutContent").innerHTML=html;
+}
+
+async function calcShipping(){
+  var a=document.getElementById("sAddr").value,c=document.getElementById("sCity").value,s=document.getElementById("sState").value,z=document.getElementById("sZip").value,co=document.getElementById("sCountry").value;
+  if(!c||!z){alert("City and ZIP required");return}
+  document.getElementById("shipRates").innerHTML='<span class="muted">Calculating rates...</span>';
+  var r=await fetch("/api/shop/shipping/rates",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({shipTo:{addressLine1:a||"",city:c,state:s||"",postalCode:z,countryCode:co},packages:[{weightOz:16,length:12,width:12,height:12}]})});
+  var d=await r.json();
+  var rates=d.rates||[];
+  if(!rates.length){document.getElementById("shipRates").innerHTML='<span class="muted">No rates available</span>';return}
+  
+  document.getElementById("shipRates").innerHTML='<h3 style="color:var(--gold);margin-bottom:8px" data-i18n="page.h3_shipping_options">Shipping Options</h3>'+rates.map(function(rate,i){
+    return '<div class="rate-card'+(i===0?" selected":"")+'" onclick="selectRate(this,'+rate.total_cents+',\''+rate.courier_name+'\')"><strong>'+rate.courier_name+'</strong> — '+rate.service_name+'<br><span class="muted">'+rate.min_delivery_days+'-'+rate.max_delivery_days+' days</span><span style="float:right;color:var(--gold);font-weight:700">$'+(rate.total_cents/100).toFixed(2)+'</span></div>';
+  }).join("");
+  
+  // Show estimated landed cost
+  if(rates[0].total_cents>0){
+    document.getElementById("landedCost").innerHTML='<div class="muted" style="margin-top:8px">Estimated tax & duties included in shipping price (DDP)</div>';
+    document.getElementById("paypalSection").style.display="block";
+    updateFinalTotal(rates[0].total_cents);
+  }
+}
+
+var selectedShipping=0;
+function selectRate(el,cents,name){document.querySelectorAll(".rate-card").forEach(function(r){r.classList.remove("selected")});el.classList.add("selected");selectedShipping=cents;updateFinalTotal(cents)}
+function updateFinalTotal(shipCents){
+  var subtotal=0;
+  document.querySelectorAll(".price").forEach(function(p){var t=p.textContent;if(t.startsWith("$"))subtotal+=parseFloat(t.replace("$",""))*100});
+  var total=subtotal+shipCents;
+  document.getElementById("finalTotal").textContent="Total: $"+(total/100).toFixed(2)+" (incl. $"+(subtotal/100).toFixed(2)+" + $"+(shipCents/100).toFixed(2)+" shipping)";
+}
+
+function payPalCheckout(amount){
+  fetch("/api/payment/create",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({amount:(amount/100).toFixed(2),description:"HeavensLive Order"})}).then(function(r){return r.json()}).then(function(d){
+    if(d.approvalUrl)location.href=d.approvalUrl;else alert(d.message||"Payment not available")
+  })
+}
+
+function confirmFree(){alert("Free items claimed! The seller will contact you for pickup.")}
+</script><script src="/i18n.js"></script>
+</body></html>

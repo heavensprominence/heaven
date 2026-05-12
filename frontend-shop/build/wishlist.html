@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Wishlist — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--danger:#E74C3C;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:800px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:10px}
+h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}
+.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:8px}.item .title{flex:1;cursor:pointer;font-weight:600}.item .title:hover{color:var(--gold)}.item .price{color:var(--gold);font-weight:700;white-space:nowrap}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--gold);color:var(--darker)}.btn-sm{padding:4px 10px;font-size:.7rem}.btn-danger{background:var(--danger);color:white;font-size:.75rem;padding:4px 10px;border-radius:6px;border:none;cursor:pointer}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a></div></nav>
+<div class="container"><h1 data-i18n="brand.myWishlist">❤️ My Wishlist</h1>
+<div class="card"><div id="items"><span class="muted">Loading...</span></div></div></div>
+<script>
+var T=localStorage.getItem("token");
+if(!T){document.getElementById("items").innerHTML='<div class="muted"><a href="/credon/" style="color:var(--gold)">Sign in</a> to save wishlist items.</div>'}else{load()}
+function load(){
+  document.getElementById("items").innerHTML='<span class="muted">Loading...</span>';
+  fetch("/api/shop/wishlist",{headers:{Authorization:"Bearer "+T}}).then(function(r){return r.json()}).then(function(d){
+    var items=d.wishlist||[];
+    if(!items.length){document.getElementById("items").innerHTML='<div class="muted">No saved items. <a href="/shop/" style="color:var(--gold)">Browse shop</a></div>';return}
+    document.getElementById("items").innerHTML=items.map(function(i){
+      return '<div class="item"><span class="title" onclick="location.href=\'/shop/listing/'+i.listing_id+'\'">'+i.title+'</span><span class="price">$'+(i.price_cents/100).toFixed(2)+'</span><button class="btn-danger" onclick="removeItem(\''+i.listing_id+'\')">✕ Remove</button></div>'
+    }).join("")
+  }).catch(function(){document.getElementById("items").innerHTML='<span class="muted">Error loading</span>'})
+}
+function removeItem(id){
+  fetch("/api/shop/wishlist/toggle",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id})}).then(function(){load()})
+}
+</script><script src="/i18n.js"></script>
+</body></html>

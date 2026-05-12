@@ -1,0 +1,15 @@
+.disputes-page { max-width: 1000px; margin: 0 auto; padding: 30px 20px; color: #f5f5f5; }
+.disputes-page h1 { color: #ffd700; margin-bottom: 20px; }
+.disputes-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.file-dispute-btn { background: #ffd700; color: #0b1f3f; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; }
+.disputes-list { display: flex; flex-direction: column; gap: 15px; }
+.dispute-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.2); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; }
+.dispute-card:hover { border-color: #ffd700; }
+.dispute-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
+.status-badge.open { background: #ff9800; color: white; }
+.status-badge.resolved { background: #4CAF50; color: white; }
+.dispute-card h3 { color: #ffd700; margin-bottom: 5px; }
+.listing-title { color: #aaa; }
+.dispute-parties { color: #888; font-size: 0.9rem; }
+.dispute-amount { color: #4CAF50; font-weight: bold; }

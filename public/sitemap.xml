@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url><loc>https://shop.heavenslive.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/cbee725d-f42a-4581-962e-63bc22787f1a</loc>
+    <lastmod>2026-04-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/d19b67d5-943e-4c96-80f8-895d2a23c58a</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776273514310-474852360.jpg</image:loc>
+      <image:title>10-Lesson Block of 1-Hour English Lessons (For Adults)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/18dc44ca-8169-4e32-b607-2e4854fe1b40</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776273241779-141150333.jpg</image:loc>
+      <image:title>Single 1-Hour English Lesson (For Adults)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/c93b6c4e-3f44-476b-b649-523b1262b392</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776272859612-840101662.jpg</image:loc>
+      <image:title>10-Lesson Block of English Instruction for Children</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/44dfff4e-8151-4541-b235-2ce931af2b3f</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776272424601-585287896.jpg</image:loc>
+      <image:title>Single 30-Minute English Lesson (For Children)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/702df270-98b1-48d9-9994-9a5abe05ff8f</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776263180289-533834713.jpg</image:loc>
+      <image:title>Enjoy A Coffee with Bruno!</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/10fbf492-a8a5-40c9-8143-f6e944161c0c</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776222692624-266069580.jpg</image:loc>
+      <image:title>10 Googol Raised to The Power of 10 x Strength Subliminal</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/c1d049d3-cb99-4478-a99c-bdf1c8882100</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776221775192-97567584.jpg</image:loc>
+      <image:title>10 Googol x Strength Custom Subliminal</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/listing/64193ab0-3546-4c83-9a2d-06651461ba80</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://heavenslive.com/uploads/listings/listing-1776200686391-241859528.jpg</image:loc>
+      <image:title>1x Strength Custom Subliminals</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://shop.heavenslive.com/store/heavenly-subliminals</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url><loc>https://shop.heavenslive.com/help</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://shop.heavenslive.com/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+</urlset>

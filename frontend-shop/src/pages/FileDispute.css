@@ -1,0 +1,8 @@
+.file-dispute { max-width: 600px; margin: 0 auto; padding: 30px 20px; color: #f5f5f5; }
+.file-dispute h1 { color: #ffd700; margin-bottom: 30px; }
+.dispute-form { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 30px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; color: #ffd700; margin-bottom: 8px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; color: white; }
+.form-group textarea { resize: vertical; }
+.submit-btn { width: 100%; padding: 15px; background: #ffd700; color: #0b1f3f; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }

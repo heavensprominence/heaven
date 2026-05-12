@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Pricing — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:1000px;margin:0 auto;padding:24px 20px}
+h1{color:var(--gold);text-align:center;margin-bottom:8px}.subtitle{color:var(--muted);text-align:center;margin-bottom:32px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.plan{background:var(--card);border-radius:var(--radius);padding:32px 24px;text-align:center;border:1px solid rgba(255,255,255,.05);transition:all .2s}.plan:hover{border-color:rgba(200,169,81,.3);transform:translateY(-4px)}.plan.featured{border-color:rgba(200,169,81,.4);box-shadow:0 0 30px rgba(200,169,81,.1)}
+.plan h2{color:var(--gold);font-size:1.3rem;margin-bottom:4px}.plan .price{font-size:2rem;font-weight:800;color:var(--gold);margin:16px 0}.plan .price span{font-size:.9rem;color:var(--muted);font-weight:400}.plan ul{list-style:none;text-align:left;margin:20px 0;color:var(--muted);font-size:.85rem}.plan ul li{padding:6px 0}.plan ul li:before{content:"✓ ";color:#2ECC71;margin-right:6px}
+.btn{padding:12px 28px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.9rem;background:var(--gold);color:var(--darker);display:inline-block;text-decoration:none;margin-top:12px}.btn:hover{opacity:.9}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.featured-badge{display:inline-block;background:var(--gold);color:var(--darker);padding:3px 12px;border-radius:20px;font-size:.7rem;font-weight:700;margin-bottom:8px}
+.feature-note{background:rgba(200,169,81,.08);border:1px solid rgba(200,169,81,.15);border-radius:8px;padding:16px;text-align:center;margin-top:32px}.feature-note h3{color:var(--gold);margin-bottom:8px}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a></div></nav>
+<div class="container">
+<h1 data-i18n="brand.sellerPlans">Seller Plans</h1><p class="subtitle">Choose the right plan for your business</p>
+<div class="plans">
+<div class="plan"><h2 data-i18n="page.h2_free">Free</h2><div class="price">$0<span>/mo</span></div><ul><li>5 active listings</li><li>Personal listings only</li><li>Standard visibility</li><li>7-day listing duration</li><li>Community support</li></ul><a href="/shop/create" class="btn-o">Get Started</a></div>
+<div class="plan featured"><span class="featured-badge">MOST POPULAR</span><h2 data-i18n="page.h2_pro">Pro</h2><div class="price">$9.99<span>/mo</span></div><ul><li>50 active listings</li><li>Store page included</li><li>3 featured listings/mo</li><li>Priority search placement</li><li>Bulk import (CSV)</li><li>Seller analytics</li><li>1-year listing duration</li></ul><button class="btn" onclick="subscribe('pro')" id="btnPro">Subscribe</button></div>
+<div class="plan"><h2 data-i18n="page.h2_business">Business</h2><div class="price">$29.99<span>/mo</span></div><ul><li>Unlimited listings</li><li>Custom store design</li><li>10 featured listings/mo</li><li>Top search placement</li><li>Advanced analytics</li><li>Promotion tools</li><li>Priority support</li></ul><button class="btn" onclick="subscribe('business')" id="btnBiz">Subscribe</button></div>
+</div>
+<div class="feature-note"><h3 data-i18n="page.h3_single_featured_listing__10">💰 Single Featured Listing — $1.00</h3><p class="muted" data-i18n="page.sub_dont_want_a_subscription_f">Don't want a subscription? Feature individual listings for $1 each per month. Select "Featured" when posting your listing.</p></div>
+</div><script src="/i18n.js"></script>
+<script>
+var T=localStorage.getItem("token");
+async function subscribe(plan){
+  if(!T){alert('Please sign in to subscribe');location.href='/credon/';return}
+  var btn=document.getElementById('btn'+(plan==='pro'?'Pro':'Biz'));
+  btn.textContent='Redirecting to PayPal...';btn.disabled=true;
+  try{
+    var amounts={pro:999,business:2999};
+    var r=await(await fetch('/api/payment/create',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+T},
+      body:JSON.stringify({
+        amount:amounts[plan]/100,
+        description:(plan==='pro'?'Pro':'Business')+' Plan — HeavensMarket Monthly',
+        type:'subscription',
+        plan:plan,
+        returnUrl:window.location.origin+'/shop/payment/success',
+        cancelUrl:window.location.origin+'/shop/pricing'
+      })
+    })).json();
+    if(r.approvalUrl){window.location.href=r.approvalUrl}
+    else if(r.error){alert(r.error);btn.textContent='Subscribe';btn.disabled=false}
+  }catch(e){alert('Payment error');btn.textContent='Subscribe';btn.disabled=false}
+}
+</script>
+</body></html>

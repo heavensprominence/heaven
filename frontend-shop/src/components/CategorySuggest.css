@@ -1,0 +1,104 @@
+.category-suggest {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.category-suggest h4 {
+    color: #ffd700;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.category-suggest input,
+.category-suggest textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.category-suggest textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.suggest-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.suggest-actions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.suggest-actions button[type="submit"] {
+    background: #4CAF50;
+    color: white;
+}
+
+.suggest-actions button[type="submit"]:hover {
+    background: #45a049;
+}
+
+.suggest-actions .cancel-btn {
+    background: #666;
+    color: white;
+}
+
+.suggest-actions .cancel-btn:hover {
+    background: #555;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+}
+
+.category-suggest-success {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.2);
+    border-radius: 8px;
+    margin-top: 10px;
+    color: #4CAF50;
+}
+
+.category-suggest-success button {
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    color: #4CAF50;
+    cursor: pointer;
+}
+
+.login-message {
+    color: #ccc;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.login-btn {
+    background: #ffd700 !important;
+    color: #0b1f3f !important;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background: #ffed4a !important;
+}

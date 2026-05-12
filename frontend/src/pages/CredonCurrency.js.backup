@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useLocation } from 'react-router-dom';
+import Wallet from './Wallet';
+import BiddingSystem from './BiddingSystem';
+import BonusSchedule from '../components/BonusSchedule';
+import LedgerDisplay from '../components/LedgerDisplay';
+import AppointmentScheduler from './AppointmentScheduler';
+import DisputeCenter from './DisputeCenter';
+
+const CredonCurrency = () => {
+  const { user, token } = useAuth();
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState('wallet');
+  const [walletData, setWalletData] = useState(null);
+  const [exchangeRates, setExchangeRates] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState('Credon-USD');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab && ['wallet', 'bids', 'bonus', 'ledger', 'appointments', 'disputes'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (token) {
+      fetchWalletData();
+      fetchExchangeRates();
+    }
+  }, [token]);
+
+  const fetchWalletData = async () => {
+    try {
+      const response = await fetch('/api/wallet/balance', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setWalletData(data);
+    } catch (error) {
+      console.error('Failed to fetch wallet:', error);
+    }
+  };
+
+  const fetchExchangeRates = async () => {
+    try {
+      const response = await fetch('/api/wallet/exchange-rates?base=Credon-USD');
+      const data = await response.json();
+      setExchangeRates(data);
+    } catch (error) {
+      console.error('Failed to fetch rates:', error);
+    }
+  };
+
+  if (!user) {
+    return (
+      <div className="credon-container">
+        <div className="login-prompt">
+          <h2>🔐 Please Log In</h2>
+          <p>You need to be logged in to access the Credon Currency system.</p>
+          <a href="/credon/login" className="btn-primary">Login / Register</a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="credon-container">
+      <div className="credon-header">
+        <h1>🏦 Credon Currency Platform</h1>
+        <p className="subtitle">Divinely Inspired • Community Powered • Testing Only</p>
+        
+        <div className="currency-selector">
+          <label>Display Balance In: </label>
+          <select value={selectedCurrency} onChange={(e) => setSelectedCurrency(e.target.value)} className="currency-dropdown">
+            <option>Credon-USD</option>
+            <option>Credon-CAD</option>
+            <option>Credon-EUR</option>
+            <option>Credon-GBP</option>
+            <option>Credon-VND</option>
+            <option>Credon-BTC</option>
+            <option>Credon-ETH</option>
+          </select>
+        </div>
+      </div>
+
+      {walletData && (
+        <div className="balance-card">
+          <h3>Your Balance</h3>
+          <div className="balance-amount">
+            {selectedCurrency === 'Credon-USD' && (
+              <>${(walletData.balance_cents / 100).toFixed(2)} {selectedCurrency}</>
+            )}
+            {selectedCurrency !== 'Credon-USD' && walletData.balances && (
+              <>{walletData.balances[selectedCurrency]?.toFixed(4)} {selectedCurrency}</>
+            )}
+          </div>
+          <p className="balance-note">Base Balance: ${(walletData.balance_cents / 100).toFixed(2)} Credon-USD</p>
+          <p className="testing-note">⚠️ THIS IS A TESTING BALANCE - No real cash value</p>
+        </div>
+      )}
+
+      {/* NO TAB NAVIGATION HERE - just content */}
+      <div className="tab-content">
+        {activeTab === 'wallet' && <Wallet walletData={walletData} fetchWalletData={fetchWalletData} />}
+        {activeTab === 'bids' && <BiddingSystem exchangeRates={exchangeRates} walletBalance={walletData?.balance_cents} token={token} />}
+        {activeTab === 'bonus' && <BonusSchedule />}
+        {activeTab === 'ledger' && <LedgerDisplay token={token} />}
+        {activeTab === 'appointments' && <AppointmentScheduler token={token} user={user} />}
+        {activeTab === 'disputes' && <DisputeCenter token={token} user={user} />}
+      </div>
+
+      <div className="disclaimer-footer">
+        <p>⚠️ <strong>TESTING SYSTEM ONLY</strong> - No real currency or financial instruments are being offered. Regulatory approval is being sought. All clone currency transactions are simulated.</p>
+      </div>
+    </div>
+  );
+};
+
+export default CredonCurrency;

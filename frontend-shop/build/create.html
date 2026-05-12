@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Post Listing — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--radius:12px;--radius-sm:8px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:800px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+h1{color:var(--gold);margin-bottom:8px}h2{color:var(--gold);margin:16px 0 8px}.muted{color:var(--muted);font-size:.85rem}.label{display:block;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-sm);color:var(--text);font-size:.9rem;margin-bottom:12px}input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}textarea{min-height:80px}
+.btn{padding:12px 24px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker);font-size:.9rem}.btn:hover{opacity:.9}.btn:disabled{opacity:.5}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.steps{display:flex;gap:4px;margin:16px 0;flex-wrap:wrap}.step{padding:8px 16px;border-radius:20px;font-size:.8rem;background:rgba(255,255,255,.05);color:var(--muted)}.step.on{background:var(--gold);color:var(--darker);font-weight:600}
+.section{display:none}.section.active{display:block}
+.action-bar{display:flex;justify-content:space-between;margin-top:20px}
+.flex{display:flex;gap:8px;flex-wrap:wrap}
+.feature-info{background:rgba(200,169,81,.06);border:1px solid rgba(200,169,81,.15);border-radius:8px;padding:12px;margin:8px 0;font-size:.85rem}.feature-info a{color:var(--gold)}
+.check-row{display:flex;align-items:center;gap:8px;margin:8px 0}.check-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--gold)}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/seller/dashboard">Dashboard</a><a href="/credon/wallet">Wallet</a></div></nav>
+<div class="container">
+<h1 data-i18n="brand.postNewListing">+ Post New Listing</h1>
+<div class="steps"><span class="step on" id="s1">1. Info</span><span class="step" id="s2">2. Price</span><span class="step" id="s3">3. Location</span><span class="step" id="s4">4. Review</span></div>
+<div class="card">
+<div class="section active" id="sec1">
+  <h2 data-i18n="page.h2_listing_details">Listing Details</h2>
+  
+  <label class="label" data-i18n="page.label_post_as">Post As</label>
+  <select id="storeId"><option value="">👤 Personal Listing</option><option value="store" disabled>🏪 Create a Store first (Pro plan)</option></select>
+  <p class="muted" style="margin-top:-8px;margin-bottom:12px">Personal listings are free. Stores require <a href="/shop/pricing" style="color:var(--gold)">Pro plan</a>.</p>
+  
+  <label class="label" data-i18n="page.label_listing_type__">Listing Type *</label>
+  <select id="lType" onchange="updatePriceLabel()"><option value="mall">🛍 Mall (Fixed Price)</option><option value="classifieds">📰 Classifieds (Fixed Price)</option><option value="auction">🔨 Auction</option><option value="reverse_auction">📋 Wanted/Procurement</option></select>
+  
+  <label class="label" data-i18n="page.label_title__">Title *</label><input id="lTitle" placeholder="e.g., Vintage Leather Jacket">
+  
+  <label class="label" data-i18n="page.label_description">Description</label><textarea id="lDesc" placeholder="Describe your item in detail..."></textarea>
+  
+  <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
+  
+  <label class="label" data-i18n="page.label_quantity">Quantity</label><input id="lQty" type="number" min="1" value="1">
+  
+  <label class="label" data-i18n="page.label_duration">Duration</label><select id="lDur"><option value="2weeks">2 Weeks (Free)</option><option value="1month">1 Month (Pro)</option><option value="1year">1 Year (Pro)</option></select>
+</div>
+
+<div class="section" id="sec2">
+  <h2 data-i18n="page.h2_pricing__features">Pricing & Features</h2>
+  
+  <label class="label" id="priceLabel" data-i18n="page.label_price____">Price ($)</label>
+  <input id="lPrice" type="number" min="0" step="0.01" placeholder="0.00" style="width:50%;display:inline">
+  <div style="display:inline;width:45%;margin-left:5%;position:relative">
+    <select id="lCurrency" style="width:100%;padding:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-size:.85rem">
+      <optgroup label="━━ Fiat (Frankfurter) ━━">
+        <option value="USD">USD — US Dollar ($)</option>
+        <option value="EUR">EUR — Euro (€)</option>
+        <option value="GBP">GBP — British Pound (£)</option>
+        <option value="JPY">JPY — Japanese Yen (¥)</option>
+        <option value="CAD">CAD — Canadian Dollar</option>
+        <option value="AUD">AUD — Australian Dollar</option>
+        <option value="CHF">CHF — Swiss Franc</option>
+        <option value="CNY">CNY — Chinese Yuan</option>
+        <option value="INR">INR — Indian Rupee</option>
+        <option value="KRW">KRW — South Korean Won</option>
+        <option value="VND">VND — Vietnamese Dong</option>
+        <option value="IRR">IRR — Iranian Rial</option>
+        <option value="AED">AED — UAE Dirham</option>
+        <option value="TRY">TRY — Turkish Lira</option>
+        <option value="RUB">RUB — Russian Ruble</option>
+        <option value="BRL">BRL — Brazilian Real</option>
+        <option value="MXN">MXN — Mexican Peso</option>
+        <option value="SGD">SGD — Singapore Dollar</option>
+        <option value="HKD">HKD — Hong Kong Dollar</option>
+        <option value="SEK">SEK — Swedish Krona</option>
+        <option value="NOK">NOK — Norwegian Krone</option>
+        <option value="DKK">DKK — Danish Krone</option>
+        <option value="NZD">NZD — New Zealand Dollar</option>
+        <option value="ZAR">ZAR — South African Rand</option>
+        <option value="PLN">PLN — Polish Zloty</option>
+        <option value="THB">THB — Thai Baht</option>
+        <option value="MYR">MYR — Malaysian Ringgit</option>
+        <option value="PHP">PHP — Philippine Peso</option>
+        <option value="IDR">IDR — Indonesian Rupiah</option>
+        <option value="CZK">CZK — Czech Koruna</option>
+        <option value="HUF">HUF — Hungarian Forint</option>
+        <option value="ILS">ILS — Israeli Shekel</option>
+        <option value="SAR">SAR — Saudi Riyal</option>
+        <option value="NGN">NGN — Nigerian Naira</option>
+        <option value="EGP">EGP — Egyptian Pound</option>
+        <option value="PKR">PKR — Pakistani Rupee</option>
+        <option value="BDT">BDT — Bangladeshi Taka</option>
+        <option value="UAH">UAH — Ukrainian Hryvnia</option>
+    </optgroup>
+    <optgroup label="━━ Crypto (CoinGecko) ━━">
+        <option value="BTC">BTC — Bitcoin (₿)</option>
+        <option value="ETH">ETH — Ethereum (Ξ)</option>
+        <option value="USDT">USDT — Tether</option>
+        <option value="USDC">USDC — USD Coin</option>
+        <option value="BNB">BNB — Binance Coin</option>
+        <option value="XRP">XRP — Ripple</option>
+        <option value="SOL">SOL — Solana</option>
+        <option value="ADA">ADA — Cardano</option>
+        <option value="DOGE">DOGE — Dogecoin</option>
+        <option value="DOT">DOT — Polkadot</option>
+        <option value="LTC">LTC — Litecoin</option>
+        <option value="AVAX">AVAX — Avalanche</option>
+        <option value="MATIC">MATIC — Polygon</option>
+    </optgroup>
+    <optgroup label="━━ Credon Clone Currencies ━━">
+        <option value="Credon-USD">Credon-USD</option>
+        <option value="Credon-EUR">Credon-EUR</option>
+        <option value="Credon-GBP">Credon-GBP</option>
+        <option value="Credon-JPY">Credon-JPY</option>
+        <option value="Credon-CAD">Credon-CAD</option>
+        <option value="Credon-AUD">Credon-AUD</option>
+        <option value="Credon-CHF">Credon-CHF</option>
+        <option value="Credon-CNY">Credon-CNY</option>
+        <option value="Credon-INR">Credon-INR</option>
+        <option value="Credon-VND">Credon-VND</option>
+        <option value="Credon-BTC">Credon-BTC</option>
+        <option value="Credon-ETH">Credon-ETH</option>
+    </optgroup>
+    </select>
+    <div id="currencyNote" style="font-size:.7rem;color:var(--muted);margin-top:4px;line-height:1.3">
+      💡 This is your <strong>display price</strong>. Buyers can pay in <strong>any fiat or Credon clone currency</strong> via PayPal or Credon Wallet at live exchange rates.
+    </div>
+  </div>
+  <p class="muted" data-i18n="page.sub_enter_0_for_free_items">Enter 0 for free items</p>
+  <div id="buyNowField" style="display:none"><label class="label" data-i18n="page.label_buy_now_price__instant_purchas">Buy Now Price (Instant Purchase)</label><input id="lBuyNow" type="number" min="0" step="0.01" placeholder="Optional — allows instant purchase"></div>
+  
+  <div class="feature-info">
+    <div class="check-row"><input type="checkbox" id="featured" onchange="updateFeaturedInfo()"><span>🌟 <strong>Feature this listing</strong></span></div>
+    <p class="muted" id="featuredInfo">Makes your listing appear at the top of search results. <a href="/shop/pricing" target="_blank">$1.00 per month</a> or included with Pro/Business plans.</p>
+  </div>
+</div>
+
+<div class="section" id="sec3">
+  <h2 data-i18n="page.h2_location">Location</h2>
+  <label class="label" data-i18n="page.label_where_is_this_item_">Where is this item?</label>
+  <div class="flex"><input id="lCity" placeholder="City" style="flex:1"><input id="lState" placeholder="State" style="flex:1"><input id="lCountry" value="US" style="width:80px"></div>
+</div>
+
+<div class="section" id="sec4">
+  <h2 data-i18n="page.h2_review_your_listing">Review Your Listing</h2>
+  <div class="card" style="background:rgba(200,169,81,.03);border-color:rgba(200,169,81,.1)">
+    <p id="reviewType" class="muted"></p>
+    <h3 id="reviewTitle" style="color:var(--gold)"></h3>
+    <p id="reviewPrice" style="font-size:1.5rem;font-weight:800;color:var(--gold)"></p>
+    <p id="reviewDesc" class="muted"></p>
+    <p id="reviewFeatured" style="color:var(--gold);font-size:.85rem"></p>
+  </div>
+</div></div>
+
+<div class="action-bar" id="actions">
+  <button class="btn-o" id="backBtn" onclick="prevStep()" style="display:none">← Back</button>
+  <span></span>
+  <button class="btn" id="nextBtn" onclick="nextStep()">Continue →</button>
+</div>
+<div class="muted" id="result" style="text-align:center;margin-top:16px"></div>
+</div>
+
+<script>
+var step=1,T=localStorage.getItem("token");if(!T)location.href="/credon/";
+function goStep(n){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById("sec"+n).classList.add("active");
+  document.querySelectorAll(".step").forEach(s=>s.classList.remove("on"));for(var i=1;i<=n;i++)document.getElementById("s"+i).classList.add("on");
+  step=n;document.getElementById("backBtn").style.display=n>1?"inline-block":"none";
+  if(n===4){document.getElementById("nextBtn").textContent="Submit";document.getElementById("nextBtn").onclick=submit}
+  else{document.getElementById("nextBtn").textContent="Continue →";document.getElementById("nextBtn").onclick=nextStep}
+  if(n===4)buildReview();
+}
+function nextStep(){goStep(step+1)}
+function prevStep(){goStep(step-1)}
+function updatePriceLabel(){document.getElementById("buyNowField").style.display=document.getElementById("lType").value==="auction"?"block":"none";var t=document.getElementById("lType").value,l={mall:"Price ($)",classifieds:"Price ($)",auction:"Minimum Bid ($)",reverse_auction:"Maximum Budget ($)"};document.getElementById("priceLabel").textContent=l[t]||"Price ($)"}
+function updateFeaturedInfo(){var c=document.getElementById("featured").checked,d=document.getElementById("featuredInfo");d.innerHTML=c?'<span style="color:#2ECC71">✅ This listing will be FEATURED</span> — $1.00/month or included with <a href="/shop/pricing" style="color:var(--gold)">Pro/Business</a> plans.':'Makes your listing appear at the top of search results. <a href="/shop/pricing" style="color:var(--gold)">$1.00 per month</a> or included with Pro/Business plans.'}
+function buildReview(){document.getElementById("reviewType").textContent=document.getElementById("lType").options[document.getElementById("lType").selectedIndex].text;document.getElementById("reviewTitle").textContent=document.getElementById("lTitle").value||"(No title)";var rc=document.getElementById("lCurrency");var cs=rc?rc.value:"USD";var cs2=document.getElementById("lCurrency");var sel=cs2?cs2.options[cs2.selectedIndex].text.split(" — ")[0]:"USD";document.getElementById("reviewPrice").textContent=sel+" "+(document.getElementById("lPrice").value||"0");document.getElementById("reviewDesc").textContent=document.getElementById("lDesc").value||"(No description)";document.getElementById("reviewFeatured").textContent=document.getElementById("featured").checked?"🌟 Featured Listing — $1.00/mo":""}
+async function submit(){
+  var btn=document.getElementById("nextBtn");btn.disabled=true;btn.textContent="Submitting...";
+  var type=document.getElementById("lType").value;
+  var pf=type==="auction"?"min_bid_cents":type==="reverse_auction"?"max_bid_cents":"price_cents";
+  var pc=Math.round(parseFloat(document.getElementById("lPrice").value||0)*100)||0;
+  var currency=document.getElementById("lCurrency").value||"USD";
+  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("featured").checked,accepted_currencies:[currency]};d[pf]=pc;
+  try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
+  btn.disabled=false;btn.textContent="Submit"
+}
+fetch("/api/shop/categories").then(r=>r.json()).then(d=>{document.getElementById("lCat").innerHTML=(d.categories||[]).map(c=>'<option value="'+c.slug+'">'+(c.icon||'')+' '+c.name+'</option>').join("")});
+</script><script src="/i18n.js"></script>
+</body></html>

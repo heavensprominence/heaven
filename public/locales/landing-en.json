@@ -1,0 +1,70 @@
+{
+  "hero": {
+    "title": "Divinely <span class=\"gold\">Underwritten</span><br>for All of Us",
+    "subtitle": "Faith-based commerce, fair currency, and community-driven giving \u2014 all on one platform.",
+    "shopBtn": "Explore the Marketplace",
+    "credonBtn": "Learn About Credon"
+  },
+  "features": {
+    "title": "One Platform, Three Pillars",
+    "marketplace": "Fair Marketplace",
+    "marketplaceDesc": "Buy and sell with divine oversight. Auctions, classifieds, and procurement \u2014 all with built-in fairness guarantees.",
+    "credon": "Credon Currency",
+    "credonDesc": "Stable, faith-backed clone currency. Earn bonuses on every purchase. Accessible worldwide in 84+ denominations.",
+    "sacred": "Sacred Commerce",
+    "sacredDesc": "Donations that multiply. USB prayer collections. Every transaction builds community and sustains the mission."
+  },
+  "donate": {
+    "title": "Give, and It Shall Be Multiplied",
+    "desc": "Your generosity ripples outward. Every donation earns Credon bonuses, amplifying your impact across the community.",
+    "seed": "Seed",
+    "growth": "Growth",
+    "harvest": "Harvest",
+    "custom": "Custom",
+    "anyAmount": "Any Amount",
+    "donateBtn": "Donate Now",
+    "bonusLabel": "Credon Bonus",
+    "bonusEarns": "Your $50 donation earns",
+    "multiplier": "10x multiplier on your 1st donation"
+  },
+  "usb": {
+    "title": "Premium USB Prayer Collection",
+    "desc": "A beautifully crafted collection of prayers, meditations, and sacred texts \u2014 on a premium metal USB drive. Includes digital download.",
+    "feature1": "Curated prayer collection",
+    "feature2": "Premium metal USB drive",
+    "feature3": "Compatible with all devices",
+    "feature4": "Includes digital download code",
+    "feature5": "Free worldwide shipping",
+    "purchaseBtn": "Purchase Now"
+  },
+  "nav": {
+    "shop": "Shop",
+    "credon": "Credon",
+    "about": "About",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "home": "Home",
+    "signOut": "Sign Out"
+  },
+  "footer": {
+    "desc": "Divinely underwritten commerce for a connected world. Shop, give, and grow together.",
+    "marketplace": "Marketplace",
+    "community": "Community",
+    "browse": "Browse",
+    "sell": "Sell",
+    "auctions": "Auctions",
+    "procurement": "Procurement",
+    "wallet": "Wallet",
+    "exchange": "Exchange",
+    "bonuses": "Bonuses",
+    "getInvited": "Get Invited",
+    "donateFooter": "Donate",
+    "usbFooter": "USB Prayer",
+    "contact": "Contact",
+    "copyright": "\u00a9 2026 HeavensLive \u00b7 All currencies displayed are Credon clone currencies for testing"
+  },
+  "prayer": {
+    "label": "Prayer Audio",
+    "download": "Free Download"
+  }
+}

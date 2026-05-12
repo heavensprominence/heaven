@@ -1,0 +1,71 @@
+{
+  "hero": {
+    "title": "Gudo<span class=\"gold\">mligt garanterad för oss alla",
+    "subtitle": "Trosbaserad handel, rättvis valuta och gemenskapsdrivet givande – allt på en plattform.",
+    "shopBtn": "Utforska Marketplace",
+    "credonBtn": "Lär dig mer om Credon"
+  },
+  "features": {
+    "title": "En plattform, tre pelare",
+    "marketplace": "Fair Marketplace",
+    "marketplaceDesc": "Köp och sälj med gudomlig tillsyn. Auktioner, radannonser och upphandlingar – allt med inbyggda rättvisa garantier.",
+    "credon": "Credon Valuta",
+    "credonDesc": "Stabil, trosstödd klonvaluta. Tjäna bonusar på varje köp. Tillgänglig över hela världen i 84+ valörer.",
+    "sacred": "Helig handel",
+    "sacredDesc": "Donationer som förökar sig. USB-bönesamlingar. Varje transaktion bygger gemenskap och upprätthåller uppdraget."
+  },
+  "donate": {
+    "title": "Ge, och det skall multipliceras",
+    "desc": "Din generositet krusar utåt. Varje donation tjänar Credon-bonusar, vilket förstärker din påverkan i hela samhället.",
+    "seed": "Utsäde",
+    "growth": "Tillväxt",
+    "harvest": "Skörda",
+    "custom": "Beställnings",
+    "anyAmount": "Vilket belopp som helst",
+    "donateBtn": "Donera nu",
+    "bonusLabel": "Credon bonus",
+    "bonusEarns": "Din donation på $50 tjänar",
+    "multiplier": "10x multiplikator på din första donation"
+  },
+  "usb": {
+    "title": "Premium USB-bönsamling",
+    "desc": "En vackert utformad samling av böner, meditationer och heliga texter — på en USB-enhet i premiummetall. Inkluderar digital nedladdning.",
+    "feature1": "Kurerad bönesamling",
+    "feature2": "Premium USB-enhet i metall",
+    "feature3": "Kompatibel med alla enheter",
+    "feature4": "Inkluderar digital nedladdningskod",
+    "feature5": "Fri frakt över hela världen",
+    "purchaseBtn": "Köp nu"
+  },
+  "nav": {
+    "shop": "Handla",
+    "credon": "Credon",
+    "about": "Om",
+    "signIn": "Logga in",
+    "getStarted": "Kom igång",
+    "home": "Hem",
+    "signOut": "Logga ut",
+    "register": "Register"
+  },
+  "footer": {
+    "desc": "Gudomligt garanterad handel för en uppkopplad värld. Handla, ge och växa tillsammans.",
+    "marketplace": "Marknad",
+    "community": "Gemenskap",
+    "browse": "Bläddra",
+    "sell": "Sälja",
+    "auctions": "Auktioner",
+    "procurement": "Anskaffning",
+    "wallet": "Plånbok",
+    "exchange": "Utbyta",
+    "bonuses": "Bonusar",
+    "getInvited": "Bli inbjuden",
+    "donateFooter": "Donera",
+    "usbFooter": "USB-bön",
+    "contact": "Kontakta",
+    "copyright": "© 2026 HeavensLive · Alla valutor som visas är Credon-klonvalutor för testning"
+  },
+  "prayer": {
+    "label": "Ljud för bön",
+    "download": "Gratis nedladdning"
+  }
+}

@@ -1,0 +1,154 @@
+.checkout-page { max-width: 1200px; margin: 0 auto; padding: 30px 20px; color: #f5f5f5; }
+.checkout-page h1 { color: #ffd700; margin-bottom: 30px; }
+.checkout-container { display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
+.checkout-form { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 30px; }
+.checkout-form h2 { color: #ffd700; margin-bottom: 20px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; color: #ffd700; margin-bottom: 8px; }
+.form-group input { width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; color: white; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.checkout-btn { width: 100%; padding: 15px; background: #ffd700; color: #0b1f3f; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+.checkout-btn.free { background: #4CAF50; color: white; }
+.order-summary { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px; height: fit-content; }
+.order-summary h2 { color: #ffd700; margin-bottom: 20px; }
+.summary-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.summary-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+.summary-item div { flex: 1; }
+.item-price { font-weight: bold; color: #4CAF50; }
+.summary-total { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 10px; border-top: 2px solid #ffd700; font-size: 1.2rem; }
+.free-note { color: #4CAF50; text-align: center; margin-top: 15px; }
+@media (max-width: 768px) { .checkout-container { grid-template-columns: 1fr; } }
+
+.escrow-note {
+    text-align: center;
+    margin-top: 15px;
+    color: #4CAF50;
+    font-size: 0.9rem;
+}
+
+.escrow-info {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.escrow-info h3 {
+    color: #4CAF50;
+    margin-bottom: 8px;
+}
+
+.escrow-info p {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.shipping-options {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+}
+
+.shipping-options h3 {
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.shipping-option {
+    display: block;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.shipping-option:hover {
+    background: rgba(255,215,0,0.1);
+    border-color: #ffd700;
+}
+
+.shipping-option input {
+    margin-right: 15px;
+}
+
+.shipping-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shipping-price {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.shipping-estimate {
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+.delivery-options {
+    margin-bottom: 30px;
+}
+
+.delivery-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delivery-option:hover {
+    background: rgba(255,215,0,0.1);
+    border-color: #ffd700;
+}
+
+.delivery-option input {
+    margin-top: 3px;
+}
+
+.option-content strong {
+    color: #ffd700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.option-content p {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.pickup-confirmation {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+}
+
+.pickup-confirmation p {
+    margin: 10px 0;
+    color: #ccc;
+}
+
+.pickup-badge {
+    display: inline-block;
+    background: #4CAF50;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    margin-left: 8px;
+}

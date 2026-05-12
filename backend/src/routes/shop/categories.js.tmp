@@ -1,0 +1,12 @@
+
+// Helper: Create "Other" subcategory only if it doesn't exist
+const ensureOtherSubcategory = async (parentSlug, parentPath, parentLevel) => {
+    const otherSlug = parentSlug + '_other';
+    const existing = await db.query('SELECT 1 FROM shop_categories WHERE category = $1', [otherSlug]);
+    if (existing.rows.length === 0) {
+        await db.query(`
+            INSERT INTO shop_categories (category, display_name, parent_category, icon, level, full_path, is_active)
+            VALUES ($1, 'Other', $2, '📦', $3, $4, true)
+        `, [otherSlug, parentSlug, parentLevel + 1, parentPath + '/other']);
+    }
+};

@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Credon Wallet</title>
+<style>:root{--gold:#C8A951;--dark:#1A1A2E;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,sans-serif;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,0.95);border-bottom:1px solid rgba(200,169,81,0.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:0.85rem;margin-left:12px}
+.nav-links a:hover{color:var(--gold)}.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:0.85rem;background:var(--gold);color:var(--darker)}
+.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-danger{background:var(--danger);color:white;font-size:0.8rem}
+.btn-sm{padding:4px 10px;font-size:0.75rem}.container{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,0.05);margin-bottom:12px}
+.label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.balance{font-size:2.2rem;font-weight:800;color:var(--gold)}.flex{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:16px;overflow-x:auto}
+.tab{padding:10px 14px;color:var(--muted);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;font-size:0.85rem;font-weight:600;white-space:nowrap}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}.tab-content{display:none}.tab-content.active{display:block}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.mini{background:var(--card);border-radius:8px;padding:10px;text-align:center;border:1px solid rgba(255,255,255,0.03)}.mini .amt{font-size:0.9rem;font-weight:700}.mini .code{font-size:0.65rem;color:var(--muted)}
+.txn{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;justify-content:space-between}.txn .pos{color:var(--success)}.txn .neg{color:var(--danger)}.muted{color:var(--muted);font-size:0.85rem}
+.banner{background:rgba(200,169,81,0.1);border:1px solid rgba(200,169,81,0.2);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;font-size:0.85rem}
+input,select{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:var(--text);padding:8px 12px;font-size:0.9rem}input:focus,select:focus{outline:none;border-color:var(--gold)}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:6px}
+.toggle{width:48px;height:24px;border-radius:12px;border:none;cursor:pointer;position:relative;transition:background .2s}.toggle.on{background:var(--success)}.toggle.off{background:rgba(255,255,255,0.15)}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:white;top:3px;transition:left .2s}.toggle.on::after{left:27px}.toggle.off::after{left:3px}
+.whatsapp-btn{background:#25D366;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:8px}
+.totp-box{background:var(--card);border-radius:var(--radius);padding:20px;text-align:center;border:1px solid rgba(255,255,255,0.05)}
+.totp-box .secret{font-family:monospace;font-size:1.2rem;letter-spacing:4px;color:var(--gold);margin:12px 0}
+.totp-box img{max-width:200px;border-radius:8px;margin:12px 0}
+</style></head><body>
+<nav><div class="nav-brand">Credon</div><div class="nav-links"><a href="/shop/">Shop</a><a href="/">Home</a><a href="/currency-catalog.html">🖨️ Currency</a><button class="btn-outline btn-sm" onclick="localStorage.clear();location.href='/credon/'">Sign Out</button></div></nav>
+<div class="container">
+<div class="banner" id="banner" style="display:inline-block"></div>
+
+<div class="card" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px">
+  <div><div class="label">Credon-USD Balance</div><div class="balance" id="bal">--</div></div>
+  <div style="text-align:right"><div class="label">Bonus Multiplier</div><div style="font-size:1.8rem;font-weight:800;color:var(--gold)" id="bonus">--</div><div class="muted" id="bonusInfo"></div></div>
+</div>
+
+<div class="tabs" id="tabBar">
+  <button class="tab active" onclick="switchTab(0)">Dashboard</button>
+  <button class="tab" onclick="switchTab(1)">Exchange</button>
+  <button class="tab" onclick="switchTab(2)">Paper Money</button>
+  <button class="tab" onclick="switchTab(3)">💸 Loans</button>
+  <button class="tab" onclick="switchTab(4)">🎁 Grants</button>
+  <button class="tab" onclick="switchTab(5)">📅 Book</button>
+  <button class="tab" onclick="switchTab(6)">🔐 Two-Step</button>
+  <button class="tab" onclick="switchTab(7)" id="adminTab" style="display:inline-block">⚙ Admin</button>
+</div>
+
+<!-- Tab 0: Dashboard -->
+<div class="tab-content active" id="tab0">
+  <div class="card"><div class="label">Quick Balances</div><div class="grid2" id="quickBals"></div></div>
+  <div class="card"><div class="label">Send Credon</div>
+    <div class="flex" style="margin-top:8px"><input id="sendTo" placeholder="Recipient email" style="flex:1"><input id="sendAmt" type="number" placeholder="Amount" style="width:100px"><button class="btn" onclick="doSend()">Send</button></div>
+    <div class="muted" style="margin-top:4px" id="sendResult"></div>
+  </div>
+  <div class="card" id="loanCard" style="display:inline-block"><div class="label">Active Loans</div><div id="activeLoans"></div></div>
+    <div class="card"><div class="label">Transactions</div><div id="txns"><span class="muted">Loading...</span></div></div>
+  <div class="card"><div class="label">💳 Purchase Digital Credon</div>
+    <p class="muted" style="margin-bottom:8px">Acquire Credon currency through your preferred method</p>
+    <div class="flex" style="gap:8px;flex-wrap:wrap">
+      <input id="buyAmt" type="number" value="100" placeholder="Amount" style="width:100px">
+      <select id="buyCur" style="width:140px"><option>Credon-USD</option><option>Credon-EUR</option><option>Credon-GBP</option><option>Credon-JPY</option><option>Credon-VND</option><option>Credon-BTC</option><option>Credon-ETH</option></select>
+      <select id="buyMethod" style="width:150px"><option>PayPal</option><option disabled>Bank Transfer — Coming Soon</option><option disabled>Crypto Payment — Coming Soon</option></select>
+      <button class="btn" onclick="buyCredon()">Buy</button>
+    </div>
+    <div class="muted" id="buyResult" style="margin-top:8px"></div>
+  </div>
+  <div class="card" style="text-align:center">
+    <div class="label" style="margin-bottom:8px">📱 Add Credon on WhatsApp</div>
+    <a href="https://wa.me/16472281215?text=Hi%20Credon%20team!" target="_blank" class="whatsapp-btn">💬 +1-647-228-1215</a>
+  </div>
+</div>
+
+<!-- Tab 1: Exchange -->
+<div class="tab-content" id="tab1">
+  <div class="card"><h3 style="color:var(--gold);margin-bottom:12px">💱 Currency Exchange</h3>
+    <div class="flex" style="gap:8px;flex-wrap:wrap"><select id="exFrom"><option>Credon-USD</option></select><span>→</span><select id="exTo"><option>Credon-EUR</option></select><input id="exAmt" type="number" value="100" style="width:100px"><button class="btn" onclick="doExchange()">Convert</button></div>
+    <div id="exResult" style="margin-top:12px;padding:12px;background:rgba(200,169,81,0.06);border-radius:8px"></div>
+  </div>
+  <div class="label" style="margin:16px 0 8px">All Rates (84 currencies, live every 5 min)</div>
+  <div class="grid2" id="allRates"></div>
+</div>
+
+<!-- Tab 2: Paper Money -->
+<div class="tab-content" id="tab2">
+  <div class="card"><div class="flex" style="justify-content:space-between;margin-bottom:12px"><h3 style="color:var(--gold)">🖨️ Order Paper Currency</h3>
+    <p class="muted" style="margin-bottom:12px">Order printed Credon notes shipped to your address</p>
+    <div class="flex" style="gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <select id="paperCur" style="width:120px"><option>USD</option></select>
+      <select id="paperDenom" style="width:100px"><option value="1">$1</option><option value="2">$2</option><option value="5">$5</option><option value="10">$10</option><option value="20">$20</option><option value="50">$50</option><option value="100">$100</option></select>
+      <input id="paperQty" type="number" value="1" min="1" max="100" style="width:60px" placeholder="Qty">
+      <button class="btn" onclick="addToPaperOrder()">+ Add</button>
+    </div>
+    <div id="paperOrder" style="margin:8px 0"><span class="muted">No items added</span></div>
+    <div class="flex" style="gap:8px;flex-wrap:wrap;margin-top:8px">
+      <input id="paperName" placeholder="Full Name" style="flex:1;min-width:150px">
+      <input id="paperEmail" placeholder="Email" style="flex:1;min-width:150px">
+    </div>
+    <div class="flex" style="gap:8px;flex-wrap:wrap;margin-top:4px">
+      <input id="paperAddr" placeholder="Address" style="flex:2;min-width:200px">
+      <input id="paperCity" placeholder="City" style="flex:1;min-width:100px">
+      <input id="paperZip" placeholder="ZIP" style="width:80px">
+    </div>
+    <button class="btn" style="margin-top:8px;padding:12px 32px" onclick="submitPaperOrder()">📦 Place Order</button>
+    <div class="muted" id="paperResult" style="margin-top:8px"></div>
+    <h3 style="color:var(--gold);margin-top:24px">💵 Print Designs</h3><a href="/currency-catalog.html" class="btn">🖨️ Full Catalog</a></div>
+    <select id="denomSel" onchange="loadDenom()" style="margin-bottom:12px"><option>USD</option></select>
+    <div class="grid2" id="denomDisp"></div>
+  </div>
+</div>
+
+<!-- Tab 3: Loans -->
+<div class="tab-content" id="tab3">
+  <div class="card"><h3 style="color:var(--gold)">💸 Loan Center</h3><p class="muted">Borrow Credon with community-backed terms</p>
+    <div class="grid3" style="margin-top:16px">
+      <div class="card" style="text-align:center;border:1px solid rgba(46,204,113,0.2)"><div style="font-size:2rem">🤝</div><h4>Interest-Free</h4><p class="muted">Community-funded, 0% APR</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+      <div class="card" style="text-align:center;border:1px solid rgba(200,169,81,0.2)"><div style="font-size:2rem">🏦</div><h4>Low Interest</h4><p class="muted">2-5% APR, flexible</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+      <div class="card" style="text-align:center;border:1px solid rgba(74,144,217,0.2)"><div style="font-size:2rem">💱</div><h4>Any Currency</h4><p class="muted">84 currencies</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 4: Grants -->
+<div class="tab-content" id="tab4">
+  <div class="card"><h3 style="color:var(--gold)">🎁 Community Grants</h3><p class="muted">Apply for community-funded support</p>
+    <div class="grid3" style="margin-top:16px">
+      <div class="card" style="text-align:center"><div style="font-size:2rem">💡</div><h4>Innovation</h4><p class="muted">Up to 50,000 Credon</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem">🏠</div><h4>Community</h4><p class="muted">Up to 25,000 Credon</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem">🌱</div><h4>Seed</h4><p class="muted">Up to 5,000 Credon</p><button class="btn" style="margin-top:8px" onclick="switchTab(5)">Apply</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 5: Appointments -->
+<div class="tab-content" id="tab5">
+  <div class="card"><h3 style="color:var(--gold)">📅 Book Appointment</h3>
+    <p class="muted">15-minute consultation blocks. WhatsApp +1-647-228-1215 required.</p>
+    <div class="flex" style="gap:8px;margin-top:12px;flex-wrap:wrap">
+      <input type="datetime-local" id="aptTime" style="flex:1;min-width:200px">
+      <input id="aptNotes" placeholder="Notes (optional)" style="flex:1;min-width:150px">
+      <button class="btn" onclick="bookApt()">Book (15 min)</button>
+    </div>
+    <div class="muted" id="aptResult" style="margin-top:8px"></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h4 style="color:var(--gold);margin-bottom:8px">Your Appointments</h4>
+    <div id="aptList"><span class="muted">Loading...</span></div>
+  </div>
+</div>
+
+<!-- Tab 6: TOTP -->
+<div class="tab-content" id="tab6">
+  <div class="totp-box"><h3 style="color:var(--gold)">🔐 Two-Step Verification</h3><p class="muted">Set up Google Authenticator or any TOTP app</p>
+    <button class="btn" style="margin:12px 0" onclick="setupTwoStep()">Generate Secret</button>
+    <div id="twoStepSetup" style="display:inline-block">
+      <div class="secret" id="twoStepSecret"></div>
+      <img id="twoStepQR" style="max-width:200px" alt="QR Code">
+      <p class="muted">Scan with your authenticator app</p>
+      <div class="flex" style="justify-content:center;margin-top:12px"><input id="twoStepCode" placeholder="6-digit code" maxlength="6" style="width:120px;text-align:center;font-size:1.2rem;letter-spacing:4px"><button class="btn" onclick="enableTwoStep()">Verify & Enable</button></div>
+      <div id="twoStepResult" class="muted" style="margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 7: Admin -->
+<div class="tab-content" id="tab7">
+  <div class="card"><h3 style="color:var(--gold)">⚙ Admin Panel</h3>
+    <div class="grid3" style="margin-bottom:16px">
+      <div class="card" style="text-align:center"><div style="font-size:2rem">👥</div><div class="label">Users</div><div style="font-size:1.5rem;font-weight:700" id="aUsers">--</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem">📦</div><div class="label">Listings</div><div style="font-size:1.5rem;font-weight:700" id="aListings">--</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:2rem">💰</div><div class="label">Treasury</div><div style="font-size:1.5rem;font-weight:700" id="aTreasury">--</div></div>
+    </div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">🏛️ Treasury (Mint / Burn)</h4>
+    <div class="card" style="margin-bottom:8px"><div class="label">Treasury Balance</div><div style="font-size:1.5rem;font-weight:800;color:var(--gold)" id="treasuryBal">--</div>
+      <div class="label" style="margin-top:4px">Circulating: <span id="treasuryCirc">--</span></div>
+    </div>
+    <div class="flex" style="gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <input id="mintAmt" type="number" placeholder="Amount ($)" style="width:100px">
+      <input id="mintReason" placeholder="Reason" style="flex:1;min-width:120px">
+      <button class="btn" onclick="doMint()">💰 Mint to Treasury</button>
+      <button class="btn" style="background:#E74C3C;color:white" onclick="doBurn()">🔥 Burn from Treasury</button>
+    </div>
+    <div class="flex" style="gap:8px;flex-wrap:wrap">
+      <input id="distEmail" placeholder="User email" style="flex:1;min-width:150px">
+      <input id="distAmt" type="number" placeholder="Amount ($)" style="width:100px">
+      <button class="btn" onclick="doDistribute()">📤 Distribute to User</button>
+    </div>
+    <div class="muted" id="treasuryMsg" style="margin-top:4px"></div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">💸 Pending Loan/Grant Requests</h4>
+    <div id="loanList" style="max-height:200px;overflow-y:auto;margin-bottom:8px"><span class="muted">Loading...</span></div>
+    <div id="loanForm" style="display:none;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;margin-bottom:12px">
+      <div class="flex" style="gap:8px;flex-wrap:wrap">
+        <input id="loanAmt" type="number" placeholder="Amount ($)" style="width:100px">
+        <select id="loanCur" style="width:140px"><option>Credon-USD</option><option>Credon-EUR</option><option>Credon-BTC</option><option>Credon-VND</option></select>
+        <select id="loanRate" style="width:100px"><option value="0">0% (interest-free)</option><option value="1">1%</option><option value="2">2%</option><option value="3">3%</option><option value="5">5%</option><option value="-100">-100% (GRANT)</option></select>
+        <button class="btn" onclick="approveLoan()">✅ Approve</button>
+        <button class="btn-danger" onclick="rejectLoan()">❌ Reject</button>
+      </div>
+    </div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">📅 Your Availability (Appointment Slots)</h4>
+    <div class="flex" style="gap:8px;margin-bottom:8px;flex-wrap:wrap">
+      <select id="avDay"><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option><option value="0">Sunday</option></select>
+      <input id="avStart" type="time" value="09:00" style="width:120px">
+      <span>to</span>
+      <input id="avEnd" type="time" value="17:00" style="width:120px">
+      <button class="btn btn-sm" onclick="addAvail()">+ Add Slot</button>
+    </div>
+    <div id="availList" style="margin-bottom:12px"><span class="muted">Loading...</span></div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">⚖️ Active Disputes</h4>
+    <div id="adminDisputes" style="max-height:300px;overflow-y:auto"><span class="muted">Loading...</span></div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">👥 User Management</h4>
+    <div style="margin-bottom:8px"><input id="userSearch" placeholder="Search user by email..." style="width:100%" onkeyup="searchUsers()"></div>
+    <div id="userList" style="max-height:300px;overflow-y:auto"><span class="muted">Loading...</span></div>
+    <h4 style="color:var(--gold);margin:16px 0 8px">🔒 System Settings</h4>
+    <div id="adminSettings"><span class="muted">Loading...</span></div>
+  </div>
+</div>
+
+</div>
+
+<!-- Credon Registration Approvals -->
+  <div class="card" id="credApprovalsCard" style="margin-top:12px">
+    <h3 style="color:var(--gold);margin-bottom:8px">📝 Credon Registration Requests</h3>
+    <div id="credApprovals"><span class="muted">Loading...</span></div>
+  </div>
+
+
+
+
+<script>
+var T=localStorage.getItem('token');if(!T)location.href='/credon/';
+var A=(u,o)=>{var h={...o?.headers,Authorization:'Bearer '+T};return fetch(u,{...o,headers:h}).then(r=>r.json())};
+
+// Tab switching
+function switchTab(n){
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',i===n)});
+  document.querySelectorAll('.tab-content').forEach(function(p,i){p.style.display=i===n?'block':'none'});
+  if(n===0)loadDashboard();
+  if(n===1)loadExchange();
+  if(n===2)loadPaperMoney();
+  if(n===3)loadLoans();
+  if(n===4)loadGrants();
+  if(n===5)loadAppointments();
+  if(n===6)loadTwoStep();
+  if(n===7)location.href='/credon/admin';
+}
+
+// ===== TAB 0: DASHBOARD =====
+async function loadDashboard(){
+  try{
+    var d=await A('/api/wallet/balance');
+    document.getElementById('bal').textContent='$'+(Number(d.balance_cents||0)/100).toFixed(2);
+    document.getElementById('bonus').textContent=(d.bonus_multiplier||10)+'×';
+    document.getElementById('bonusInfo').textContent=d.purchase_count+' purchase'+(d.purchase_count!==1?'s':'');
+    
+    // Quick balances
+    var bals=Object.entries(d.balances||{}).filter(function(e){return e[0].startsWith('Credon-')}).slice(0,12);
+    document.getElementById('quickBals').innerHTML=bals.map(function(e){return'<div style="text-align:center"><div style="font-size:.9rem;font-weight:600">'+(e[1]||0).toFixed(2)+'</div><div style="font-size:.65rem;color:var(--muted)">'+e[0].replace('Credon-','')+'</div></div>'}).join('')||'<span class="muted">No balances</span>';
+    
+    // Transactions
+    var t=await A('/api/wallet/transactions?limit=8');
+    var tx=(t.transactions||t||[]);
+    document.getElementById('txns').innerHTML=tx.length?tx.map(function(x){return'<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>'+x.description+'</span><span style="color:'+(x.amount_cents>0?'var(--success)':'var(--danger)')+'">'+(x.amount_cents>0?'+':'')+(x.amount_cents/100).toFixed(2)+'</span></div>'}).join(''):'<span class="muted">No transactions yet</span>';
+    
+    // Active loans
+    var l=await A('/api/wallet/loans');
+    var loans=l.loans||[];
+    document.getElementById('activeLoans').innerHTML=loans.length?loans.map(function(ln){return'<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div style="display:flex;justify-content:space-between"><strong>'+ln.currency+' '+(ln.remaining_cents/100).toFixed(2)+'</strong><span class="muted">'+(ln.interest_rate>0?'+'+ln.interest_rate+'%':'0%')+' · '+ln.days_active+'d</span></div><div class="muted" style="font-size:.75rem">Due: '+(ln.total_owing_cents/100).toFixed(2)+'</div></div>'}).join(''):'<span class="muted">No active loans</span>';
+  }catch(e){console.error(e)}
+}
+
+// Send Credon
+async function doSend(){
+  var to=document.getElementById('sendEmail').value,amt=document.getElementById('sendAmt').value;
+  if(!to||!amt)return alert('Fill all fields');
+  try{var r=await A('/api/wallet/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({toEmail:to,amount:parseFloat(amt)})});alert(r.error||'Sent!');loadDashboard()}catch(e){}
+}
+
+// Purchase
+async function doBuy(){
+  var c=document.getElementById('buyCur').value,a=document.getElementById('buyAmt').value,m=document.getElementById('buyMethod').value;
+  try{var r=await A('/api/wallet/buy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({currency:c,amount_cents:Math.round(parseFloat(a)*100),method:m})});alert(r.error||'Purchased!');loadDashboard()}catch(e){}
+}
+
+// ===== TAB 1: EXCHANGE =====
+async function loadExchange(){
+  try{
+    var r=await A('/api/wallet/exchange-rates');
+    var ks=Object.keys(r.rates||{}),opts=ks.map(function(k){return'<option>'+k+'</option><option>Credon-'+k+'</option>'}).join('');
+    document.getElementById('exFrom').innerHTML=opts;document.getElementById('exTo').innerHTML=opts;
+    document.getElementById('exFrom').value='Credon-USD';document.getElementById('exTo').value='Credon-BTC';
+    document.getElementById('allRates').innerHTML=ks.slice(0,60).map(function(k){return'<div style="text-align:center;padding:8px"><div style="font-weight:600">'+(typeof r.rates[k].rate==='number'?r.rates[k].rate.toFixed(4):'--')+'</div><div style="font-size:.65rem;color:var(--muted)">'+k+'</div></div>'}).join('');
+  }catch(e){}
+}
+
+async function doExchange(){
+  var f=document.getElementById('exFrom').value,t=document.getElementById('exTo').value,a=document.getElementById('exAmt').value;
+  try{var r=await A('/api/wallet/convert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({from:f,to:t,amount:parseFloat(a)})});alert(r.error||'Converted!');loadDashboard()}catch(e){}
+}
+
+// ===== TAB 2: PAPER MONEY =====
+var paperItems=[];
+function addToPaperOrder(){
+  var c=document.getElementById('paperCur').value,d=document.getElementById('paperDenom').value,q=parseInt(document.getElementById('paperQty').value);
+  paperItems.push({value:parseFloat(d),count:q,type:d.includes('$')?'bill':'coin'});
+  document.getElementById('paperOrder').innerHTML=paperItems.map(function(i){return'<span style="display:inline-block;background:var(--card);padding:4px 8px;border-radius:6px;margin:2px;font-size:.85rem">'+i.count+'× '+c+' '+i.value+' '+i.type+'</span>'}).join('')||'<span class="muted">No items</span>';
+}
+async function submitPaperOrder(){
+  try{var r=await A('/api/landing/paper-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:paperItems})});alert(r.error||'Order submitted!');paperItems=[];document.getElementById('paperOrder').innerHTML=''}catch(e){}
+}
+
+// ===== TAB 3: LOANS =====
+async function loadLoans(){
+  try{var r=await A('/api/wallet/loans');var loans=r.loans||[];
+  document.getElementById('activeLoans').innerHTML=loans.length?loans.map(function(l){return'<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)"><div style="display:flex;justify-content:space-between"><strong>'+l.currency+' '+(l.remaining_cents/100).toFixed(2)+'</strong><span class="muted">'+(l.interest_rate>0?'+'+l.interest_rate+'%':'0%')+'</span></div><div style="margin-top:4px"><input id="repay_'+l.id+'" placeholder="Amount" style="width:80px;padding:4px 8px;font-size:.8rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:var(--text)"><button class="btn sm" onclick="repayLoan(\''+l.id+'\')">Repay</button></div></div>'}).join(''):'<span class="muted">No active loans</span>'}catch(e){}
+}
+async function repayLoan(id){var a=document.getElementById('repay_'+id).value;if(!a)return;var r=await A('/api/wallet/loans/'+id+'/repay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount_cents:Math.round(parseFloat(a)*100)})});alert(r.error||'Repaid!');loadLoans()}
+async function applyLoan(){var a=document.getElementById('loanAmt').value,c=document.getElementById('loanCur').value,r=document.getElementById('loanReason').value;var t=await A('/api/wallet/loans/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount_cents:Math.round(parseFloat(a)*100),currency:c,reason:r,interest_rate:parseFloat(document.getElementById('loanRate').value)||0})});alert(t.error||'Loan application submitted!')}
+
+// ===== TAB 4: GRANTS =====
+async function applyGrant(){var a=document.getElementById('grantAmt').value,c=document.getElementById('grantCur').value,r=document.getElementById('grantReason').value;try{var t=await A('/api/wallet/grants/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount_cents:Math.round(parseFloat(a)*100),currency:c,reason:r})});alert(t.error||'Grant application submitted!')}catch(e){}}
+
+// ===== TAB 5: APPOINTMENTS =====
+async function loadAppointments(){try{var d=await A('/api/appointments/my');var apts=d.appointments||[];var html='<h3 style="color:var(--gold);margin-bottom:8px">Your Appointments</h3>';html+=apts.length?apts.map(function(a){var dt=new Date(a.appointment_time);return'<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong>'+dt.toLocaleDateString()+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</strong><br><span class="muted">Status: '+a.status+'</span></div>'}).join(''):'<span class="muted">No appointments</span>';document.getElementById('aptsList').innerHTML=html}catch(e){}}
+async function bookAppointment(){var d=document.getElementById('aptDate').value,t=document.getElementById('aptTime').value;if(!d||!t)return alert('Select date and time');try{var r=await A('/api/appointments/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({appointment_time:d+'T'+t+':00Z',duration_minutes:15})});alert(r.error||'Booked!');loadAppointments()}catch(e){}}
+
+// ===== TAB 6: TWO-STEP =====
+async function loadTwoStep(){
+  try{var m=await A('/api/auth/me');var hasTotp=m.user&&m.user.totp_enabled;
+  document.getElementById('twoStepStatus').innerHTML=hasTotp?'<span style="color:var(--success)">✅ Two-Step Verification is enabled</span><br><button class="btn sm" onclick="disableTwoStep()" style="margin-top:8px;background:rgba(231,76,60,.1);color:var(--danger)">Disable</button>':'<span style="color:var(--warning)">⚠️ Not enabled</span><br><button class="btn" onclick="setupTwoStep()" style="margin-top:8px">Set Up Authenticator App</button>';
+  }catch(e){}
+}
+async function setupTwoStep(){
+  try{var r=await A('/api/auth/totp/setup',{method:'POST'});if(r.secret){
+    document.getElementById('twoStepSetup').innerHTML='<h3>Scan QR Code</h3><img src="'+r.qr_code+'" style="max-width:200px;background:white;padding:8px;border-radius:8px"><p class="muted">Or enter manually: <code>'+r.secret+'</code></p><input id="twoStepCode" placeholder="6-digit code" style="width:120px"><button class="btn" onclick="verifyTwoStep()">Verify</button>';
+  }}catch(e){}
+}
+async function verifyTwoStep(){var c=document.getElementById('twoStepCode').value;try{var r=await A('/api/auth/totp/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:c})});alert(r.error||'Two-Step Verification enabled!');loadTwoStep()}catch(e){}}
+async function disableTwoStep(){if(!confirm('Disable Two-Step Verification?'))return;try{await A('/api/auth/totp/disable',{method:'POST'});alert('Disabled');loadTwoStep()}catch(e){}}
+
+// ===== INIT =====
+switchTab(0);
+loadExchange();
+loadPaperMoney();
+</script>
+</body></html>

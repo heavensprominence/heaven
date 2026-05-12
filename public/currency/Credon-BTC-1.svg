@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" height="300">
+  <defs>
+    <pattern id="btcPat" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="7" r="2" fill="#F7931A" opacity="0.08"/>
+      <path d="M0 0 L14 14 M14 0 L0 14" stroke="#F2A900" stroke-width="0.15" opacity="0.06"/>
+    </pattern>
+    <linearGradient id="btcBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </linearGradient>
+    <linearGradient id="btcGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F7931A" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F7931A" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#F7931A" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- Dark futuristic background -->
+  <rect x="0" y="0" width="760" height="300" rx="8" fill="url(#btcBg)" stroke="#F7931A" stroke-width="1.5"/>
+  <rect x="5" y="5" width="750" height="290" rx="6" fill="none" stroke="#F2A900" stroke-width="0.4" opacity="0.5"/>
+  <rect x="12" y="12" width="736" height="276" rx="3" fill="url(#btcPat)" opacity="0.4"/>
+
+  <!-- Grid lines (blockchain theme) -->
+  <g opacity="0.04" stroke="#F7931A">
+    <line x1="0" y1="50" x2="760" y2="50"/><line x1="0" y1="100" x2="760" y2="100"/>
+    <line x1="0" y1="150" x2="760" y2="150"/><line x1="0" y1="200" x2="760" y2="200"/>
+    <line x1="0" y1="250" x2="760" y2="250"/>
+    <line x1="100" y1="0" x2="100" y2="300"/><line x1="200" y1="0" x2="200" y2="300"/>
+    <line x1="300" y1="0" x2="300" y2="300"/><line x1="400" y1="0" x2="400" y2="300"/>
+    <line x1="500" y1="0" x2="500" y2="300"/><line x1="600" y1="0" x2="600" y2="300"/>
+    <line x1="700" y1="0" x2="700" y2="300"/>
+  </g>
+
+  <!-- Glowing center orb -->
+  <circle cx="380" cy="150" r="80" fill="url(#btcGlow)" filter="url(#softGlow)" opacity="0.3"/>
+  <circle cx="380" cy="150" r="65" fill="none" stroke="#F7931A" stroke-width="0.5" opacity="0.4"/>
+  <circle cx="380" cy="150" r="55" fill="none" stroke="#F2A900" stroke-width="0.3" opacity="0.3"/>
+
+  <!-- Bitcoin symbol -->
+  <text x="380" y="165" text-anchor="middle" font-size="70" fill="#F7931A" font-family="serif" font-weight="900" filter="url(#glow)">₿</text>
+
+  <!-- TOP -->
+  <text x="380" y="40" text-anchor="middle" font-size="22" fill="#F7931A" font-family="monospace" font-weight="bold" letter-spacing="12" filter="url(#glow)">CREDON-BTC</text>
+  <text x="380" y="58" text-anchor="middle" font-size="8" fill="#F2A900" font-family="monospace" letter-spacing="6" opacity="0.6">DECENTRALIZED CREDON CURRENCY</text>
+
+  <!-- Denomination -->
+  <text x="380" y="115" text-anchor="middle" font-size="12" fill="#F2A900" font-family="monospace" opacity="0.7">ONE CREDON BITCOIN</text>
+  <text x="380" y="215" text-anchor="middle" font-size="10" fill="#F7931A" font-family="monospace" letter-spacing="4" opacity="0.5">1.00000000 BTC</text>
+  <text x="380" y="235" text-anchor="middle" font-size="7" fill="#F2A900" font-family="monospace" letter-spacing="3" opacity="0.35">DIVINELY UNDERWRITTEN ★ 2026 ★ SERIES A</text>
+
+  <!-- QR code placeholder (left) -->
+  <rect x="55" y="100" width="90" height="90" rx="3" fill="rgba(247,147,26,0.05)" stroke="#F7931A" stroke-width="0.4" opacity="0.4"/>
+  <g opacity="0.15" fill="#F7931A">
+    <rect x="70" y="115" width="8" height="8"/><rect x="86" y="115" width="8" height="8"/><rect x="102" y="115" width="8" height="8"/><rect x="118" y="115" width="8" height="8"/>
+    <rect x="70" y="131" width="8" height="8"/><rect x="118" y="131" width="8" height="8"/>
+    <rect x="70" y="147" width="8" height="8"/><rect x="86" y="147" width="8" height="8"/><rect x="102" y="147" width="8" height="8"/><rect x="118" y="147" width="8" height="8"/>
+    <rect x="86" y="163" width="8" height="8"/><rect x="102" y="163" width="8" height="8"/>
+    <rect x="70" y="179" width="8" height="8"/><rect x="118" y="179" width="8" height="8"/>
+  </g>
+
+  <!-- Blockchain hash (right) -->
+  <text x="660" y="130" text-anchor="middle" font-size="7" fill="#F7931A" font-family="monospace" opacity="0.3">0xHL01</text>
+  <text x="660" y="145" text-anchor="middle" font-size="7" fill="#F2A900" font-family="monospace" opacity="0.25">BTC2026</text>
+  <text x="660" y="160" text-anchor="middle" font-size="7" fill="#F7931A" font-family="monospace" opacity="0.2">CREDON</text>
+  <text x="660" y="175" text-anchor="middle" font-size="7" fill="#F2A900" font-family="monospace" opacity="0.2">000001</text>
+
+  <!-- Serial / hash -->
+  <text x="550" y="25" font-size="9" fill="#F7931A" font-family="monospace" opacity="0.45">HL-BTC-000001-A</text>
+  <text x="550" y="288" font-size="9" fill="#F7931A" font-family="monospace" opacity="0.45">HL-BTC-000001-A</text>
+
+  <!-- Bottom -->
+  <rect x="60" y="268" width="640" height="2" fill="#F7931A" opacity="0.08"/>
+  <text x="380" y="282" text-anchor="middle" font-size="5.5" fill="#F7931A" font-family="monospace" opacity="0.2">BLOCKCHAIN-VERIFIED CREDON DIGITAL CURRENCY ★ SHA-256 ★ DECENTRALIZED LEDGER</text>
+  
+  <text x="380" y="294" text-anchor="middle" font-size="5" fill="#F2A900" opacity="0.15" font-family="monospace">THIS DIGITAL NOTE IS CRYPTOGRAPHICALLY SECURED AND VERIFIABLE ON THE CREDON BLOCKCHAIN</text>
+</svg>
