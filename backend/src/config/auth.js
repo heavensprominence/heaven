@@ -1,6 +1,6 @@
 module.exports = {
   // JWT Configuration
-  jwtSecret: process.env.JWT_SECRET || 'heavenslive-local-dev-jwt-secret-2026',
+  jwtSecret: process.env.JWT_SECRET,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '24h',
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   
@@ -13,7 +13,7 @@ module.exports = {
   rateLimitMax: 100,
   
   // Session
-  sessionSecret: process.env.SESSION_SECRET || 'heavenslive-local-session-secret-2026',
+  sessionSecret: process.env.SESSION_SECRET,
   
   // Testing Mode Flag
   isTestingMode: process.env.TESTING_MODE === 'true',
