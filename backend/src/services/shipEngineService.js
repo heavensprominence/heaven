@@ -2,7 +2,7 @@ const ShipEngine = require('shipengine');
 
 // Initialize ShipEngine client
 const shipengine = new ShipEngine({
-    apiKey: process.env.SHIPENGINE_API_KEY || 'TEST_API_KEY'
+    apiKey: process.env.SHIPENGINE_API_KEY
 });
 
 // Default ship from address (seller's location)
