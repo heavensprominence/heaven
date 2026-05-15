@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="760" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a1a2e"/><stop offset="100%" stop-color="#0f0f1a"/></linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#E6007A" stop-opacity="0"/><stop offset="50%" stop-color="#E6007A" stop-opacity=".2"/><stop offset="100%" stop-color="#E6007A" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect x="0" y="0" width="760" height="300" rx="10" fill="url(#bg)" stroke="#E6007A" stroke-width="2"/>
+  <rect x="5" y="5" width="750" height="290" rx="8" fill="none" stroke="#E6007A" stroke-width=".3" opacity=".4"/>
+  <text x="380" y="35" text-anchor="middle" font-size="18" fill="#E6007A" font-family="monospace" font-weight="bold" letter-spacing="10">CREDON-DOT</text>
+  <text x="380" y="50" text-anchor="middle" font-size="7" fill="#E6007A" font-family="monospace" letter-spacing="3" opacity=".5">MULTI-CHAIN</text>
+  <circle cx="380" cy="150" r="75" fill="url(#glow)" opacity=".3"/>
+  <circle cx="380" cy="150" r="60" fill="none" stroke="#E6007A" stroke-width=".4" opacity=".25"/>
+  <text x="380" y="115" text-anchor="middle" font-size="11" fill="#E6007A" font-family="monospace" opacity=".6">POLKADOT</text>
+  <text x="380" y="155" text-anchor="middle" font-size="38" fill="#E6007A" font-family="monospace" font-weight="900">DOT100</text>
+  <text x="380" y="185" text-anchor="middle" font-size="11" fill="#E6007A" font-family="monospace" opacity=".5">POLKADOT</text>
+  <text x="380" y="210" text-anchor="middle" font-size="7" fill="#E6007A" font-family="monospace" letter-spacing="3" opacity=".35">DIVINELY UNDERWRITTEN ★ 2026 ★ SERIES A</text>
+  <rect x="50" y="95" width="90" height="90" rx="4" fill="rgba(230,0,122,.05)" stroke="#E6007A" stroke-width=".4" opacity=".3"/>
+  <text x="95" y="145" text-anchor="middle" font-size="8" fill="#E6007A" opacity=".15" font-family="monospace">QR CODE</text>
+  <text x="580" y="22" font-size="8" fill="#E6007A" font-family="monospace" opacity=".4">HL-DOT-000001</text>
+  <text x="580" y="288" font-size="8" fill="#E6007A" font-family="monospace" opacity=".4">HL-DOT-000001</text>
+  <text x="380" y="282" text-anchor="middle" font-size="5.5" fill="#E6007A" font-family="monospace" opacity=".15">INTEROPERABILITY ★ CREDON NETWORK ★ HEAVENSLIVE</text>
+</svg>

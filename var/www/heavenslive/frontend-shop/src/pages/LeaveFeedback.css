@@ -1,0 +1,21 @@
+.leave-feedback { max-width: 700px; margin: 0 auto; padding: 30px 20px; color: #f5f5f5; }
+.leave-feedback h1 { color: #ffd700; margin-bottom: 30px; }
+.order-summary-card { display: flex; gap: 20px; background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px; margin-bottom: 30px; }
+.order-summary-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; }
+.order-summary-card h3 { color: #ffd700; margin-bottom: 5px; }
+.feedback-form { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 30px; }
+.rating-section { margin-bottom: 25px; }
+.rating-section label { display: block; color: #ffd700; margin-bottom: 10px; }
+.star-rating { display: flex; gap: 10px; }
+.star-rating.small .star { font-size: 1.5rem; }
+.star { background: transparent; border: none; font-size: 2rem; color: #555; cursor: pointer; transition: color 0.2s; }
+.star.active { color: #ffd700; }
+.star:hover { color: #ffed4a; }
+.form-group textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; color: white; resize: vertical; }
+.escrow-release-section { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 12px; padding: 20px; margin: 25px 0; }
+.escrow-release-section h3 { color: #4CAF50; margin-bottom: 15px; }
+.checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 15px 0; }
+.checkbox-label input { width: 20px; height: 20px; cursor: pointer; }
+.escrow-note { color: #aaa; font-size: 0.9rem; margin-top: 10px; }
+.submit-btn { width: 100%; padding: 15px; background: #4CAF50; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }

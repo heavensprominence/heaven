@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#3498DB" stop-opacity="0.9"/><stop offset="100%" stop-color="#3498DB" stop-opacity="0.6"/>
+  </linearGradient></defs>
+  <circle cx="100" cy="100" r="95" fill="url(#cg)" stroke="#3498DB" stroke-width="2"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.3"/>
+  <text x="100" y="80" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.7)" font-family="sans-serif">SEK</text>
+  <text x="100" y="115" text-anchor="middle" font-size="24" fill="white" font-family="serif" font-weight="900">kr1</text>
+  <text x="100" y="135" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)">Swedish Krona</text>
+</svg>

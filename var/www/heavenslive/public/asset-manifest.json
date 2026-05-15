@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0dd17121.css",
+    "main.js": "/static/js/main.b1a6da1d.js",
+    "static/media/audio.wav": "/static/media/audio.d525093d0a0cfdd98120.wav",
+    "static/media/credon-currency-banner.png": "/static/media/credon-currency-banner.2b172640d87a0e3526ec.png",
+    "static/media/ecommerce-portal-banner.png": "/static/media/ecommerce-portal-banner.43eeef52ade3c345e14d.png",
+    "static/media/heavenslive-central-logo.png": "/static/media/heavenslive-central-logo.dff4f5ead6952eecae38.png",
+    "index.html": "/index.html",
+    "main.0dd17121.css.map": "/static/css/main.0dd17121.css.map",
+    "main.b1a6da1d.js.map": "/static/js/main.b1a6da1d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0dd17121.css",
+    "static/js/main.b1a6da1d.js"
+  ]
+}

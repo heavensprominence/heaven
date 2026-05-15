@@ -1,0 +1,760 @@
+/* Credon Currency Main Styles */
+
+.credon-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #0b1f3f 0%, #1a2a6c 100%);
+  min-height: 100vh;
+}
+
+/* Testing Banner */
+.testing-banner {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffd70020,
+    #ffd70020 20px,
+    #ffaa0020 20px,
+    #ffaa0020 40px
+  );
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.banner-icon {
+  font-size: 24px;
+}
+
+.banner-text {
+  color: #ffd700;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Header Section */
+.credon-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.credon-header h1 {
+  color: #ffd700;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.subtitle {
+  color: #ccc;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* Currency Selector */
+.currency-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+
+.currency-selector label {
+  color: #ffd700;
+}
+
+.currency-dropdown {
+  background: #0b1f3f;
+  color: white;
+  border: 1px solid #ffd700;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+/* Balance Card */
+.balance-card {
+  background: linear-gradient(135deg, #1a2a6c, #0b1f3f);
+  border: 1px solid #ffd700;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.balance-card h3 {
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+.balance-amount {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #00ff88;
+  margin: 15px 0;
+}
+
+.balance-note {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.testing-note {
+  color: #ffaa00;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ffd70040;
+  padding-bottom: 10px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  background: #ffd70020;
+  color: #ffd700;
+}
+
+.tab-btn.active {
+  background: #ffd700;
+  color: #0b1f3f;
+  font-weight: bold;
+}
+
+.tab-icon {
+  margin-right: 8px;
+}
+
+/* Tab Content */
+.tab-content {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  min-height: 500px;
+}
+
+/* Login Prompt */
+.login-prompt {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+}
+
+.login-prompt h2 {
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: #ffd700;
+  color: #0b1f3f;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* Disclaimer Footer */
+.disclaimer-footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ffd70040;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.disclaimer-footer a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+/* Bonus Schedule Styles */
+.bonus-schedule {
+  padding: 20px;
+}
+
+.bonus-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.bonus-table-container {
+  overflow-x: auto;
+  margin-bottom: 30px;
+}
+
+.bonus-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.bonus-table th,
+.bonus-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ffd70030;
+}
+
+.bonus-table th {
+  background: #ffd70020;
+  color: #ffd700;
+}
+
+.bonus-table tr.highlight {
+  background: #ffd70010;
+}
+
+.multiplier {
+  font-weight: bold;
+  color: #00ff88;
+  font-size: 1.2rem;
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.example-card {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+.example-purchase {
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.example-bonus {
+  color: #00ff88;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.formula-box {
+  background: #0b1f3f;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-family: monospace;
+  margin-top: 10px;
+}
+
+/* Bidding System Styles */
+.bidding-system {
+  padding: 20px;
+}
+
+.bidding-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.currency-pair-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.pair {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-radius: 40px;
+}
+
+.pair select {
+  background: #0b1f3f;
+  color: white;
+  border: 1px solid #ffd700;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: #ffd700;
+}
+
+.bidding-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.bid-tab {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.bid-tab.active {
+  background: #ffd700;
+  color: #0b1f3f;
+}
+
+.create-bid-form {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: #ffd700;
+}
+
+.form-group input {
+  background: #0b1f3f;
+  border: 1px solid #ffd700;
+  border-radius: 8px;
+  padding: 10px;
+  color: white;
+}
+
+.bid-type-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.type-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ffd700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.type-btn.active {
+  background: #ffd700;
+  color: #0b1f3f;
+}
+
+.submit-bid-btn {
+  background: #ffd700;
+  color: #0b1f3f;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.bids-grid {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.bids-header,
+.bid-row {
+  display: grid;
+  grid-template-columns: 80px 100px 120px 120px 100px 80px;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #ffd70030;
+}
+
+.bids-header {
+  background: #ffd70020;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.bid-row.sell {
+  background: #ff444410;
+}
+
+.bid-row.buy {
+  background: #44ff4410;
+}
+
+.bid-type.sell {
+  color: #ff8888;
+}
+
+.bid-type.buy {
+  color: #88ff88;
+}
+
+.status-badge.open {
+  color: #00ff88;
+}
+
+.status-badge.matched {
+  color: #ffd700;
+}
+
+.match-btn,
+.cancel-btn {
+  background: #ffd700;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #ff4444;
+  color: white;
+}
+
+.legal-tender-notice {
+  margin-top: 30px;
+  padding: 15px;
+  background: #ffd70010;
+  border-left: 4px solid #ffd700;
+  border-radius: 8px;
+}
+
+/* Ledger Styles */
+.ledger-display {
+  padding: 20px;
+}
+
+.ledger-stats {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px 25px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.stat-value {
+  display: block;
+  color: #ffd700;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.ledger-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  padding: 6px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.filter-btn.active {
+  background: #ffd700;
+  color: #0b1f3f;
+}
+
+.ledger-table-container {
+  overflow-x: auto;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.ledger-table th,
+.ledger-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ffd70020;
+}
+
+.ledger-table th {
+  color: #ffd700;
+}
+
+.tx-amount.positive {
+  color: #00ff88;
+}
+
+.tx-amount.negative {
+  color: #ff8888;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .credon-container {
+    padding: 10px;
+  }
+  
+  .balance-amount {
+    font-size: 2rem;
+  }
+  
+  .tab-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .bids-header,
+  .bid-row {
+    grid-template-columns: 70px 80px 100px 100px 80px 70px;
+    font-size: 0.7rem;
+  }
+}
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .credon-container {
+    padding: 10px;
+  }
+  
+  /* Mobile Navigation - Convert to hamburger style */
+  .nav-bar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px 15px;
+  }
+  
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+  }
+  
+  .nav-link {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  
+  /* Wallet/Balance Cards */
+  .balance-card {
+    padding: 15px;
+  }
+  
+  .balance-amount {
+    font-size: 2rem;
+  }
+  
+  /* Tables - Horizontal scroll */
+  .ledger-table,
+  .bids-table,
+  .disputes-table,
+  .appointments-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Forms */
+  .currency-selector {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .currency-dropdown {
+    width: 100%;
+  }
+  
+  /* Tab buttons */
+  .tab-content {
+    padding: 10px;
+  }
+  
+  /* 2FA Code Input */
+  .auth-card input[type="text"][maxlength="6"] {
+    font-size: 20px;
+    letter-spacing: 8px;
+    padding: 12px;
+  }
+  
+  /* Buttons */
+  .btn-primary,
+  .auth-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+  }
+  
+  /* Cards grid */
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  /* Dispute center */
+  .dispute-card,
+  .bid-card,
+  .appointment-card {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .credon-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+  
+  .nav-logo span:last-child {
+    display: none; /* Hide text, keep icon */
+  }
+  
+  .nav-links {
+    gap: 5px;
+  }
+  
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+  
+  .balance-amount {
+    font-size: 1.5rem;
+  }
+  
+  .auth-card {
+    padding: 20px 15px;
+  }
+  
+  .auth-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  /* Hide less important elements */
+  .balance-note {
+    font-size: 0.75rem;
+  }
+  
+  /* Make tables more compact */
+  th, td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Fix for iOS zoom on input focus */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  font-size: 16px; /* Prevents iOS zoom */
+}
+
+/* Touch-friendly tap targets */
+button, 
+.nav-link,
+.tab-btn,
+.btn-primary,
+.auth-btn {
+  min-height: 44px; /* Apple's recommended minimum */
+  cursor: pointer;
+}
+
+/* Smooth scrolling */
+.credon-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .credondashboard-content {
+    padding: 10px;
+  }
+  .nav-bar.credondashboard-nav {
+    display: none;
+  }
+}

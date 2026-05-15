@@ -1,0 +1,606 @@
+.dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    color: #f5f5f5;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    color: #ffd700;
+    font-size: 2rem;
+}
+
+.create-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.create-btn:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.dashboard-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    padding-bottom: 10px;
+}
+
+.dashboard-tabs button {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.dashboard-tabs button:hover {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+}
+
+.dashboard-tabs button.active {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.dashboard-tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #ffd700;
+}
+
+.dashboard-tabs .badge {
+    background: #f44336;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    margin-left: 8px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 2.5rem;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.stat-card.highlight {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.recent-section {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 20px;
+}
+
+.recent-section h3 {
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+.listings-table,
+.recent-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.listings-table th,
+.recent-section th {
+    text-align: left;
+    padding: 15px;
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    font-weight: 600;
+}
+
+.listings-table td,
+.recent-section td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.type-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+
+.type-badge.mall { background: #2196F3; color: white; }
+.type-badge.classifieds { background: #9C27B0; color: white; }
+.type-badge.auction { background: #FF9800; color: white; }
+.type-badge.reverse_auction { background: #00BCD4; color: white; }
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.status-badge.active { background: #4CAF50; color: white; }
+.status-badge.pending_approval { background: #FF9800; color: white; }
+.status-badge.sold { background: #9E9E9E; color: white; }
+.status-badge.pending { background: #FF9800; color: white; }
+.status-badge.shipped { background: #2196F3; color: white; }
+.status-badge.delivered { background: #4CAF50; color: white; }
+
+.view-btn, .edit-btn, .delete-btn {
+    padding: 6px 12px;
+    margin-right: 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+}
+
+.view-btn { background: #2196F3; color: white; }
+.edit-btn { background: #FF9800; color: white; }
+.delete-btn { background: #f44336; color: white; }
+
+.purchase-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .listings-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+.dashboard-with-sidebar {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.dashboard-content {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .dashboard-with-sidebar {
+        flex-direction: column;
+    }
+}
+
+.listings-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.listing-card-dashboard {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.listing-card-dashboard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.listing-card-dashboard .listing-image {
+    position: relative;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.listing-card-dashboard .listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.listing-card-dashboard .no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-size: 1.2rem;
+}
+
+.listing-card-dashboard .status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.listing-card-dashboard .status-badge.active { background: #4CAF50; color: white; }
+.listing-card-dashboard .status-badge.pending_approval { background: #FF9800; color: white; }
+.listing-card-dashboard .status-badge.sold { background: #9E9E9E; color: white; }
+.listing-card-dashboard .status-badge.deleted { background: #f44336; color: white; }
+
+.listing-card-dashboard .listing-details {
+    padding: 15px;
+}
+
+.listing-card-dashboard h3 {
+    color: #ffd700;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.listing-card-dashboard .listing-type {
+    margin-bottom: 8px;
+}
+
+.listing-card-dashboard .listing-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 8px;
+}
+
+.listing-card-dashboard .listing-date {
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.listing-card-dashboard .listing-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.listing-card-dashboard .listing-actions button,
+.listing-card-dashboard .listing-actions a {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+}
+
+.table-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.table-image .no-image {
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+.error-state {
+    text-align: center;
+    padding: 40px;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.error-state p {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+.retry-btn {
+    background: #ffd700;
+    color: #0b1f3f;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.bulk-import-btn { background: #2196F3; color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-left: 10px; }
+
+.back-link, .back-to-shop {
+    display: inline-block;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-left: 20px;
+    padding: 5px 0;
+}
+
+.back-link:hover, .back-to-shop:hover {
+    text-decoration: underline;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+}
+
+.purchases-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.purchases-table th {
+    text-align: left;
+    padding: 12px;
+    color: #ffd700;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+.purchases-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.purchase-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.purchase-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.rate-btn {
+    background: #FF9800;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.sales-table th {
+    text-align: left;
+    padding: 12px;
+    color: #ffd700;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+.sales-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sale-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sale-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-bar button {
+    padding: 8px 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 20px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.filter-bar button.active {
+    background: #ffd700;
+    color: #0b1f3f;
+    border-color: #ffd700;
+}
+
+.posts-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.posts-table th {
+    text-align: left;
+    padding: 12px;
+    color: #ffd700;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+.posts-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.type-badge.reverse_auction { background: #9C27B0; }
+.type-badge.auction { background: #FF9800; }
+.type-badge.classifieds { background: #2196F3; }
+.type-badge.mall { background: #4CAF50; }
+.following-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+.following-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; text-align: center; }
+.following-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+.following-card h3 { color: #ffd700; margin-bottom: 10px; }
+.following-card button { background: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+
+.disputes-link {
+    display: inline-block;
+    color: #ff9800;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-left: 20px;
+    padding: 5px 0;
+}
+
+.disputes-link:hover {
+    color: #ffb74d;
+    text-decoration: underline;
+}
+
+.bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(33, 150, 243, 0.1);
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+}
+
+.bulk-actions span {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.bulk-delete-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.bulk-delete-btn:hover {
+    background: #d32f2f;
+}
+
+.bulk-delete-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.clear-selection-btn {
+    background: transparent;
+    border: 1px solid #888;
+    color: #ccc;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.clear-selection-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.posts-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #ffd700;
+}

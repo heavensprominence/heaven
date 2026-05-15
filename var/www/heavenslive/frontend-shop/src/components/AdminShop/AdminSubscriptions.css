@@ -1,0 +1,21 @@
+.admin-subscriptions { padding: 20px; color: #f5f5f5; }
+.admin-subscriptions h2 { color: #ffd700; margin-bottom: 20px; }
+.subscription-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+.subscription-tabs button { padding: 12px 24px; background: transparent; border: none; color: #ccc; cursor: pointer; }
+.subscription-tabs button.active { color: #ffd700; border-bottom: 3px solid #ffd700; }
+.add-btn { background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
+.plans-table, .subscriptions-table { width: 100%; border-collapse: collapse; }
+.plans-table th, .subscriptions-table th { text-align: left; padding: 12px; color: #ffd700; border-bottom: 1px solid rgba(255,215,0,0.3); }
+.plans-table td, .subscriptions-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.plans-table tr.inactive { opacity: 0.5; }
+.edit-btn, .toggle-btn, .delete-btn { padding: 6px 10px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; }
+.edit-btn { background: #2196F3; color: white; }
+.toggle-btn { background: #FF9800; color: white; }
+.delete-btn { background: #f44336; color: white; }
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+.feature-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px; }
+.feature-item input { width: 80px; padding: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 4px; color: white; }
+.status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; }
+.status-badge.active { background: #4CAF50; color: white; }
+.status-badge.expired { background: #f44336; color: white; }
+.status-badge.cancelled { background: #666; color: white; }

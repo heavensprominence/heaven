@@ -1,0 +1,4 @@
+.offers-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.offers-table th { text-align: left; padding: 12px; color: #ffd700; border-bottom: 1px solid rgba(255,215,0,0.3); }
+.offers-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.offers-table button { margin-right: 8px; padding: 5px 12px; border-radius: 4px; cursor: pointer; }

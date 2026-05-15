@@ -1,0 +1,67 @@
+.shop-footer {
+    background: rgba(11, 31, 63, 0.95);
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    margin-top: 50px;
+    padding: 40px 20px 20px;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+.footer-section h4 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.footer-section p {
+    color: #aaa;
+    line-height: 1.6;
+}
+
+.footer-section a {
+    display: block;
+    color: #ccc;
+    text-decoration: none;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: #ffd700;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.footer-bottom {
+    max-width: 1400px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.footer-bottom p {
+    margin: 5px 0;
+}
+
+.footer-badge {
+    background: #2196F3;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 5px;
+    font-size: 0.65rem;
+    margin-left: 5px;
+    display: inline-block;
+}

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Credon — Sign In</title>
+<style>
+:root{--gold:#C8A951;--gold-light:#F5E6B8;--dark:#1A1A2E;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--radius:12px;--radius-sm:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:var(--darker);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(200,169,81,0.06),transparent 70%)}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,26,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,169,81,0.2);z-index:100;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.3rem;font-weight:700;color:var(--gold)}
+.nav-links a{color:var(--text);text-decoration:none;font-size:0.85rem;margin-left:16px}
+.nav-links a:hover{color:var(--gold)}
+.lang-select select{appearance:none;padding:6px 28px 6px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;cursor:pointer}
+.lang-select select:focus{outline:none;border-color:var(--gold)}
+.auth-container{position:relative;z-index:1;width:100%;max-width:440px;margin:80px 20px 40px}
+.auth-card{background:var(--card);border-radius:var(--radius);padding:40px 32px;border:1px solid rgba(200,169,81,0.15);box-shadow:0 8px 48px rgba(0,0,0,0.4)}
+.auth-tabs{display:flex;margin-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.auth-tab{flex:1;padding:12px 8px;text-align:center;color:var(--muted);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;font-size:0.95rem;font-weight:600}
+.auth-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.auth-form{display:none;flex-direction:column;gap:20px}
+.auth-form.active{display:flex}
+.auth-form h2{color:var(--gold);font-size:1.5rem;text-align:center}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+.form-group input{width:100%;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-sm);color:var(--text);font-size:1rem}
+.form-group input:focus{outline:none;border-color:var(--gold)}
+.btn{width:100%;padding:14px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-weight:700;font-size:1rem;margin-top:8px;background:var(--gold);color:var(--darker)}
+.btn:hover{background:var(--gold-light)}
+.alert{padding:12px 16px;border-radius:var(--radius-sm);font-size:0.9rem;display:none}
+.alert.error{display:block;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.2);color:var(--danger)}
+.alert.success{display:block;background:rgba(46,204,113,0.1);border:1px solid rgba(46,204,113,0.2);color:var(--success)}
+.alert.info{display:block;background:rgba(74,144,217,0.1);border:1px solid rgba(74,144,217,0.2);color:var(--accent)}
+.twofa-input{text-align:center;font-size:2rem;letter-spacing:8px;font-family:monospace}
+.footer-text{text-align:center;margin-top:16px;font-size:0.9rem;color:var(--muted)}
+.footer-text a{color:var(--gold);cursor:pointer;text-decoration:none}
+.footer-text a:hover{text-decoration:underline}
+.invite-badge{display:inline-block;background:rgba(200,169,81,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-bottom:12px;text-align:center}
+</style>
+<script src="/auth.js"></script>
+</head>
+<body><div class="bg"></div>
+<nav>
+    <select id="langSelect" onchange="switchLanguage(this.value)" style="appearance:none;padding:5px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-size:.78rem;cursor:pointer;margin-right:12px"><option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option></select>
+    <div class="nav-brand">Credon</div>
+    <a href="/">← Home</a><a href="/shop/">Shop</a>
+  </div>
+</nav>
+
+<div class="auth-container">
+  <div class="auth-tabs">
+    <button class="auth-tab active" onclick="showTab('login')">Sign In</button>
+    <button class="auth-tab" onclick="showTab('register')">Register</button>
+    <button class="auth-tab" onclick="showTab('forgot')">Reset</button>
+  </div>
+  <div class="auth-card">
+    <!-- LOGIN -->
+    <form class="auth-form active" id="loginForm" onsubmit="doLogin(event)">
+      <h2>Welcome Back</h2>
+      <div class="alert" id="loginMsg"></div>
+      <div class="form-group"><label>Email</label><input id="loginEmail" type="email" placeholder="you@email.com" required></div>
+      <div class="form-group"><label>Password</label><input id="loginPass" type="password" placeholder="••••••••" required></div>
+      <button type="submit" class="btn" id="loginBtn">Sign In</button>
+      <p class="footer-text">Don't have an account? <a onclick="showTab('register')">Register here</a></p>
+    </form>
+    <!-- Two-Step Verification (hidden until needed) -->
+    <form class="auth-form" id="twofaForm" onsubmit="doVerify2FA(event)" style="display:none">
+      <h2>Two-Step Verification</h2>
+      <div class="alert" id="twofaMsg"></div>
+      <p style="color:var(--muted);text-align:center;font-size:0.9rem">Enter the 6-digit code sent to your email</p>
+      <div class="form-group"><input id="twofaCode" class="twofa-input" type="text" maxlength="6" placeholder="000000" required autocomplete="off"></div>
+      <button type="submit" class="btn">Verify & Sign In</button>
+      <input type="hidden" id="twofaSession">
+    </form>
+    <!-- REGISTER -->
+    <form class="auth-form" id="registerForm" onsubmit="doRegister(event)">
+      <h2>Create Account</h2>
+      <div class="alert" id="regMsg"></div>
+      <div class="invite-badge">🔑 Invite-only access</div>
+      <div class="form-group"><label>Full Name</label><input id="regName" type="text" placeholder="John Doe"></div>
+      <div class="form-group"><label>Email</label><input id="regEmail" type="email" placeholder="you@email.com" required></div>
+      <div class="form-group"><label>Password</label><input id="regPass" type="password" placeholder="Min 8 chars" minlength="8" required></div>
+      <div class="form-group"><label>Referral Code (optional)</label><input id="regRef" type="text" placeholder="Enter referral code if you have one"></div>
+      <div class="form-group"><label>Why do you want to join the test phase?</label><textarea id="regReason" placeholder="Tell us why you'd like to participate..." style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem;min-height:80px;resize:vertical"></textarea></div>
+      <button type="submit" class="btn">Request Access</button>
+      <p class="footer-text">Already have an account? <a onclick="showTab('login')">Sign in</a></p>
+    </form>
+    <!-- FORGOT -->
+    <form class="auth-form" id="forgotForm" onsubmit="doForgot(event)">
+      <h2>Reset Password</h2>
+      <div class="alert" id="forgotMsg"></div>
+      <div class="form-group"><label>Email</label><input id="forgotEmail" type="email" placeholder="you@email.com" required></div>
+      <button type="submit" class="btn">Send Reset Link</button>
+      <p class="footer-text"><a onclick="showTab('login')">← Back to Sign In</a></p>
+    </form>
+  </div>
+</div>
+
+<script>
+function showTab(t){
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>{t.classList.remove('active');if((i===0&&arguments[0]==='login')||(i===1&&arguments[0]==='register')||(i===2&&arguments[0]==='forgot'))t.classList.add('active')});
+  document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active'));
+  document.getElementById('twofaForm').style.display='none';
+  if(arguments[0]==='login')document.getElementById('loginForm').classList.add('active');
+  else if(arguments[0]==='register')document.getElementById('registerForm').classList.add('active');
+  else document.getElementById('forgotForm').classList.add('active');
+  document.querySelectorAll('.alert').forEach(a=>{a.style.display='none';a.className='alert'});
+}
+
+function showMsg(id,text,type){
+  const m=document.getElementById(id);m.textContent=text;m.className='alert '+type;m.style.display='block';
+}
+
+async function doLogin(e){
+  e.preventDefault();
+  const btn=document.getElementById('loginBtn');btn.textContent='Signing in...';btn.disabled=true;
+  try{
+    const resp=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('loginEmail').value,password:document.getElementById('loginPass').value})});
+    const data=await resp.json();
+    const debug=document.getElementById('loginMsg');
+      if(data.requiresTwoFactor){
+      debug.style.display='block';debug.className='alert info';debug.textContent='Two-step verification required! Check your email for the code. Session: '+data.sessionId.slice(0,8)+'...';
+      document.getElementById('loginForm').classList.remove('active');
+      document.getElementById('twofaForm').style.display='flex';
+      document.getElementById('twofaForm').classList.add('active');
+      document.getElementById('twofaSession').value=data.sessionId;
+      showMsg('twofaMsg',data.message,'info');
+    }else if(data.token){
+      localStorage.setItem('token',data.token);
+      if(data.refreshToken)localStorage.setItem('refreshToken',data.refreshToken);
+      showMsg('loginMsg','✅ Signed in! Welcome, '+data.user.email,'success');
+      setTimeout(()=>{window.location.href='/credon/wallet'},1000);
+    }else{
+      showMsg('loginMsg','❌ '+(data.error||'Login failed - check console'),'error');console.log('Login response:',data);
+    }
+  }catch(err){showMsg('loginMsg','Server unavailable. Is the backend running?','error')}
+  btn.textContent='Sign In';btn.disabled=false;
+}
+
+async function doVerify2FA(e){
+  e.preventDefault();
+  try{
+    const resp=await fetch('/api/auth/verify-2fa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:document.getElementById('twofaSession').value,code:document.getElementById('twofaCode').value,rememberDevice:true})});
+    const data=await resp.json();
+    if(data.token){
+      localStorage.setItem('token',data.token);
+      if(data.refreshToken)localStorage.setItem('refreshToken',data.refreshToken);
+      showMsg('twofaMsg','✅ Verified! Redirecting...','success');
+      setTimeout(()=>{window.location.href='/credon/wallet'},1000);
+    }else{showMsg('twofaMsg',data.error||'Invalid code','error')}
+  }catch(err){showMsg('twofaMsg','Server error','error')}
+}
+
+async function doRegister(e){
+  e.preventDefault();
+  try{
+    const resp=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('regEmail').value,password:document.getElementById('regPass').value,fullName:document.getElementById('regName').value,source:'credon',referralCode:document.getElementById('regRef').value,joinReason:document.getElementById('regReason').value})});
+    const data=await resp.json();
+    if(data.success)showMsg('regMsg','✅ '+data.message,'success');
+    else showMsg('regMsg',data.error||'Registration failed','error');
+  }catch(err){showMsg('regMsg','Server error','error')}
+}
+
+async function doForgot(e){
+  e.preventDefault();
+  showMsg('forgotMsg','📧 If that email is registered, a reset link will be sent.','success');
+}
+
+// i18n placeholder
+async function switchLanguage(lang){localStorage.setItem('hl-lang',lang)}
+</script>
+</body>
+</html>

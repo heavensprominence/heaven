@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;margin-left:12px}
+.container{max-width:960px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.3rem;margin-bottom:4px}h2{color:var(--gold);font-size:1rem;margin:0 0 12px}.muted{color:var(--muted);font-size:.82rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}.stat{text-align:center;padding:14px;background:rgba(255,255,255,.02);border-radius:8px}.stat .num{font-size:1.5rem;font-weight:800;color:var(--gold)}.stat .lbl{font-size:.68rem;color:var(--muted)}
+.btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-weight:600;font-size:.8rem;background:var(--gold);color:var(--darker)}.btn.sm{padding:4px 10px;font-size:.7rem}
+.btn.on{background:rgba(46,204,113,.15);color:var(--success);border:1px solid rgba(46,204,113,.3)}.btn.off{background:rgba(231,76,60,.1);color:var(--danger)}.btn.info{background:rgba(74,144,217,.1);color:var(--accent)}
+.row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;gap:8px}
+.row:hover{background:rgba(255,255,255,.01)}
+input,select,textarea{width:100%;padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--text);font-size:.82rem;margin-bottom:6px}
+.inline{width:auto;display:inline-block;margin-right:6px;margin-bottom:0}
+.tabs{display:flex;gap:0;margin-bottom:16px;flex-wrap:wrap}.tab{padding:8px 16px;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);font-size:.82rem;font-weight:600}.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.panel{display:none}.panel.active{display:block}
+.cat-tree .level1{padding-left:0}.cat-tree .level2{padding-left:20px}.cat-tree .level3{padding-left:40px}
+.lang-flags{display:flex;gap:4px;flex-wrap:wrap}.lang-flag{padding:2px 8px;font-size:.65rem;background:rgba(255,255,255,.03);border-radius:4px;cursor:pointer;border:1px solid transparent}.lang-flag:hover{border-color:var(--gold)}.lang-flag.sel{background:rgba(200,169,81,.15);color:var(--gold)} 
+</style></head><body>
+<nav><div class="nav-brand">⚙ Admin Panel</div><div class="nav-links"><a href="/credon/wallet">← Wallet</a><a href="/shop/">Shop</a><a href="/">Home</a></div></nav>
+<div class="container">
+<h1>⚙ Admin Panel</h1>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('overview',this)">📊 Overview</button>
+  <button class="tab" onclick="switchTab('categories',this)">📂 Categories</button>
+  <button class="tab" onclick="switchTab('suggestions',this)">💡 Suggestions</button>
+  <button class="tab" onclick="switchTab('users',this)">👥 Users</button>
+  <button class="tab" onclick="switchTab('settings',this)">⚙️ Settings</button>
+  <button class="tab" onclick="switchTab('analytics',this)">📈 Analytics</button>
+  <button class="tab" onclick="switchTab('affiliate',this)">💸 Affiliate</button>
+</div>
+<div id="panel-overview" class="panel active"><button class="btn" onclick="loadOverview()" style="margin-bottom:12px">🔄 Refresh Stats</button></div>
+<div id="panel-categories" class="panel"></div>
+<div id="panel-suggestions" class="panel"></div>
+<div id="panel-users" class="panel"></div>
+<div id="panel-settings" class="panel"></div>
+<div id="panel-analytics" class="panel"></div>
+<div id="panel-affiliate" class="panel"></div>
+</div>
+<script>setTimeout(function(){var T=localStorage.getItem("token");var diag="";if(!T){diag="❌ No token - please sign in";}else{try{var p2=JSON.parse(atob(T.split(".")[1].replace(/-/g,"+").replace(/_/g,"/")));diag="✅ Signed in as "+p2.email;}catch(e){diag="❌ Invalid token";}}var panel=document.getElementById("panel-overview");if(panel)panel.innerHTML="<div class=\"card\">"+diag+" <button class=\"btn\" onclick=\"loadOverview()\">Refresh</button></div><div id=\"ovData\" class=\"card\"><span class=\"muted\">Click Refresh</span></div>";
+var T=localStorage.getItem('token');if(!T)location.href='/credon/';
+var A=function(u,o){
+  var hd={};if(o&&o.headers)hd=o.headers;
+  hd['Authorization']='Bearer '+T;
+  var bd=o?o.body:null;
+  if(bd&&typeof bd==='object'){hd['Content-Type']='application/json';bd=JSON.stringify(bd)}
+  return fetch(u,{method:o?o.method||'GET':'GET',headers:hd,body:bd}).then(function(r){return r.json()});
+};
+var DATA={};
+
+window.switchTab=function(name,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+  var panel=document.getElementById('panel-'+name);
+  if(panel)panel.classList.add('active');
+  if(name==='overview')loadOverview();
+  if(name==='categories')loadCategories();
+  if(name==='suggestions')loadSuggestions();
+  if(name==='users')loadUsers();
+  if(name==='settings')loadSettings();
+  if(name==='analytics')loadAnalytics();
+  if(name==='affiliate')loadAffiliate();
+};
+
+window.loadOverview=function(){
+  var s=api('/api/admin/public-stats');
+  s.then(function(ss){
+    var u=ss.users||{},listTotal='--';
+    api('/api/shop/listings?limit=1').then(function(lr){
+      listTotal=(lr.pagination||{}).total||'--';
+      renderOverview(u,listTotal);
+    }).catch(function(){renderOverview(u,'--')});
+  }).catch(function(){document.getElementById('ovData').innerHTML='<p class="muted">Failed to load stats.</p>'});
+};
+
+function renderOverview(ust,listings){
+  document.getElementById('ovData').innerHTML=
+    '<div class="stats">'+
+    '<div class="stat"><div class="num">'+(ust.total_users||'--')+'</div><div class="lbl">Total Users</div></div>'+
+    '<div class="stat"><div class="num">'+listings+'</div><div class="lbl">Listings</div></div>'+
+    '<div class="stat"><div class="num">$--</div><div class="lbl">Treasury</div></div>'+
+    '<div class="stat"><div class="num">0</div><div class="lbl">Disputes</div></div>'+
+    '<div class="stat"><div class="num">0</div><div class="lbl">Credon Requests</div></div>'+
+    '<div class="stat"><div class="num">0</div><div class="lbl">Cat Suggestions</div></div>'+
+    '</div>'+
+    '<div class="card"><h2>Platform Fee</h2><p class="muted">The marketplace commission HeavensLive charges on every sale:</p>'+
+    '<input id="platformFee" type="number" value="2" min="0" max="100" onchange="savePlatformFee(this.value)" style="width:80px;display:inline"><span> %</span>'+
+    '<button class="btn" onclick="savePlatformFee(document.getElementById(\'platformFee\').value)">Save</button></div>';
+  loadPending();
+}
+
+function savePlatformFee(v){api('/api/admin/settings',{method:'POST',body:{key:'platform_fee',value:v}}).then(function(){alert('Saved!')})}
+
+function loadPending(){
+  api('/api/admin/credon/pending').then(function(d){
+    var p=d.pending||[],h='';
+    if(!p.length)h='<p class="muted">No pending requests</p>';
+    else p.forEach(function(r){h+='<div class="row"><span>'+r.email+'</span><button class="btn sm" onclick="approveCredon(\''+r.user_id+'\')">Approve</button><button class="btn sm btn-o" onclick="rejectCredon(\''+r.user_id+'\')">Reject</button></div>'});
+    document.getElementById('panel-overview').innerHTML+=h?('<div class="card"><h3>Pending Credon Registrations</h3>'+h+'</div>'):'';
+  }).catch(function(){});
+  api('/api/shop/categories/suggestions/pending').then(function(d){
+    var s=d.suggestions||[],h='';
+    if(!s.length)h='<p class="muted">No pending suggestions</p>';
+    else s.forEach(function(r){h+='<div>'+r.name+'</div>'});
+    document.getElementById('panel-overview').innerHTML+=('<div class="card"><h3>Pending Category Suggestions</h3>'+h+'</div>');
+  }).catch(function(){});
+}
+function approveCredon(uid){api('/api/admin/credon/approve',{method:'POST',body:{user_id:uid}}).then(function(){loadOverview()})}
+function rejectCredon(uid){api('/api/admin/credon/reject',{method:'POST',body:{user_id:uid}}).then(function(){loadOverview()})}
+
+// Categories tab
+window.loadCategories=function(){
+  api('/api/shop/categories').then(function(d){
+    var cats=d.categories||[],h='<div class="card"><h3>Add Category</h3><input id="newCatName" placeholder="Category name"><select id="newCatParent"><option value="">No parent</option>'+(cats.map(function(c){return'<option value="'+c.slug+'">'+c.name+'</option>'}).join(''))+'</select><button class="btn" onclick="addCategory()">+ Add</button></div>';
+    cats.forEach(function(c){
+      h+='<div class="row"><strong>'+c.name+'</strong> <span class="muted">'+c.slug+'</span> <span>'+c.count+'</span>'+(c.subcategory_count>0?' <button class="btn sm" onclick="expandCat(\''+c.slug+'\',this)">▶</button>':'')+'</div><div id="kids-'+c.slug+'"></div>';
+    });
+    document.getElementById('panel-categories').innerHTML=h;
+  });
+};
+window.addCategory=function(){
+  var n=document.getElementById('newCatName').value.trim(),p=document.getElementById('newCatParent').value;
+  if(!n)return;
+  api('/api/shop/categories/admin/create',{method:'POST',body:{name:n,parent_category:p||null}}).then(function(d){
+    if(d.success)loadCategories();
+    else alert(d.error||'Failed');
+  });
+};
+window.expandCat=function(slug,btn){
+  var el=document.getElementById('kids-'+slug);
+  if(el.innerHTML){el.style.display=el.style.display==='block'?'none':'block';btn.textContent=el.style.display==='block'?'▼':'▶';return}
+  api('/api/shop/categories/subcategories/'+slug).then(function(d){
+    var subs=d.subcategories||[];
+    el.innerHTML=subs.map(function(c){return'<div class="row sub">'+c.name+' <span class="muted">'+c.slug+'</span></div>'}).join('')||'<span class="muted">None</span>';
+    el.style.display='block';btn.textContent='▼';
+  }).catch(function(){el.innerHTML='<span class="muted">Error</span>';el.style.display='block'});
+};
+
+// Placeholder stubs for remaining tabs
+window.loadSuggestions=function(){document.getElementById('panel-suggestions').innerHTML='<p class="muted">Suggestions loading...</p>'};
+window.loadUsers=function(){document.getElementById('panel-users').innerHTML='<p class="muted">Users loading...</p>'};
+window.loadSettings=function(){
+  api('/api/admin/settings').then(function(d){
+    var fee=(d.settings||{}).platform_fee||'2';
+    document.getElementById('panel-settings').innerHTML='<div class="card"><h2>Platform Fee</h2><p class="muted">The marketplace commission HeavensLive charges on every sale:</p><input id="pf" type="number" value="'+fee+'" min="0" max="100" style="width:80px;display:inline"><span> %</span><button class="btn" onclick="savePlatformFee(document.getElementById(\'pf\').value)">Save</button></div>';
+  }).catch(function(){document.getElementById('panel-settings').innerHTML='<p class="muted">Settings unavailable</p>'});
+};
+window.loadAnalytics=function(){document.getElementById('panel-analytics').innerHTML='<p class="muted">Analytics coming soon</p>'};
+window.loadAffiliate=function(){
+  api('/api/admin/affiliate/settings').then(function(d){
+    var s=d||{};
+    document.getElementById('panel-affiliate').innerHTML='<div class="card"><h2>Affiliate Settings</h2><label>Signup Bonus (Credon-USD)</label><input id="affBonus" type="number" value="'+(s.signup_bonus||5)+'"><label>Commission Rate (%)</label><input id="affRate" type="number" value="'+(s.commission_rate||2)+'"><button class="btn" onclick="saveAffiliate()">Save</button></div>';
+  }).catch(function(){document.getElementById('panel-affiliate').innerHTML='<p class="muted">Affiliate settings unavailable</p>'});
+};
+function saveAffiliate(){
+  api('/api/admin/affiliate/settings',{method:'POST',body:{signup_bonus:document.getElementById('affBonus').value,commission_rate:document.getElementById('affRate').value}}).then(function(){alert('Saved!')});
+}
+
+// Init
+loadOverview();
+},200);
+</script></body></html>

@@ -1,0 +1,17 @@
+.admin-analytics { padding: 20px; color: #f5f5f5; }
+.admin-analytics .analytics-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.admin-analytics h2 { color: #ffd700; }
+.admin-analytics .period-selector { display: flex; gap: 10px; }
+.admin-analytics .period-selector button { padding: 8px 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; color: #ccc; cursor: pointer; }
+.admin-analytics .period-selector button.active { background: #ffd700; color: #0b1f3f; }
+.admin-analytics .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
+.admin-analytics .stat-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; text-align: center; }
+.admin-analytics .stat-card h3 { font-size: 1.8rem; color: #ffd700; }
+.admin-analytics .stat-card.highlight { border: 1px solid #4CAF50; }
+.admin-analytics .chart-container { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 20px; margin-bottom: 30px; height: 300px; }
+.admin-analytics .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.admin-analytics .chart-container.half { height: 350px; }
+.admin-analytics .top-sellers-table { width: 100%; }
+.admin-analytics .top-sellers-table th { text-align: left; padding: 10px; color: #ffd700; }
+.admin-analytics .top-sellers-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+@media (max-width: 768px) { .admin-analytics .charts-row { grid-template-columns: 1fr; } }

@@ -1,0 +1,38 @@
+.promotions-page { padding: 20px; color: #f5f5f5; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.page-header h1 { color: #ffd700; }
+.create-btn { background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; }
+.promotion-form { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 30px; }
+.promotion-form h3 { color: #ffd700; margin-bottom: 20px; }
+.promotions-table { width: 100%; border-collapse: collapse; }
+.promotions-table th { text-align: left; padding: 12px; color: #ffd700; border-bottom: 1px solid rgba(255,215,0,0.3); }
+.promotions-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.promotions-table tr.inactive { opacity: 0.5; }
+.deactivate-btn { background: #FF9800; color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-right: 5px; cursor: pointer; }
+.delete-btn { background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.promo-section { background: rgba(0,0,0,0.2); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+.promo-input-group { display: flex; gap: 10px; margin-top: 10px; }
+.promo-input-group input { flex: 1; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 8px; color: white; text-transform: uppercase; }
+.promo-input-group button { padding: 12px 20px; background: #ffd700; color: #0b1f3f; border: none; border-radius: 8px; cursor: pointer; }
+.promo-error { color: #f44336; margin-top: 8px; }
+.applied-promo { display: flex; align-items: center; gap: 10px; background: rgba(76,175,80,0.2); padding: 10px; border-radius: 8px; margin-top: 10px; }
+.applied-promo span:first-child { color: #4CAF50; }
+.applied-promo span:nth-child(2) { font-weight: bold; margin-left: auto; }
+.applied-promo button { background: none; border: none; color: #f44336; cursor: pointer; }
+
+.info-message {
+    background: rgba(33, 150, 243, 0.15);
+    border: 1px solid #2196F3;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    color: #90CAF9;
+    font-size: 0.95rem;
+}
+
+.offer-note {
+    color: #90CAF9;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-style: italic;
+}
