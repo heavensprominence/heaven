@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.log
+.pm2/
+graphify-out/
+var/credon-subdomain/
+var/credon/
+var/shop/
+var/www/heavenslive/public/uploads/listings/*
+var/www/heavenslive/public/uploads/stores/*
+var/www/heavenslive/public/static/media/
+*.wav
+*.mp3
+!var/www/heavenslive/public/uploads/listings/.gitkeep
+!var/www/heavenslive/public/uploads/stores/.gitkeep

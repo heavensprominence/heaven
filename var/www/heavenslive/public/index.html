@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HeavensLive — Divinely Underwritten Commerce</title>
+<style>:root{--gold:#C8A951;--gold-light:#F5E6B8;--dark:#1A1A2E;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--accent:#4A90D9;--success:#2ECC71;--radius:12px;--shadow:0 4px 24px rgba(0,0,0,.3)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+nav{background:rgba(15,15,26,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,169,81,.2);position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;padding:16px 20px}
+.nav-brand{font-size:1.4rem;font-weight:700;color:var(--gold)}.nav-brand span{color:var(--text);font-weight:300}
+.nav-links{display:flex;gap:24px;align-items:center}.nav-links a,.nav-links span{color:var(--text);text-decoration:none;font-size:.9rem}.nav-links a:hover{color:var(--gold)}
+.btn{padding:10px 24px;border-radius:var(--radius);border:none;cursor:pointer;font-size:.9rem;font-weight:600}.btn-primary{background:var(--gold);color:var(--darker)}.btn-primary:hover{opacity:.9}.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-outline:hover{background:rgba(200,169,81,.1)}
+.lang-select select{padding:8px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#E8E6E3;font-size:.85rem;cursor:pointer}
+.hero{padding:100px 0 80px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,169,81,.08),transparent 70%)}
+.hero h1{font-size:3.5rem;font-weight:800;line-height:1.1;margin-bottom:16px;position:relative}
+.hero h1 .gold{color:var(--gold)}.hero p{font-size:1.2rem;color:var(--muted);max-width:600px;margin:0 auto 32px;position:relative}
+.hero-buttons{display:flex;gap:16px;justify-content:center;position:relative}
+.features{padding:80px 0}.features h2{text-align:center;font-size:2rem;margin-bottom:48px;color:var(--gold)}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:var(--card);border-radius:var(--radius);padding:32px;border:1px solid rgba(255,255,255,.05);transition:transform .3s}
+.feature-card:hover{transform:translateY(-4px);border-color:rgba(200,169,81,.3)}
+.feature-card .icon{font-size:2rem;margin-bottom:16px}.feature-card h3{font-size:1.1rem;margin-bottom:8px;color:var(--gold)}.feature-card p{font-size:.9rem;color:var(--muted)}.donate{padding:80px 0;background:var(--dark)}.donate .container{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.donate h2{font-size:2rem;color:var(--gold);margin-bottom:16px}.donate p{color:var(--muted);margin-bottom:24px}.donate-amounts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}.donate-amt{background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer}.donate-amt:hover{border-color:var(--gold)}.donate-amt .amt{font-size:1.3rem;font-weight:700}.donate-amt .label{font-size:.8rem;color:var(--muted)}.donate-display{background:var(--card);border-radius:var(--radius);padding:40px;text-align:center;border:1px solid rgba(200,169,81,.2)}.donate-display .bonus{font-size:2.5rem;font-weight:800;color:var(--gold);margin:16px 0}.donate-display .bonus-label{color:var(--muted);font-size:.9rem}.usb{padding:80px 0}.usb .container{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.usb-image{background:linear-gradient(135deg,var(--card),var(--dark));border-radius:var(--radius);padding:60px;text-align:center;border:1px solid rgba(200,169,81,.2)}.usb-image .drive-icon{font-size:5rem;margin-bottom:16px}.usb h2{font-size:2rem;color:var(--gold);margin-bottom:16px}.usb .features-list{list-style:none;margin:24px 0}.usb .features-list li{padding:8px 0;color:var(--muted);font-size:.95rem}.usb .features-list li::before{content:"✓ ";color:var(--success);margin-right:8px}.usb .price-tag{font-size:2rem;font-weight:800;color:var(--gold);margin:24px 0}@media(max-width:768px){.donate .container,.usb .container{grid-template-columns:1fr}.donate-amounts{grid-template-columns:repeat(2,1fr)}}
+.rates{padding:60px 0;text-align:center}.rates h2{color:var(--gold);margin-bottom:24px}
+.rate-ticker{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}.rate-item{background:var(--card);padding:12px 20px;border-radius:8px;font-size:.85rem;border:1px solid rgba(255,255,255,.05)}.rate-item .currency{font-weight:700;color:var(--gold)}.rate-item .value{color:var(--muted)}
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding:48px 0 24px}
+footer .container{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+footer h4{color:var(--gold);margin-bottom:16px;font-size:.9rem;text-transform:uppercase;letter-spacing:1px}
+footer a{color:var(--muted);text-decoration:none;font-size:.85rem;display:block;margin-bottom:8px}footer a:hover{color:var(--text)}
+.footer-bottom{text-align:center;padding:24px 0 0;color:var(--muted);font-size:.8rem;border-top:1px solid rgba(255,255,255,.05);margin-top:32px}
+@media(max-width:768px){.hero h1{font-size:2.2rem}.feature-grid{grid-template-columns:1fr}footer .container{grid-template-columns:1fr 1fr}.nav-links{display:none}}
+</style></head><body>
+
+<div id="welcomeOverlay" style="position:fixed;inset:0;background:rgba(15,15,26,.92);z-index:400;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px)">
+  <div style="text-align:center;color:#E8E6E3">
+    <div style="font-size:5rem;margin-bottom:24px">🕊️</div>
+    <h2 style="color:#C8A951;font-size:2rem;margin-bottom:12px">Welcome to HeavensLive</h2>
+    <p style="color:#A0A0B0;font-size:1.1rem;margin-bottom:32px">Click anywhere to begin</p>
+    <div style="display:inline-block;padding:14px 40px;background:#C8A951;color:#0F0F1A;border-radius:12px;font-weight:700;font-size:1.1rem;animation:pulse 2s infinite">✨ Enter</div>
+  </div>
+</div>
+<style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}</style>
+<script>
+document.getElementById('welcomeOverlay').addEventListener('click',function(){
+  this.style.display='none';
+  var a=document.getElementById('prayerAudio');
+  if(a){a.play().catch(function(){});a.volume=1.0}
+});
+</script>
+
+<nav><div class="container">
+<div class="lang-select"><select id="langSelect" onchange="switchLang(this.value)">
+<option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="es">🇪🇸 Español</option><option value="de">🇩🇪 Deutsch</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option><option value="sv">🇸🇪 Svenska</option><option value="tl">🇵🇭 Tagalog</option>
+</select></div>
+<div class="nav-brand">Heavens<span>Live</span></div>
+<div class="nav-links" id="navLinks">
+  <a href="/shop/" data-i18n="nav.shop">Shop</a>
+  <a href="/credon/" data-i18n="nav.credon">Credon</a>
+  <a href="/api-docs" data-i18n="nav.api">API</a>
+</div>
+</div></nav>
+
+<section class="hero"><div class="container">
+<h1 data-i18n="hero.title">Divinely <span class="gold">Underwritten</span><br>for All of Us</h1>
+<p data-i18n="hero.subtitle">Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.</p>
+<div class="hero-buttons">
+<a href="/shop/" class="btn btn-primary" style="font-size:1.1rem;padding:14px 36px;text-decoration:none" data-i18n="hero.shopBtn">Explore the Marketplace</a>
+<a href="/credon/" class="btn btn-outline" style="font-size:1.1rem;padding:14px 36px;text-decoration:none" data-i18n="hero.credonBtn">Learn About Credon</a></div>
+</div></section>
+
+<section class="features"><div class="container">
+<h2 data-i18n="features.title">One Platform, Three Pillars</h2>
+<div class="feature-grid">
+<div class="feature-card"><div class="icon">🛒</div><h3 data-i18n="features.marketplace">Fair Marketplace</h3><p data-i18n="features.marketplaceDesc">Buy and sell across 84 currencies. Auctions, classifieds, and procurement with 17-language support.</p></div>
+<div class="feature-card"><div class="icon">💱</div><h3 data-i18n="features.credon">Credon Currency</h3><p data-i18n="features.credonDesc">Stable clone currency system. 84 denominations. Earn bonuses on every transaction.</p></div>
+<div class="feature-card"><div class="icon">🤖</div><h3 data-i18n="features.ai">AI-Ready</h3><p data-i18n="features.aiDesc">Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome.</p></div>
+</div>
+</div></section>
+
+<section class="donate"><div class="container"><div>
+<h2 data-i18n="donate.title">Give, and It Shall Be Multiplied</h2>
+<p data-i18n="donate.desc">Your generosity ripples outward. Every donation earns Credon bonuses.</p>
+<div class="donate-amounts">
+<div class="donate-amt" onclick="selectDonation(10)"><div class="amt">$10</div><div class="label" data-i18n="donate.seed">Seed</div></div>
+<div class="donate-amt" onclick="selectDonation(50)"><div class="amt">$50</div><div class="label" data-i18n="donate.growth">Growth</div></div>
+<div class="donate-amt" onclick="selectDonation(100)"><div class="amt">$100</div><div class="label" data-i18n="donate.harvest">Harvest</div></div>
+<div class="donate-amt" onclick="selectDonation(0)"><div class="amt">Custom</div><div class="label" data-i18n="donate.anyAmount">Any</div></div>
+</div>
+<button class="btn btn-primary" style="width:100%;padding:16px;font-size:1.1rem" onclick="doDonate()" data-i18n="donate.donateBtn">Donate Now</button>
+</div>
+<div class="donate-display"><div style="display:inline-block;background:var(--gold);color:var(--darker);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:16px" data-i18n="donate.bonusLabel">✨ Credon Bonus</div>
+<div style="font-size:1.1rem" data-i18n="donate.bonusEarns">Your $50 donation earns</div>
+<div class="bonus" id="bonusAmount">500 Credon</div>
+<div class="bonus-label" data-i18n="donate.multiplier">10x multiplier on your 1st donation</div></div>
+</div></section>
+
+<section class="usb"><div class="container">
+<div class="usb-image"><div class="drive-icon">💿</div><div style="color:var(--muted)">Premium Metal USB Drive</div></div>
+<div>
+<h2 data-i18n="usb.title">Premium USB Prayer Collection</h2>
+<p data-i18n="usb.desc">A beautifully crafted collection of prayers, meditations, and sacred texts — on a premium metal USB drive. Includes digital download.</p>
+<ul class="features-list">
+<li data-i18n="usb.feature1">Curated prayer collection</li>
+<li data-i18n="usb.feature2">Premium metal USB drive</li>
+<li data-i18n="usb.feature3">Compatible with all devices</li>
+<li data-i18n="usb.feature4">Includes digital download code</li>
+<li data-i18n="usb.feature5">Free worldwide shipping</li>
+</ul>
+<div class="price-tag">$79.99</div>
+<button class="btn btn-primary" style="padding:14px 36px;font-size:1rem" onclick="purchaseUSB()" data-i18n="usb.purchaseBtn">Purchase Now</button>
+</div></div></section>
+
+<section class="rates">
+<section class="rates"><div class="container">
+<h2 data-i18n="rates.title">Live Exchange Rates</h2>
+<div class="rate-ticker" id="rateTicker"><span class="muted">Loading rates...</span></div>
+</div></section>
+
+<footer><div class="container">
+<div><h4>HeavensLive</h4><p style="color:var(--muted);font-size:.85rem" data-i18n="footer.tagline">Divinely underwritten commerce. Open to all.</p></div>
+<div><h4 data-i18n="footer.marketplace">Marketplace</h4>
+<a href="/shop/" data-i18n="footer.browse">Browse</a><a href="/shop/create" data-i18n="footer.sell">Sell</a><a href="/shop/affiliate" data-i18n="footer.affiliate">Affiliate</a><a href="/shop/pricing" data-i18n="footer.pricing">Pricing</a></div>
+<div><h4 data-i18n="nav.credon">Credon</h4>
+<a href="/credon/wallet" data-i18n="footer.wallet">Wallet</a><a href="/credon/" data-i18n="footer.exchange">Exchange</a><a href="/shop/register" data-i18n="footer.register">Register</a><a href="/shop/gift-cards" data-i18n="footer.giftCards">Gift Cards</a></div>
+<div><h4 data-i18n="footer.legal">Legal</h4>
+<a href="/shop/terms" data-i18n="footer.terms">Terms</a><a href="/shop/privacy" data-i18n="footer.privacy">Privacy</a><a href="/api-docs" data-i18n="footer.apiDocs">API Docs</a><a href="/shop/help" data-i18n="footer.contact">Help</a></div>
+</div>
+<div class="footer-bottom container">© 2026 HeavensLive · AI-accessible · All intelligent beings welcome</div>
+</footer>
+
+<script>
+// === i18n ===
+var currentLang='en';
+function applyTranslations(t){
+  if(!t)return;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n'),parts=key.split('.'),val=t;
+    for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
+    if(typeof val!=='string'||!val)return;
+    if(val.indexOf('<')>=0)el.innerHTML=val;else el.textContent=val;
+  });
+}
+function switchLang(l){
+  if(l===currentLang)return;
+  fetch('/locales/landing-'+l+'.json').then(function(r){return r.json()}).then(function(t){
+    currentLang=l;localStorage.setItem('hl-lang',l);document.documentElement.lang=l;
+    document.documentElement.dir=['ar','fa','ur'].includes(l)?'rtl':'ltr';
+    applyTranslations(t);
+  }).catch(function(){});
+}
+var sl=localStorage.getItem('hl-lang')||'en';
+document.getElementById('langSelect').value=sl;
+if(sl!=='en')switchLang(sl);
+// === Auth state ===
+var T=localStorage.getItem('token');
+if(T)try{var b=T.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');var p=JSON.parse(atob(b));
+  if(p.email)document.getElementById('navLinks').innerHTML+='<span>👤 '+p.email.split('@')[0]+'</span>';
+}catch(e){}
+
+var donationAmount=50;
+function selectDonation(a){donationAmount=a||0;
+  var amt=a||prompt('Enter custom amount (USD):')||50;
+  donationAmount=Number(amt);
+  document.getElementById('bonusAmount').textContent=(donationAmount*10)+' Credon';
+}
+function doDonate(){
+  var T=localStorage.getItem('token');
+  fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(T||'')},body:JSON.stringify({amount:donationAmount||50,currency:'USD',description:'Donation to HeavensLive',type:'donation'})}).then(function(r){return r.json()}).then(function(d){
+    if(d.approvalUrl)location.href=d.approvalUrl;
+    else alert('Redirecting to PayPal...');
+  });
+}
+function purchaseUSB(){
+  var T=localStorage.getItem('token');
+  fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(T||'')},body:JSON.stringify({amount:79.99,currency:'USD',description:'USB Prayer Collection - HeavensLive',type:'usb'})}).then(function(r){return r.json()}).then(function(d){
+    if(d.approvalUrl)location.href=d.approvalUrl;
+    else alert('Redirecting to PayPal...');
+  });
+}
+// === Exchange rates ===
+// === Exchange rates ===
+fetch('/api/wallet/exchange-rates').then(function(r){return r.json()}).then(function(d){
+  var rates=d.rates||{},html='',count=0;
+  var top=['USD','EUR','GBP','JPY','BTC','ETH','CAD','AUD','CHF','CNY','INR','KRW'];
+  top.forEach(function(c){
+    if(rates[c]&&count<8){count++;html+='<div class="rate-item"><span class="currency">'+c+'</span> <span class="value">'+(typeof rates[c].rate=='number'?rates[c].rate.toFixed(4):rates[c].rate)+'</span></div>';}
+  });
+  document.getElementById('rateTicker').innerHTML=html||'<span class="muted">Rates unavailable</span>';
+}).catch(function(){document.getElementById('rateTicker').innerHTML='<span class="muted">Rates unavailable</span>'});
+</script>
+
+<div id="prayerPlayer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,26,.97);border-top:1px solid rgba(200,169,81,.2);z-index:300;padding:10px 20px;backdrop-filter:blur(10px)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font-size:.7rem;color:#C8A951;text-transform:uppercase;letter-spacing:1px">🙏 Prayer Audio</span>
+    <button id="playBtn" onclick="togglePrayer()" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.2rem">▶</button>
+    <div style="flex:1;display:flex;align-items:center;gap:8px">
+      <input type="range" id="progressBar" value="0" min="0" max="100" oninput="seekPrayer(this.value)" style="flex:1;height:4px">
+    </div>
+    <span id="currentTime" style="font-size:.7rem;color:var(--muted)">0:00</span>
+    <span style="font-size:.7rem;color:var(--muted)">/</span>
+    <span id="totalTime" style="font-size:.7rem;color:var(--muted)">0:00</span>
+    <input type="range" id="volumeSlider" value="100" min="0" max="100" oninput="setVolume(this.value)" style="width:60px;height:3px">
+    <a href="/static/media/audio.d525093d0a0cfdd98120.wav" download style="background:rgba(200,169,81,.1);border:1px solid rgba(200,169,81,.2);color:var(--gold);padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:600;text-decoration:none;white-space:nowrap">⬇ Download</a>
+  </div>
+</div>
+<audio id="prayerAudio" preload="auto" loop><source src="/static/media/audio.d525093d0a0cfdd98120.wav" type="audio/wav"></audio>
+<script>
+var a=document.getElementById('prayerAudio'),pb=document.getElementById('playBtn'),pr=document.getElementById('progressBar'),ct=document.getElementById('currentTime'),tt=document.getElementById('totalTime'),isPlaying=false;
+a.volume=1.0;
+function fm(s){var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec}
+a.addEventListener('loadedmetadata',function(){tt.textContent=fm(a.duration);pr.max=100});
+a.addEventListener('timeupdate',function(){if(a.duration){pr.value=(a.currentTime/a.duration)*100;ct.textContent=fm(a.currentTime)}});
+a.addEventListener('play',function(){isPlaying=true;pb.textContent='⏸'});
+a.addEventListener('pause',function(){isPlaying=false;pb.textContent='▶'});
+function togglePrayer(){isPlaying?a.pause():a.play().catch(function(){})}
+function seekPrayer(v){if(a.duration)a.currentTime=(v/100)*a.duration}
+function setVolume(v){a.volume=v/100}
+</script>
+
+</body></html>

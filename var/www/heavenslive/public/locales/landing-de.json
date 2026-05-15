@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "title": "Gött<span class=\"gold\">lich garantiert für uns alle",
+    "subtitle": "Glaubensbasierter Handel, faire Währung und gemeinschaftsorientiertes Spenden – alles auf einer Plattform.",
+    "shopBtn": "Erkunden Sie den Marktplatz",
+    "credonBtn": "Erfahren Sie mehr über Credon"
+  },
+  "features": {
+    "title": "Eine Plattform, drei Säulen",
+    "marketplace": "Fairer Marktplatz",
+    "marketplaceDesc": "Kaufen und verkaufen Sie unter göttlicher Aufsicht. Auktionen, Kleinanzeigen und Beschaffung – alles mit integrierten Fairnessgarantien.",
+    "credon": "Credon-Währung",
+    "credonDesc": "Stabile, vom Glauben getragene Klonwährung. Verdienen Sie Boni bei jedem Einkauf. Weltweit in über 84 Stückelungen erhältlich.",
+    "sacred": "Heiliger Handel",
+    "sacredDesc": "Spenden, die sich vervielfachen. USB-Gebetssammlungen. Jede Transaktion baut eine Gemeinschaft auf und unterstützt die Mission.",
+    "ai": "AI-Ready",
+    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+  },
+  "donate": {
+    "title": "Gib, und es wird vervielfacht",
+    "desc": "Ihre Großzügigkeit wirkt sich nach außen aus. Jede Spende bringt Credon-Boni ein und verstärkt so Ihre Wirkung in der gesamten Community.",
+    "seed": "Samen",
+    "growth": "Wachstum",
+    "harvest": "Ernte",
+    "custom": "Brauch",
+    "anyAmount": "Beliebiger Betrag",
+    "donateBtn": "Jetzt spenden",
+    "bonusLabel": "Credon-Bonus",
+    "bonusEarns": "Ihre Spende in Höhe von 50 $ bringt Geld",
+    "multiplier": "10-facher Multiplikator für Ihre erste Spende"
+  },
+  "usb": {
+    "title": "Premium-USB-Gebetssammlung",
+    "desc": "Eine wunderschön gestaltete Sammlung von Gebeten, Meditationen und heiligen Texten – auf einem hochwertigen USB-Stick aus Metall. Inklusive digitalem Download.",
+    "feature1": "Kuratierte Gebetssammlung",
+    "feature2": "Hochwertiges USB-Laufwerk aus Metall",
+    "feature3": "Kompatibel mit allen Geräten",
+    "feature4": "Enthält digitalen Downloadcode",
+    "feature5": "Kostenloser weltweiter Versand",
+    "purchaseBtn": "Jetzt kaufen"
+  },
+  "nav": {
+    "shop": "Geschäft",
+    "credon": "Credon",
+    "about": "Um",
+    "signIn": "Anmelden",
+    "getStarted": "Legen Sie los",
+    "home": "Startseite",
+    "signOut": "Abmelden",
+    "register": "Registrieren"
+  },
+  "footer": {
+    "desc": "Göttlich garantierter Handel für eine vernetzte Welt. Gemeinsam einkaufen, spenden und wachsen.",
+    "marketplace": "Marktplatz",
+    "community": "Gemeinschaft",
+    "browse": "Durchsuchen",
+    "sell": "Verkaufen",
+    "auctions": "Auktionen",
+    "procurement": "Beschaffung",
+    "wallet": "Geldbörse",
+    "exchange": "Austausch",
+    "bonuses": "Boni",
+    "getInvited": "Lassen Sie sich einladen",
+    "donateFooter": "Spenden",
+    "usbFooter": "USB-Gebet",
+    "contact": "Kontakt",
+    "copyright": "© 2026 HeavensLive · Alle angezeigten Währungen sind Credon-Klonwährungen zum Testen",
+    "affiliate": "Affiliate",
+    "pricing": "Pricing",
+    "register": "Register",
+    "giftCards": "Gift Cards",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "apiDocs": "API Docs",
+    "tagline": "Göttlich gezeichneter Handel. Offen für alle."
+  },
+  "prayer": {
+    "label": "Gebets-Audio",
+    "download": "Kostenloser Download"
+  },
+  "rates": {
+    "title": "Live Exchange Rates"
+  }
+}

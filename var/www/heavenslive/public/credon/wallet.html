@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Credon Wallet — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);min-height:100vh}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links a,.nav-links span{color:var(--muted);text-decoration:none;font-size:.82rem;margin-left:12px;cursor:pointer}.nav-links a:hover{color:var(--gold)}
+.container{max-width:960px;margin:0 auto;padding:20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:12px}
+h1{color:var(--gold)}h2{color:var(--gold);font-size:1rem;margin-bottom:12px}h3{color:var(--gold);font-size:.9rem;margin-bottom:8px}
+.muted{color:var(--muted);font-size:.82rem}.bal{font-size:2.2rem;font-weight:800;color:var(--gold)}.bal small{font-size:.9rem;color:var(--muted)}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}.tab{padding:8px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--muted);cursor:pointer;border-radius:6px;font-size:.78rem}.tab.on{background:var(--gold);color:var(--darker);font-weight:600}
+.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.85rem;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid2{grid-template-columns:1fr}}
+input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--text);font-size:.85rem;margin:6px 0}
+.btn{padding:8px 18px;background:var(--gold);color:var(--darker);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem}.btn:hover{opacity:.9}
+.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-sm{padding:5px 12px;font-size:.7rem}
+.tx-in{color:var(--success)}.tx-out{color:var(--danger)}
+</style></head><body>
+<nav><div class="nav-brand">💱 Credon</div><div class="nav-links" id="navR"></div></nav>
+<div class="container">
+<div class="card" style="text-align:center"><div class="muted">Total Balance (USD equivalent)</div><div class="bal" id="balDisplay">$0.00</div></div>
+
+<div class="tabs" id="mainTabs">
+<button class="tab on" onclick="showTab('dash')">📊 Dashboard</button>
+<button class="tab" onclick="showTab('send')">📤 Send</button>
+<button class="tab" onclick="showTab('exchange')">💱 Exchange</button>
+<button class="tab" onclick="showTab('history')">📋 History</button>
+<button class="tab" onclick="showTab('loans')">🏦 Loans</button>
+<button class="tab" onclick="showTab('appointments')">📅 Appointments</button>
+<button class="tab" onclick="showTab('currency')">💵 Currency</button>
+<button class="tab" onclick="showTab('grants')">🎁 Grants</button>
+</div>
+
+<div id="tab-dash"><div class="grid2"><div class="card" id="quickStats"></div><div class="card" id="rateCard"></div></div></div>
+<div id="tab-send" style="display:none"><div class="card"><h3>📤 Send Credon</h3><input id="sendEmail" placeholder="Recipient email"><input id="sendAmount" type="number" step="0.01" placeholder="Amount (USD)"><input id="sendNote" placeholder="Note (optional)"><button class="btn" onclick="doSend()" style="width:100%">Send</button><div id="sendMsg"></div></div></div>
+<div id="tab-exchange" style="display:none"><div class="card"><h3>💱 Convert Currency</h3><div class="grid2"><select id="exFrom"></select><select id="exTo"></select></div><input id="exAmount" type="number" step="0.01" placeholder="Amount"><div class="muted" id="exPreview"></div><button class="btn" onclick="doConvert()" style="width:100%">Convert</button><div id="exMsg"></div></div></div>
+<div id="tab-history" style="display:none"><div class="card"><h3>📋 Transaction History</h3><div id="txList"></div></div></div>
+<div id="tab-loans" style="display:none"><div class="card"><h3>🏦 Loans</h3><div id="loanContent"></div></div></div>
+<div id="tab-appointments" style="display:none"><div class="card"><h3>📅 Book Appointment</h3><div class="grid2"><input id="aptDate" type="date" min=""><input id="aptTime" type="time" step="900" min="09:00" max="17:00"></div><select id="aptDuration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option></select><input id="aptReason" placeholder="Reason for appointment"><button class="btn" onclick="bookApt()" style="width:100%">Book Appointment</button><div id="aptMsg"></div></div><div class="card"><h3>📅 My Appointments</h3><div id="aptList"></div></div></div>
+<div id="tab-currency" style="display:none"><div class="card" id="currencyContent"><p class="muted">Loading currencies...</p></div></div>
+<div id="tab-grants" style="display:none"><div class="card"><h3>🎁 Grants</h3><div id="grantContent"></div></div></div>
+</div>
+<script>
+var T=localStorage.getItem('token'),U={};if(!T)location.href='/credon/';
+document.getElementById('navR').innerHTML='<a href="/shop/">Shop</a><a href="/credon/admin">Admin</a><a href="/">Home</a><span onclick="logout()" style="cursor:pointer">Logout</span>';
+function logout(){localStorage.removeItem('token');location.href='/credon/'}
+
+function F(url,opts){
+  opts=opts||{};var hd=opts.headers||{};
+  if(T)hd['authorization']='Bearer '+T;
+  if(opts.body&&typeof opts.body=='object'){hd['Content-Type']='application/json';opts.body=JSON.stringify(opts.body)}
+  return fetch(url,{method:opts.method||'GET',headers:hd,body:opts.body}).then(function(r){return r.json()});
+}
+
+function showTab(name){
+  document.querySelectorAll('#mainTabs .tab').forEach(function(t){t.classList.remove('on')});
+  event.target.classList.add('on');
+  ['dash','send','exchange','history','loans','appointments','currency','grants'].forEach(function(x){document.getElementById('tab-'+x).style.display=x===name?'block':'none'});
+  if(name==='dash')loadDash();if(name==='history')loadHistory();if(name==='loans')loadLoans();if(name==='appointments')loadAppointments();
+  if(name==='currency')loadCurrency();
+  if(name==='grants')loadGrants();
+  if(name==='exchange')loadExchange();
+}
+
+// DASHBOARD
+function loadDash(){
+  F('/api/wallet/balance').then(function(d){document.getElementById('balDisplay').textContent='$'+(d.balance_usd||(d.balance_cents||0)/100).toFixed(2)}).catch(function(){});
+  F('/api/wallet/transactions?limit=5').then(function(d){
+    var tx=d.transactions||[],h='<h3>Recent</h3>';
+    tx.forEach(function(t){h+='<div class="row"><span>'+t.description+'</span><span class="'+(t.amount_cents>0?'tx-in':'tx-out')+'">$'+(Math.abs(t.amount_cents||0)/100).toFixed(2)+'</span></div>'});
+    if(!tx.length)h+='<p class="muted">No transactions</p>';
+    document.getElementById('quickStats').innerHTML=h;
+  }).catch(function(){});
+  F('/api/wallet/exchange-rates').then(function(d){
+    var rates=d.rates||{},h='<h3>Live Rates</h3>',i=0;
+    ['EUR','GBP','JPY','BTC','ETH','CAD','AUD','CHF','CNY'].forEach(function(c){
+      if(rates[c]&&i++<8){var v=typeof rates[c].rate==='number'?rates[c].rate.toFixed(4):rates[c].rate;h+='<div class="row"><span>'+c+'</span><span>'+v+'</span></div>'}
+    });
+    document.getElementById('rateCard').innerHTML=h||'<p class="muted">Unavailable</p>';
+  }).catch(function(){});
+}
+
+// SEND
+function doSend(){
+  var e=document.getElementById('sendEmail').value.trim(),a=parseFloat(document.getElementById('sendAmount').value),n=document.getElementById('sendNote').value.trim(),m=document.getElementById('sendMsg');
+  if(!e||!a){m.innerHTML='<p class="muted" style="color:var(--danger)">Email and amount required</p>';return}
+  F('/api/wallet/send',{method:'POST',body:{toEmail:e,amount:a,note:n}}).then(function(d){
+    m.innerHTML=d.success?'<p style="color:var(--success)">✅ Sent $'+a.toFixed(2)+' to '+e+'</p>':'<p style="color:var(--danger)">❌ '+(d.error||'Failed')+'</p>';
+    if(d.success)document.getElementById('sendAmount').value='';
+  }).catch(function(){m.innerHTML='<p style="color:var(--danger)">Error</p>'});
+}
+
+// EXCHANGE
+function loadExchange(){
+  F('/api/wallet/exchange-rates').then(function(d){
+    var r=d.rates||{},o='';
+    Object.keys(r).sort().forEach(function(k){o+='<option value="'+k+'">'+k+'</option>'});
+    document.getElementById('exFrom').innerHTML=o;document.getElementById('exTo').innerHTML=o;
+  });
+  document.getElementById('exAmount').addEventListener('input',function(){
+    var a=parseFloat(this.value),f=document.getElementById('exFrom').value,t=document.getElementById('exTo').value;
+    if(!a||f===t){document.getElementById('exPreview').textContent='';return}
+    F('/api/wallet/convert?from='+f+'&to='+t+'&amount='+a).then(function(d){
+      document.getElementById('exPreview').textContent=a+' '+f+' ≈ '+(d.converted_amount||'?')+' '+t;
+    }).catch(function(){});
+  });
+}
+function doConvert(){
+  var f=document.getElementById('exFrom').value,t=document.getElementById('exTo').value,a=parseFloat(document.getElementById('exAmount').value),m=document.getElementById('exMsg');
+  if(!a||f===t){m.innerHTML='<p style="color:var(--danger)">Select different currencies and amount</p>';return}
+  F('/api/wallet/convert',{method:'POST',body:{from:f,to:t,amount:a}}).then(function(d){
+    m.innerHTML=d.success?'<p style="color:var(--success)">✅ '+a+' '+f+' → '+(d.converted||'?')+' '+t+'</p>':'<p style="color:var(--danger)">❌ '+(d.error||'Failed')+'</p>';
+  });
+}
+
+// HISTORY
+function loadHistory(){
+  F('/api/wallet/transactions?limit=50').then(function(d){
+    var tx=d.transactions||[],h='';
+    tx.forEach(function(t){h+='<div class="row"><span>'+t.description+' <small class="muted">'+new Date(t.created_at).toLocaleDateString()+'</small></span><span class="'+(t.amount_cents>0?'tx-in':'tx-out')+'">$'+(Math.abs(t.amount_cents||0)/100).toFixed(2)+'</span></div>'});
+    document.getElementById('txList').innerHTML=h||'<p class="muted">No transactions yet</p>';
+  }).catch(function(){document.getElementById('txList').innerHTML='<p class="muted">Could not load</p>'});
+}
+
+// LOANS
+function loadLoans(){
+  F('/api/wallet/loans').then(function(d){
+    var loans=d.loans||[],h='';
+    if(!loans.length)h+='<p class="muted">No active loans</p>';
+    else loans.forEach(function(l){h+='<div class="card"><div class="row"><strong>'+l.description+'</strong><span>$'+(l.amount_cents/100).toFixed(2)+'</span></div><div class="row"><span class="muted">Remaining</span><span>$'+(l.remaining_cents/100).toFixed(2)+'</span></div><button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\')">Repay</button></div>'});
+    h+='<div class="card" style="margin-top:12px"><h3>Apply for Loan</h3><input id="loanAmount" type="number" placeholder="Amount (USD)"><input id="loanReason" placeholder="Purpose"><button class="btn" onclick="applyLoan()">Apply</button></div>';
+    document.getElementById('loanContent').innerHTML=h;
+  }).catch(function(){document.getElementById('loanContent').innerHTML='<p class="muted">Could not load</p>'});
+}
+function applyLoan(){
+  var a=document.getElementById('loanAmount').value,r=document.getElementById('loanReason').value;
+  if(!a||!r){alert('Amount and purpose required');return}
+  F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r}}).then(function(d){
+    if(d.success){loadLoans()}else alert(d.error||'Failed');
+  });
+}
+function repayLoan(id){var a=parseFloat(document.getElementById('repayAmt_'+id).value);if(!a||a<=0){alert('Enter an amount');return}F('/api/wallet/loans/'+id+'/repay',{method:'POST',body:{amount:a}}).then(function(d){if(d.success){alert('Repaid $'+a.toFixed(2)+'! Remaining: $'+(d.remaining/100).toFixed(2));loadLoans()}else alert(d.error||'Failed')})}
+
+// APPOINTMENTS
+function loadAppointments(){
+  var d=document.getElementById('aptDate');d.min=new Date().toISOString().split('T')[0];d.value=d.min;
+  F('/api/appointments/my-appointments').then(function(r){
+    var a=r.appointments||[],h='';
+    a.forEach(function(x){
+      var aptDate=new Date(x.appointment_time);
+      var localStr=aptDate.toLocaleString();
+      var estStr=aptDate.toLocaleString('en-US',{timeZone:'America/Toronto',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:true});
+      h+='<div class="row"><span>'+estStr+' EST ('+x.duration_minutes+'min)</span><span class="muted">'+x.status+'</span></div>';
+    });
+    document.getElementById('aptList').innerHTML=h||'<p class="muted">No appointments</p>';
+  }).catch(function(){document.getElementById('aptList').innerHTML='<p class="muted">Could not load</p>'});
+}
+function bookApt(){
+  var d=document.getElementById('aptDate').value,t=document.getElementById('aptTime').value,dr=document.getElementById('aptDuration').value,rs=document.getElementById('aptReason').value.trim(),m=document.getElementById('aptMsg');
+  if(!d||!t){m.innerHTML='<p style="color:var(--danger)">Date and time required</p>';return}
+  // Convert user's local time to EST (America/Toronto)
+  var localDate=new Date(d+'T'+t);
+  var estStr=localDate.toLocaleString('en-US',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+  var parts=estStr.match(/(\d+)\/(\d+)\/(\d+),\s*(\d+):(\d+)/);
+  var estISO='';
+  if(parts)estISO=parts[3]+'-'+parts[1].padStart(2,'0')+'-'+parts[2].padStart(2,'0')+'T'+parts[4].padStart(2,'0')+':'+parts[5].padStart(2,'0')+':00-05:00';
+  else estISO=localDate.toISOString();
+  m.innerHTML='<p class="muted">Booking for '+localDate.toLocaleString()+' (EST: '+estStr+')...</p>';
+  F('/api/appointments',{method:'POST',body:{appointment_time:estISO,duration_minutes:parseInt(dr),reason:rs||'General'}}).then(function(r){
+    m.innerHTML=r.success?'<p style="color:var(--success)">✅ Booked!</p>':'<p style="color:var(--danger)">❌ '+(r.error||'Failed')+'</p>';
+    if(r.success)loadAppointments();
+  });
+}
+
+// CURRENCY
+function loadCurrency(){
+  F('/api/landing/paper-currency').then(function(d){
+    var currencies=(d.currencies||d||{}),codes=Object.keys(currencies).sort();
+    var opts='';codes.forEach(function(c){opts+='<option value="'+c+'">'+c+' - '+currencies[c].name+'</option>'});
+    
+    var c=document.getElementById('currencyContent');
+    c.innerHTML=
+      '<div class="card"><h3>💵 Currency</h3>'+
+      '<div style="margin:8px 0"><label style="cursor:pointer;margin-right:16px"><input type="radio" name="curType" value="digital" checked onchange="toggleCurType()"> 💻 Digital</label>'+
+      '<label style="cursor:pointer"><input type="radio" name="curType" value="physical" onchange="toggleCurType()"> 📦 Physical (shipped)</label></div>'+
+      
+      '<div id="curDigital">'+
+      '<select id="digCode">'+opts+'</select>'+
+      '<input id="digAmount" type="number" step="0.01" placeholder="Amount (USD)">'+
+      '<button class="btn" onclick="buyDigital()" style="width:100%">🅿️ Buy with PayPal</button>'+
+      '<p class="muted" style="font-size:.7rem;margin-top:4px">Instantly credited to your Credon wallet</p></div>'+
+      
+      '<div id="curPhysical" style="display:none">'+
+      '<div class="row" style="margin-bottom:8px"><select id="physCode" onchange="loadDenominations()" style="flex:1;margin-right:4px">'+opts+'</select>'+
+      '<select id="physDenom" style="flex:1;margin-right:4px"><option value="">Denomination</option></select>'+
+      '<input id="physQty" type="number" value="1" min="1" style="width:55px;margin-right:4px" placeholder="Qty">'+
+      '<button class="btn btn-sm" onclick="addToCart()">Add</button></div>'+
+      '<div id="physCart" style="margin:8px 0;min-height:24px;font-size:.78rem;color:var(--muted)"></div>'+
+      '<button class="btn btn-o btn-sm" onclick="clearCart()" style="margin-bottom:8px;display:none" id="clearCartBtn">Clear</button>'+
+      '<input id="physName" placeholder="Full Name">'+
+      '<input id="physAddr" placeholder="Address">'+
+      '<div style="display:flex;gap:8px"><input id="physCity" placeholder="City" style="flex:1"><input id="physZip" placeholder="ZIP" style="flex:1"></div>'+
+      '<button class="btn" onclick="orderPhysical()" style="width:100%">📦 Place Order</button></div>'+
+      '</div>'+
+      
+      '<div class="card" style="margin-top:12px"><h3>🔍 Verify Serial</h3><input id="serialInput" placeholder="HL-XXX-XXXXXXXX"><button class="btn btn-sm" onclick="verifySerial()">Verify</button><div id="serialResult" class="muted" style="margin-top:4px"></div></div>';
+    window._curData=currencies;
+    loadDenominations();
+  }).catch(function(){document.getElementById('currencyContent').innerHTML='<p class="muted">Could not load currencies</p>'});
+}
+
+function toggleCurType(){
+  var v=document.querySelector('input[name="curType"]:checked').value;
+  document.getElementById('curDigital').style.display=v==='digital'?'block':'none';
+  document.getElementById('curPhysical').style.display=v==='physical'?'block':'none';
+}
+
+function loadDenominations(){
+  var code=document.getElementById('physCode').value;
+  var cur=(window._curData||{})[code];
+  var sel=document.getElementById('physDenom');
+  sel.innerHTML='';
+  if(!cur)return;
+  (cur.paper||[]).forEach(function(v){sel.innerHTML+='<option value="'+v+'">📄 '+(typeof v==="object"?v.value:v)+' '+cur.symbol+'</option>'});
+  (cur.coin||[]).forEach(function(v){sel.innerHTML+='<option value="'+v+'">🪙 '+(typeof v==="object"?v.value:v)+' '+cur.symbol+'</option>'});
+}
+
+function buyDigital(){
+  var code=document.getElementById('digCode').value,a=parseFloat(document.getElementById('digAmount').value);
+  if(!a||a<=0){alert('Enter an amount');return}
+  F('/api/payment/create',{method:'POST',body:{amount:a,currency:code,description:'Digital Currency: '+code,type:'currency_buy'}}).then(function(d){
+    if(d.approvalUrl)window.location.href=d.approvalUrl;else alert('Redirecting to PayPal...');
+  });
+}
+
+var physCart=[];
+function addToCart(){
+  var code=document.getElementById('physCode').value,denom=document.getElementById('physDenom').value,qty=parseInt(document.getElementById('physQty').value)||1;
+  if(!denom){return}
+  physCart.push({currency:code,denomination:denom,quantity:qty});
+  renderCart();
+}
+function renderCart(){
+  var el=document.getElementById('physCart'),btn=document.getElementById('clearCartBtn');
+  if(!physCart.length){el.innerHTML='Your order is empty';btn.style.display='none';return}
+  btn.style.display='inline-block';
+  el.innerHTML=physCart.map(function(item,i){return'<div class="row" style="font-size:.78rem"><span>'+item.currency+' '+item.denomination+' x'+item.quantity+'</span><span style="cursor:pointer;color:var(--danger)" onclick="removeFromCart('+i+')">×</span></div>'}).join('');
+}
+function removeFromCart(i){physCart.splice(i,1);renderCart()}
+function clearCart(){physCart=[];renderCart()}
+function orderPhysical(){
+  if(!physCart.length){alert('Add items to your order first');return}
+  var n=document.getElementById('physName').value.trim(),a=document.getElementById('physAddr').value.trim(),ct=document.getElementById('physCity').value.trim(),z=document.getElementById('physZip').value.trim();
+  if(!n||!a||!ct||!z){alert('Fill all shipping fields');return}
+  F('/api/landing/paper-currency/order',{method:'POST',body:{currency:physCart[0].currency,denominations:physCart.map(function(item){return{value:item.denomination,quantity:item.quantity}}),name:n,email:n.replace(/ /g,'.')+'@order.heavenslive.com',shipping_address:a,shipping_city:ct,shipping_zip:z}}).then(function(d){
+    alert(d.message||'Order placed!');
+    physCart=[];renderCart();
+  });
+}
+
+function verifySerial(){
+  var s=document.getElementById('serialInput').value.trim();
+  if(!s){document.getElementById('serialResult').textContent='Enter a serial number';return}
+  F('/api/verify/'+s).then(function(d){
+    if(d.valid)document.getElementById('serialResult').innerHTML='<span style="color:#2ECC71">✅ Valid: '+d.currency+' '+d.value+' '+d.symbol+'</span>';
+    else document.getElementById('serialResult').innerHTML='<span style="color:#E74C3C">❌ '+(d.error||'Invalid serial')+'</span>';
+  }).catch(function(){document.getElementById('serialResult').innerHTML='<span style="color:#E74C3C">❌ Verification failed</span>'});
+}
+
+// GRANTS
+function loadGrants(){
+  document.getElementById('grantContent').innerHTML='<p class="muted">Grant applications are reviewed by admin.</p>'+
+    '<div class="card" style="margin-top:12px"><h3>Apply for Grant</h3><input id="grantAmount" type="number" placeholder="Amount (USD)"><textarea id="grantReason" placeholder="Why do you need this grant?" style="min-height:80px;resize:vertical"></textarea><button class="btn" onclick="applyGrant()">Apply</button></div>';
+}
+function applyGrant(){
+  var a=document.getElementById('grantAmount').value,r=document.getElementById('grantReason').value;
+  if(!a||!r){alert('Amount and reason required');return}
+  F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r,type:'grant'}}).then(function(d){
+    if(d.success){alert('Application submitted!');loadGrants()}else alert(d.error||'Failed');
+  });
+}
+
+// Init
+loadDash();loadExchange();
+</script>
+</body></html>

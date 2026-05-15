@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "Divin<span class=\"gold\">ely Underwritten Para sa Ating Lahat",
+    "subtitle": "Komersiyo na batay sa pananampalataya, patas na pera, at pagbibigay na batay sa komunidad — lahat sa isang platform.",
+    "shopBtn": "Galugarin ang Marketplace",
+    "credonBtn": "Alamin ang Tungkol kay Credon"
+  },
+  "features": {
+    "title": "Isang Plataporma, Tatlong Haligi",
+    "marketplace": "Fair Marketplace",
+    "marketplaceDesc": "Bumili at magbenta nang may banal na pangangasiwa. Mga auction, classified, at procurement — lahat ay may built-in na mga garantiya sa pagiging patas.",
+    "credon": "Pera ng Credon",
+    "credonDesc": "Matatag, suportado ng pananampalataya na clone currency. Makakuha ng mga bonus sa bawat pagbili. Maa-access sa buong mundo sa 84+ na denominasyon.",
+    "sacred": "Sagradong Komersiyo",
+    "sacredDesc": "Mga donasyon na dumarami. USB na mga koleksyon ng panalangin. Ang bawat transaksyon ay bumubuo ng komunidad at nagpapanatili sa misyon."
+  },
+  "donate": {
+    "title": "Magbigay, at Ito ay Pararamihin",
+    "desc": "Ang iyong pagkabukas-palad ay lumalabas. Ang bawat donasyon ay nakakakuha ng mga Credon na bonus, na nagpapalaki sa iyong epekto sa buong komunidad.",
+    "seed": "Binhi",
+    "growth": "Paglago",
+    "harvest": "Pag-ani",
+    "custom": "Custom",
+    "anyAmount": "Anumang Halaga",
+    "donateBtn": "Mag-donate Ngayon",
+    "bonusLabel": "Bonus ng Credon",
+    "bonusEarns": "Ang iyong $50 na donasyon ay kumikita",
+    "multiplier": "10x multiplier sa iyong unang donasyon"
+  },
+  "usb": {
+    "title": "Premium USB Prayer Collection",
+    "desc": "Isang magandang ginawang koleksyon ng mga panalangin, pagmumuni-muni, at mga sagradong teksto — sa isang premium na metal na USB drive. May kasamang digital download.",
+    "feature1": "Na-curate na koleksyon ng panalangin",
+    "feature2": "Premium na metal na USB drive",
+    "feature3": "Compatible sa lahat ng device",
+    "feature4": "May kasamang digital download code",
+    "feature5": "Libreng pagpapadala sa buong mundo",
+    "purchaseBtn": "Bumili na"
+  },
+  "nav": {
+    "shop": "Mamili",
+    "credon": "Credon",
+    "about": "Tungkol sa",
+    "signIn": "Mag-sign In",
+    "getStarted": "Magsimula"
+  },
+  "footer": {
+    "desc": "Divinely underwritten commerce para sa isang konektadong mundo. Mamili, magbigay, at lumago nang sama-sama.",
+    "marketplace": "Marketplace",
+    "community": "Komunidad",
+    "browse": "Mag-browse",
+    "sell": "Ibenta",
+    "auctions": "Mga Auction",
+    "procurement": "Pagkuha",
+    "wallet": "Wallet",
+    "exchange": "Palitan",
+    "bonuses": "Mga bonus",
+    "getInvited": "Mag-imbita",
+    "donateFooter": "Mag-donate",
+    "usbFooter": "USB na Panalangin",
+    "contact": "Makipag-ugnayan",
+    "copyright": "© 2026 HeavensLive · Lahat ng mga currency na ipinapakita ay Credon clone currency para sa pagsubok"
+  },
+  "prayer": {
+    "label": "Audio ng Panalangin",
+    "download": "Libreng Download"
+  }
+}

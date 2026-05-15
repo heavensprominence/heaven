@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Bug Report — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{background:var(--card);padding:32px;border-radius:14px;border:1px solid rgba(200,169,81,.15);max-width:460px;width:90%}
+h1{color:var(--gold);font-size:1.2rem;margin-bottom:16px}p{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.9rem;margin-bottom:10px}
+textarea{min-height:100px;resize:vertical}
+.btn{width:100%;padding:12px;background:var(--gold);color:var(--darker);border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
+.btn:hover{opacity:.9}.btn:disabled{opacity:.5}
+.msg{padding:8px;border-radius:6px;font-size:.8rem;margin:8px 0;text-align:center;display:none}.ok{background:rgba(46,204,113,.1);color:var(--success)}.err{background:rgba(231,76,60,.1);color:#E74C3C}
+</style></head><body>
+<div class="card">
+<h1>🐛 Report a Bug</h1>
+<p>Help us improve HeavensLive. Describe what went wrong and on which page.</p>
+<input id="email" type="email" placeholder="Your email (optional)">
+<select id="page">
+<option value="">Which page?</option>
+<option value="landing">Landing Page</option>
+<option value="shop">Shop / Marketplace</option>
+<option value="credon">Credon Wallet</option>
+<option value="admin">Admin Panel</option>
+<option value="create">Create Listing</option>
+<option value="checkout">Checkout</option>
+<option value="pricing">Pricing</option>
+<option value="other">Other</option>
+</select>
+<textarea id="desc" placeholder="Describe the bug..."></textarea>
+<div id="msg" class="msg"></div>
+<button class="btn" onclick="submitBug()">📤 Submit Report</button>
+</div>
+<script>
+async function submitBug(){
+  var b=document.querySelector('.btn'),m=document.getElementById('msg'),d=document.getElementById('desc').value.trim();
+  if(!d){m.textContent='Please describe the bug.';m.className='msg err';m.style.display='block';return}
+  b.disabled=true;b.textContent='Submitting...';
+  try{
+    var r=await fetch('/api/shop/bug-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:document.getElementById('page').value,description:d,email:document.getElementById('email').value})});
+    var j=await r.json();
+    m.textContent=j.success?'✅ Submitted! Thank you.':'❌ '+j.error;
+    m.className=j.success?'msg ok':'msg err';m.style.display='block';
+    if(j.success)document.getElementById('desc').value='';
+  }catch(e){m.textContent='Server error';m.className='msg err';m.style.display='block'}
+  b.disabled=false;b.textContent='📤 Submit Report';
+}
+</script>
+</body></html>

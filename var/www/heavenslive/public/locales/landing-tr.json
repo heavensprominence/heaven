@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "title": "Hepim<span class=\"gold\">iz İçin İlahi Güvenceyle Yazılmıştır",
+    "subtitle": "İnanca dayalı ticaret, adil para birimi ve topluluk odaklı bağış — hepsi tek bir platformda.",
+    "shopBtn": "Pazar Yerini Keşfedin",
+    "credonBtn": "Credon Hakkında Bilgi Edinin"
+  },
+  "features": {
+    "title": "Tek Platform, Üç Sütun",
+    "marketplace": "Adil Pazaryeri",
+    "marketplaceDesc": "İlahi gözetimle satın alın ve satın. Açık artırmalar, ilanlar ve satın almaların tümü yerleşik adalet garantileriyle sağlanır.",
+    "credon": "Credon Para Birimi",
+    "credonDesc": "Kararlı, inanç destekli klon para birimi. Her satın alımda bonus kazanın. Dünya çapında 84+ mezhepte erişilebilir.",
+    "sacred": "Kutsal Ticaret",
+    "sacredDesc": "Bağışlar çoğalıyor. USB dua koleksiyonları. Her işlem topluluk oluşturur ve misyonu sürdürür.",
+    "ai": "AI-Ready",
+    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+  },
+  "donate": {
+    "title": "Verin, Çoğalacaktır",
+    "desc": "Cömertliğiniz dışarıya doğru dalgalanıyor. Her bağış, topluluktaki etkinizi güçlendiren Credon bonusları kazandırır.",
+    "seed": "Tohum",
+    "growth": "Büyüme",
+    "harvest": "Hasat",
+    "custom": "Gelenek",
+    "anyAmount": "Herhangi Bir Tutar",
+    "donateBtn": "Şimdi Bağış Yapın",
+    "bonusLabel": "Kredi Bonusu",
+    "bonusEarns": "50$ bağışınız kazanır",
+    "multiplier": "1. bağışınızda 10 kat çarpan"
+  },
+  "usb": {
+    "title": "Premium USB Dua Koleksiyonu",
+    "desc": "Kaliteli metal bir USB sürücüde güzel hazırlanmış dualar, meditasyonlar ve kutsal metinler koleksiyonu. Dijital indirme içerir.",
+    "feature1": "Küratörlü dua koleksiyonu",
+    "feature2": "Birinci sınıf metal USB sürücüsü",
+    "feature3": "Tüm cihazlarla uyumlu",
+    "feature4": "Dijital indirme kodunu içerir",
+    "feature5": "Dünya çapında ücretsiz gönderim",
+    "purchaseBtn": "Şimdi Satın Al"
+  },
+  "nav": {
+    "shop": "Mağaza",
+    "credon": "Credon",
+    "about": "Hakkında",
+    "signIn": "Oturum aç",
+    "getStarted": "Başlayın",
+    "home": "Ana Sayfa",
+    "signOut": "Çıkış",
+    "register": "Kayıt olmak"
+  },
+  "footer": {
+    "desc": "Bağlantılı bir dünya için ilahi garantili ticaret. Birlikte alışveriş yapın, verin ve büyüyün.",
+    "marketplace": "Pazar yeri",
+    "community": "Toplum",
+    "browse": "Göz at",
+    "sell": "Satmak",
+    "auctions": "Açık artırmalar",
+    "procurement": "Tedarik",
+    "wallet": "Cüzdan",
+    "exchange": "Değişme",
+    "bonuses": "Bonuslar",
+    "getInvited": "Davet Edin",
+    "donateFooter": "Bağış yapmak",
+    "usbFooter": "USB Duası",
+    "contact": "Temas etmek",
+    "copyright": "© 2026 HeavensLive · Görüntülenen tüm para birimleri test amaçlı Credon klon para birimleridir",
+    "affiliate": "Affiliate",
+    "pricing": "Pricing",
+    "register": "Register",
+    "giftCards": "Gift Cards",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "apiDocs": "API Docs",
+    "tagline": "İlahi olarak garanti altına alınmış ticaret. Herkese açık."
+  },
+  "prayer": {
+    "label": "Dua Sesi",
+    "download": "Ücretsiz İndir"
+  },
+  "rates": {
+    "title": "Live Exchange Rates"
+  }
+}

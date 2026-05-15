@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "title": "Được bả<span class=\"gold\">o lãnh một cách thiêng liêng cho tất cả chúng ta",
+    "subtitle": "Thương mại dựa trên đức tin, tiền tệ công bằng và hoạt động quyên góp dựa vào cộng đồng — tất cả đều trên một nền tảng.",
+    "shopBtn": "Khám phá thị trường",
+    "credonBtn": "Tìm hiểu về Credon"
+  },
+  "features": {
+    "title": "Một nền tảng, ba trụ cột",
+    "marketplace": "Chợ công bằng",
+    "marketplaceDesc": "Mua và bán với sự giám sát của Thiên Chúa. Đấu giá, rao vặt và mua sắm - tất cả đều có sự đảm bảo công bằng tích hợp.",
+    "credon": "Tiền tệ Credon",
+    "credonDesc": "Tiền tệ nhân bản ổn định, được hỗ trợ bởi niềm tin. Kiếm được tiền thưởng trên mỗi lần mua hàng. Có thể truy cập trên toàn thế giới với hơn 84 mệnh giá.",
+    "sacred": "Thương mại thiêng liêng",
+    "sacredDesc": "Quyên góp nhân lên. Bộ sưu tập cầu nguyện USB. Mỗi giao dịch đều xây dựng cộng đồng và duy trì sứ mệnh.",
+    "ai": "AI-Ready",
+    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+  },
+  "donate": {
+    "title": "Hãy cho đi và nó sẽ được nhân lên",
+    "desc": "Sự hào phóng của bạn lan tỏa ra bên ngoài. Mỗi khoản quyên góp đều kiếm được tiền thưởng Credon, khuếch đại tác động của bạn trên toàn cộng đồng.",
+    "seed": "Hạt giống",
+    "growth": "Sự phát triển",
+    "harvest": "Mùa gặt",
+    "custom": "Phong tục",
+    "anyAmount": "Bất kỳ số tiền nào",
+    "donateBtn": "Đóng góp ngay",
+    "bonusLabel": "Tiền thưởng Credon",
+    "bonusEarns": "Khoản quyên góp $50 của bạn kiếm được",
+    "multiplier": "Số nhân gấp 10 lần cho lần quyên góp đầu tiên của bạn"
+  },
+  "usb": {
+    "title": "Bộ sưu tập cầu nguyện USB cao cấp",
+    "desc": "Một bộ sưu tập những lời cầu nguyện, thiền định và văn bản thiêng liêng được chế tác đẹp mắt — trên ổ USB kim loại cao cấp. Bao gồm tải xuống kỹ thuật số.",
+    "feature1": "Bộ sưu tập cầu nguyện giám tuyển",
+    "feature2": "Ổ USB kim loại cao cấp",
+    "feature3": "Tương thích với mọi thiết bị",
+    "feature4": "Bao gồm mã tải xuống kỹ thuật số",
+    "feature5": "Miễn phí vận chuyển trên toàn thế giới",
+    "purchaseBtn": "Mua ngay"
+  },
+  "nav": {
+    "shop": "Cửa hàng",
+    "credon": "tín ngưỡng",
+    "about": "Về",
+    "signIn": "Đăng nhập",
+    "getStarted": "Bắt đầu",
+    "home": "Trang chủ",
+    "signOut": "Đăng xuất",
+    "register": "Đăng ký"
+  },
+  "footer": {
+    "desc": "Thương mại được bảo lãnh thiêng liêng cho một thế giới được kết nối. Mua sắm, cho đi và cùng nhau phát triển.",
+    "marketplace": "Thị trường",
+    "community": "Cộng đồng",
+    "browse": "Duyệt qua",
+    "sell": "Bán",
+    "auctions": "Đấu giá",
+    "procurement": "Mua sắm",
+    "wallet": "Cái ví",
+    "exchange": "Trao đổi",
+    "bonuses": "Tiền thưởng",
+    "getInvited": "Nhận lời mời",
+    "donateFooter": "Quyên tặng",
+    "usbFooter": "USB cầu nguyện",
+    "contact": "Liên hệ",
+    "copyright": "© 2026 HeavensLive · Tất cả các loại tiền tệ được hiển thị là tiền tệ nhân bản Credon để thử nghiệm",
+    "affiliate": "Affiliate",
+    "pricing": "Pricing",
+    "register": "Register",
+    "giftCards": "Gift Cards",
+    "legal": "Legal",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "apiDocs": "API Docs",
+    "tagline": "Thương mại được bảo lãnh thiêng liêng. Mở cho tất cả."
+  },
+  "prayer": {
+    "label": "Âm thanh cầu nguyện",
+    "download": "Tải xuống miễn phí"
+  },
+  "rates": {
+    "title": "Live Exchange Rates"
+  }
+}

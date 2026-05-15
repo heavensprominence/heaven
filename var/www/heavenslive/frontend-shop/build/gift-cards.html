@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Gift Cards — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);overflow-x:hidden;max-width:100vw}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:14px}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--text)}
+.container{max-width:600px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}.muted{color:var(--muted);font-size:.82rem}h2{color:var(--gold);font-size:1rem;margin:0 0 12px}
+.amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}.amount-btn{padding:16px;border-radius:10px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;text-align:center;font-size:1.1rem;font-weight:700;transition:all .12s}.amount-btn:hover{border-color:var(--gold)}.amount-btn.selected{border-color:var(--gold);background:rgba(200,169,81,.1);color:var(--gold)}
+.amount-btn .price{font-size:1.4rem;color:var(--gold);margin-bottom:2px}.custom-amount{display:flex;gap:8px;align-items:center;margin-bottom:16px}.custom-amount input{flex:1;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem}.custom-amount span{color:var(--muted);font-size:.82rem}
+.form-group{margin-bottom:14px}.form-group label{display:block;color:var(--muted);font-size:.72rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}.form-group input,.form-group textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem}.form-group textarea{min-height:70px;resize:vertical}
+.btn{width:100%;padding:14px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.9rem;background:var(--gold);color:var(--darker)}.btn:hover{opacity:.9}.btn:disabled{opacity:.5;cursor:not-allowed}
+.preview{background:linear-gradient(135deg,var(--gold) 0%,#A08030 100%);border-radius:12px;padding:24px;text-align:center;color:var(--darker);margin-bottom:16px}.preview h3{font-size:1.2rem;margin-bottom:4px}.preview .amount{font-size:2rem;font-weight:800;margin:8px 0}.preview .to{font-size:.85rem;opacity:.8}
+footer{background:#1A1A2E;border-top:1px solid rgba(200,169,81,.1);padding:20px;text-align:center;margin-top:40px;font-size:.75rem;color:var(--muted)}footer a{color:var(--muted);text-decoration:none;margin:0 10px}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.giftCards">🎁 Gift Cards</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/pricing">Pricing</a><a href="/credon/wallet">Wallet</a></div></nav>
+<div class="container">
+<h1 data-i18n="brand.giftCards">🎁 Gift Cards</h1><p class="muted" data-i18n="page.sub_send_gift_card">Send a HeavensMarket gift card to someone special</p>
+
+<div class="card" id="giftForm">
+  <h2 data-i18n="page.h2_choose_amount">Choose Amount</h2>
+  <div class="amount-grid" id="amountGrid">
+    <div class="amount-btn selected" onclick="selectAmount(25,this)" data-amount="25"><div class="price">$25</div></div>
+    <div class="amount-btn" onclick="selectAmount(50,this)" data-amount="50"><div class="price">$50</div></div>
+    <div class="amount-btn" onclick="selectAmount(100,this)" data-amount="100"><div class="price">$100</div></div>
+    <div class="amount-btn" onclick="selectAmount(200,this)" data-amount="200"><div class="price">$200</div></div>
+    <div class="amount-btn" onclick="selectAmount(500,this)" data-amount="500"><div class="price">$500</div></div>
+    <div class="amount-btn" onclick="document.getElementById('customAmt').focus()" data-amount="custom"><div class="muted">Custom</div></div>
+  </div>
+  <div class="custom-amount"><span>$</span><input id="customAmt" type="number" min="5" max="1000" placeholder="Custom amount" oninput="selectAmount(parseFloat(this.value)||25,null)" onfocus="deselectAll()"></div>
+
+  <h2 data-i18n="page.h2_recipient">Recipient</h2>
+  <div class="form-group"><label data-i18n="page.label_recipient_email">Recipient Email</label><input id="recEmail" type="email" placeholder="friend@email.com"></div>
+  <div class="form-group"><label data-i18n="page.label_recipient_name">Recipient Name</label><input id="recName" placeholder="Their name"></div>
+  <div class="form-group"><label data-i18n="page.label_your_name">Your Name</label><input id="senderName" placeholder="Your name"></div>
+  <div class="form-group"><label data-i18n="page.label_message">Message (optional)</label><textarea id="giftMsg" placeholder="Write a personal message..."></textarea></div>
+
+  <button class="btn" onclick="buyGift()" id="buyBtn" data-i18n="page.btn_buy_gift_card">🎁 Buy Gift Card — $25.00</button>
+</div>
+
+<div class="card" id="giftSuccess" style="display:none;text-align:center">
+  <div style="font-size:3rem;margin-bottom:12px">🎁</div>
+  <h2 data-i18n="page.gift_sent">Gift Card Sent!</h2>
+  <p class="muted" data-i18n="page.gift_sent_desc">Your gift card has been purchased and will be delivered to the recipient.</p>
+  <button class="btn" onclick="location.href='/shop/'" style="width:auto;margin-top:16px" data-i18n="page.btn_back_to_shop">Back to Shop</button>
+</div>
+</div>
+<footer><a href="/shop/">Browse</a> · <a href="/shop/create">Create</a> · <a href="/credon/wallet">Wallet</a> · <a href="/shop/help">Help</a> · <a href="/shop/terms">Terms</a></footer>
+<script src="/i18n.js"></script>
+<script>
+var selectedAmount=25;
+function selectAmount(amt,el){
+  if(el){
+    document.querySelectorAll('.amount-btn').forEach(function(b){b.classList.remove('selected')});
+    el.classList.add('selected');
+  }
+  selectedAmount=amt;
+  document.getElementById('customAmt').value=amt||'';
+  document.getElementById('buyBtn').textContent='🎁 Buy Gift Card — $'+selectedAmount.toFixed(2);
+}
+function deselectAll(){document.querySelectorAll('.amount-btn').forEach(function(b){b.classList.remove('selected')})}
+
+async function buyGift(){
+  var T=localStorage.getItem('token');
+  if(!T){alert('Please sign in to buy a gift card');location.href='/credon/';return}
+  var email=document.getElementById('recEmail').value.trim();
+  if(!email){alert('Please enter recipient email');return}
+  if(selectedAmount<5){alert('Minimum gift amount is $5');return}
+  
+  var btn=document.getElementById('buyBtn');
+  btn.textContent='Redirecting to PayPal...';btn.disabled=true;
+  try{
+    var r=await(await fetch('/api/payment/create',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+T},
+      body:JSON.stringify({
+        amount:selectedAmount,
+        description:'HeavensMarket Gift Card — $'+selectedAmount.toFixed(2)+' for '+email,
+        type:'gift_card',
+        metadata:{
+          recipientEmail:email,
+          recipientName:document.getElementById('recName').value,
+          senderName:document.getElementById('senderName').value,
+          message:document.getElementById('giftMsg').value
+        },
+        returnUrl:window.location.origin+'/shop/gift-cards?success=1',
+        cancelUrl:window.location.origin+'/shop/gift-cards'
+      })
+    })).json();
+    if(r.approvalUrl){window.location.href=r.approvalUrl}
+    else{alert(r.error||'Payment failed');btn.textContent='🎁 Buy Gift Card — $'+selectedAmount.toFixed(2);btn.disabled=false}
+  }catch(e){alert('Payment error');btn.disabled=false}
+}
+
+// Show success if returning from PayPal
+if(window.location.search.includes('success=1')){
+  document.getElementById('giftForm').style.display='none';
+  document.getElementById('giftSuccess').style.display='block';
+}
+</script>
+</body></html>

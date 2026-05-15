@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Credon — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:16px;align-items:center}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--gold)}
+.lang-select select{padding:6px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-size:.75rem;cursor:pointer}
+.container{max-width:440px;margin:60px auto;padding:0 20px;flex:1}
+.card{background:var(--card);border-radius:14px;padding:36px;border:1px solid rgba(200,169,81,.1)}
+h1{color:var(--gold);text-align:center;margin-bottom:4px}h2{color:var(--gold);font-size:.95rem;text-align:center;margin-bottom:20px}.muted{color:var(--muted);font-size:.82rem;text-align:center}
+input{width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.9rem;margin:8px 0}
+.btn{width:100%;padding:13px;background:var(--gold);color:var(--darker);border:none;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;margin-top:8px}.btn:hover{opacity:.9}.btn:disabled{opacity:.5}
+.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.msg{padding:8px 12px;border-radius:6px;font-size:.8rem;margin:8px 0;display:none}.ok{background:rgba(46,204,113,.08);color:var(--success)}.err{background:rgba(231,76,60,.08);color:var(--danger)}
+.tabs{display:flex;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)}.tab{flex:1;text-align:center;padding:10px;color:var(--muted);cursor:pointer;font-size:.82rem;border-bottom:2px solid transparent}.tab.on{color:var(--gold);border-color:var(--gold)}
+.forgot{display:block;text-align:right;color:var(--muted);font-size:.75rem;margin:4px 0 8px;cursor:pointer}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:.7rem;border-top:1px solid rgba(255,255,255,.04)}
+</style></head><body>
+<nav><div class="nav-brand">Credon</div><div class="nav-links">
+
+<a href="/shop/">Shop</a><a href="/">Home</a></div></nav>
+
+<div class="container">
+<h1>💱 Credon</h1><p class="muted">Divinely Inspired · Community Powered</p>
+
+<div class="tabs"><div class="tab on" onclick="showTab('login')">Sign In</div><div class="tab" onclick="showTab('register')">Register</div></div>
+
+<div class="card" id="loginForm">
+  <div class="msg" id="loginMsg"></div>
+  <input id="loginEmail" type="email" placeholder="Email Address">
+  <input id="loginPass" type="password" placeholder="Password">
+  <a class="forgot" href="/shop/reset-password">Forgot password?</a>
+  <button class="btn" id="loginBtn" onclick="doLogin()">Sign In</button>
+</div>
+
+<div class="card" id="registerForm" style="display:none">
+  <div class="msg" id="regMsg"></div>
+  <input id="regName" placeholder="Full Name">
+  <input id="regEmail" type="email" placeholder="Email Address">
+  <input id="regPass" type="password" placeholder="Password (min 8 chars)">
+  <input id="regRef" placeholder="Referral Code (optional)">
+  <textarea id="regReason" placeholder="Why do you want to join? (required for Credon access)" style="width:100%;min-height:60px;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem;margin:8px 0;resize:vertical"></textarea>
+  <button class="btn" id="regBtn" onclick="doRegister()">Create Account</button>
+</div>
+</div>
+
+<footer>© 2026 HeavensLive · Credon Currency System</footer>
+
+<script>
+var T=localStorage.getItem("token");if(T){window.location.href="/credon/wallet"}
+
+function showTab(t){
+  document.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('on',el.textContent.trim().toLowerCase().includes(t))});
+  document.getElementById('loginForm').style.display=t==='login'?'block':'none';
+  document.getElementById('registerForm').style.display=t==='register'?'block':'none';
+}
+
+async function doLogin(){
+  var b=document.getElementById('loginBtn'),m=document.getElementById('loginMsg'),e=document.getElementById('loginEmail').value.trim(),p=document.getElementById('loginPass').value;
+  if(!e||!p){m.textContent='Email and password required.';m.className='msg err';m.style.display='block';return}
+  b.disabled=true;b.textContent='Signing in...';
+  try{
+    var r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});
+    var d=await r.json();
+    if(d.token){localStorage.setItem('token',d.token);window.location.href='/credon/wallet'}
+    else{m.textContent=d.error||'Login failed';m.className='msg err';m.style.display='block'}
+  }catch(x){m.textContent='Server error';m.className='msg err';m.style.display='block'}
+  b.disabled=false;b.textContent='Sign In';
+}
+
+async function doRegister(){
+  var b=document.getElementById('regBtn'),m=document.getElementById('regMsg'),n=document.getElementById('regName').value.trim(),e=document.getElementById('regEmail').value.trim(),p=document.getElementById('regPass').value,ref=document.getElementById('regRef').value.trim(),reason=document.getElementById('regReason').value.trim();
+  if(!n||!e||!p){m.textContent='Name, email, and password required.';m.className='msg err';m.style.display='block';return}
+  if(p.length<8){m.textContent='Password must be at least 8 characters.';m.className='msg err';m.style.display='block';return}
+  if(!reason){m.textContent='Please tell us why you want to join.';m.className='msg err';m.style.display='block';return}
+  b.disabled=true;b.textContent='Creating...';
+  try{
+    var body={fullName:n,email:e,password:p,source:'credon',joinReason:reason};
+    if(ref)body.referralCode=ref;
+    var r=await fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    var d=await r.json();
+    if(d.token){localStorage.setItem('token',d.token);window.location.href='/credon/wallet'}
+    else{m.textContent=d.error||d.message||'Registration failed';m.className='msg err';m.style.display='block'}
+  }catch(x){m.textContent='Server error';m.className='msg err';m.style.display='block'}
+  b.disabled=false;b.textContent='Create Account';
+}
+
+
+</script>
+</body></html>
