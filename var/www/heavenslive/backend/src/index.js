@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
 const shopRatingsRoutes = require("./routes/shop/ratings");
 const shopDisputesRoutes = require("./routes/shop/disputes");
 const shopAnalyticsRoutes = require("./routes/shop/analytics");
@@ -18,6 +18,21 @@ const app = express();
 const PORT = 5000;
 
 const PUBLIC_DIR = path.join(__dirname, "../../public");
+
+const mime = require('mime-types') || { lookup: (f) => f.endsWith('.html') ? 'text/html' : f.endsWith('.js') ? 'application/javascript' : f.endsWith('.css') ? 'text/css' : 'application/octet-stream' };
+
+// Express 5 sendFile replacement — bypasses broken send module on Windows
+const sendFile = (res, filePath) => {
+  try {
+    const data = require('fs').readFileSync(filePath);
+    const ext = path.extname(filePath).toLowerCase();
+    const types = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.xml': 'application/xml', '.txt': 'text/plain', '.webp': 'image/webp', '.woff2': 'font/woff2', '.woff': 'font/woff' };
+    res.type(types[ext] || 'application/octet-stream');
+    return res.send(data);
+  } catch (e) {
+    return res.status(404).send('Not Found');
+  }
+};
 const BUILD_DIR = path.join(__dirname, "../../frontend/build");
 const SHOP_BUILD_DIR = path.join(__dirname, "../../frontend-shop/build");
 const UPLOADS_DIR = path.join(__dirname, "../../public/uploads");
@@ -93,15 +108,15 @@ app.get("/shop/store/:slug", (req, res, next) => {
   // Don't catch settings/customization pages
   if (req.params.slug === 'settings' || req.params.slug === 'customization') return next();
   const storeFile = path.join(SHOP_BUILD_DIR, "store.html");
-  if (require("fs").existsSync(storeFile)) return res.sendFile(storeFile);
-  res.sendFile(path.join(SHOP_BUILD_DIR, "index.html"));
+  if (require("fs").existsSync(storeFile)) return sendFile(res, storeFile);
+  sendFile(res, path.join(SHOP_BUILD_DIR, "index.html"));
 });
 
-app.get("/api-docs", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "api-docs.html")));
-app.get("/shop/checkout", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "checkout.html")));
-app.get("/shop/bug-report", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "bug-report.html")));
-app.get("/shop/reset-password", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "reset-password.html")));
-app.get("/shop/listing/:id", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "listing/detail.html")));
+app.get("/api-docs", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "api-docs.html")));
+app.get("/shop/checkout", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "checkout.html")));
+app.get("/shop/bug-report", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "bug-report.html")));
+app.get("/shop/reset-password", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "reset-password.html")));
+app.get("/shop/listing/:id", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "listing/detail.html")));
 
 // Landing page (public — donations, USB purchases)
 app.use("/api/landing", landingRoutes);
@@ -114,7 +129,7 @@ app.use("/api/payment", require("./routes/payment"));
 app.use("/payment", require("./routes/payment"));
 
 // Static files
-app.get("/", (req, res) => res.sendFile(path.join(PUBLIC_DIR, "index.html")));
+app.get("/", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "index.html")));
 
 app.use('/currency-svgs', express.static('/home/bryan/.openclaw/canvas/currency'));
 app.use(express.static(PUBLIC_DIR));
@@ -122,13 +137,13 @@ app.use("/credon", express.static(BUILD_DIR));
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
 
 // Credon SPA
-app.get("/credon", (req, res) => res.sendFile(path.join(BUILD_DIR, "index.html")));
-app.get("/credon", (req, res) => res.sendFile(path.join(PUBLIC_DIR, "credon/index.html")));
-app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); res.sendFile(path.join(PUBLIC_DIR, "credon/admin.html")); });
-app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store"); res.sendFile(path.join(PUBLIC_DIR, "credon/admin.html")); });
-app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); res.sendFile(path.join(PUBLIC_DIR, "credon/wallet.html")); });
-app.get("/credon/wallet", (req, res) => res.sendFile(path.join(PUBLIC_DIR, "credon/wallet.html")));
-app.get("/credon/:path", (req, res) => res.sendFile(path.join(BUILD_DIR, "index.html")));
+app.get("/credon", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
+app.get("/credon", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/index.html")));
+app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html")); });
+app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store"); sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html")); });
+app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")); });
+app.get("/credon/wallet", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")));
+app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
 
 // Shop — serve specific pages when they exist, fallback to SPA
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
@@ -140,21 +155,21 @@ const serveShopPage = (req, res) => {
   // Try exact HTML file
   let filePath = path.join(SHOP_BUILD_DIR, reqPath);
   if (!filePath.endsWith('.html')) filePath += '.html';
-  if (require('fs').existsSync(filePath)) return res.sendFile(filePath);
+  if (require('fs').existsSync(filePath)) return sendFile(res, filePath);
   
   // Try index.html in subdirectory
   filePath = path.join(SHOP_BUILD_DIR, reqPath, 'index.html');
-  if (require('fs').existsSync(filePath)) return res.sendFile(filePath);
+  if (require('fs').existsSync(filePath)) return sendFile(res, filePath);
   
   // Try subdirectory/page.html pattern
   const parts = reqPath.split('/');
   if (parts.length === 2) {
     filePath = path.join(SHOP_BUILD_DIR, parts[0], parts[1] + '.html');
-    if (require('fs').existsSync(filePath)) return res.sendFile(filePath);
+    if (require('fs').existsSync(filePath)) return sendFile(res, filePath);
   }
   
   // Fallback to SPA
-  res.sendFile(path.join(SHOP_BUILD_DIR, 'index.html'));
+  sendFile(res, path.join(SHOP_BUILD_DIR, 'index.html'));
 };
 
 app.get("/shop", serveShopPage);
@@ -167,15 +182,15 @@ app.get("/shop/store/:slug", (req, res, next) => {
   // Don't catch settings/customization pages
   if (req.params.slug === 'settings' || req.params.slug === 'customization') return next();
   const storeFile = path.join(SHOP_BUILD_DIR, "store.html");
-  if (require("fs").existsSync(storeFile)) return res.sendFile(storeFile);
-  res.sendFile(path.join(SHOP_BUILD_DIR, "index.html"));
+  if (require("fs").existsSync(storeFile)) return sendFile(res, storeFile);
+  sendFile(res, path.join(SHOP_BUILD_DIR, "index.html"));
 });
 
-app.get("/api-docs", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "api-docs.html")));
-app.get("/shop/checkout", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "checkout.html")));
-app.get("/shop/bug-report", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "bug-report.html")));
-app.get("/shop/reset-password", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "reset-password.html")));
-app.get("/shop/listing/:id", (req, res) => res.sendFile(path.join(SHOP_BUILD_DIR, "listing/detail.html")));
+app.get("/api-docs", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "api-docs.html")));
+app.get("/shop/checkout", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "checkout.html")));
+app.get("/shop/bug-report", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "bug-report.html")));
+app.get("/shop/reset-password", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "reset-password.html")));
+app.get("/shop/listing/:id", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "listing/detail.html")));
 
 
 // Referral redirect
