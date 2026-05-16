@@ -86,7 +86,9 @@
     "foodDrink": "Nourriture et boissons",
     "services": "Services",
     "other": "Autre",
-    "suggest": "💡 Suggérer une sous-catégorie"
+    "suggest": "💡 Suggérer une sous-catégorie",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "Marché céleste",

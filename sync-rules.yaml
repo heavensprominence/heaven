@@ -1,0 +1,13 @@
+# PowerSync Sync Rules
+config:
+  edition: 2
+streams:
+  listings:
+    auto_subscribe: true
+    query: "SELECT * FROM listings"
+  shop_categories:
+    auto_subscribe: true
+    query: "SELECT * FROM shop_categories"
+  category_translations:
+    auto_subscribe: true
+    query: "SELECT * FROM category_translations"

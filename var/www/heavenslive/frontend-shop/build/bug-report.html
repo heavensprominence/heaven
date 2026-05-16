@@ -25,6 +25,8 @@ textarea{min-height:100px;resize:vertical}
 <option value="other">Other</option>
 </select>
 <textarea id="desc" placeholder="Describe the bug..."></textarea>
+<label for="screenshot" style="color:var(--muted);font-size:.8rem;margin-bottom:4px;display:block">📸 Screenshot (optional)</label>
+<input id="screenshot" type="file" accept="image/*" style="margin-bottom:10px">
 <div id="msg" class="msg"></div>
 <button class="btn" onclick="submitBug()">📤 Submit Report</button>
 </div>
@@ -33,8 +35,10 @@ async function submitBug(){
   var b=document.querySelector('.btn'),m=document.getElementById('msg'),d=document.getElementById('desc').value.trim();
   if(!d){m.textContent='Please describe the bug.';m.className='msg err';m.style.display='block';return}
   b.disabled=true;b.textContent='Submitting...';
+  var screenshot=null,file=document.getElementById('screenshot').files[0];
+  if(file&&file.size<5*1024*1024){screenshot=await new Promise(function(ok){var r=new FileReader();r.onload=function(e){ok(e.target.result)};r.readAsDataURL(file)})}
   try{
-    var r=await fetch('/api/shop/bug-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:document.getElementById('page').value,description:d,email:document.getElementById('email').value})});
+    var r=await fetch('/api/shop/bug-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:document.getElementById('page').value,description:d,email:document.getElementById('email').value,screenshot:screenshot})});
     var j=await r.json();
     m.textContent=j.success?'✅ Submitted! Thank you.':'❌ '+j.error;
     m.className=j.success?'msg ok':'msg err';m.style.display='block';

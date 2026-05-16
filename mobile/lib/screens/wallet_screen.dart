@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../services/api_client.dart';
 import '../config/api_config.dart';
 
-class WALLET_SCREEN extends StatefulWidget {
-  const WALLET_SCREEN({super.key});
+class WalletScreen extends StatefulWidget {
+  const WalletScreen({super.key});
   @override
-  State<WALLET_SCREEN> createState() => _WALLET_SCREENState();
+  State<WalletScreen> createState() => _WalletScreenState();
 }
-class _WALLET_SCREENState extends State<WALLET_SCREEN> {
+class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

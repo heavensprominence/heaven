@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/theme.dart';
 import '../services/marketplace_service.dart';
 import '../services/auth_service.dart';
 
@@ -36,7 +37,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
         ],
       ),
       body: _loading
-        ? const Center(child: CircularProgressIndicator(color: AppTheme.gold))
+        ? Center(child: CircularProgressIndicator(color: AppTheme.gold))
         : RefreshIndicator(
             onRefresh: _load,
             child: ListView.builder(
@@ -47,7 +48,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   child: ListTile(
-                    leading: const Icon(Icons.inventory_2, color: AppTheme.gold),
+                    leading: Icon(Icons.inventory_2, color: AppTheme.gold),
                     title: Text(l['title'] ?? '', maxLines: 1),
                     subtitle: Text('${l['location_city'] ?? 'Online'} · \$${price.toStringAsFixed(2)}'),
                     trailing: IconButton(

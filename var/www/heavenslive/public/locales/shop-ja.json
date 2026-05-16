@@ -86,7 +86,9 @@
     "foodDrink": "フード＆ドリンク",
     "services": "サービス",
     "other": "その他",
-    "suggest": "💡 サブカテゴリを提案"
+    "suggest": "💡 サブカテゴリを提案",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "ヘブンズマーケット",

@@ -68,14 +68,21 @@
     });
   }
   
+  // Pre-load English locales as fallback
+  var EN_SHOP = null, EN_LANDING = null;
+  fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){});
+  fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){});
+
   function applyLanding(t){
     if(!t) return;
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var key=el.getAttribute('data-i18n'),parts=key.split('.'),val=t;
       for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
       if(typeof val!=='string'||!val){
-        // Fall back to English if landing locale is missing key
-        if(EN_LOCALE){val=EN_LOCALE;for(var j=0;j<parts.length;j++){if(!val)break;val=val[parts[j]]}}
+        // Fall back to landing-en, then shop-en, then data-original
+        if(EN_LANDING){val=EN_LANDING;for(var j=0;j<parts.length;j++){if(!val)break;val=val[parts[j]]}}
+        if(typeof val!=='string'||!val){if(EN_SHOP){val=EN_SHOP;for(var k=0;k<parts.length;k++){if(!val)break;val=val[parts[k]]}}}
+        if(typeof val!=='string'||!val){val=el.getAttribute('data-original')||el.textContent.trim()}
       }
       if(typeof val==='string'&&val){
         if(el.children.length>0){var html=val;Array.from(el.children).forEach(function(c){html=html.replace(c.textContent,c.outerHTML)});el.innerHTML=html}
@@ -83,10 +90,6 @@
       }
     });
   }
-  // Also apply shop locale to [data-i18n] elements
-  // Pre-load English locale as fallback
-  var EN_LOCALE = null;
-  fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_LOCALE=j}).catch(function(){});
   
   function applyShopI18n(s){
     if(!s) return;
@@ -96,7 +99,8 @@
       for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
       // If locale is missing this key, fall back to English original
       if(typeof val!=='string'||!val){
-        if(EN_LOCALE){val=EN_LOCALE;for(var j=0;j<parts.length;j++){if(!val)break;val=val[parts[j]]}}
+        if(EN_SHOP){val=EN_SHOP;for(var j=0;j<parts.length;j++){if(!val)break;val=val[parts[j]]}}
+        if(typeof val!=='string'||!val){val=el.getAttribute('data-original')||el.textContent.trim()}
       }
       if(typeof val==='string'&&val){
         el.textContent=val;

@@ -80,7 +80,9 @@
     "foodDrink": "Đồ ăn & Đồ uống",
     "services": "Dịch vụ",
     "other": "Khác",
-    "suggest": "💡 Suggest a Subcategory"
+    "suggest": "💡 Suggest a Subcategory",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "Thiên ĐườngThị Trường",

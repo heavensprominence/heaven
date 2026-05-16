@@ -86,7 +86,9 @@
     "foodDrink": "Comida y bebida",
     "services": "Servicios",
     "other": "Otro",
-    "suggest": "💡 Sugerir subcategoría"
+    "suggest": "💡 Sugerir subcategoría",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "Mercado de los cielos",

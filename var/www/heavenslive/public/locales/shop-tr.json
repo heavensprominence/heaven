@@ -86,7 +86,9 @@
     "foodDrink": "Yiyecek ve İçecek",
     "services": "Hizmetler",
     "other": "Diğer",
-    "suggest": "💡 Suggest a Subcategory"
+    "suggest": "💡 Suggest a Subcategory",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "Cennet Pazarı",

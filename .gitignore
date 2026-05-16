@@ -11,5 +11,18 @@ var/www/heavenslive/public/uploads/stores/*
 var/www/heavenslive/public/static/media/
 *.wav
 *.mp3
+*.jks
+key.properties
 !var/www/heavenslive/public/uploads/listings/.gitkeep
 !var/www/heavenslive/public/uploads/stores/.gitkeep
+
+# Build artifacts
+desktop/target/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/local.properties
+mobile/build/
+.dart_tool/
+.flutter-plugins*
+*.iml
+.idea/

@@ -86,7 +86,9 @@
     "foodDrink": "غذا و نوشیدنی",
     "services": "خدمات",
     "other": "دیگر",
-    "suggest": "💡 پیشنهاد زیرمجموعه"
+    "suggest": "💡 پیشنهاد زیرمجموعه",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "HeavensMarket",

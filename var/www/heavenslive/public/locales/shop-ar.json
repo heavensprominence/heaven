@@ -86,7 +86,9 @@
     "foodDrink": "الطعام والشراب",
     "services": "خدمات",
     "other": "آخر",
-    "suggest": "💡 اقترح فئة فرعية"
+    "suggest": "💡 اقترح فئة فرعية",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "سوق السماء",

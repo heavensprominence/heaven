@@ -104,11 +104,12 @@ router.post('/admin/create', async (req, res) => {
             category = category + '_' + (Math.max(...counters, 0) + 1);
         }
         
+        const sortOrder = (category === 'other' || category.endsWith('_other')) ? 9999 : 0;
         await db.query(
-            `INSERT INTO shop_categories (category, display_name, parent_category, icon) 
-             VALUES ($1, $2, $3, $4)
-             ON CONFLICT (category) DO UPDATE SET display_name = $2, updated_at = NOW()`,
-            [category, name, parent_category || null, icon || '📦']
+            `INSERT INTO shop_categories (category, display_name, parent_category, icon, sort_order) 
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (category) DO UPDATE SET display_name = $2, sort_order = $5, updated_at = NOW()`,
+            [category, name, parent_category || null, icon || '📦', sortOrder]
         );
 
         // Auto-translate
@@ -122,6 +123,22 @@ router.post('/admin/create', async (req, res) => {
                     await db.query(
                         `INSERT INTO category_translations (category, language_code, name) VALUES ($1, $2, $3) ON CONFLICT (category, language_code) DO UPDATE SET name = $3`,
                         [category, lang, t]
+                    );
+                }
+            } catch(e) {}
+        }
+
+        // Also auto-translate the "Other" subcategory created by DB trigger
+        const otherSlug = category + '_other';
+        const otherSrc = detectLanguage('Other');
+        for (const lang of SUPPORTED_LANGUAGES) {
+            if (lang === otherSrc) continue;
+            try {
+                const t = await translateText('Other', otherSrc, lang);
+                if (t && t !== 'Other') {
+                    await db.query(
+                        `INSERT INTO category_translations (category, language_code, name) VALUES ($1, $2, $3) ON CONFLICT (category, language_code) DO UPDATE SET name = $3`,
+                        [otherSlug, lang, t]
                     );
                 }
             } catch(e) {}
@@ -211,7 +228,18 @@ router.post('/create', async (req, res) => {
 router.put('/:category', async (req, res) => {
     try {
         const { category } = req.params;
-        const { displayName, icon, isActive, parentCategory } = req.body;
+        const { displayName, icon, isActive, parentCategory, lang, name } = req.body;
+        
+        // Per-language translation update
+        if (lang && name !== undefined) {
+            await db.query(
+                `INSERT INTO category_translations (category, language_code, name) VALUES ($1,$2,$3) ON CONFLICT (category, language_code) DO UPDATE SET name = $3, updated_at = NOW()`,
+                [category, lang, name]
+            );
+            return res.json({ success: true });
+        }
+        
+        // Display name update
         const updates = [];
         const params = [];
         let paramCount = 1;

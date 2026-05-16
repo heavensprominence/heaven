@@ -86,7 +86,9 @@
     "foodDrink": "食品和饮料",
     "services": "服务",
     "other": "其他",
-    "suggest": "💡 建议子类别"
+    "suggest": "💡 建议子类别",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "天堂市场",

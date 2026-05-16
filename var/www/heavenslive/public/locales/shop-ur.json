@@ -86,7 +86,9 @@
     "foodDrink": "کھانا اور پینا",
     "services": "خدمات",
     "other": "دیگر",
-    "suggest": "💡 Suggest a Subcategory"
+    "suggest": "💡 Suggest a Subcategory",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "HeavensMarket",

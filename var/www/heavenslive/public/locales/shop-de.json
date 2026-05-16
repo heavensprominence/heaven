@@ -86,7 +86,9 @@
     "foodDrink": "Essen & Trinken",
     "services": "Dienstleistungen",
     "other": "Andere",
-    "suggest": "💡 Unterkategorie vorschlagen"
+    "suggest": "💡 Unterkategorie vorschlagen",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "HeavensMarket",

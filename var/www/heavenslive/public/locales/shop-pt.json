@@ -86,7 +86,9 @@
     "foodDrink": "Comida e bebida",
     "services": "Serviços",
     "other": "Outro",
-    "suggest": "💡 Suggest a Subcategory"
+    "suggest": "💡 Suggest a Subcategory",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "Mercado Celestial",

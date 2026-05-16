@@ -21,7 +21,7 @@ async function treeInit() {
   var total = 0;
   cats.forEach(function(c) { total += (c.count || 0); });
 
-  var html = '<div class="cat-item sel" data-cat="" onclick="F.cat=\'\';F.p=1;load();updateCats()"><span>🏠</span>All Listings<span class="n">' + total + '</span></div>';
+  var html = '<div class="cat-item sel" data-cat="" data-i18n="header.allListings" onclick="F.cat=\'\';F.p=1;load();updateCats()"><span>🏠</span>All Listings<span class="n">' + total + '</span></div>';
 
   cats.forEach(function(c) {
     var icon = c.icon || '📦';

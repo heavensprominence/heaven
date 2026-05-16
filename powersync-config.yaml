@@ -1,0 +1,19 @@
+# PowerSync Service v1.21 Configuration
+# Mounted into container at /app/powersync.yaml
+
+replication:
+  connections:
+    - type: postgresql
+      uri: postgresql://heavenslive:${DB_PASSWORD}@localhost:5432/heavenslive_db
+      sslmode: disable
+
+storage:
+  type: postgresql
+  uri: postgresql://heavenslive:${DB_PASSWORD}@localhost:5432/heavenslive_db
+  sslmode: disable
+
+sync_rules:
+  path: /app/sync-rules.yaml
+
+telemetry:
+  disable_telemetry_sharing: true

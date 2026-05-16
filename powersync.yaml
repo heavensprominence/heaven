@@ -1,31 +1,14 @@
 # PowerSync Service Configuration
-# Deploy with: docker compose up -d
+# Deploy on VPS with: DB_PASSWORD="xxx" docker compose -f powersync.yaml up -d
 
-version: "3.8"
 services:
   powersync:
-    image: powersync/powersync-service:latest
-    ports:
-      - "8080:8080"
-    environment:
-      - POWERSYNC_DATABASE_URL=postgresql://heavenslive:password@postgres:5432/heavenslive_db
-      - POWERSYNC_JWT_SECRET=${JWT_SECRET}
-      - POWERSYNC_PORT=8080
-    depends_on:
-      - postgres
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:16
-    environment:
-      - POSTGRES_USER=heavenslive
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=heavenslive_db
-    ports:
-      - "5432:5432"
+    image: journeyapps/powersync-service:latest
+    network_mode: "host"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./powersync-config-resolved.yaml:/app/powersync.yaml:ro
+      - ./sync-rules.yaml:/app/sync-rules.yaml:ro
+    environment:
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     restart: unless-stopped
-
-volumes:
-  pgdata:

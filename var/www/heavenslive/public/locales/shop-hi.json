@@ -86,7 +86,9 @@
     "foodDrink": "भोजन पेय",
     "services": "सेवाएं",
     "other": "अन्य",
-    "suggest": "💡 Suggest a Subcategory"
+    "suggest": "💡 Suggest a Subcategory",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "हेवन्समार्केट",

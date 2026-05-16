@@ -86,7 +86,9 @@
     "foodDrink": "음식 및 음료",
     "services": "서비스",
     "other": "다른",
-    "suggest": "💡 하위 카테고리 제안"
+    "suggest": "💡 하위 카테고리 제안",
+    "allListings": "All Listings",
+    "showFilters": "☰ Filters"
   },
   "footer": {
     "market": "헤븐스마켓",

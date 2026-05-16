@@ -614,10 +614,24 @@ router.post('/purchases/complete', verifyToken, async (req, res) => {
 // Bug report submission
 router.post('/bug-report', async (req, res) => {
     try {
-        const { page, description, email } = req.body;
+        const { page, description, email, screenshot } = req.body;
         const fs = require('fs');
         const path = require('path');
-        const report = `[${new Date().toISOString()}] ${email||'anonymous'} | ${page||'unknown'}
+        
+        // Save screenshot if provided
+        let screenshotFile = '';
+        if (screenshot && screenshot.startsWith('data:image/')) {
+            const ext = screenshot.match(/^data:image\/(\w+)/)[1] || 'png';
+            const ts = Date.now();
+            const filename = `bug-${ts}.${ext}`;
+            const dir = path.join(__dirname, '../../public/uploads/bug-screenshots');
+            fs.mkdirSync(dir, { recursive: true });
+            const base64 = screenshot.replace(/^data:image\/\w+;base64,/, '');
+            fs.writeFileSync(path.join(dir, filename), Buffer.from(base64, 'base64'));
+            screenshotFile = filename;
+        }
+        
+        const report = `[${new Date().toISOString()}] ${email||'anonymous'} | ${page||'unknown'} | screenshot: ${screenshotFile||'none'}
 ${description}
 ---
 `;

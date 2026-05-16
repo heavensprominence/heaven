@@ -1,11 +1,18 @@
 {
   "hero": {
     "title": "Divinely <span class=\"gold\">Underwritten</span><br>for All of Us",
-    "subtitle": "Faith-based commerce, fair currency, and community-driven giving — all on one platform.",
+    "subtitle": "Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.",
     "shopBtn": "Explore the Marketplace",
     "credonBtn": "Learn About Credon"
   },
   "features": {
+    "title": "One Platform, Three Pillars",
+    "marketplace": "Fair Marketplace",
+    "marketplaceDesc": "Buy and sell across 84 currencies. Auctions, classifieds, and procurement with 17-language support.",
+    "credon": "Credon Currency",
+    "credonDesc": "Stable clone currency system. 84 denominations. Earn bonuses on every transaction.",
+    "sacred": "Sacred Commerce",
+    "sacredDesc": "Donations that multiply. USB prayer collections. Every transaction builds community and supports the mission.",
     "ai": "AI-Ready",
     "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
   },
@@ -18,7 +25,7 @@
     "custom": "Custom",
     "anyAmount": "Any Amount",
     "donateBtn": "Donate Now",
-    "bonusLabel": "Credon Bonus",
+    "bonusLabel": "✨ Credon Bonus",
     "bonusEarns": "Your $50 donation earns",
     "multiplier": "10x multiplier on your 1st donation"
   },
@@ -36,12 +43,15 @@
     "shop": "Shop",
     "credon": "Credon",
     "about": "About",
+    "api": "API",
     "signIn": "Sign In",
     "getStarted": "Get Started",
     "home": "Home",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "register": "Register"
   },
   "footer": {
+    "desc": "Divinely underwritten commerce for a connected world. Buy, give, and grow — together.",
     "affiliate": "Affiliate",
     "pricing": "Pricing",
     "register": "Register",
@@ -53,8 +63,8 @@
     "tagline": "Divinely underwritten commerce. Open to all."
   },
   "prayer": {
-    "label": "Prayer Audio",
-    "download": "Free Download"
+    "label": "🙏 Prayer Audio",
+    "download": "⬇ Download"
   },
   "rates": {
     "title": "Live Exchange Rates"
