@@ -57,6 +57,7 @@ const shopWishlistRoutes = require("./routes/shop/wishlist");
 const shopRoutes = require("./routes/shop");
 const shopSupportRoutes = require("./routes/shop/support");
 const shopMessagesRoutes = require("./routes/shop/messages");
+const syncRoutes = require("./routes/sync");
 const shopUploadRoutes = require("./routes/shop/upload");
 const shopStoreRoutes = require("./routes/shop/stores");
 const shopEscrowRoutes = require("./routes/shop/escrow");
@@ -108,7 +109,6 @@ app.get("/shop/store/:slug", (req, res, next) => {
   // Don't catch settings/customization pages
   if (req.params.slug === 'settings' || req.params.slug === 'customization') return next();
   const storeFile = path.join(SHOP_BUILD_DIR, "store.html");
-<<<<<<< Updated upstream
   if (require("fs").existsSync(storeFile)) return sendFile(res, storeFile);
   sendFile(res, path.join(SHOP_BUILD_DIR, "index.html"));
 });
@@ -118,17 +118,6 @@ app.get("/shop/checkout", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, 
 app.get("/shop/bug-report", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "bug-report.html")));
 app.get("/shop/reset-password", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "reset-password.html")));
 app.get("/shop/listing/:id", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "listing/detail.html")));
-=======
-  if (require("fs").existsSync(storeFile)) return res.sendFile(path.basename(storeFile), { root: path.dirname(storeFile) });
-  res.sendFile("index.html", { root: SHOP_BUILD_DIR });
-});
-
-app.get("/api-docs", (req, res) => res.sendFile("api-docs.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/checkout", (req, res) => res.sendFile("checkout.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/bug-report", (req, res) => res.sendFile("bug-report.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/reset-password", (req, res) => res.sendFile("reset-password.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/listing/:id", (req, res) => res.sendFile("listing/detail.html", { root: SHOP_BUILD_DIR }));
->>>>>>> Stashed changes
 
 // Landing page (public — donations, USB purchases)
 app.use("/api/landing", landingRoutes);
@@ -140,12 +129,11 @@ app.use("/api/verify", require("./routes/verify"));
 app.use("/api/payment", require("./routes/payment"));
 app.use("/payment", require("./routes/payment"));
 
+// PowerSync — device upload + conflict resolution (last-write-wins)
+app.use("/api/sync", syncRoutes);
+
 // Static files
-<<<<<<< Updated upstream
 app.get("/", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "index.html")));
-=======
-app.get("/", (req, res) => res.sendFile("index.html", { root: PUBLIC_DIR }));
->>>>>>> Stashed changes
 
 app.use('/currency-svgs', express.static('/home/bryan/.openclaw/canvas/currency'));
 app.use(express.static(PUBLIC_DIR));
@@ -153,7 +141,6 @@ app.use("/credon", express.static(BUILD_DIR));
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
 
 // Credon SPA
-<<<<<<< Updated upstream
 app.get("/credon", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
 app.get("/credon", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/index.html")));
 app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html")); });
@@ -161,12 +148,6 @@ app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store"); se
 app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")); });
 app.get("/credon/wallet", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")));
 app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
-=======
-app.get("/credon", (req, res) => res.sendFile(path.join(BUILD_DIR, "index.html")));
-app.get("/credon/admin", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); res.sendFile("credon/admin.html", { root: PUBLIC_DIR }); });
-app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); res.sendFile("credon/wallet.html", { root: PUBLIC_DIR }); });
-app.get("/credon/:path", (req, res) => res.sendFile(path.join(BUILD_DIR, "index.html")));
->>>>>>> Stashed changes
 
 // Shop — serve specific pages when they exist, fallback to SPA
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
@@ -205,7 +186,6 @@ app.get("/shop/store/:slug", (req, res, next) => {
   // Don't catch settings/customization pages
   if (req.params.slug === 'settings' || req.params.slug === 'customization') return next();
   const storeFile = path.join(SHOP_BUILD_DIR, "store.html");
-<<<<<<< Updated upstream
   if (require("fs").existsSync(storeFile)) return sendFile(res, storeFile);
   sendFile(res, path.join(SHOP_BUILD_DIR, "index.html"));
 });
@@ -215,17 +195,6 @@ app.get("/shop/checkout", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, 
 app.get("/shop/bug-report", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "bug-report.html")));
 app.get("/shop/reset-password", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "reset-password.html")));
 app.get("/shop/listing/:id", (req, res) => sendFile(res, path.join(SHOP_BUILD_DIR, "listing/detail.html")));
-=======
-  if (require("fs").existsSync(storeFile)) return res.sendFile(path.basename(storeFile), { root: path.dirname(storeFile) });
-  res.sendFile("index.html", { root: SHOP_BUILD_DIR });
-});
-
-app.get("/api-docs", (req, res) => res.sendFile("api-docs.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/checkout", (req, res) => res.sendFile("checkout.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/bug-report", (req, res) => res.sendFile("bug-report.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/reset-password", (req, res) => res.sendFile("reset-password.html", { root: SHOP_BUILD_DIR }));
-app.get("/shop/listing/:id", (req, res) => res.sendFile("listing/detail.html", { root: SHOP_BUILD_DIR }));
->>>>>>> Stashed changes
 
 
 // Referral redirect

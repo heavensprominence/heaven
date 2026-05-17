@@ -1,4 +1,6 @@
 import 'package:powersync/powersync.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import '../config/api_config.dart';
@@ -121,10 +123,23 @@ class PowerSyncBackendConnector extends BackendConnector {
 
   @override
   Future<void> uploadData(PowerSyncDatabase database) async {
-    // Upload local changes to backend — required for bidirectional sync
     final tx = await database.getNextCrudTransaction();
     if (tx == null) return;
 
-    await database.completeTransaction(tx.transactionId);
+    try {
+      final response = await http.post(
+        Uri.parse('https://heavenslive.com/api/sync/upload'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'mutations': tx.crud,
+          'transaction_id': tx.transactionId.toString(),
+        }),
+      );
+      if (response.statusCode == 200) {
+        await database.completeTransaction(tx.transactionId);
+      }
+    } catch (e) {
+      // Retry on next sync cycle
+    }
   }
 }
