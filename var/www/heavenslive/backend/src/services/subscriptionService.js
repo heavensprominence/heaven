@@ -30,6 +30,13 @@ async function getUserPlan(userId) {
         const currentListings = await getCurrentListingsCount(userId);
         const currentFeatured = await getCurrentFeaturedCount(userId);
         
+        // Fetch user's store
+        let store = null;
+        try {
+            const storeResult = await db.query('SELECT id, store_name, slug FROM stores WHERE seller_id = $1 AND is_active = true LIMIT 1', [userId]);
+            if (storeResult.rows.length > 0) store = storeResult.rows[0];
+        } catch(e) {}
+        
         return {
             planId: user.current_plan_id,
             planName: user.plan_name || 'Free',
@@ -48,7 +55,8 @@ async function getUserPlan(userId) {
             usage: {
                 currentListings: currentListings,
                 currentFeatured: currentFeatured
-            }
+            },
+            store: store
         };
     } catch (error) {
         console.error('Get user plan error:', error);
