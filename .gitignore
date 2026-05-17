@@ -26,3 +26,7 @@ mobile/build/
 .flutter-plugins*
 *.iml
 .idea/
+
+# Desktop build artifacts
+desktop/AppDir/
+desktop/*.AppImage
