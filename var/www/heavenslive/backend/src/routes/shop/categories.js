@@ -393,7 +393,7 @@ router.delete('/admin/delete/:slug', verifyToken, requireAdmin, async (req, res)
     try {
         const { slug } = req.params;
         await db.query('DELETE FROM category_translations WHERE category = $1', [slug]);
-        await db.query('DELETE FROM shop_categories WHERE slug = $1', [slug]);
+        await db.query('DELETE FROM shop_categories WHERE category = $1', [slug]);
         res.json({ success: true });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
