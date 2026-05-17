@@ -3,7 +3,7 @@ name: Build macOS + iOS
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # manual trigger
+  workflow_dispatch:
 
 jobs:
   macos-desktop:
@@ -13,6 +13,9 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli
 
       - name: Build Tauri (macOS)
         working-directory: desktop
@@ -33,6 +36,10 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
+      - name: Add iOS platform
+        working-directory: mobile
+        run: flutter create --platforms ios .
 
       - name: Build iOS
         working-directory: mobile
