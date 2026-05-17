@@ -44,8 +44,8 @@ router.post('/subscribe', verifyToken, async (req, res) => {
         // Support UUID, slug, or slug-billing format (e.g. pro-monthly → pro)
         const cleanSlug = planId.replace(/-monthly|-yearly|-annual/, '');
         const plan = await db.query(
-            'SELECT * FROM subscription_plans WHERE id = $1 OR slug = $1 OR slug = $2',
-            [planId, cleanSlug]
+            'SELECT * FROM subscription_plans WHERE slug = $1 OR slug = $2 OR id::text = $3',
+            [planId, cleanSlug, planId]
         );
         if (plan.rows.length === 0) return res.status(404).json({ error: 'Plan not found' });
         const actualPlanId = plan.rows[0].id;  // Real UUID from DB
