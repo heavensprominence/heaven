@@ -272,6 +272,21 @@ router.get('/translations/all', async (req, res) => {
     res.json({ translations: result.rows });
 });
 
+// Submit a category suggestion (from users)
+router.post('/suggest', async (req, res) => {
+    try {
+        const { name, parent_category } = req.body;
+        if (!name || !name.trim()) return res.status(400).json({ error: 'Name required' });
+
+        const userId = req.user?.id || null;
+        await db.query(
+            'INSERT INTO category_suggestions (suggested_name, parent_category, user_id, status) VALUES ($1, $2, $3, $4)',
+            [name.trim(), parent_category || null, userId, 'pending']
+        );
+        res.json({ success: true, message: 'Category suggestion submitted for review' });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
 // Get pending category suggestions
 router.get('/suggestions/pending', async (req, res) => {
     try {
