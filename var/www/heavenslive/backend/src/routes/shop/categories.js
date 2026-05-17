@@ -282,21 +282,80 @@ router.get('/suggestions/pending', async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// Approve suggestion
+// Approve suggestion — auto-creates category + "Other" subcategory + translations
 router.post('/suggestions/:id/approve', async (req, res) => {
     try {
         const { id } = req.params;
         const { displayName, icon } = req.body;
-        const sg = await db.query('SELECT * FROM category_suggestions WHERE id = ', [id]);
+        const sg = await db.query('SELECT * FROM category_suggestions WHERE id = $1', [id]);
         if (sg.rows.length === 0) return res.status(404).json({ error: 'Not found' });
         const s = sg.rows[0];
-        let cat = displayName.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+        let category = displayName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+
+        // Check for duplicates and add counter
+        const existing = await db.query("SELECT category FROM shop_categories WHERE category LIKE $1", [category + '%']);
+        if (existing.rows.length > 0) {
+            const counters = existing.rows.map(r => {
+                const match = r.category.match(/_(\d+)$/);
+                return match ? parseInt(match[1]) : 0;
+            });
+            category = category + '_' + (Math.max(...counters, 0) + 1);
+        }
+
+        // Create the category with alphabetical sort order
+        const sortOrder = (category === 'other' || category.endsWith('_other')) ? 9999 : 0;
         await db.query(
-            'INSERT INTO shop_categories (category, display_name, parent_category, icon) VALUES ($1, $2, $3, $4) ON CONFLICT (category) DO UPDATE SET display_name = $2',
-            [cat, displayName, s.parent_category || null, icon || '📁']
+            `INSERT INTO shop_categories (category, display_name, parent_category, icon, sort_order)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (category) DO UPDATE SET display_name = $2, sort_order = $5, updated_at = NOW()`,
+            [category, displayName, s.parent_category || null, icon || '📁', sortOrder]
         );
+
+        // Auto-create "Other" subcategory
+        const otherSlug = category + '_other';
+        await db.query(
+            `INSERT INTO shop_categories (category, display_name, parent_category, icon, sort_order)
+             VALUES ($1, $2, $3, $4, 9999)
+             ON CONFLICT (category) DO NOTHING`,
+            [otherSlug, 'Other', category, '📦']
+        );
+
+        // Auto-translate category name to all supported languages
+        const { translateText, SUPPORTED_LANGUAGES, detectLanguage } = require('../../services/translationService');
+        const srcLang = detectLanguage(displayName);
+        for (const lang of SUPPORTED_LANGUAGES) {
+            if (lang === srcLang) continue;
+            try {
+                const t = await translateText(displayName, srcLang, lang);
+                if (t && t !== displayName) {
+                    await db.query(
+                        `INSERT INTO category_translations (category, language_code, name)
+                         VALUES ($1, $2, $3)
+                         ON CONFLICT (category, language_code) DO UPDATE SET name = $3`,
+                        [category, lang, t]
+                    );
+                }
+            } catch(e) {}
+        }
+
+        // Translate "Other" subcategory too
+        for (const lang of SUPPORTED_LANGUAGES) {
+            if (lang === 'en') continue;
+            try {
+                const t = await translateText('Other', 'en', lang);
+                if (t && t !== 'Other') {
+                    await db.query(
+                        `INSERT INTO category_translations (category, language_code, name)
+                         VALUES ($1, $2, $3)
+                         ON CONFLICT (category, language_code) DO UPDATE SET name = $3`,
+                        [otherSlug, lang, t]
+                    );
+                }
+            } catch(e) {}
+        }
+
         await db.query("UPDATE category_suggestions SET status = 'approved', reviewed_at = NOW() WHERE id = $1", [id]);
-        res.json({ success: true });
+        res.json({ success: true, category, otherSlug });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
