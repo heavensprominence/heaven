@@ -86,7 +86,9 @@ class _BackendConnector extends PowerSyncBackendConnector {
   }
 
   @override
-  Future<void> uploadData(CrudBatch batch) async {
+  Future<void> uploadData(PowerSyncDatabase database) async {
+    final batch = await database.getNextCrudBatch();
+    if (batch == null) return;
     try {
       final response = await http.post(
         Uri.parse('https://heavenslive.com/api/sync/upload'),
