@@ -30,19 +30,27 @@ router.get('/', async (req, res) => {
         }));
         
         if (includeAll) {
-            for (const cat of categories) {
-                const subs = await db.query(
-                    'SELECT sc.category, sc.display_name, ct.name as translated_name, sc.icon, (SELECT COUNT(*) FROM listings l WHERE l.category = sc.category AND l.status = $1) as count, (SELECT COUNT(*) FROM shop_categories WHERE parent_category = sc.category) as subcategory_count FROM shop_categories sc LEFT JOIN category_translations ct ON sc.category = ct.category AND ct.language_code = $2 WHERE sc.parent_category = $3 AND sc.is_active = true ORDER BY sc.sort_order, sc.display_name',
-                    ['active', lang, cat.slug]
-                );
-                cat.subcategories = subs.rows.map(sc => ({
-                    slug: sc.category,
-                    name: sc.translated_name || sc.display_name,
-                    icon: sc.icon || '',
-                    count: parseInt(sc.count) || 0,
-                    subcategory_count: parseInt(sc.subcategory_count) || 0
-                }));
+            // Recursive helper to load subcategories at any depth
+            async function loadSubs(cats, lang) {
+                for (const cat of cats) {
+                    const subs = await db.query(
+                        'SELECT sc.category, sc.display_name, ct.name as translated_name, sc.icon, (SELECT COUNT(*) FROM listings l WHERE l.category = sc.category AND l.status = $1) as count, (SELECT COUNT(*) FROM shop_categories WHERE parent_category = sc.category) as subcategory_count FROM shop_categories sc LEFT JOIN category_translations ct ON sc.category = ct.category AND ct.language_code = $2 WHERE sc.parent_category = $3 AND sc.is_active = true ORDER BY sc.sort_order, sc.display_name',
+                        ['active', lang, cat.slug]
+                    );
+                    cat.subcategories = subs.rows.map(sc => ({
+                        slug: sc.category,
+                        name: sc.translated_name || sc.display_name,
+                        icon: sc.icon || '',
+                        count: parseInt(sc.count) || 0,
+                        subcategory_count: parseInt(sc.subcategory_count) || 0
+                    }));
+                    // Recurse into subcategories that have children
+                    if (cat.subcategories.some(s => s.subcategory_count > 0)) {
+                        await loadSubs(cat.subcategories, lang);
+                    }
+                }
             }
+            await loadSubs(categories, lang);
         }
         res.json({ categories });
     } catch (error) {

@@ -218,7 +218,7 @@ function toggleFeaturedOptions(){
     
     if(freeSlots>0 && remaining>0){
       // Has subscription with free slots — show included message
-      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.planName+' plan</strong>'; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x='<br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
+      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.planName+' plan</strong>'; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x=''; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x='<br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
       opts.style.display="block";
     }else if(freeSlots>0 && remaining<=0){
       // Subscription but exhausted — show payment options
@@ -288,12 +288,16 @@ async function submit(){
 }
 fetch("/api/shop/categories?lang="+(localStorage.getItem("hl-lang")||"en")+"&all=true").then(r=>r.json()).then(d=>{
   var cats=d.categories||[],opts='';
-  cats.forEach(function(c){
-    opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';
-    if(c.subcategories)c.subcategories.forEach(function(sc){
-      opts+='<option value="'+sc.slug+'">  └ '+sc.name+'</option>';
+  function buildOpts(list,depth){
+    var o='';
+    list.forEach(function(c){
+      var indent='  '.repeat(depth)+(depth>0?'└ ':'');
+      o+='<option value="'+c.slug+'">'+indent+(c.icon||'📁')+' '+c.name+'</option>';
+      if(c.subcategories)o+=buildOpts(c.subcategories,depth+1);
     });
-  });
+    return o;
+  }
+  var opts=buildOpts(cats,0);
   document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
 });
 </script><script>
