@@ -188,13 +188,17 @@ router.delete('/listings/:id', verifyToken, async (req, res) => {
 // Platform fee: percentage of transaction retained by HeavensLive
 async function getPlatformFeePercent() {
     try {
-        const r = await db.query("SELECT setting_value FROM platform_settings WHERE setting_key = 'commission_structure'");
+        // Check platform_settings first, then system_settings
+        let r = await db.query("SELECT setting_value FROM platform_settings WHERE setting_key = 'commission_structure'");
+        if (r.rows.length === 0) {
+            r = await db.query("SELECT setting_value FROM system_settings WHERE setting_key = 'commission_structure'");
+        }
         if (r.rows.length > 0 && r.rows[0].setting_value) {
             const s = typeof r.rows[0].setting_value === 'string' 
                 ? JSON.parse(r.rows[0].setting_value) 
                 : r.rows[0].setting_value;
             return {
-                clone: (s.platform_fee_percent || 2) / 100,
+                clone: (s.clone_fee_percent || 2) / 100,
                 fiat: (s.fiat_fee_percent || 5) / 100
             };
         }
