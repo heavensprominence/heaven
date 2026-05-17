@@ -301,7 +301,8 @@ router.get('/suggestions/pending', async (req, res) => {
 router.post('/suggestions/:id/approve', async (req, res) => {
     try {
         const { id } = req.params;
-        let { displayName, icon } = req.body;
+        const body = req.body || {};
+        let { displayName, icon } = body;
         const sg = await db.query('SELECT * FROM category_suggestions WHERE id = $1', [id]);
         if (sg.rows.length === 0) return res.status(404).json({ error: 'Not found' });
         const s = sg.rows[0];
