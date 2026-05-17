@@ -93,10 +93,7 @@ class _BackendConnector extends PowerSyncBackendConnector {
       final response = await http.post(
         Uri.parse('https://heavenslive.com/api/sync/upload'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'mutations': batch.crud,
-          'transaction_id': batch.transactionId.toString(),
-        }),
+        body: jsonEncode({'mutations': batch.crud}),
       );
       if (response.statusCode == 200) {
         await batch.complete();

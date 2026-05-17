@@ -39,7 +39,7 @@ router.post('/upload', async (req, res) => {
   try {
     await client.query('BEGIN');
 
-    const { mutations, transaction_id } = req.body;
+    const { mutations } = req.body;
     const results = [];
 
     for (const mutation of mutations || []) {
@@ -109,7 +109,7 @@ router.post('/upload', async (req, res) => {
     }
 
     await client.query('COMMIT');
-    res.json({ success: true, transaction_id, results });
+    res.json({ success: true, results });
   } catch (e) {
     await client.query('ROLLBACK');
     console.error('Sync upload error:', e.message);
