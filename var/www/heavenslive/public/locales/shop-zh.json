@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "暂无列表。",
     "beFirst": "成为第一个发布的人！",
-    "loading": "加载中..."
+    "loading": "加载中...",
+    "addToCart": "添加",
+    "bid": "出价",
+    "offer": "提供",
+    "buyNow": "立即购买",
+    "viewDetails": "看法"
   },
   "pagination": {
     "prev": "以前的",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "实时汇率"
   },
-  "addToCart": "添加",
-  "bid": "出价",
-  "offer": "提供",
-  "buyNow": "立即购买",
-  "viewDetails": "看法"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

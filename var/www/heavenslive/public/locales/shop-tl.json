@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Walang listahan pa.",
     "beFirst": "Maging unang mag-post!",
-    "loading": "Naglo-load..."
+    "loading": "Naglo-load...",
+    "addToCart": "Magdagdag",
+    "bid": "Alok",
+    "offer": "Alok",
+    "buyNow": "Bilhin Ngayon",
+    "viewDetails": "Tingnan"
   },
   "pagination": {
     "prev": "Nauna",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "Mga Real-time na Pangkatono ng Palitan"
   },
-  "addToCart": "Magdagdag",
-  "bid": "Alok",
-  "offer": "Alok",
-  "buyNow": "Bilhin Ngayon",
-  "viewDetails": "Tingnan"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

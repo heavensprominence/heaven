@@ -5,25 +5,33 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 .nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
 .container{max-width:700px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
 h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:8px}.item .title{flex:1}.item .price{color:var(--gold);font-weight:700;white-space:nowrap}
-.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--gold);color:var(--darker)}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-sm{padding:4px 10px;font-size:.75rem}.btn-danger{background:var(--danger);color:white}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--gold);color:var(--darker);text-decoration:none;display:inline-block}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold);text-decoration:none;display:inline-block}.btn-sm{padding:4px 10px;font-size:.75rem}.btn-danger{background:var(--danger);color:white}
 .summary{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);text-align:right}.summary .total{font-size:1.3rem;font-weight:800;color:var(--gold)}
 </style></head><body>
-<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/wishlist">❤️</a><a href="/shop/create">+ Post</a></div></nav>
-<div class="container"><h1 data-i18n="brand.shoppingCart">🛒 Shopping Cart</h1>
-<div class="card"><div id="cartContent"><span class="muted">Loading cart...</span></div>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/" data-i18n="nav.browse">← Browse</a><a href="/shop/wishlist">❤️</a><a href="/shop/create">+ Post</a></div></nav>
+<div class="container"><h1 data-i18n="cart.title">🛒 Shopping Cart</h1>
+<div class="card"><div id="cartContent"><span class="muted" data-i18n="cart.loading">Loading cart...</span></div>
 <div class="summary" id="cartSummary" style="display:none">
-  <div class="total">Total: <span id="cartTotal">--</span></div>
+  <div class="total"><span data-i18n="cart.total">Total:</span> <span id="cartTotal">--</span></div>
   <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
-    <a href="/shop/" class="btn-o">Continue Shopping</a>
-    <a href="/shop/checkout" class="btn">Proceed to Checkout</a>
+    <a href="/shop/" class="btn-o" data-i18n="cart.continueShopping">Continue Shopping</a>
+    <a href="/shop/checkout" class="btn" data-i18n="cart.checkout">Proceed to Checkout</a>
   </div>
 </div></div></div>
 <script>
-var T=localStorage.getItem("token");if(!T){document.getElementById("cartContent").innerHTML='<div class="muted"><a href="/credon/" style="color:var(--gold)">Sign in</a> to view cart</div>'}else{loadCart()}
-function loadCart(){
-  document.getElementById("cartContent").innerHTML='<span class="muted">Loading...</span>';
-  fetch("/api/shop/cart",{headers:{Authorization:"Bearer "+T}}).then(function(r){return r.json()}).then(function(d){
-    var items=d.cart||[];if(!items.length){document.getElementById("cartContent").innerHTML='<div class="muted">Your cart is empty.<br><a href="/shop/" style="color:var(--gold)">Browse listings</a></div>';return}
+var T=localStorage.getItem("token");
+if(!T){
+  document.getElementById("cartContent").innerHTML='<div class="muted"><a href="/credon/" style="color:var(--gold)" data-i18n="cart.signIn">Sign in</a> <span data-i18n="cart.signInToView">to view cart</span></div>';
+} else { loadCart(); }
+
+function loadCart() {
+  document.getElementById("cartContent").innerHTML='<span class="muted" data-i18n="cart.loading">Loading...</span>';
+  fetch("/api/shop/cart",{headers:{Authorization:"***"+T}}).then(function(r){return r.json()}).then(function(d){
+    var items=d.cart||[];
+    if(!items.length){
+      document.getElementById("cartContent").innerHTML='<div class="muted"><span data-i18n="cart.empty">Your cart is empty.</span><br><a href="/shop/" style="color:var(--gold)" data-i18n="cart.browse">Browse listings</a></div>';
+      return;
+    }
     var total=0;
     document.getElementById("cartContent").innerHTML=items.map(function(i){
       total+=i.price_cents*i.quantity;
@@ -31,7 +39,9 @@ function loadCart(){
     }).join("");
     document.getElementById("cartTotal").textContent='$'+(total/100).toFixed(2);
     document.getElementById("cartSummary").style.display="block";
-  }).catch(function(){document.getElementById("cartContent").innerHTML='<div class="muted">Could not load cart. Is the server running?</div>'})
+  }).catch(function(){
+    document.getElementById("cartContent").innerHTML='<div class="muted" data-i18n="cart.error">Could not load cart. Is the server running?</div>';
+  })
 }
 function removeItem(id){
   fetch("/api/shop/cart/"+id,{method:"DELETE",headers:{Authorization:"Bearer "+T}}).then(function(){loadCart()})

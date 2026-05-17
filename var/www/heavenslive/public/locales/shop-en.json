@@ -533,5 +533,17 @@
   },
   "rates": {
     "title": "Live Exchange Rates"
+  },
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
   }
 }

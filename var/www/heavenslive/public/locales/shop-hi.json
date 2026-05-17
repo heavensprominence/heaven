@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "अभी तक कोई सूची नहीं है।",
     "beFirst": "सबसे पहले पोस्ट करें!",
-    "loading": "लोड हो रहा है..."
+    "loading": "लोड हो रहा है...",
+    "addToCart": "जोड़ें",
+    "bid": "बोली",
+    "offer": "प्रस्ताव",
+    "buyNow": "अभी खरीदें",
+    "viewDetails": "देखें"
   },
   "pagination": {
     "prev": "पहले का",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "प्रत्यक्ष विनिमय दरें"
   },
-  "addToCart": "जोड़ें",
-  "bid": "बोली",
-  "offer": "प्रस्ताव",
-  "buyNow": "अभी खरीदें",
-  "viewDetails": "देखें"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

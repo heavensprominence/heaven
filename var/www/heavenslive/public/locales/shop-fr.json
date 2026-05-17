@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Aucune annonce pour le moment.",
     "beFirst": "Soyez le premier à poster !",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "addToCart": "Ajouter",
+    "bid": "Offre",
+    "offer": "Offre",
+    "buyNow": "Acheter",
+    "viewDetails": "Voir"
   },
   "pagination": {
     "prev": "Précédent",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "Taux de change en direct"
   },
-  "addToCart": "Ajouter",
-  "bid": "Offre",
-  "offer": "Offre",
-  "buyNow": "Acheter",
-  "viewDetails": "Voir"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

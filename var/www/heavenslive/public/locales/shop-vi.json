@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Chưa có thông tin nào.",
     "beFirst": "Hãy là người đầu tiên bình luận!",
-    "loading": "Đang tải..."
+    "loading": "Đang tải...",
+    "addToCart": "Thêm",
+    "bid": "Đấu thầu",
+    "offer": "Ưu đãi",
+    "buyNow": "Mua ngay",
+    "viewDetails": "Xem"
   },
   "categories": {
     "title": "Thể loại",
@@ -534,9 +539,16 @@
     "page": "Trang",
     "of": "của"
   },
-  "addToCart": "Thêm",
-  "bid": "Đấu thầu",
-  "offer": "Ưu đãi",
-  "buyNow": "Mua ngay",
-  "viewDetails": "Xem"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

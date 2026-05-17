@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Inga listningar ännu.",
     "beFirst": "Bli den första att posta!",
-    "loading": "Laddar..."
+    "loading": "Laddar...",
+    "addToCart": "Lägg till",
+    "bid": "Bud",
+    "offer": "Erbjudande",
+    "buyNow": "Köp nu",
+    "viewDetails": "Utsikt"
   },
   "pagination": {
     "prev": "Föregående",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "Valutakurser i realtid"
   },
-  "addToCart": "Lägg till",
-  "bid": "Bud",
-  "offer": "Erbjudande",
-  "buyNow": "Köp nu",
-  "viewDetails": "Utsikt"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

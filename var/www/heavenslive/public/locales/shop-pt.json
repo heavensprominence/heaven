@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Ainda não há registos.",
     "beFirst": "Seja o primeiro a publicar!",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "addToCart": "Adicionar",
+    "bid": "Proposta",
+    "offer": "Oferta",
+    "buyNow": "Comprar agora",
+    "viewDetails": "Ver"
   },
   "pagination": {
     "prev": "Anterior",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "Taxas de câmbio em direto"
   },
-  "addToCart": "Adicionar",
-  "bid": "Proposta",
-  "offer": "Oferta",
-  "buyNow": "Comprar agora",
-  "viewDetails": "Ver"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }

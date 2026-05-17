@@ -66,7 +66,12 @@
   "listing": {
     "noResults": "Henüz kayıt yok.",
     "beFirst": "İlk gönderen siz olun!",
-    "loading": "Yükleniyor..."
+    "loading": "Yükleniyor...",
+    "addToCart": "Ekle",
+    "bid": "Teklif",
+    "offer": "Teklif",
+    "buyNow": "Şimdi Satın Al",
+    "viewDetails": "Görünüm"
   },
   "pagination": {
     "prev": "Önceki",
@@ -534,9 +539,16 @@
   "rates": {
     "title": "Canlı Döviz Kurları"
   },
-  "addToCart": "Ekle",
-  "bid": "Teklif",
-  "offer": "Teklif",
-  "buyNow": "Şimdi Satın Al",
-  "viewDetails": "Görünüm"
+  "cart": {
+    "title": "🛒 Shopping Cart",
+    "loading": "Loading cart...",
+    "empty": "Your cart is empty.",
+    "browse": "Browse listings",
+    "total": "Total:",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Proceed to Checkout",
+    "signIn": "Sign in",
+    "signInToView": "to view cart",
+    "error": "Could not load cart. Is the server running?"
+  }
 }
