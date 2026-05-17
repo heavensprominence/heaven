@@ -193,18 +193,21 @@ async function getPlatformFeePercent() {
             const s = typeof r.rows[0].setting_value === 'string' 
                 ? JSON.parse(r.rows[0].setting_value) 
                 : r.rows[0].setting_value;
-            return (s.platform_fee_percent || 5) / 100;
+            return {
+                clone: (s.platform_fee_percent || 2) / 100,
+                fiat: (s.fiat_fee_percent || 5) / 100
+            };
         }
     } catch (e) { console.log('Platform fee lookup failed:', e.message); }
-    return 0.05; // default 5%
+    return { clone: 0.02, fiat: 0.05 };
 }
 
 // Calculate platform fee and seller payout
-// Only clone currencies (Credon-*) are charged — fiat and crypto are free
-function calcPayout(amountCents, platformFeePercent, currency) {
+// Clone currencies use clone rate, fiat/crypto use fiat rate
+function calcPayout(amountCents, platformFeePct, currency) {
     const isClone = currency && currency.startsWith('Credon-');
-    if (!isClone) return { platformFeeCents: 0, sellerPayoutCents: amountCents };
-    const fee = Math.round(amountCents * platformFeePercent);
+    const rate = isClone ? platformFeePct.clone : platformFeePct.fiat;
+    const fee = Math.round(amountCents * rate);
     return { platformFeeCents: Math.max(fee, 1), sellerPayoutCents: amountCents - fee };
 }
 
