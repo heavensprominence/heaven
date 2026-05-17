@@ -86,21 +86,19 @@ class _BackendConnector extends PowerSyncBackendConnector {
   }
 
   @override
-  Future<void> uploadData(PowerSyncCrudEntry transaction) async {
+  Future<void> uploadData(CrudBatch batch) async {
     try {
       final response = await http.post(
         Uri.parse('https://heavenslive.com/api/sync/upload'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'mutations': transaction.crud,
-          'transaction_id': transaction.transactionId.toString(),
+          'mutations': batch.crud,
+          'transaction_id': batch.transactionId.toString(),
         }),
       );
       if (response.statusCode == 200) {
-        await transaction.complete();
+        await batch.complete();
       }
-    } catch (e) {
-      // Retry on next sync cycle
-    }
+    } catch (e) {}
   }
 }
