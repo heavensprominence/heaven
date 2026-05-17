@@ -199,10 +199,10 @@ fetch('/api/wallet/exchange-rates').then(function(r){return r.json()}).then(func
     <span style="font-size:.7rem;color:var(--muted)">/</span>
     <span id="totalTime" style="font-size:.7rem;color:var(--muted)">0:00</span>
     <input type="range" id="volumeSlider" value="100" min="0" max="100" oninput="setVolume(this.value)" style="width:60px;height:3px">
-    <a href="/static/media/audio.d525093d0a0cfdd98120.mp3" download style="background:rgba(200,169,81,.1);border:1px solid rgba(200,169,81,.2);color:var(--gold);padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:600;text-decoration:none;white-space:nowrap" data-i18n="prayer.download">⬇ Download</a>
+    <a href="/static/media/audio.d525093d0a0cfdd98120.wav" download style="background:rgba(200,169,81,.1);border:1px solid rgba(200,169,81,.2);color:var(--gold);padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:600;text-decoration:none;white-space:nowrap" data-i18n="prayer.download">⬇ Download</a>
   </div>
 </div>
-<audio id="prayerAudio" preload="auto" loop><source src="/static/media/audio.d525093d0a0cfdd98120.mp3" type="audio/mpeg"></audio>
+<audio id="prayerAudio" preload="auto" loop><source src="/static/media/audio.d525093d0a0cfdd98120.wav" type="audio/wav"><source src="/static/media/audio.d525093d0a0cfdd98120.mp3" type="audio/mpeg"></audio>
 <script>
 var a=document.getElementById('prayerAudio'),pb=document.getElementById('playBtn'),pr=document.getElementById('progressBar'),ct=document.getElementById('currentTime'),tt=document.getElementById('totalTime'),isPlaying=false;
 a.volume=1.0;
