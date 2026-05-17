@@ -27,3 +27,9 @@ jobs:
       - name: Build iOS (simulator)
         working-directory: mobile
         run: flutter build ios --no-codesign --simulator
+
+      - name: Upload iOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: HeavensLive-iOS
+          path: mobile/build/ios/iphonesimulator/Runner.app
