@@ -128,8 +128,16 @@ router.post('/admin/create', async (req, res) => {
             } catch(e) {}
         }
 
-        // Also auto-translate the "Other" subcategory created by DB trigger
+        // Auto-create "Other" subcategory
         const otherSlug = category + '_other';
+        await db.query(
+            `INSERT INTO shop_categories (category, display_name, parent_category, icon, sort_order)
+             VALUES ($1, $2, $3, \'📦\', 9999)
+             ON CONFLICT (category) DO NOTHING`,
+            [otherSlug, 'Other', category]
+        );
+
+        // Auto-translate "Other" subcategory
         const otherSrc = detectLanguage('Other');
         for (const lang of SUPPORTED_LANGUAGES) {
             if (lang === otherSrc) continue;
