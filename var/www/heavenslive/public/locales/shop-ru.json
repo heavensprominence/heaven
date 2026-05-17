@@ -540,15 +540,20 @@
     "title": "Живые курсы валют"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Корзина",
+    "loading": "Загрузка тележки...",
+    "empty": "Ваша корзина пуста.",
+    "browse": "Просмотреть объявления",
+    "total": "Всего:",
+    "continueShopping": "Продолжить покупки",
+    "checkout": "Приступить к оформлению заказа",
+    "signIn": "Войти",
+    "signInToView": "просмотреть корзину",
+    "error": "Не удалось загрузить корзину"
+  },
+  "detail": {
+    "backToShop": "Назад в магазин",
+    "addToCart": "Добавить в корзину",
+    "messageSeller": "Сообщение продавца"
   }
 }

@@ -540,15 +540,20 @@
     "title": "प्रत्यक्ष विनिमय दरें"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 शॉपिंग कार्ट",
+    "loading": "कार्ट लोड हो रहा है...",
+    "empty": "आपकी गाड़ी खाली है।",
+    "browse": "सूचियाँ ब्राउज़ करें",
+    "total": "कुल:",
+    "continueShopping": "खरीदारी जारी रखें",
+    "checkout": "चेकआउट पर जाएँ",
+    "signIn": "साइन इन",
+    "signInToView": "कार्ट देखें",
+    "error": "कार्ट लोड नहीं हो सका"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

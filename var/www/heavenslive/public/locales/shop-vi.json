@@ -540,15 +540,20 @@
     "of": "của"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Giỏ hàng",
+    "loading": "Đang tải giỏ hàng...",
+    "empty": "Giỏ hàng của bạn hiện đang trống.",
+    "browse": "Xem danh sách",
+    "total": "Tổng cộng:",
+    "continueShopping": "Tiếp tục mua sắm",
+    "checkout": "Tiến hành thanh toán",
+    "signIn": "Đăng nhập",
+    "signInToView": "để xem giỏ hàng",
+    "error": "Không thể tải giỏ hàng"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

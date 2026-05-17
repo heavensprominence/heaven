@@ -540,15 +540,20 @@
     "title": "Mga Real-time na Pangkatono ng Palitan"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Kartang Pamimili",
+    "loading": "Ina-load ang kariton...",
+    "empty": "Walang laman ang iyong kariton.",
+    "browse": "Mag-browse ng mga listahan",
+    "total": "Kabuuan:",
+    "continueShopping": "Magpatuloy sa pamimili",
+    "checkout": "Magpatuloy sa Pag-checkout",
+    "signIn": "Mag-sign in",
+    "signInToView": "tingnan ang cart",
+    "error": "Hindi mai-load ang cart"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

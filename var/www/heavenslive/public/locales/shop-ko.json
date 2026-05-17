@@ -540,15 +540,20 @@
     "title": "실시간 환율"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 쇼핑 카트",
+    "loading": "카트 적재 중...",
+    "empty": "장바구니가 비어 있습니다.",
+    "browse": "목록 찾아보기",
+    "total": "합계:",
+    "continueShopping": "계속 쇼핑하기",
+    "checkout": "결제로 진행",
+    "signIn": "로그인",
+    "signInToView": "카트를 보려면",
+    "error": "장바구니를 로드할 수 없습니다."
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

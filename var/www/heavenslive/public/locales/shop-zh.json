@@ -540,15 +540,20 @@
     "title": "实时汇率"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 购物车",
+    "loading": "加载购物车...",
+    "empty": "您的购物车是空的。",
+    "browse": "浏览列表",
+    "total": "共计",
+    "continueShopping": "继续购物",
+    "checkout": "继续结账",
+    "signIn": "登录",
+    "signInToView": "查看购物车",
+    "error": "无法装载购物车"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

@@ -540,15 +540,20 @@
     "title": "براہِ راست زر مبادلہ کی شرحیں"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 خریداری کی ٹوکری",
+    "loading": "ٹوکری لوڈ ہو رہی ہے...",
+    "empty": "آپ کا کارٹ خالی ہے۔",
+    "browse": "فہرستیں دیکھیں",
+    "total": "کل:",
+    "continueShopping": "خریداری جاری رکھیں",
+    "checkout": "چیک آؤٹ پر جائیں",
+    "signIn": "داخل کریں",
+    "signInToView": "ٹوکری دیکھیں",
+    "error": "کارٹ لوڈ نہیں ہو سکا"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

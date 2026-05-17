@@ -540,15 +540,20 @@
     "title": "Live-Wechselkurse"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Einkaufswagen",
+    "loading": "Warenkorb laden...",
+    "empty": "Ihr Warenkorb ist leer.",
+    "browse": "Inserate durchsuchen",
+    "total": "Insgesamt:",
+    "continueShopping": "Weiter einkaufen",
+    "checkout": "Weiter zum Checkout",
+    "signIn": "Eintragen",
+    "signInToView": "zur Ansicht des Warenkorbs",
+    "error": "Warenkorb konnte nicht geladen werden"
+  },
+  "detail": {
+    "backToShop": "Zurück zum Shop",
+    "addToCart": "Zum Warenkorb hinzufügen",
+    "messageSeller": "Nachricht Verkäufer"
   }
 }

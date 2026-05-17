@@ -8,7 +8,7 @@ h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);mar
 .meta{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:.85rem;color:var(--muted)}
 .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
 </style></head><body>
-<nav><span class="nav-brand">HeavensMarket</span> <a href="/shop/" style="color:var(--text);margin-left:12px;text-decoration:none">Back to Shop</a></nav>
+<nav><span class="nav-brand">HeavensMarket</span> <a href="/shop/" style="color:var(--text);margin-left:12px;text-decoration:none" data-i18n="detail.backToShop">Back to Shop</a></nav>
 <div class="container"><div id="content"><div style="text-align:center;padding:40px;color:var(--muted)">Loading...</div></div></div>
 <script>
 // Extract listing ID from URL path
@@ -39,7 +39,7 @@ fetch('/api/shop/listings/' + id)
       '<div class="price">' + price + '</div>' +
       '<p style="margin:16px 0;line-height:1.6">' + (l.description||'') + '</p>' +
       (l.quantity_available ? '<p style="color:var(--muted);font-size:.85rem)">Qty: ' + l.quantity_available + '</p>' : '') +
-      '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()">Add to Cart</button><button class="btn-o" onclick="msgSeller()">Message Seller</button></div></div>';
+      '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()" data-i18n="detail.addToCart">Add to Cart</button><button class="btn-o" onclick="msgSeller()" data-i18n="detail.messageSeller">Message Seller</button></div></div>';
   })
   .catch(function(e) {
     document.getElementById('content').innerHTML = '<h1>Error loading listing</h1><p>' + e.message + '</p>';

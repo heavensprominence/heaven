@@ -540,15 +540,20 @@
     "title": "Taux de change en direct"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Panier d'achat",
+    "loading": "Chargement du panier...",
+    "empty": "Votre panier est vide.",
+    "browse": "Parcourir les listes",
+    "total": "Total :",
+    "continueShopping": "Poursuivre les achats",
+    "checkout": "Passer à la caisse",
+    "signIn": "S'inscrire",
+    "signInToView": "voir le panier",
+    "error": "Impossible de charger le panier"
+  },
+  "detail": {
+    "backToShop": "Retour à la boutique",
+    "addToCart": "Ajouter au panier",
+    "messageSeller": "Message Vendeur"
   }
 }

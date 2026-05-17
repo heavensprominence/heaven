@@ -545,5 +545,10 @@
     "signIn": "Sign in",
     "signInToView": "to view cart",
     "error": "Could not load cart. Is the server running?"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

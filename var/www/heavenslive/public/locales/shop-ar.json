@@ -540,15 +540,20 @@
     "title": "أسعار الصرف المباشرة"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 عربة التسوق",
+    "loading": "تحميل العربة...",
+    "empty": "عربة التسوق الخاصة بك فارغة.",
+    "browse": "تصفح القوائم",
+    "total": "المجموع:",
+    "continueShopping": "مواصلة التسوق",
+    "checkout": "المتابعة إلى الخروج",
+    "signIn": "تسجيل الدخول",
+    "signInToView": "لعرض عربة التسوق",
+    "error": "تعذر تحميل العربة"
+  },
+  "detail": {
+    "backToShop": "العودة إلى المتجر",
+    "addToCart": "إضافة إلى عربة التسوق",
+    "messageSeller": "بائع الرسائل"
   }
 }

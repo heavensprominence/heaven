@@ -540,15 +540,20 @@
     "title": "ライブ為替レート"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "ショッピングカート",
+    "loading": "カートを読み込む...",
+    "empty": "カートは空です。",
+    "browse": "リストを見る",
+    "total": "トータルだ：",
+    "continueShopping": "買い物を続ける",
+    "checkout": "チェックアウトに進む",
+    "signIn": "ログイン",
+    "signInToView": "カートを見る",
+    "error": "カートをロードできませんでした"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

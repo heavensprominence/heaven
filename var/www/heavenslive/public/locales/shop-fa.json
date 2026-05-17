@@ -540,15 +540,20 @@
     "title": "نرخ‌های زنده ارز"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 سبد خرید",
+    "loading": "بارگذاری سبد خرید...",
+    "empty": "سبد خرید شما خالی است.",
+    "browse": "مشاهدهٔ آگهی‌ها",
+    "total": "مجموع:",
+    "continueShopping": "ادامه خرید",
+    "checkout": "ادامه به تسویه‌حساب",
+    "signIn": "ورود",
+    "signInToView": "مشاهده سبد خرید",
+    "error": "نصب نشد"
+  },
+  "detail": {
+    "backToShop": "بازگشت به فروشگاه",
+    "addToCart": "افزودن به سبد خرید",
+    "messageSeller": "پیام‌فروش"
   }
 }

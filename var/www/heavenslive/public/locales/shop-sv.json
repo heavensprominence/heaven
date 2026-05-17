@@ -540,15 +540,20 @@
     "title": "Valutakurser i realtid"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
-    "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "title": "🛒 Kundvagn",
+    "loading": "Laddar vagnen...",
+    "empty": "Din kundvagn är tom.",
+    "browse": "Bläddra bland listor",
+    "total": "Totalt:",
+    "continueShopping": "Fortsätt handla",
+    "checkout": "Fortsätt till kassan",
+    "signIn": "Registrera dig",
+    "signInToView": "för att se varukorgen",
+    "error": "Kunde inte ladda vagnen"
+  },
+  "detail": {
+    "backToShop": "Back to Shop",
+    "addToCart": "Add to Cart",
+    "messageSeller": "Message Seller"
   }
 }

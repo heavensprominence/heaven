@@ -540,15 +540,20 @@
     "title": "Tipos de cambio en directo"
   },
   "cart": {
-    "title": "🛒 Shopping Cart",
-    "loading": "Loading cart...",
-    "empty": "Your cart is empty.",
-    "browse": "Browse listings",
+    "title": "🛒 Cesta de la compra",
+    "loading": "Cargando carrito...",
+    "empty": "Su cesta está vacía.",
+    "browse": "Ver las listas",
     "total": "Total:",
-    "continueShopping": "Continue Shopping",
-    "checkout": "Proceed to Checkout",
-    "signIn": "Sign in",
-    "signInToView": "to view cart",
-    "error": "Could not load cart. Is the server running?"
+    "continueShopping": "Seguir comprando",
+    "checkout": "Pasar por caja",
+    "signIn": "Iniciar sesión",
+    "signInToView": "ver carrito",
+    "error": "No se ha podido cargar el carro"
+  },
+  "detail": {
+    "backToShop": "Volver a la tienda",
+    "addToCart": "Añadir a la cesta",
+    "messageSeller": "Mensaje Vendedor"
   }
 }
