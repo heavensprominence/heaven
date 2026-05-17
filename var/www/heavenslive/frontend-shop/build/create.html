@@ -203,13 +203,6 @@ function toggleFeaturedOptions(){
   
 
   // Load user stores
-  fetch('/api/shop/stores/my-store',{headers:{'Authorization':'*** ' + T}}).then(function(r){return r.json()}).then(function(s){
-    var sel=document.getElementById('storeId');
-    var st=s.store||s;if(st && st.id){
-      sel.innerHTML+='<option value="'+st.id+'">🏪 '+st.store_name+'</option>';
-    }
-  }).catch(function(){});
-  
   // Check subscription for free featured slots
   fetch("/api/shop/subscriptions/my-plan",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(function(p){
     var freeSlots=p?.limits?.featuredListings||0;
@@ -218,7 +211,7 @@ function toggleFeaturedOptions(){
     
     if(freeSlots>0 && remaining>0){
       // Has subscription with free slots — show included message
-      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.planName+' plan</strong>'; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x=''; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x='<br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
+      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.planName+' plan</strong>'; if(p.store){var sel=document.getElementById('storeId'); sel.innerHTML+='<option value="'+p.store.id+'">🏪 '+p.store.store_name+'</option>'; } var __x='<br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
       opts.style.display="block";
     }else if(freeSlots>0 && remaining<=0){
       // Subscription but exhausted — show payment options
