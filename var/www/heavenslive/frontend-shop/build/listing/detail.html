@@ -14,12 +14,14 @@ h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);mar
 // Extract listing ID from URL path
 var path = location.pathname;
 var id = path.substring(path.lastIndexOf('/') + 1);
+var sellerId = '';
 if (!id || id === 'listing') { location.href = '/shop/'; }
 
 fetch('/api/shop/listings/' + id)
   .then(function(r) { return r.json(); })
   .then(function(d) {
     var l = d.listing;
+    sellerId = l.seller_id || '';
     if (!l) {
       document.getElementById('content').innerHTML = '<h1>Not Found</h1>';
       return;
@@ -59,11 +61,11 @@ function msgSeller() {
   if (!T) { alert('Sign in to message'); location.href = '/credon/'; return; }
   var msg = prompt('Send a message to the seller:');
   if (!msg || !msg.trim()) return;
-  var sellerId = '${l.seller_id||''}';
+  var sellerId2 = sellerId;
   fetch('/api/shop/messages/conversations', {
     method: 'POST',
     headers: {'Content-Type': 'application/json', 'Authorization': '*** ' + T},
-    body: JSON.stringify({listingId: id, sellerId: sellerId, initialMessage: msg.trim()})
+    body: JSON.stringify({listingId: id, sellerId: sellerId2, initialMessage: msg.trim()})
   }).then(function(r) { return r.json(); }).then(function(d) {
     if (d.success) { alert('Message sent! Check Messages for replies.'); location.href = '/shop/messages'; }
     else { alert(d.error || 'Failed to send'); }
