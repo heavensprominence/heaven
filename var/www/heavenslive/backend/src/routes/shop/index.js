@@ -160,7 +160,7 @@ router.post('/listings', verifyToken, async (req, res) => {
         const result = await db.query(`
             INSERT INTO listings (
                 seller_id, store_id, type, title, description, category, price_cents, 
-                min_bid_cents, max_bid_cents, imageUrls, location_city, location_state, 
+                min_bid_cents, max_bid_cents, images, location_city, location_state, 
                 location_country, latitude, longitude, shipping_options, weight_oz, dimensions, 
                 status, expires_at, auction_end_time, quantity_available,
                 allow_local_pickup, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
