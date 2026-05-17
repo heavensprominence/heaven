@@ -552,8 +552,8 @@
     "error": "Sepet yüklenemedi"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "Mağazaya Geri Dön",
+    "addToCart": "Sepete Ekle",
+    "messageSeller": "Mesaj Satıcısı"
   }
 }

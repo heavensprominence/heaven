@@ -552,8 +552,8 @@
     "error": "无法装载购物车"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "返回商店",
+    "addToCart": "添加到购物车",
+    "messageSeller": "卖家留言"
   }
 }

@@ -552,8 +552,8 @@
     "error": "Kunde inte ladda vagnen"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "Tillbaka till butik",
+    "addToCart": "Lägg till i kundvagn",
+    "messageSeller": "Meddelande Säljare"
   }
 }

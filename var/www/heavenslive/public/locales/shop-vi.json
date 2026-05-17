@@ -552,8 +552,8 @@
     "error": "Không thể tải giỏ hàng"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "Quay lại trang chủ",
+    "addToCart": "Thêm vào giỏ hàng",
+    "messageSeller": "Gửi tin nhắn cho người bán"
   }
 }

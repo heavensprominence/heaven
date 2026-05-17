@@ -552,8 +552,8 @@
     "error": "장바구니를 로드할 수 없습니다."
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "쇼핑으로 돌아가기",
+    "addToCart": "장바구니에 담기",
+    "messageSeller": "메시지 판매자"
   }
 }

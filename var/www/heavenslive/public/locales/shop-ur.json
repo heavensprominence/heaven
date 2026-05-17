@@ -552,8 +552,8 @@
     "error": "کارٹ لوڈ نہیں ہو سکا"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "دکان پر واپس",
+    "addToCart": "ٹوکری میں شامل کریں",
+    "messageSeller": "پیغام بیچنے والا"
   }
 }

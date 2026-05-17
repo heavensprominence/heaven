@@ -552,8 +552,8 @@
     "error": "カートをロードできませんでした"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "ショップへ戻る",
+    "addToCart": "カートに入れる",
+    "messageSeller": "メッセージ販売者"
   }
 }

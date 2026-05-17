@@ -552,8 +552,8 @@
     "error": "Não foi possível carregar o carrinho"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "Voltar à loja",
+    "addToCart": "Adicionar ao carrinho",
+    "messageSeller": "Vendedor de mensagens"
   }
 }

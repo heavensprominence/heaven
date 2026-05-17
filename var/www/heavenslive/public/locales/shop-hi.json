@@ -552,8 +552,8 @@
     "error": "कार्ट लोड नहीं हो सका"
   },
   "detail": {
-    "backToShop": "Back to Shop",
-    "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "backToShop": "दुकान पर वापस",
+    "addToCart": "कार्ट में जोड़ें",
+    "messageSeller": "संदेश विक्रेता"
   }
 }
