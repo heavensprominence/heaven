@@ -324,6 +324,17 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
       localStorage.setItem("hl-shop-locale",JSON.stringify(s));
       applyLoc(s);
     }).catch(function(){});
+    // Re-fetch categories in new language
+    fetch("/api/shop/categories?lang="+l).then(function(r){return r.json()}).then(function(d){
+      var cats=d.categories||[],opts='';
+      cats.forEach(function(c){
+        opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';
+        if(c.subcategories)c.subcategories.forEach(function(sc){
+          opts+='<option value="'+sc.slug+'">  └ '+sc.name+'</option>';
+        });
+      });
+      document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
+    });
   };
 }();
 </script>
