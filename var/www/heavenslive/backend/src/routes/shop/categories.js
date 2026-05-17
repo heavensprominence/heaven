@@ -301,10 +301,14 @@ router.get('/suggestions/pending', async (req, res) => {
 router.post('/suggestions/:id/approve', async (req, res) => {
     try {
         const { id } = req.params;
-        const { displayName, icon } = req.body;
+        let { displayName, icon } = req.body;
         const sg = await db.query('SELECT * FROM category_suggestions WHERE id = $1', [id]);
         if (sg.rows.length === 0) return res.status(404).json({ error: 'Not found' });
         const s = sg.rows[0];
+        
+        // Fall back to suggested name if not provided in body
+        if (!displayName) displayName = s.suggested_name;
+        if (!displayName) return res.status(400).json({ error: 'Category name required' });
         let category = displayName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
 
         // Check for duplicates and add counter
