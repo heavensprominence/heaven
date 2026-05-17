@@ -205,8 +205,8 @@ function toggleFeaturedOptions(){
   // Load user stores
   fetch('/api/shop/stores/my-store',{headers:{'Authorization':'***'+T}}).then(function(r){return r.json()}).then(function(s){
     var sel=document.getElementById('storeId');
-    if(s && s.id){
-      sel.innerHTML+='<option value="'+s.id+'">🏪 '+s.store_name+'</option>';
+    var st=s.store||s;if(st && st.id){
+      sel.innerHTML+='<option value="'+s.id+'">🏪 '+st.store_name+'</option>';
     }
   }).catch(function(){});
   
