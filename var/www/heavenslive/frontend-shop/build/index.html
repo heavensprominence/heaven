@@ -90,14 +90,14 @@ window.PowerSync = { PowerSyncDatabase };
 
 
 
-<div class="layout">
-  <aside class="sidebar">
+<div class="layout" style="display:flex;flex-direction:row;gap:24px">
+  <aside class="sidebar" style="width:230px;flex-shrink:0">
     <h3 data-i18n="page.h3_categories">📂 Categories</h3>
     
     <div id="catList"></div>
   </aside>
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
-  <main>
+  <main style="flex:1;min-width:0">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
       <button class="toggle-sidebar-btn" id="toggleSidebarBtn" onclick="toggleSidebar()" data-i18n="categories.showFilters">☰ Filters</button>
     </div>
