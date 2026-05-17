@@ -402,10 +402,15 @@ router.delete('/admin/delete/:slug', verifyToken, requireAdmin, async (req, res)
 router.put('/admin/update/:slug', verifyToken, requireAdmin, async (req, res) => {
     try {
         const { slug } = req.params;
-        const { name, parent_category } = req.body;
-        if (!name) return res.status(400).json({ error: 'Name required' });
-        await db.query('UPDATE shop_categories SET name = $1 WHERE slug = $2', [name, slug]);
-        await db.query('INSERT INTO category_translations (category, language_code, name) VALUES ($1, $2, $3) ON CONFLICT (category, language_code) DO UPDATE SET name = $3', [slug, 'en', name]);
+        const { name, parent_category, icon } = req.body;
+        if (!name && !icon) return res.status(400).json({ error: 'Name or icon required' });
+        if (name) {
+            await db.query('UPDATE shop_categories SET display_name = $1 WHERE category = $2', [name, slug]);
+            await db.query('INSERT INTO category_translations (category, language_code, name) VALUES ($1, $2, $3) ON CONFLICT (category, language_code) DO UPDATE SET name = $3', [slug, 'en', name]);
+        }
+        if (icon) {
+            await db.query('UPDATE shop_categories SET icon = $1 WHERE category = $2', [icon, slug]);
+        }
         res.json({ success: true });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
