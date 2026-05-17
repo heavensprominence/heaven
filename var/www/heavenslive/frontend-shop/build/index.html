@@ -32,7 +32,7 @@ footer{background:var(--card);border-top:1px solid rgba(200,169,81,0.1);padding:
 .cat-arrow{display:inline-block;transition:transform .15s;user-select:none}
 .cat-arrow:hover{color:var(--gold)}
 .cat-kids{margin:0}
-</style>
+@media(min-width:769px){.layout{grid-template-columns:230px 1fr!important}.sidebar{display:block!important;position:sticky!important}.toggle-sidebar-btn{display:none!important}.sidebar-backdrop{display:none!important}}</style>
 <script type="module">
 // PowerSync Web — local-first offline data (WASM SQLite)
 import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
