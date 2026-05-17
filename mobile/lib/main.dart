@@ -11,9 +11,18 @@ import 'screens/settings_screen.dart';
 import 'screens/affiliate_screen.dart';
 import 'screens/store_screen.dart';
 import 'services/auth_service.dart';
+import 'services/powersync_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize PowerSync for offline-first data
+  try {
+    await PowerSyncService().initialize();
+  } catch (e) {
+    debugPrint('PowerSync init failed (app works offline): $e');
+  }
+
   runApp(const HeavensLiveApp());
 }
 
