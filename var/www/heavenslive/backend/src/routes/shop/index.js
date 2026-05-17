@@ -135,7 +135,7 @@ router.post('/listings', verifyToken, async (req, res) => {
         if (images && Array.isArray(images)) {
             const fs = require('fs');
             const path = require('path');
-            const uploadDir = path.join(__dirname, '../../public/uploads/listings');
+            const uploadDir = path.join(__dirname, '../../../public/uploads/listings');
             fs.mkdirSync(uploadDir, { recursive: true });
             for (const img of images.slice(0, 3)) {  // Max 3 images
                 if (typeof img === 'string' && img.startsWith('data:image/')) {
