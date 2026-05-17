@@ -21,6 +21,7 @@ window.PowerSyncDB = PowerSyncDatabase;
 <button class="tab on" onclick="showTab('overview')">📊 Overview</button>
 <button class="tab" onclick="showTab('categories')">📂 Categories</button>
 <button class="tab" onclick="showTab('suggestions')">💡 Suggestions</button>
+<button class="tab" onclick="showTab('listings')">📋 Listings</button>
 <button class="tab" onclick="showTab('users')">👥 Users</button>
 <button class="tab" onclick="showTab('settings')">⚙️ Settings</button>
 <button class="tab" onclick="showTab('analytics')">📈 Analytics</button>
@@ -50,7 +51,7 @@ var PS_Admin = null;
 // Existing admin logic
 var T=localStorage.getItem('token');if(!T)location.href='/credon/';
 function F(u,o){o=o||{};var h=o.headers||{};if(T)h['authorization']='Bearer '+T;if(o.body&&typeof o.body=='object'){h['Content-Type']='application/json';o.body=JSON.stringify(o.body)}return fetch(u,{method:o.method||'GET',headers:h,body:o.body}).then(function(r){return r.json()})}
-function showTab(n,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});if(el)el.classList.add('on');var f={overview:ov,categories:cat,suggestions:sug,users:usr,settings:set,analytics:analytics,loans:loans,affiliate:aff};if(f[n])f[n]()}
+function showTab(n,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});if(el)el.classList.add('on');var f={overview:ov,categories:cat,suggestions:sug,listings:lst,users:usr,settings:set,analytics:analytics,loans:loans,affiliate:aff};if(f[n])f[n]()}
 var c=document.getElementById('content');
 
 function doMint(){
@@ -120,6 +121,9 @@ function delCat(slug){if(!confirm('Delete '+slug+'?'))return;F('/api/shop/catego
 function sug(){c.innerHTML='<div class="card"><h3>Category Suggestions</h3><div id="sugList"></div></div>';F('/api/shop/categories/suggestions/pending').then(function(d){var s=d.suggestions||[],h='';s.forEach(function(x){h+='<div class="row"><span>'+x.suggested_name+' <span class="muted">in '+(x.parent_category||'root')+'</span></span><div><button class="btn btn-sm" onclick="approveSug(\''+x.id+'\')">Approve</button><button class="btn btn-sm btn-danger" onclick="rejectSug(\''+x.id+'\')">Reject</button></div></div>'});document.getElementById('sugList').innerHTML=h||'<p class="muted">None</p>'})}
 function approveSug(id){var icon=prompt('Category icon (emoji):','📁');if(icon===null)return;if(!icon.trim())icon='📁';F('/api/shop/categories/suggestions/'+id+'/approve',{method:'POST',body:{displayName:null,icon:icon}}).then(function(d){if(d.success)sug();else alert(d.error||'Failed')})}
 function rejectSug(id){F('/api/shop/categories/suggestions/'+id+'/reject',{method:'POST'}).then(function(d){if(d.success)sug();else alert(d.error||'Failed')})}
+function lst(){F('/api/shop/admin/listings/pending').then(function(d){var l=d.listings||[],h='<div class="card"><h3>📋 Pending Listings</h3>';if(!l.length){h+='<p class="muted">No pending listings</p>'}else{l.forEach(function(x){h+='<div class="row"><span><strong>'+x.title+'</strong><br><span class="muted">by '+x.seller_email+' | '+new Date(x.created_at).toLocaleDateString()+'</span></span><div><button class="btn btn-sm" onclick="approveListing(\''+x.id+'\')">✅ Approve</button><button class="btn btn-sm btn-danger" onclick="rejectListing(\''+x.id+'\')">❌ Reject</button></div></div>'});}h+='</div>';c.innerHTML=h})}
+function approveListing(id){F('/api/shop/admin/listings/'+id+'/approve',{method:'POST'}).then(function(d){if(d.success)lst();else alert(d.error||'Failed')})}
+function rejectListing(id){if(!confirm('Reject this listing?'))return;F('/api/shop/admin/listings/'+id+'/reject',{method:'POST'}).then(function(d){if(d.success)lst();else alert(d.error||'Failed')})}
 
 function usr(){c.innerHTML='<p class="muted">Loading users...</p>';F('/api/admin/users?limit=100').then(function(d){var u=d.users||[],h='<div class="card"><h3>Users ('+u.length+')</h3><input id="userSearch" placeholder="Search by email..." oninput="usrSearch()" style="margin-bottom:8px"><div id="usrList">'+u.map(function(x){return'<div class="row"><span>'+x.email+' <span class="muted">'+(x.full_name||'')+'</span></span><span><span class="muted">'+(x.subscription_plan||'free')+'</span> <button class="btn btn-sm btn-danger" onclick="deleteUser(\''+x.id+'\')">🗑</button> <button class="btn btn-sm" onclick="suspendUser(\''+x.id+'\')">Suspend</button></span></div>'}).join('')+'</div></div>';c.innerHTML=h;window._usrData=u}).catch(function(){c.innerHTML='<p style="color:var(--danger)">Could not load users</p>'})}
 function usrSearch(){var q=document.getElementById('userSearch').value.toLowerCase(),u=(window._usrData||[]).filter(function(x){return x.email.toLowerCase().indexOf(q)>=0});document.getElementById('usrList').innerHTML=u.map(function(x){return'<div class="row"><span>'+x.email+'</span><button class="btn btn-sm btn-danger" onclick="deleteUser(\''+x.id+'\')">🗑</button> <button class="btn btn-sm" onclick="suspendUser(\''+x.id+'\')">Suspend</button></div>'}).join('')||'<p class="muted">No matches</p>'}
