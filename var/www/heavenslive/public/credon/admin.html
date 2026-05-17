@@ -75,7 +75,7 @@ function ov(){F('/api/admin/public-stats').then(function(d){c.innerHTML=
 '<div class="stat"><div class="num">'+(d.pending_credon||0)+'</div><div class="lbl">Credon Requests</div></div>'+
 '<div class="stat"><div class="num">'+(d.pending_suggestions||0)+'</div><div class="lbl">Cat Suggestions</div></div>'+
 '<div class="stat"><div class="num" id="treasuryVal">'+(d.total_treasury_cents?'$'+(d.total_treasury_cents/100).toFixed(2):'$0.00')+'</div><div class="lbl">Treasury</div></div></div>'+
-'<div class="card"><h3>Platform Fees</h3><div class="row"><span>Clone Fee</span><span>'+(s.clone_fee_percent||2)+'%</span></div><div class="row"><span>Fiat/Crypto Fee</span><span>'+(s.fiat_fee_percent||5)+'%</span></div></div>'+
+''+
 '<div class="card"><h3>Pending Credon</h3><div id="credPend"></div></div>'+
 '<div class="card"><h3>Pending Suggestions</h3><div id="sugPend"></div></div>'+
     '<div class="card"><h3>🏦 Treasury Management</h3><div class="grid2"><div><label class="muted">Mint</label><input id="mintUser" placeholder="User email (empty=treasury)"><input id="mintAmount" type="number" placeholder="Amount (USD)"><input id="mintReason" placeholder="Reason"><button class="btn" onclick="doMint()">💰 Mint</button></div><div><label class="muted">Burn</label><input id="burnUser" placeholder="User email (empty=treasury)"><input id="burnAmount" type="number" placeholder="Amount (USD)"><input id="burnReason" placeholder="Reason"><button class="btn btn-danger" onclick="doBurn()">🔥 Burn</button></div></div></div>';loadPend();}).catch(function(e){c.innerHTML='<p style="color:var(--danger)">'+e.message+'</p>'})}
