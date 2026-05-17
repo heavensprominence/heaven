@@ -277,7 +277,7 @@ async function submit(){
   try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
   btn.disabled=false;btn.textContent="Submit"
 }
-fetch("/api/shop/categories").then(r=>r.json()).then(d=>{
+fetch("/api/shop/categories?lang="+(localStorage.getItem("hl-lang")||"en")).then(r=>r.json()).then(d=>{
   var cats=d.categories||[],opts='';
   cats.forEach(function(c){
     opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';

@@ -33,7 +33,9 @@
     "myListings": "📋 My Listings",
     "sales": "💰 Sales",
     "overview": "📊 Overview",
-    "bulk": "📦 Bulk"
+    "bulk": "📦 Bulk",
+    "credon": "Credon",
+    "api": "API"
   },
   "header": {
     "allListings": "Lahat ng Listahan",
@@ -110,7 +112,13 @@
     "disputes": "Mga pagtatalo",
     "currency": "Catalog ng Pera",
     "desc": "Divinely underwritten commerce. ",
-    "copyright": "© 2026 HeavensLive"
+    "copyright": "© 2026 HeavensLive",
+    "tagline": "Divinely underwritten commerce. Open to all.",
+    "marketplace": "Marketplace",
+    "sell": "Sell",
+    "exchange": "Exchange",
+    "register": "Register",
+    "apiDocs": "API Docs"
   },
   "errors": {
     "noResults": "No listings found",
@@ -288,7 +296,71 @@
     "label_date": "Date",
     "label_actions": "Actions",
     "label_all": "All",
-    "no_listings": "No listings yet. Create one →"
+    "no_listings": "No listings yet. Create one →",
+    "joined": "Joined",
+    "admin": "Admin",
+    "verified": "Verified",
+    "stat_listings": "Listings",
+    "stat_sold": "Sold",
+    "stat_rating": "Rating",
+    "stat_member": "Member Since",
+    "h2_edit_profile": "Edit Profile",
+    "label_full_name": "Full Name",
+    "label_email": "Email",
+    "label_phone": "Phone",
+    "label_location": "Location",
+    "label_bio": "Bio",
+    "btn_save_profile": "💾 Save Profile",
+    "h2_account_info": "Account Info",
+    "label_role": "Role",
+    "label_totp": "Two-Step Verification",
+    "enabled": "Enabled",
+    "set_up": "Set up →",
+    "label_store": "Store",
+    "manage_store": "Manage Store →",
+    "sub_join_heavensmarket": "Join HeavensMarket to buy, sell, and trade",
+    "label_password": "Password",
+    "label_referral": "Referral Code (optional)",
+    "label_join_credon": "Join the Credon Test Phase?",
+    "hint_join_credon": "Get early access to 84-currency wallet, treasury, and bonuses",
+    "label_join_reason": "Why do you want to join?",
+    "btn_create_account": "Create Account",
+    "account_created": "Account Created!",
+    "go_to_shop": "Go to Shop",
+    "sub_send_gift_card": "Send a HeavensMarket gift card to someone special",
+    "h2_choose_amount": "Choose Amount",
+    "h2_recipient": "Recipient",
+    "label_recipient_email": "Recipient Email",
+    "label_recipient_name": "Recipient Name",
+    "label_your_name": "Your Name",
+    "label_message": "Message (optional)",
+    "btn_buy_gift_card": "🎁 Buy Gift Card — $25.00",
+    "gift_sent": "Gift Card Sent!",
+    "gift_sent_desc": "Your gift card has been purchased and will be delivered to the recipient.",
+    "btn_back_to_shop": "Back to Shop",
+    "sub_manage_preferences": "Manage your account preferences and notifications",
+    "h2_language_region": "Language & Region",
+    "label_display_language": "Display Language",
+    "label_currency_display": "Currency Display",
+    "btn_save": "💾 Save",
+    "h2_notifications": "Notifications",
+    "h3_email_notifs": "Email Notifications",
+    "p_email_notifs": "Receive order updates, messages, and promotions",
+    "h3_browser_notifs": "Browser Notifications",
+    "p_browser_notifs": "Get notified even when you're not on the site",
+    "h3_marketing_emails": "Marketing Emails",
+    "p_marketing_emails": "News, offers, and marketplace updates",
+    "h2_account": "Account",
+    "h3_change_password": "Change Password",
+    "p_change_password": "Update your account password",
+    "btn_change": "Change",
+    "h3_delete_account": "Delete Account",
+    "p_delete_account": "Permanently delete your account and all data",
+    "session_info": "Signed in as",
+    "label_referral_code": "Referral Code",
+    "label_background": "Background",
+    "h2_layout": "📐 Layout",
+    "label_store_tagline": "Store Tagline"
   },
   "brand": {
     "disputes": "⚖️ Mga hindi pagkakaunawaan",
@@ -337,9 +409,17 @@
     "follow": "+ Sundin",
     "free": "LIBRE",
     "featured": "Itinatampok",
-    "auctionBadge": "Auction"
+    "auctionBadge": "Auction",
+    "title": "🎨 Customize Store"
   },
-  "messages": {},
+  "messages": {
+    "title": "💬 Messages",
+    "subtitle": "Your conversations with sellers and buyers",
+    "loading": "Loading conversations...",
+    "noConversations": "No messages yet. Start a conversation from a listing page.",
+    "loadError": "Could not load messages.",
+    "noMessages": "No messages yet. Say hello!"
+  },
   "create": {
     "step1": "1. Info",
     "step2": "2. Price",
@@ -364,7 +444,16 @@
     "continueBtn": "Continue →",
     "publishBtn": "Publish Listing",
     "quantity": "Quantity",
-    "duration": "Duration"
+    "duration": "Duration",
+    "featuredHow": "How would you like to pay for featuring?",
+    "featuredPayPal": "🅿️ PayPal $1.00",
+    "featuredCredon": "💱 Credon-USD $1.00",
+    "featuredSubscribe": "⭐ Subscribe",
+    "featuredSubscribeNote": "Free with Pro/Business",
+    "personalNote": "Personal listings are free. Stores require",
+    "currencyNote": "💡 This is your",
+    "freeItems": "Enter 0 for free items",
+    "featuredIncluded": "Included in your '+p.plan_name+' plan"
   },
   "pricing": {
     "subtitle": "Choose the right plan for your business",
@@ -395,5 +484,45 @@
     "biz7": "Priority support",
     "singleTitle": "💰 Single Featured Listing — $1.00",
     "singleFeatured": "Don't want a subscription? Feature individual listings for $1 each per month. Select \"Featured\" when posting your listing."
+  },
+  "hero": {
+    "title": "Divinely",
+    "subtitle": "Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.",
+    "shopBtn": "Explore the Marketplace",
+    "credonBtn": "Learn About Credon"
+  },
+  "features": {
+    "title": "One Platform, Three Pillars",
+    "marketplace": "Fair Marketplace",
+    "marketplaceDesc": "Buy and sell across 84 currencies. Auctions, classifieds, and procurement with 17-language support.",
+    "credon": "Credon Currency",
+    "credonDesc": "Stable clone currency system. 84 denominations. Earn bonuses on every transaction.",
+    "ai": "AI-Ready",
+    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+  },
+  "donate": {
+    "title": "Give, and It Shall Be Multiplied",
+    "desc": "Your generosity ripples outward. Every donation earns Credon bonuses.",
+    "seed": "Seed",
+    "growth": "Growth",
+    "harvest": "Harvest",
+    "anyAmount": "Any",
+    "donateBtn": "Donate Now",
+    "bonusLabel": "✨ Credon Bonus",
+    "bonusEarns": "Your $50 donation earns",
+    "multiplier": "10x multiplier on your 1st donation"
+  },
+  "usb": {
+    "title": "Premium USB Prayer Collection",
+    "desc": "A beautifully crafted collection of prayers, meditations, and sacred texts — on a premium metal USB drive. Includes digital download.",
+    "feature1": "Curated prayer collection",
+    "feature2": "Premium metal USB drive",
+    "feature3": "Compatible with all devices",
+    "feature4": "Includes digital download code",
+    "feature5": "Free worldwide shipping",
+    "purchaseBtn": "Purchase Now"
+  },
+  "rates": {
+    "title": "Live Exchange Rates"
   }
 }
