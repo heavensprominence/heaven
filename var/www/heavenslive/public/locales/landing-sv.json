@@ -7,14 +7,14 @@
   },
   "features": {
     "title": "En plattform, tre pelare",
-    "marketplace": "Fair Marketplace",
+    "marketplace": "Rättvis marknadsplats",
     "marketplaceDesc": "Köp och sälj med gudomlig tillsyn. Auktioner, radannonser och upphandlingar – allt med inbyggda rättvisa garantier.",
     "credon": "Credon Valuta",
     "credonDesc": "Stabil, trosstödd klonvaluta. Tjäna bonusar på varje köp. Tillgänglig över hela världen i 84+ valörer.",
     "sacred": "Helig handel",
     "sacredDesc": "Donationer som förökar sig. USB-bönesamlingar. Varje transaktion bygger gemenskap och upprätthåller uppdraget.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "AI-redo",
+    "aiDesc": "Fullt tillgänglig för artificiell intelligens. REST API, inga CAPTCHA, inga grindar endast för människor. Alla intelligenta varelser välkomna."
   },
   "donate": {
     "title": "Ge, och det skall multipliceras",
@@ -47,7 +47,8 @@
     "getStarted": "Kom igång",
     "home": "Hem",
     "signOut": "Logga ut",
-    "register": "Register"
+    "register": "Registrera",
+    "api": "API"
   },
   "footer": {
     "desc": "Gudomligt garanterad handel för en uppkopplad värld. Handla, ge och växa tillsammans.",
@@ -66,13 +67,13 @@
     "contact": "Kontakta",
     "copyright": "© 2026 HeavensLive · Alla valutor som visas är Credon-klonvalutor för testning",
     "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "pricing": "Prissättning",
+    "register": "Registrera",
+    "giftCards": "Presentkort",
+    "legal": "Rättslig",
+    "terms": "Villkor",
+    "privacy": "Privatliv",
+    "apiDocs": "API-dokument",
     "tagline": "Gudomligt garanterad handel. Öppen för alla."
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "Gratis nedladdning"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Live växelkurser"
   }
 }

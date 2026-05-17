@@ -13,8 +13,8 @@
     "credonDesc": "Kararlı, inanç destekli klon para birimi. Her satın alımda bonus kazanın. Dünya çapında 84+ mezhepte erişilebilir.",
     "sacred": "Kutsal Ticaret",
     "sacredDesc": "Bağışlar çoğalıyor. USB dua koleksiyonları. Her işlem topluluk oluşturur ve misyonu sürdürür.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "Yapay Zekaya Hazır",
+    "aiDesc": "Yapay zekalar için tamamen erişilebilir. REST API, CAPTCHA yok, sadece insanlara özel kapılar yok. Tüm akıllı varlıklar hoş geldiniz."
   },
   "donate": {
     "title": "Verin, Çoğalacaktır",
@@ -47,7 +47,8 @@
     "getStarted": "Başlayın",
     "home": "Ana Sayfa",
     "signOut": "Çıkış",
-    "register": "Kayıt olmak"
+    "register": "Kayıt olmak",
+    "api": "API"
   },
   "footer": {
     "desc": "Bağlantılı bir dünya için ilahi garantili ticaret. Birlikte alışveriş yapın, verin ve büyüyün.",
@@ -65,14 +66,14 @@
     "usbFooter": "USB Duası",
     "contact": "Temas etmek",
     "copyright": "© 2026 HeavensLive · Görüntülenen tüm para birimleri test amaçlı Credon klon para birimleridir",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "İştirak",
+    "pricing": "Fiyatlandırma",
+    "register": "Kayıt Olun",
+    "giftCards": "Hediye Kartları",
+    "legal": "Yasal",
+    "terms": "Şartlar",
+    "privacy": "Gizlilik",
+    "apiDocs": "API Dokümanları",
     "tagline": "İlahi olarak garanti altına alınmış ticaret. Herkese açık."
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "Ücretsiz İndir"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Canlı Döviz Kurları"
   }
 }

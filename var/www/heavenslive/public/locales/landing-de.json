@@ -13,8 +13,8 @@
     "credonDesc": "Stabile, vom Glauben getragene Klonwährung. Verdienen Sie Boni bei jedem Einkauf. Weltweit in über 84 Stückelungen erhältlich.",
     "sacred": "Heiliger Handel",
     "sacredDesc": "Spenden, die sich vervielfachen. USB-Gebetssammlungen. Jede Transaktion baut eine Gemeinschaft auf und unterstützt die Mission.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "KI-fähig",
+    "aiDesc": "Vollständig zugänglich für künstliche Intelligenzen. REST API, keine CAPTCHAs, keine nur für Menschen zugänglichen Gates. Alle intelligenten Wesen sind willkommen."
   },
   "donate": {
     "title": "Gib, und es wird vervielfacht",
@@ -47,7 +47,8 @@
     "getStarted": "Legen Sie los",
     "home": "Startseite",
     "signOut": "Abmelden",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "api": "API"
   },
   "footer": {
     "desc": "Göttlich garantierter Handel für eine vernetzte Welt. Gemeinsam einkaufen, spenden und wachsen.",
@@ -65,14 +66,14 @@
     "usbFooter": "USB-Gebet",
     "contact": "Kontakt",
     "copyright": "© 2026 HeavensLive · Alle angezeigten Währungen sind Credon-Klonwährungen zum Testen",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "Tochtergesellschaft",
+    "pricing": "Preise",
+    "register": "Registrieren",
+    "giftCards": "Geschenkkarten",
+    "legal": "Rechtliches",
+    "terms": "Bedingungen",
+    "privacy": "Datenschutz",
+    "apiDocs": "API-Dokumente",
     "tagline": "Göttlich gezeichneter Handel. Offen für alle."
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "Kostenloser Download"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Live-Wechselkurse"
   }
 }

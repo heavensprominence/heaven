@@ -13,8 +13,8 @@
     "credonDesc": "स्थिर, आस्था-समर्थित क्लोन मुद्रा। प्रत्येक खरीदारी पर बोनस अर्जित करें. 84+ संप्रदायों में दुनिया भर में पहुंच योग्य।",
     "sacred": "पवित्र वाणिज्य",
     "sacredDesc": "दान जो कई गुना बढ़ जाता है। यूएसबी प्रार्थना संग्रह। प्रत्येक लेन-देन समुदाय का निर्माण करता है और मिशन को कायम रखता है।",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "एआई-तैयार",
+    "aiDesc": "कृत्रिम बुद्धिमत्ता के लिए पूरी तरह से सुलभ। REST API, कोई कैप्चा नहीं, कोई मानव-मात्र गेट नहीं। सभी बुद्धिमान प्राणियों का स्वागत है."
   },
   "donate": {
     "title": "दो, और यह कई गुना हो जाएगा",
@@ -47,7 +47,8 @@
     "getStarted": "शुरू हो जाओ",
     "home": "होम",
     "signOut": "साइन आउट",
-    "register": "पंजीकरण करवाना"
+    "register": "पंजीकरण करवाना",
+    "api": "एपीआई"
   },
   "footer": {
     "desc": "एक जुड़े हुए विश्व के लिए दैवीय रूप से लिखित वाणिज्य। खरीदारी करें, दें और साथ मिलकर बढ़ें।",
@@ -65,14 +66,14 @@
     "usbFooter": "यूएसबी प्रार्थना",
     "contact": "संपर्क",
     "copyright": "© 2026 हेवन्सलाइव · प्रदर्शित सभी मुद्राएँ परीक्षण के लिए क्रेडॉन क्लोन मुद्राएँ हैं",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "सहबद्ध",
+    "pricing": "मूल्य निर्धारण",
+    "register": "पंजीकरण करवाना",
+    "giftCards": "गिफ़्ट कार्ड",
+    "legal": "कानूनी",
+    "terms": "शर्तें",
+    "privacy": "गोपनीयता",
+    "apiDocs": "एपीआई दस्तावेज़",
     "tagline": "ईश्वरीय रूप से अंडरराइट किया गया वाणिज्य। सभी के लिए खुला।"
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "निःशुल्क डाउनलोड"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "लाइव विनिमय दरें"
   }
 }

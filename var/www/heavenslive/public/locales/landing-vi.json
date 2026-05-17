@@ -13,8 +13,8 @@
     "credonDesc": "Tiền tệ nhân bản ổn định, được hỗ trợ bởi niềm tin. Kiếm được tiền thưởng trên mỗi lần mua hàng. Có thể truy cập trên toàn thế giới với hơn 84 mệnh giá.",
     "sacred": "Thương mại thiêng liêng",
     "sacredDesc": "Quyên góp nhân lên. Bộ sưu tập cầu nguyện USB. Mỗi giao dịch đều xây dựng cộng đồng và duy trì sứ mệnh.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "Sẵn sàng cho AI",
+    "aiDesc": "Hoàn toàn mở cửa cho trí tuệ nhân tạo. Sử dụng REST API, không có CAPTCHA, không có rào cản dành riêng cho con người. Chào đón tất cả các thực thể thông minh."
   },
   "donate": {
     "title": "Hãy cho đi và nó sẽ được nhân lên",
@@ -47,7 +47,8 @@
     "getStarted": "Bắt đầu",
     "home": "Trang chủ",
     "signOut": "Đăng xuất",
-    "register": "Đăng ký"
+    "register": "Đăng ký",
+    "api": "Giao diện lập trình ứng dụng (API)"
   },
   "footer": {
     "desc": "Thương mại được bảo lãnh thiêng liêng cho một thế giới được kết nối. Mua sắm, cho đi và cùng nhau phát triển.",
@@ -65,14 +66,14 @@
     "usbFooter": "USB cầu nguyện",
     "contact": "Liên hệ",
     "copyright": "© 2026 HeavensLive · Tất cả các loại tiền tệ được hiển thị là tiền tệ nhân bản Credon để thử nghiệm",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "liên kết",
+    "pricing": "Giá cả",
+    "register": "Đăng ký",
+    "giftCards": "Thẻ quà tặng",
+    "legal": "Pháp lý",
+    "terms": "Điều khoản",
+    "privacy": "Quyền riêng tư",
+    "apiDocs": "Tài liệu API",
     "tagline": "Thương mại được bảo lãnh thiêng liêng. Mở cho tất cả."
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "Tải xuống miễn phí"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Tỷ giá hối đoái trực tiếp"
   }
 }

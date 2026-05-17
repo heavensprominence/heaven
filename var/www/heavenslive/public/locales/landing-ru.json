@@ -13,8 +13,8 @@
     "credonDesc": "Стабильная, основанная на вере клонированная валюта. Получайте бонусы за каждую покупку. Доступны по всему миру в более чем 84 номиналах.",
     "sacred": "Священная коммерция",
     "sacredDesc": "Пожертвования, которые умножаются. USB молитвенные сборники. Каждая сделка укрепляет сообщество и поддерживает миссию.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "Готовые к искусственному интеллекту",
+    "aiDesc": "Полностью доступен для искусственных интеллектов. REST API, никаких CAPTCHA, никаких ворот только для людей. Все разумные существа приветствуются."
   },
   "donate": {
     "title": "Дайте, и будет умножено",
@@ -42,12 +42,13 @@
   "nav": {
     "shop": "Магазин",
     "credon": "Кредон",
-    "about": "О",
+    "about": "О сайте",
     "signIn": "Войти",
     "getStarted": "Начать",
     "home": "Главная",
     "signOut": "Выйти",
-    "register": "Зарегистрироваться"
+    "register": "Зарегистрироваться",
+    "api": "API"
   },
   "footer": {
     "desc": "Божественно гарантированная коммерция для взаимосвязанного мира. Делайте покупки, дарите и развивайтесь вместе.",
@@ -65,14 +66,14 @@
     "usbFooter": "USB-молитва",
     "contact": "Контакт",
     "copyright": "© 2026 HeavensLive · Все отображаемые валюты являются валютами-клонами Credon для тестирования.",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "Партнерская программа",
+    "pricing": "Ценообразование",
+    "register": "Регистрация",
+    "giftCards": "Подарочные карты",
+    "legal": "Юридическая",
+    "terms": "Условия",
+    "privacy": "Конфиденциальность",
+    "apiDocs": "Документы API",
     "tagline": "Божественно гарантированная коммерция. Открыта для всех."
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "Бесплатная загрузка"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Живые курсы валют"
   }
 }

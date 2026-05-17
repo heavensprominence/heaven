@@ -13,8 +13,8 @@
     "credonDesc": "مستحکم، ایمان کی حمایت یافتہ کلون کرنسی۔ ہر خریداری پر بونس حاصل کریں۔ دنیا بھر میں 84+ فرقوں میں قابل رسائی۔",
     "sacred": "مقدس تجارت",
     "sacredDesc": "عطیات جو کئی گنا بڑھ جاتے ہیں۔ USB نماز کے مجموعے۔ ہر لین دین کمیونٹی بناتا ہے اور مشن کو برقرار رکھتا ہے۔",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "AI- تیار",
+    "aiDesc": "مصنوعی ذہانت تک مکمل طور پر قابل رسائی۔ REST API، کوئی کیپچا نہیں، صرف انسانی دروازے نہیں۔ تمام ذہین مخلوق کا استقبال ہے۔"
   },
   "donate": {
     "title": "دو، اور یہ ضرب ہو جائے گا",
@@ -47,7 +47,8 @@
     "getStarted": "شروع کریں",
     "home": "ہوم",
     "signOut": "سائن آؤٹ",
-    "register": "رجسٹر کریں۔"
+    "register": "رجسٹر کریں۔",
+    "api": "اپریل"
   },
   "footer": {
     "desc": "منسلک دنیا کے لیے الہی طور پر لکھا ہوا تجارت۔ خریدیں، دیں، اور ایک ساتھ بڑھیں۔",
@@ -65,14 +66,14 @@
     "usbFooter": "یو ایس بی نماز",
     "contact": "رابطہ کریں۔",
     "copyright": "© 2026 HeavensLive · تمام دکھائے جانے والے کرنسیاں جانچ کے لیے کریڈون کلون کرنسی ہیں",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "ملحق",
+    "pricing": "قیمتوں کا تعین",
+    "register": "رجسٹر کریں۔",
+    "giftCards": "گفٹ کارڈز",
+    "legal": "قانونی",
+    "terms": "شرائط",
+    "privacy": "رازداری",
+    "apiDocs": "API دستاویزات",
     "tagline": "الہی طور پر انڈررائٹ شدہ تجارت۔ سب کے لیے کھلا۔"
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "مفت ڈاؤن لوڈ"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "لائیو ایکسچینج ریٹس"
   }
 }

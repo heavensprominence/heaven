@@ -13,8 +13,8 @@
     "credonDesc": "稳定的、有信仰支持的克隆货币。每次购买均可赚取奖金。在全球范围内有超过 84 种面额可供使用。",
     "sacred": "神圣商业",
     "sacredDesc": "捐款成倍增加。 USB祈祷集。每笔交易都建立社区并维持使命。",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "人工智能就绪",
+    "aiDesc": "人工智能完全可以访问。REST API、无验证码、无人类专用闸门。欢迎所有智能生物。"
   },
   "donate": {
     "title": "付出，就会倍增",
@@ -47,7 +47,8 @@
     "getStarted": "开始使用",
     "home": "首页",
     "signOut": "登出",
-    "register": "登记"
+    "register": "登记",
+    "api": "应用程序编程接口"
   },
   "footer": {
     "desc": "为互联世界提供神圣的商业保障。一起购物、给予和成长。",
@@ -80,6 +81,6 @@
     "download": "免费下载"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "实时汇率"
   }
 }

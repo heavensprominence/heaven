@@ -10,14 +10,49 @@ h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);mar
 </style></head><body>
 <nav><span class="nav-brand">HeavensMarket</span> <a href="/shop/" style="color:var(--text);margin-left:12px;text-decoration:none">Back to Shop</a></nav>
 <div class="container"><div id="content"><div style="text-align:center;padding:40px;color:var(--muted)">Loading...</div></div></div>
-<script src="/auth.js"></script>
 <script>
-var id=location.pathname.split("/listing/")[1];if(!id)location.href="/shop/";
-fetch("/api/shop/listings/"+id).then(r=>r.json()).then(d=>{
-var l=d.listing;if(!l){document.getElementById("content").innerHTML="<h1 data-i18n="brand.notFound">Not Found</h1>";return}
-var price=l.type==="auction"?"Starting bid: $"+(l.min_bid_cents/100).toFixed(2):l.type==="reverse_auction"?"Budget: $"+(l.max_bid_cents/100).toFixed(2):l.price_cents===0?"FREE":"$"+(l.price_cents/100).toFixed(2);
-document.getElementById("content").innerHTML='<div class="card">'+(l.images&&l.images[0]?'<img src="'+l.images[0]+'" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:16px">':'<div style="width:100%;height:300px;background:linear-gradient(135deg,#16213E,#0F0F1A);border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:5rem">📦</div>')+'<h1>'+l.title+'</h1><div class="meta"><span>📍 '+(l.location_city||"Online")+'</span><span>📅 '+new Date(l.created_at).toLocaleDateString()+'</span><span>👤 '+(l.seller_name||l.seller_email||"Seller")+'</span><span>🏪 '+(l.store_name||"Personal")+'</span></div><div class="price">'+price+'</div><p style="margin:16px 0;line-height:1.6">'+l.description+'</p>'+(l.quantity_available?'<p style="color:var(--muted);font-size:.85rem)">Qty: '+l.quantity_available+'</p>':'')+'<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()">Add to Cart</button><button class="btn-o" onclick="msgSeller()">Message Seller</button></div></div>';
-});
-function addCart(){var T=localStorage.getItem("token");if(!T){alert("Sign in");return}fetch("/api/shop/cart/add",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id,quantity:1})}).then(r=>r.json()).then(d=>{alert(d.success?"Added!":d.error)})}
-function msgSeller(){alert("Messages coming soon")}
+// Extract listing ID from URL path
+var path = location.pathname;
+var id = path.substring(path.lastIndexOf('/') + 1);
+if (!id || id === 'listing') { location.href = '/shop/'; }
+
+fetch('/api/shop/listings/' + id)
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var l = d.listing;
+    if (!l) {
+      document.getElementById('content').innerHTML = '<h1>Not Found</h1>';
+      return;
+    }
+    var price;
+    if (l.type === 'auction') price = 'Starting bid: $' + ((l.min_bid_cents||0)/100).toFixed(2);
+    else if (l.type === 'reverse_auction') price = 'Budget: $' + ((l.max_bid_cents||0)/100).toFixed(2);
+    else if (l.price_cents === 0) price = 'FREE';
+    else price = '$' + ((l.price_cents||0)/100).toFixed(2);
+    
+    document.getElementById('content').innerHTML =
+      '<div class="card">' +
+      (l.images && l.images[0] ? '<img src="' + l.images[0] + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:16px">' :
+      '<div style="width:100%;height:300px;background:linear-gradient(135deg,#16213E,#0F0F1A);border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:5rem">📦</div>') +
+      '<h1>' + (l.title||'') + '</h1>' +
+      '<div class="meta"><span>📍 ' + (l.location_city||'Online') + '</span><span>📅 ' + new Date(l.created_at).toLocaleDateString() + '</span><span>👤 ' + (l.seller_name||l.seller_email||'Seller') + '</span><span>🏪 ' + (l.store_name||'Personal') + '</span></div>' +
+      '<div class="price">' + price + '</div>' +
+      '<p style="margin:16px 0;line-height:1.6">' + (l.description||'') + '</p>' +
+      (l.quantity_available ? '<p style="color:var(--muted);font-size:.85rem)">Qty: ' + l.quantity_available + '</p>' : '') +
+      '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()">Add to Cart</button><button class="btn-o" onclick="msgSeller()">Message Seller</button></div></div>';
+  })
+  .catch(function(e) {
+    document.getElementById('content').innerHTML = '<h1>Error loading listing</h1><p>' + e.message + '</p>';
+  });
+
+function addCart() {
+  var T = localStorage.getItem('token');
+  if (!T) { alert('Sign in'); return; }
+  fetch('/api/shop/cart/add', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': '***' + T},
+    body: JSON.stringify({listingId: id, quantity: 1})
+  }).then(function(r) { return r.json(); }).then(function(d) { alert(d.success ? 'Added!' : d.error); });
+}
+function msgSeller() { alert('Messages coming soon'); }
 </script></body></html>

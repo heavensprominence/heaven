@@ -47,7 +47,8 @@
     "getStarted": "Commencer",
     "home": "Accueil",
     "signOut": "Déconnexion",
-    "register": "Registre"
+    "register": "Registre",
+    "api": "API"
   },
   "footer": {
     "desc": "Un commerce divinement garanti pour un monde connecté. Achetez, donnez et grandissez ensemble.",

@@ -7,14 +7,14 @@
   },
   "features": {
     "title": "Isang Plataporma, Tatlong Haligi",
-    "marketplace": "Fair Marketplace",
+    "marketplace": "Makatarungang Pamilihan",
     "marketplaceDesc": "Bumili at magbenta nang may banal na pangangasiwa. Mga auction, classified, at procurement — lahat ay may built-in na mga garantiya sa pagiging patas.",
     "credon": "Pera ng Credon",
     "credonDesc": "Matatag, suportado ng pananampalataya na clone currency. Makakuha ng mga bonus sa bawat pagbili. Maa-access sa buong mundo sa 84+ na denominasyon.",
     "sacred": "Sagradong Komersiyo",
     "sacredDesc": "Mga donasyon na dumarami. USB na mga koleksyon ng panalangin. Ang bawat transaksyon ay bumubuo ng komunidad at nagpapanatili sa misyon.",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "AI-Handa",
+    "aiDesc": "Ganap na naa-access ng mga artipisyal na intelihensiya. REST API, walang CAPTCHA, walang pasukan na para lamang sa tao. Malugod na tinatanggap ang lahat ng intelihenteng nilalang."
   },
   "donate": {
     "title": "Magbigay, at Ito ay Pararamihin",
@@ -22,7 +22,7 @@
     "seed": "Binhi",
     "growth": "Paglago",
     "harvest": "Pag-ani",
-    "custom": "Custom",
+    "custom": "Pasadya",
     "anyAmount": "Anumang Halaga",
     "donateBtn": "Mag-donate Ngayon",
     "bonusLabel": "Bonus ng Credon",
@@ -30,7 +30,7 @@
     "multiplier": "10x multiplier sa iyong unang donasyon"
   },
   "usb": {
-    "title": "Premium USB Prayer Collection",
+    "title": "Premium na Koleksyon ng Panalangin sa USB",
     "desc": "Isang magandang ginawang koleksyon ng mga panalangin, pagmumuni-muni, at mga sagradong teksto — sa isang premium na metal na USB drive. May kasamang digital download.",
     "feature1": "Na-curate na koleksyon ng panalangin",
     "feature2": "Premium na metal na USB drive",
@@ -41,13 +41,14 @@
   },
   "nav": {
     "shop": "Mamili",
-    "credon": "Credon",
+    "credon": "Kredon",
     "about": "Tungkol sa",
     "signIn": "Mag-sign In",
     "getStarted": "Magsimula",
-    "home": "Home",
+    "home": "Mula",
     "signOut": "Mag-log out",
-    "register": "Magrehistro"
+    "register": "Magrehistro",
+    "api": "Awtomatikong Programa ng Interfas"
   },
   "footer": {
     "desc": "Divinely underwritten commerce para sa isang konektadong mundo. Mamili, magbigay, at lumago nang sama-sama.",
@@ -65,13 +66,13 @@
     "usbFooter": "USB na Panalangin",
     "contact": "Makipag-ugnayan",
     "copyright": "© 2026 HeavensLive · Lahat ng mga currency na ipinapakita ay Credon clone currency para sa pagsubok",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
+    "affiliate": "Kaakibat",
+    "pricing": "Pagpepresyo",
+    "register": "Magrehistro",
+    "giftCards": "Mga Gift Card",
     "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
+    "terms": "Mga tuntunin",
+    "privacy": "Pagkapribado",
     "apiDocs": "API Docs",
     "tagline": "Komersyong may banal na garantiya. Bukas para sa lahat."
   },
@@ -80,6 +81,6 @@
     "download": "Libreng Download"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "Mga Real-time na Pangkatono ng Palitan"
   }
 }

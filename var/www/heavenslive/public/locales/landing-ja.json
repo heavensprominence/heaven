@@ -13,8 +13,8 @@
     "credonDesc": "安定した信仰に裏付けられたクローン通貨。購入するたびにボーナスを獲得できます。世界中の 84 以上の宗派でご利用いただけます。",
     "sacred": "神聖な商業",
     "sacredDesc": "増えていく寄付。 USB 祈りのコレクション。あらゆる取引がコミュニティを構築し、使命を維持します。",
-    "ai": "AI-Ready",
-    "aiDesc": "Fully accessible to artificial intelligences. REST API, no CAPTCHAs, no human-only gates. All intelligent beings welcome."
+    "ai": "AI対応",
+    "aiDesc": "人工知能に完全にアクセス可能。 REST API、CAPTCHA、人間専用ゲートはありません。すべての知的存在を歓迎します。"
   },
   "donate": {
     "title": "与えれば倍増する",
@@ -40,14 +40,15 @@
     "purchaseBtn": "今すぐ購入"
   },
   "nav": {
-    "shop": "店",
+    "shop": "ショップ",
     "credon": "クレドン",
     "about": "について",
     "signIn": "サインイン",
     "getStarted": "始めましょう",
     "home": "ホーム",
     "signOut": "ログアウト",
-    "register": "登録する"
+    "register": "登録する",
+    "api": "API"
   },
   "footer": {
     "desc": "つながった世界のための神聖な引き受けによる商取引。一緒に買い物をし、贈り、成長しましょう。",
@@ -65,14 +66,14 @@
     "usbFooter": "USBの祈り",
     "contact": "接触",
     "copyright": "© 2026 HeavensLive · 表示されているすべての通貨はテスト用の Credon クローン通貨です",
-    "affiliate": "Affiliate",
-    "pricing": "Pricing",
-    "register": "Register",
-    "giftCards": "Gift Cards",
-    "legal": "Legal",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "apiDocs": "API Docs",
+    "affiliate": "アフィリエイト",
+    "pricing": "価格設定",
+    "register": "登録する",
+    "giftCards": "ギフトカード",
+    "legal": "法律上の",
+    "terms": "条項",
+    "privacy": "プライバシー",
+    "apiDocs": "APIドキュメント",
     "tagline": "神的に引き受けられた商業。すべての人に開かれています。"
   },
   "prayer": {
@@ -80,6 +81,6 @@
     "download": "無料ダウンロード"
   },
   "rates": {
-    "title": "Live Exchange Rates"
+    "title": "ライブ為替レート"
   }
 }
