@@ -41,7 +41,12 @@ router.post('/subscribe', verifyToken, async (req, res) => {
         const { planId, billingCycle } = req.body;
         const userId = req.userId;
         
-        const plan = await db.query('SELECT * FROM subscription_plans WHERE id = $1', [planId]);
+        // Support UUID, slug, or slug-billing format (e.g. pro-monthly → pro)
+        const cleanSlug = planId.replace(/-monthly|-yearly|-annual/, '');
+        const plan = await db.query(
+            'SELECT * FROM subscription_plans WHERE id = $1 OR slug = $1 OR slug = $2',
+            [planId, cleanSlug]
+        );
         if (plan.rows.length === 0) return res.status(404).json({ error: 'Plan not found' });
         
         // For free plan, activate immediately
