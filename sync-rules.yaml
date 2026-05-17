@@ -1,4 +1,14 @@
-# PowerSync Sync Rules — Selective Replication (edition 2 compatible)
+# PowerSync Sync Rules — Sharded Replication
+# Different subsets go to different devices. Server holds full history.
+#
+# Current sharding:
+#   Stream 1: Active listings only → all devices
+#   Stream 2: Wallets + transactions → all devices (auth-filtered at app level)
+#   Stream 3: Categories + translations → all devices (small reference data)
+#   Stream 4: User profiles (id/name/avatar only) → all devices
+#
+# Future upgrade: user-scoped buckets (requires PowerSync edition 3+)
+
 config:
   edition: 2
 
@@ -6,6 +16,14 @@ streams:
   listings:
     auto_subscribe: true
     query: "SELECT * FROM listings WHERE status = 'active'"
+
+  wallets:
+    auto_subscribe: true
+    query: "SELECT * FROM wallets"
+
+  transactions:
+    auto_subscribe: true
+    query: "SELECT * FROM transactions"
 
   shop_categories:
     auto_subscribe: true
@@ -15,16 +33,6 @@ streams:
     auto_subscribe: true
     query: "SELECT * FROM category_translations"
 
-  # Credon Ledger — financial data per user
-  wallets:
-    auto_subscribe: true
-    query: "SELECT * FROM wallets"
-
-  transactions:
-    auto_subscribe: true
-    query: "SELECT * FROM transactions"
-
-  # User profiles (no passwords/emails)
   users:
     auto_subscribe: true
     query: "SELECT id, full_name, avatar_url, created_at FROM users"
