@@ -8,7 +8,7 @@ h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);mar
 .meta{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:.85rem;color:var(--muted)}
 .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
 </style></head><body>
-<nav><span class="nav-brand">HeavensMarket</span> <a href="/shop/" style="color:var(--text);margin-left:12px;text-decoration:none" data-i18n="detail.backToShop">Back to Shop</a></nav>
+<nav><div class="nav-inner" style="display:flex;align-items:center;gap:12px"><span class="nav-brand">HeavensMarket</span><select id="langSel" onchange="switchLang(this.value)" style="padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;font-size:.75rem"><option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="es">🇪🇸 Español</option><option value="de">🇩🇪 Deutsch</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option><option value="sv">🇸🇪 Svenska</option><option value="tl">🇵🇭 Tagalog</option></select><a href="/shop/" style="color:var(--text);text-decoration:none;font-size:.85rem" data-i18n="detail.backToShop">Back to Shop</a></div></nav>
 <div class="container"><div id="content"><div style="text-align:center;padding:40px;color:var(--muted)">Loading...</div></div></div>
 <script>
 // Extract listing ID from URL path
@@ -55,4 +55,8 @@ function addCart() {
   }).then(function(r) { return r.json(); }).then(function(d) { alert(d.success ? 'Added!' : d.error); });
 }
 function msgSeller() { alert('Messages coming soon'); }
-</script></body></html>
+</script><script src="/i18n.js"></script>
+<script>
+document.getElementById('langSel').value = localStorage.getItem('hl-lang') || 'en';
+</script>
+</body></html>
