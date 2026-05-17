@@ -200,7 +200,10 @@ async function getPlatformFeePercent() {
 }
 
 // Calculate platform fee and seller payout
-function calcPayout(amountCents, platformFeePercent) {
+// Only clone currencies (Credon-*) are charged — fiat and crypto are free
+function calcPayout(amountCents, platformFeePercent, currency) {
+    const isClone = currency && currency.startsWith('Credon-');
+    if (!isClone) return { platformFeeCents: 0, sellerPayoutCents: amountCents };
     const fee = Math.round(amountCents * platformFeePercent);
     return { platformFeeCents: Math.max(fee, 1), sellerPayoutCents: amountCents - fee };
 }
@@ -294,7 +297,7 @@ router.post('/checkout', verifyToken, async (req, res) => {
             if (l.seller_id === userId) { await db.query('ROLLBACK'); return res.status(400).json({ error: 'Cannot purchase own listing' }); }
             
             const amountCents = parseInt(l.price_cents) || 0;
-            const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct);
+            const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct, l.currency);
             
             await db.query(
                 'INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, shipping_address, delivery_method, status, currency_code, payment_method) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
@@ -573,7 +576,7 @@ router.post('/purchases/complete', verifyToken, async (req, res) => {
         
         const l = listing.rows[0];
         const platformFeePct = await getPlatformFeePercent();
-        const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct);
+        const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct, l.currency);
         
         const result = await db.query(
             `INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, status, currency_code, paypal_order_id)
