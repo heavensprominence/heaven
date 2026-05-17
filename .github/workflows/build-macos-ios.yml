@@ -47,7 +47,7 @@ jobs:
 
       - name: Build iOS (simulator — no Apple account needed)
         working-directory: mobile
-        run: flutter build ios --no-codesign --simulator --release
+        run: flutter build ios --no-codesign --simulator
 
       - name: Upload iOS .app
         uses: actions/upload-artifact@v4
