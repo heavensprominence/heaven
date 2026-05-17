@@ -141,6 +141,28 @@ router.post('/conversations', verifyToken, async (req, res) => {
             await db.query('UPDATE conversations SET last_message_at = NOW() WHERE id = $1', [conversationId]);
         }
         
+        // Email notification for initial message
+        if (initialMessage) {
+            try {
+                const seller = await db.query('SELECT email, full_name FROM users WHERE id = $1', [sellerId]);
+                const buyer = await db.query('SELECT full_name FROM users WHERE id = $1', [buyerId]);
+                if (seller.rows[0]?.email) {
+                    const nodemailer = require('nodemailer');
+                    const transporter = nodemailer.createTransport({
+                        host: process.env.EMAIL_HOST, port: process.env.EMAIL_PORT,
+                        secure: process.env.EMAIL_SECURE === 'true',
+                        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+                    });
+                    await transporter.sendMail({
+                        from: process.env.EMAIL_FROM,
+                        to: seller.rows[0].email,
+                        subject: 'New inquiry on HeavensLive',
+                        text: (buyer.rows[0]?.full_name || 'Someone') + ' sent you a message about your listing:\n\n' + initialMessage.trim() + '\n\nReply at: https://heavenslive.com/shop/messages'
+                    });
+                }
+            } catch (e) { console.error('Initial msg notify error:', e.message); }
+        }
+        
         await db.query('COMMIT');
         
         res.status(201).json({ 
@@ -187,6 +209,29 @@ router.post('/conversations/:conversationId/messages', verifyToken, async (req, 
         // Update last_message_at
         await db.query('UPDATE conversations SET last_message_at = NOW() WHERE id = $1', [conversationId]);
         
+        // Send email notification to the OTHER participant
+        try {
+            const conv = convCheck.rows[0];
+            const recipientId = conv.buyer_id === senderId ? conv.seller_id : conv.buyer_id;
+            const recipient = await db.query('SELECT email, full_name FROM users WHERE id = $1', [recipientId]);
+            const sender = await db.query('SELECT full_name, email FROM users WHERE id = $1', [senderId]);
+            if (recipient.rows[0]?.email) {
+                const nodemailer = require('nodemailer');
+                const transporter = nodemailer.createTransport({
+                    host: process.env.EMAIL_HOST,
+                    port: process.env.EMAIL_PORT,
+                    secure: process.env.EMAIL_SECURE === 'true',
+                    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+                });
+                await transporter.sendMail({
+                    from: process.env.EMAIL_FROM,
+                    to: recipient.rows[0].email,
+                    subject: 'New message on HeavensLive',
+                    text: (sender.rows[0]?.full_name || 'Someone') + ' sent you a message:\n\n' + message.trim() + '\n\nReply at: https://heavenslive.com/shop/messages'
+                });
+            }
+        } catch (e) { console.error('Email notify error:', e.message); }
+
         await db.query('COMMIT');
         
         res.status(201).json({ success: true, message: 'Message sent!' });

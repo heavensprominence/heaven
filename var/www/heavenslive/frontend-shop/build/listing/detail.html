@@ -54,7 +54,21 @@ function addCart() {
     body: JSON.stringify({listingId: id, quantity: 1})
   }).then(function(r) { return r.json(); }).then(function(d) { alert(d.success ? 'Added!' : d.error); });
 }
-function msgSeller() { alert('Messages coming soon'); }
+function msgSeller() {
+  var T = localStorage.getItem('token');
+  if (!T) { alert('Sign in to message'); location.href = '/credon/'; return; }
+  var msg = prompt('Send a message to the seller:');
+  if (!msg || !msg.trim()) return;
+  var sellerId = '${l.seller_id||''}';
+  fetch('/api/shop/messages/conversations', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': '*** ' + T},
+    body: JSON.stringify({listingId: id, sellerId: sellerId, initialMessage: msg.trim()})
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.success) { alert('Message sent! Check Messages for replies.'); location.href = '/shop/messages'; }
+    else { alert(d.error || 'Failed to send'); }
+  }).catch(function() { alert('Error sending message'); });
+}
 </script><script src="/i18n.js"></script>
 <script>
 document.getElementById('langSel').value = localStorage.getItem('hl-lang') || 'en';
