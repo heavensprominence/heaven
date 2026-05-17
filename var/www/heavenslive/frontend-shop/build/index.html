@@ -244,7 +244,8 @@ function load(){
         actions+='<button class="btn btn-sm" onclick="event.stopPropagation();addToCart(\''+l.id+'\')">🛒 '+btnAdd+'</button>';
         actions+='<button class="btn btn-sm btn-o" style="margin-left:4px;font-size:.7rem" onclick="event.stopPropagation();makeOffer(\''+l.id+'\')">'+btnOffer+'</button>';
       }
-      return '<div class="listing-card" onclick="location.href=\'/shop/listing/'+l.id+'\'"><div class="listing-img">📦</div><div class="listing-body"><div class="listing-title">'+l.title+'</div><div class="listing-meta"><span>📍 '+(l.location_city||"Online")+'</span><span>🕐 '+new Date(l.created_at).toLocaleDateString()+'</span></div><div class="listing-footer"><div class="listing-price">'+price+'</div><div class="listing-actions">'+actions+'</div></div></div></div>';
+      var imgHtml=(l.images&&l.images[0])?'<img src="'+l.images[0]+'" style="width:100%;height:100%;object-fit:cover">':'📦';
+      return '<div class="listing-card" onclick="location.href=\'/shop/listing/'+l.id+'\'"><div class="listing-img">'+imgHtml+'</div><div class="listing-body"><div class="listing-title">'+l.title+'</div><div class="listing-meta"><span>📍 '+(l.location_city||"Online")+'</span><span>🕐 '+new Date(l.created_at).toLocaleDateString()+'</span></div><div class="listing-footer"><div class="listing-price">'+price+'</div><div class="listing-actions">'+actions+'</div></div></div></div>';
     }).join("");
     var pg=d.pagination||{};
     if(pg.totalPages>1){var h="";for(var i=1;i<=pg.totalPages;i++)h+='<button class="pg-btn'+(i===pg.page?" on":"")+'" onclick="F.p='+i+';load()">'+i+'</button>';document.getElementById("pagination").innerHTML=h}else{document.getElementById("pagination").innerHTML=""}
