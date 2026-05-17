@@ -48,16 +48,17 @@ router.post('/subscribe', verifyToken, async (req, res) => {
             [planId, cleanSlug]
         );
         if (plan.rows.length === 0) return res.status(404).json({ error: 'Plan not found' });
+        const actualPlanId = plan.rows[0].id;  // Real UUID from DB
         
         // For free plan, activate immediately
         if (plan.rows[0].price_monthly_cents === 0) {
             const { applyPlanToUser } = require('../../services/subscriptionService');
-            await applyPlanToUser(userId, planId);
+            await applyPlanToUser(userId, actualPlanId);
             
             await db.query(`
                 INSERT INTO user_subscriptions (user_id, plan_id, billing_cycle, status)
                 VALUES ($1, $2, $3, 'active')
-            `, [userId, planId, billingCycle]);
+            `, [userId, actualPlanId, billingCycle]);
             
             return res.json({ success: true, message: 'Free plan activated!' });
         }
@@ -109,11 +110,11 @@ router.post('/subscribe', verifyToken, async (req, res) => {
             );
             
             const { applyPlanToUser } = require('../../services/subscriptionService');
-            await applyPlanToUser(userId, planId);
+            await applyPlanToUser(userId, actualPlanId);
             
             await db.query(
                 'INSERT INTO user_subscriptions (user_id, plan_id, billing_cycle, status, payment_method) VALUES ($1, $2, $3, $4, $5)',
-                [userId, planId, billingCycle, 'active', 'credon_wallet']
+                [userId, actualPlanId, billingCycle, 'active', 'credon_wallet']
             );
             
             return res.json({ 
