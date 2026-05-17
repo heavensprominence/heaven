@@ -209,7 +209,7 @@ function toggleFeaturedOptions(){
     
     if(freeSlots>0 && remaining>0){
       // Has subscription with free slots — show included message
-      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.plan_name+' plan</strong><br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
+      opts.innerHTML='<div style="background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.2);border-radius:6px;padding:10px;font-size:.8rem;text-align:center"><span style="color:#2ECC71">✅</span> <strong data-i18n="create.featuredIncluded">Included in your '+p.planName+' plan</strong><br><span class="muted">'+remaining+' of '+freeSlots+' free featured listings remaining this month</span></div>';
       opts.style.display="block";
     }else if(freeSlots>0 && remaining<=0){
       // Subscription but exhausted — show payment options
