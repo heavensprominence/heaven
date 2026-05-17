@@ -14,3 +14,17 @@ streams:
   category_translations:
     auto_subscribe: true
     query: "SELECT * FROM category_translations"
+
+  # Credon Ledger — financial data per user
+  wallets:
+    auto_subscribe: true
+    query: "SELECT * FROM wallets"
+
+  transactions:
+    auto_subscribe: true
+    query: "SELECT * FROM transactions"
+
+  # User profiles (no passwords/emails)
+  users:
+    auto_subscribe: true
+    query: "SELECT id, full_name, avatar_url, created_at FROM users"

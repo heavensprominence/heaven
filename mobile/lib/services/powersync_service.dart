@@ -58,6 +58,7 @@ class PowerSyncService {
   }
 
   static const _schema = Schema([
+    // Shop
     Table('listings', [
       Column.text('id'),
       Column.text('title'),
@@ -77,6 +78,25 @@ class PowerSyncService {
       Column.text('name'),
       Column.text('icon'),
       Column.text('parent_slug'),
+    ]),
+    // Credon Ledger
+    Table('wallets', [
+      Column.text('id'),
+      Column.text('user_id'),
+      Column.integer('balance_cents'),
+      Column.text('currency_clone'),
+      Column.text('created_at'),
+    ]),
+    Table('transactions', [
+      Column.text('id'),
+      Column.text('user_id'),
+      Column.text('type'),
+      Column.integer('amount_cents'),
+      Column.integer('balance_after_cents'),
+      Column.text('currency_clone'),
+      Column.text('description'),
+      Column.text('reference_id'),
+      Column.text('created_at'),
     ]),
   ]);
 
