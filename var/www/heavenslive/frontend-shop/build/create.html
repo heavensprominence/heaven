@@ -55,7 +55,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   <h2 data-i18n="page.h2_listing_details">Listing Details</h2>
   
   <label class="label" data-i18n="page.label_post_as">Post As</label>
-  <select id="storeId"><option value="" data-i18n="create.personalListing">👤 Personal Listing</option><option value="store" disabled data-i18n="create.createStore">🏪 Create a Store first (Pro plan)</option></select>
+  <select id="storeId"><option value="" data-i18n="create.personalListing">👤 Personal Listing</option></select>
   <p class="muted" style="margin-top:-8px;margin-bottom:12px" data-i18n="create.personalNote">Personal listings are free. Stores require <a href="/shop/pricing" style="color:var(--gold)">Pro plan</a>.</p>
   
   <label class="label" data-i18n="page.label_listing_type__">Listing Type *</label>
@@ -200,6 +200,15 @@ function toggleFeaturedOptions(){
   var c=document.getElementById("wantFeatured").checked;
   var opts=document.getElementById("featuredOptions");
   if(!c){opts.style.display="none";return}
+  
+
+  // Load user stores
+  fetch('/api/shop/stores/my-store',{headers:{'Authorization':'***'+T}}).then(function(r){return r.json()}).then(function(s){
+    var sel=document.getElementById('storeId');
+    if(s && s.id){
+      sel.innerHTML+='<option value="'+s.id+'">🏪 '+s.store_name+'</option>';
+    }
+  }).catch(function(){});
   
   // Check subscription for free featured slots
   fetch("/api/shop/subscriptions/my-plan",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(function(p){
