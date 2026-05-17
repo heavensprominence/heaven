@@ -1,27 +1,16 @@
-# PowerSync Sync Rules — Selective Replication
-# Only relevant data syncs to each device. Reduces bandwidth + storage.
-
+# PowerSync Sync Rules — Selective Replication (edition 2 compatible)
 config:
   edition: 2
 
 streams:
-  # Active listings only — keep recent, skip ancient
   listings:
     auto_subscribe: true
-    query: >
-      SELECT * FROM listings
-      WHERE status = 'active'
-        AND created_at > NOW() - INTERVAL '30 days'
-      ORDER BY created_at DESC
+    query: "SELECT * FROM listings WHERE status = 'active'"
 
-  # Categories — always sync (small dataset, needed for navigation)
   shop_categories:
     auto_subscribe: true
     query: "SELECT * FROM shop_categories"
 
-  # Category translations — only relevant languages to save bandwidth
   category_translations:
     auto_subscribe: true
-    query: >
-      SELECT * FROM category_translations
-      WHERE lang IN ('en', 'fr', 'fa', 'ar', 'es')
+    query: "SELECT * FROM category_translations"
