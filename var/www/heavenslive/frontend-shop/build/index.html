@@ -32,7 +32,13 @@ footer{background:var(--card);border-top:1px solid rgba(200,169,81,0.1);padding:
 .cat-arrow{display:inline-block;transition:transform .15s;user-select:none}
 .cat-arrow:hover{color:var(--gold)}
 .cat-kids{margin:0}
-</style></head><body>
+</style>
+<script type="module">
+// PowerSync Web — local-first offline data (WASM SQLite)
+import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
+window.PowerSync = { PowerSyncDatabase };
+</script>
+</head><body>
 
 <nav>
   <div class="nav-inner">
@@ -153,6 +159,30 @@ footer{background:var(--card);border-top:1px solid rgba(200,169,81,0.1);padding:
 </footer>
 
 <script>
+// ===== PowerSync Web — local-first offline =====
+var PS = null; // PowerSync database instance
+(async function() {
+  try {
+    if (!window.PowerSync) return;
+    var openFactory = window.PowerSync.PowerSyncDatabase.withOpenFactory;
+    if (!openFactory) return;
+    
+    PS = new (await import('https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js')).PowerSyncDatabase({
+      schema: {
+        listings: { columns: ['id', 'title', 'description', 'price', 'currency', 'type', 'category', 'images', 'seller_id', 'status', 'created_at'] },
+        shop_categories: { columns: ['slug', 'name', 'icon', 'parent_slug'] },
+        wallets: { columns: ['id', 'user_id', 'balance_cents', 'currency_clone', 'created_at'] },
+        transactions: { columns: ['id', 'user_id', 'type', 'amount_cents', 'balance_after_cents', 'currency_clone', 'description', 'reference_id', 'created_at'] }
+      },
+      database: { dbFilename: 'heavenslive-web.db' }
+    });
+    
+    await PS.connect({ endpoint: 'wss://heavenslive.com:8080', token: 'anonymous' });
+    console.log('PowerSync Web: connected');
+  } catch(e) { console.log('PowerSync Web: offline mode', e.message); }
+})();
+
+// ===== Page logic =====
 var F={q:"",type:"",cat:"",sort:"newest",p:1};
 
 function load(){

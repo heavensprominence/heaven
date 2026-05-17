@@ -10,7 +10,11 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--text);font-size:.85rem;margin:6px 0}
 .row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.85rem;gap:8px}.row .col{flex:1}
 .inline{display:inline;width:auto!important}.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:flex;align-items:center;justify-content:center}.modal{background:var(--card);padding:24px;border-radius:var(--radius);max-width:400px;width:90%;border:1px solid rgba(200,169,81,.2)}
-</style></head><body>
+</style><script type="module">
+import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
+window.PowerSyncDB = PowerSyncDatabase;
+</script>
+</head><body>
 <nav><div class="nav-brand">⚙ Admin Panel</div><div class="nav-links"><a href="/credon/wallet">← Wallet</a><a href="/shop/">Shop</a><a href="/">Home</a></div></nav>
 <div class="container"><h1>⚙ Admin Panel</h1>
 <div class="tabs">
@@ -26,6 +30,24 @@ input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);b
 <div id="content" class="card"><p class="muted">Loading...</p></div>
 </div>
 <script>
+// PowerSync Web — Credon admin local-first
+var PS_Admin = null;
+(async function() {
+  try {
+    if (!window.PowerSyncDB) return;
+    PS_Admin = new window.PowerSyncDB({
+      schema: {
+        wallets: { columns: ['id', 'user_id', 'balance_cents', 'currency_clone', 'created_at'] },
+        transactions: { columns: ['id', 'user_id', 'type', 'amount_cents', 'balance_after_cents', 'currency_clone', 'created_at'] },
+        listings: { columns: ['id', 'title'] }
+      },
+      database: { dbFilename: 'heavenslive-admin.db' }
+    });
+    await PS_Admin.connect({ endpoint: 'wss://heavenslive.com:8080', token: localStorage.getItem('hl-token')||'anonymous' });
+  } catch(e) {}
+})();
+
+// Existing admin logic
 var T=localStorage.getItem('token');if(!T)location.href='/credon/';
 function F(u,o){o=o||{};var h=o.headers||{};if(T)h['authorization']='Bearer '+T;if(o.body&&typeof o.body=='object'){h['Content-Type']='application/json';o.body=JSON.stringify(o.body)}return fetch(u,{method:o.method||'GET',headers:h,body:o.body}).then(function(r){return r.json()})}
 function showTab(n,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});if(el)el.classList.add('on');var f={overview:ov,categories:cat,suggestions:sug,users:usr,settings:set,analytics:analytics,loans:loans,affiliate:aff};if(f[n])f[n]()}

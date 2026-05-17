@@ -13,7 +13,11 @@ input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);b
 .btn{padding:8px 18px;background:var(--gold);color:var(--darker);border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem}.btn:hover{opacity:.9}
 .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-sm{padding:5px 12px;font-size:.7rem}
 .tx-in{color:var(--success)}.tx-out{color:var(--danger)}
-</style></head><body>
+</style><script type="module">
+import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
+window.PowerSyncDB = PowerSyncDatabase;
+</script>
+</head><body>
 <nav><div class="nav-brand">💱 Credon</div><div class="nav-links" id="navR"></div></nav>
 <div class="container">
 <div class="card" style="text-align:center"><div class="muted">Total Balance (USD equivalent)</div><div class="bal" id="balDisplay">$0.00</div></div>
@@ -39,6 +43,26 @@ input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);b
 <div id="tab-grants" style="display:none"><div class="card"><h3>🎁 Grants</h3><div id="grantContent"></div></div></div>
 </div>
 <script>
+// ===== PowerSync Web — local-first offline Credon =====
+var PS = null;
+(async function() {
+  try {
+    if (!window.PowerSyncDB) return;
+    PS = new window.PowerSyncDB({
+      schema: {
+        wallets: { columns: ['id', 'user_id', 'balance_cents', 'currency_clone', 'created_at'] },
+        transactions: { columns: ['id', 'user_id', 'type', 'amount_cents', 'balance_after_cents', 'currency_clone', 'description', 'reference_id', 'created_at'] }
+      },
+      database: { dbFilename: 'heavenslive-credondb' }
+    });
+    await PS.connect({ endpoint: 'wss://heavenslive.com:8080', token: localStorage.getItem('hl-token')||'anonymous' });
+    console.log('PowerSync Credon: connected');
+  } catch(e) { console.log('PowerSync Credon: offline', e.message); }
+})();
+
+// ===== Credon wallet logic =====
+var T=localStorage.getItem('hl-token')||'';
+if(T){try{var d=JSON.parse(atob(T.split('.')[1]));window.UID=d.id||d.userId}catch(e){}}
 var T=localStorage.getItem('token'),U={};if(!T)location.href='/credon/';
 document.getElementById('navR').innerHTML='<a href="/shop/">Shop</a><a href="/credon/admin">Admin</a><a href="/">Home</a><span onclick="logout()" style="cursor:pointer">Logout</span>';
 function logout(){localStorage.removeItem('token');location.href='/credon/'}

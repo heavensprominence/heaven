@@ -14,7 +14,11 @@ input{width:100%;padding:12px;background:rgba(255,255,255,.05);border:1px solid 
 .tabs{display:flex;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)}.tab{flex:1;text-align:center;padding:10px;color:var(--muted);cursor:pointer;font-size:.82rem;border-bottom:2px solid transparent}.tab.on{color:var(--gold);border-color:var(--gold)}
 .forgot{display:block;text-align:right;color:var(--muted);font-size:.75rem;margin:4px 0 8px;cursor:pointer}
 footer{text-align:center;padding:20px;color:var(--muted);font-size:.7rem;border-top:1px solid rgba(255,255,255,.04)}
-</style></head><body>
+</style><script type="module">
+import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
+window.PowerSyncDB = PowerSyncDatabase;
+</script>
+</head><body>
 <nav><div class="nav-brand">Credon</div><div class="nav-links">
 
 <a href="/shop/">Shop</a><a href="/">Home</a></div></nav>
@@ -46,6 +50,23 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:.7rem;border-
 <footer>© 2026 HeavensLive · Credon Currency System</footer>
 
 <script>
+// PowerSync Web — Credon local-first
+var PS_Credon = null;
+(async function() {
+  try {
+    if (!window.PowerSyncDB) return;
+    PS_Credon = new window.PowerSyncDB({
+      schema: {
+        wallets: { columns: ['id', 'user_id', 'balance_cents', 'currency_clone', 'created_at'] },
+        transactions: { columns: ['id', 'user_id', 'type', 'amount_cents', 'balance_after_cents', 'currency_clone', 'created_at'] }
+      },
+      database: { dbFilename: 'heavenslive-credondb' }
+    });
+    await PS_Credon.connect({ endpoint: 'wss://heavenslive.com:8080', token: localStorage.getItem('hl-token')||'anonymous' });
+  } catch(e) {}
+})();
+
+// Existing credon logic
 var T=localStorage.getItem("token");if(T){window.location.href="/credon/wallet"}
 
 function showTab(t){
