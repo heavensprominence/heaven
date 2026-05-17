@@ -87,7 +87,7 @@ class _BackendConnector extends PowerSyncBackendConnector {
 
   @override
   Future<void> uploadData(PowerSyncDatabase database) async {
-    final batch = await database.getNextCrudBatch();
+    final batch = await database.getCrudBatch();
     if (batch == null) return;
     try {
       final response = await http.post(
