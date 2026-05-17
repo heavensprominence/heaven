@@ -130,6 +130,28 @@ router.post('/listings', verifyToken, async (req, res) => {
         
         const coords = await geocodeLocation(location_city, location_state, location_country);
         
+        // Process images — save base64 to disk, store URLs
+        let imageUrls = [];
+        if (images && Array.isArray(images)) {
+            const fs = require('fs');
+            const path = require('path');
+            const uploadDir = path.join(__dirname, '../../public/uploads/listings');
+            fs.mkdirSync(uploadDir, { recursive: true });
+            for (const img of images.slice(0, 3)) {  // Max 3 images
+                if (typeof img === 'string' && img.startsWith('data:image/')) {
+                    const ext = img.match(/^data:image\/(\w+)/)?.[1] || 'jpg';
+                    const filename = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
+                    const base64 = img.replace(/^data:image\/\w+;base64,/, '');
+                    // Limit to ~3MB decoded
+                    if (Buffer.from(base64, 'base64').length > 3 * 1024 * 1024) continue;
+                    fs.writeFileSync(path.join(uploadDir, filename), Buffer.from(base64, 'base64'));
+                    imageUrls.push(`/uploads/listings/${filename}`);
+                } else if (typeof img === 'string' && img.length > 0) {
+                    imageUrls.push(img);  // Already a URL
+                }
+            }
+        }
+        
         let expires_at = null;
         if (duration === '1day') expires_at = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
         else if (duration === '2weeks') expires_at = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
@@ -138,7 +160,7 @@ router.post('/listings', verifyToken, async (req, res) => {
         const result = await db.query(`
             INSERT INTO listings (
                 seller_id, store_id, type, title, description, category, price_cents, 
-                min_bid_cents, max_bid_cents, images, location_city, location_state, 
+                min_bid_cents, max_bid_cents, imageUrls, location_city, location_state, 
                 location_country, latitude, longitude, shipping_options, weight_oz, dimensions, 
                 status, expires_at, auction_end_time, quantity_available,
                 allow_local_pickup, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
@@ -147,7 +169,7 @@ router.post('/listings', verifyToken, async (req, res) => {
             RETURNING *
         `, [
             userId, store_id || null, type, title, description, category, price_cents || 0,
-            min_bid_cents, max_bid_cents, images, location_city, location_state,
+            min_bid_cents, max_bid_cents, imageUrls, location_city, location_state,
             location_country, coords.lat, coords.lng, JSON.stringify(shipping_options || []), weight_oz, JSON.stringify(dimensions || {}),
             expires_at, quantity_available || 1,
             allow_local_pickup || false, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,

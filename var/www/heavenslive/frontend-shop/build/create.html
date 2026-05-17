@@ -65,6 +65,8 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   
   <label class="label" data-i18n="page.label_description">Description</label><textarea id="lDesc" data-i18n-placeholder="create.phDesc" placeholder="Describe your item in detail..."></textarea>
   
+  <label class="label" data-i18n="page.label_images">📸 Images</label><input id="lImages" type="file" accept="image/*" multiple style="margin-bottom:8px"><div id="imagePreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
+  
   <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
   
   <label class="label" data-i18n="page.label_quantity">Quantity</label><input id="lQty" type="number" min="1" value="1">
@@ -196,6 +198,23 @@ function goStep(n){
 }
 function nextStep(){goStep(step+1)}
 function prevStep(){goStep(step-1)}
+var imageData = [];
+document.getElementById('lImages').addEventListener('change', function(e){
+  var files = e.target.files;
+  var preview = document.getElementById('imagePreview');
+  preview.innerHTML = '';
+  imageData = [];
+  Array.from(files).forEach(function(f, i){
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      imageData.push(ev.target.result);
+      preview.innerHTML += '<div style="position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.1)"><img src="'+ev.target.result+'" style="width:100%;height:100%;object-fit:cover"><button onclick="removeImage('+i+')" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);border:none;color:white;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer">✕</button></div>';
+    };
+    reader.readAsDataURL(f);
+  });
+});
+function removeImage(idx){ imageData.splice(idx,1); document.getElementById('imagePreview').children[idx]?.remove(); }
+
 function toggleFeaturedOptions(){
   var c=document.getElementById("wantFeatured").checked;
   var opts=document.getElementById("featuredOptions");
@@ -275,7 +294,7 @@ async function submit(){
   var pf=type==="auction"?"min_bid_cents":type==="reverse_auction"?"max_bid_cents":"price_cents";
   var pc=Math.round(parseFloat(document.getElementById("lPrice").value||0)*100)||0;
   var currency=document.getElementById("lCurrency").value||"USD";
-  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency]};d[pf]=pc;
+  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],images:imageData};d[pf]=pc;
   try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
   btn.disabled=false;btn.textContent="Submit"
 }
