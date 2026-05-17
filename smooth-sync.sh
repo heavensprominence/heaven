@@ -11,8 +11,8 @@ ssh -t "$VPS" "sudo chown -R bryan:bryan $REMOTE/backend/src $REMOTE/public $REM
 echo "📦 Backend..."
 rsync -avz --delete "$LOCAL/backend/src/" "$VPS:$REMOTE/backend/src/"
 
-echo "🌐 Public..."
-rsync -avz --delete "$LOCAL/public/" "$VPS:$REMOTE/public/"
+echo "🌐 Public (excluding locales — VPS-managed)..."
+rsync -avz --delete --exclude='locales/' "$LOCAL/public/" "$VPS:$REMOTE/public/"
 
 echo "🛒 Shop..."
 rsync -avz --delete "$LOCAL/frontend-shop/build/" "$VPS:$REMOTE/frontend-shop/build/"
