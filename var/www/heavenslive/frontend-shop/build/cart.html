@@ -26,7 +26,7 @@ if(!T){
 
 function loadCart() {
   document.getElementById("cartContent").innerHTML='<span class="muted" data-i18n="cart.loading">Loading...</span>';
-  fetch("/api/shop/cart",{headers:{Authorization:"***"+T}}).then(function(r){return r.json()}).then(function(d){
+  fetch("/api/shop/cart",{headers:{Authorization:"*** "+T}}).then(function(r){return r.json()}).then(function(d){
     var items=d.cart||[];
     if(!items.length){
       document.getElementById("cartContent").innerHTML='<div class="muted"><span data-i18n="cart.empty">Your cart is empty.</span><br><a href="/shop/" style="color:var(--gold)" data-i18n="cart.browse">Browse listings</a></div>';
