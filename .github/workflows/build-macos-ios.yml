@@ -41,6 +41,10 @@ jobs:
         working-directory: mobile
         run: flutter pub get
 
+      - name: Add iOS platform
+        working-directory: mobile
+        run: flutter create --platforms ios .
+
       - name: Build iOS (.app, no codesign)
         working-directory: mobile
         run: flutter build ios --no-codesign --release
