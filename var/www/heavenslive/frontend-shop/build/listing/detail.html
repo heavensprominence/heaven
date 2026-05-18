@@ -52,7 +52,7 @@ function addCart() {
   if (!T) { alert('Sign in'); return; }
   fetch('/api/shop/cart/add', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': '***' + T},
+    headers: {'Content-Type': 'application/json', 'Authorization': '*** ' + T},
     body: JSON.stringify({listingId: id, quantity: 1})
   }).then(function(r) { return r.json(); }).then(function(d) { alert(d.success ? 'Added!' : d.error); });
 }
