@@ -270,7 +270,7 @@ function clearFilters(){
 function buyNow(id){location.href="/shop/listing/"+id}
 function makeOffer(id){var o=prompt("Enter your offer amount (USD):");if(!o||isNaN(o))return;var T=localStorage.getItem("token");if(!T){alert("Please sign in");return}fetch("/api/shop/offers",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id,amount_cents:Math.round(parseFloat(o)*100)})}).then(function(r){return r.json()}).then(function(d){alert(d.success?"Offer submitted!":d.error||"Failed")}).catch(function(){})}
 function wishlistToggle(id,el){var T=localStorage.getItem("token");if(!T){alert("Sign in to save items");return}fetch("/api/shop/wishlist/toggle",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id})}).then(function(r){return r.json()}).then(function(d){if(d.added||d.success)el.textContent="❤️"})}
-function addToCart(id){var T=localStorage.getItem("token");if(!T){alert("Sign in to add items");return}fetch("/api/shop/cart/add",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id,quantity:1})}).then(function(r){return r.json()}).then(function(d){if(d.success)alert("Added to cart!")})}
+function addToCart(id){var T=localStorage.getItem("token");if(!T){alert("Sign in to add items");return}fetch("/api/shop/cart/add",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id,quantity:1})}).then(function(r){return r.json()}).then(function(d){if(d.success)alert("Added to cart!")}).catch(function(){alert("Error adding to cart")})}
 
 // Category tree
 var CAT_CACHE={};
