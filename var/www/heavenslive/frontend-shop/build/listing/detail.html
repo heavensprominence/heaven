@@ -49,12 +49,19 @@ fetch('/api/shop/listings/' + id)
 
 function addCart() {
   var T = localStorage.getItem('token');
-  if (!T) { alert('Sign in'); return; }
+  var h = {'Content-Type': 'application/json'};
+  if (T) h['Authorization'] = 'Bearer ' + T;
+  var b = {listingId: id, quantity: 1};
+  var gt = localStorage.getItem('hl-guest-token');
+  if (!T && gt) h['X-Guest-Token'] = gt;
   fetch('/api/shop/cart/add', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': '*** ' + T},
-    body: JSON.stringify({listingId: id, quantity: 1})
-  }).then(function(r) { return r.json(); }).then(function(d) { alert(d.success ? 'Added!' : d.error); });
+    headers: h,
+    body: JSON.stringify(b)
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.guest_token) localStorage.setItem('hl-guest-token', d.guest_token);
+    alert(d.success ? 'Added!' : (d.error || 'Failed'));
+  });
 }
 function msgSeller() {
   var T = localStorage.getItem('token');
@@ -64,7 +71,7 @@ function msgSeller() {
   var sellerId2 = sellerId;
   fetch('/api/shop/messages/conversations', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': '*** ' + T},
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + T},
     body: JSON.stringify({listingId: id, sellerId: sellerId2, initialMessage: msg.trim()})
   }).then(function(r) { return r.json(); }).then(function(d) {
     if (d.success) { alert('Message sent! Check Messages for replies.'); location.href = '/shop/messages'; }

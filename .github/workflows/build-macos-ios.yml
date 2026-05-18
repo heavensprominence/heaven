@@ -1,4 +1,4 @@
-name: Build iOS
+name: Build macOS + iOS
 
 on:
   push:
@@ -6,6 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  macos-desktop:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --version "^2"
+
+      - name: Build macOS (.dmg)
+        working-directory: desktop
+        run: cargo tauri build
+
+      - name: Upload macOS .dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: HeavensLive-macOS
+          path: desktop/target/release/bundle/dmg/*.dmg
+
   ios-app:
     runs-on: macos-latest
     steps:
@@ -16,20 +37,16 @@ jobs:
         with:
           channel: stable
 
-      - name: Add iOS platform
-        working-directory: mobile
-        run: flutter create --platforms ios .
-
       - name: Install dependencies
         working-directory: mobile
         run: flutter pub get
 
-      - name: Build iOS (simulator)
+      - name: Build iOS (.app, no codesign)
         working-directory: mobile
-        run: flutter build ios --no-codesign --simulator
+        run: flutter build ios --no-codesign --release
 
-      - name: Upload iOS
+      - name: Upload iOS .app
         uses: actions/upload-artifact@v4
         with:
           name: HeavensLive-iOS
-          path: mobile/build/ios/iphonesimulator/Runner.app
+          path: mobile/build/ios/iphoneos/Runner.app

@@ -13,15 +13,19 @@ const crypto = require('crypto');
 // Optional auth — attaches userId if token present, guestToken otherwise
 async function optionalAuth(req, res, next) {
   const authHeader = req.headers.authorization;
+  console.log("OPT_AUTH:", (authHeader||"none").substring(0,60));
   if (authHeader && authHeader.startsWith('Bearer ')) {
+    let jwtSecret;
     try {
       const jwt = require('jsonwebtoken');
-      const { jwtSecret } = require('../../config/auth');
+      const authConfig = require('../../config/auth');
+      jwtSecret = authConfig.jwtSecret;
       const decoded = jwt.verify(authHeader.split(' ')[1], jwtSecret);
       req.userId = decoded.id;
       req.isGuest = false;
       return next();
     } catch (err) {
+      console.error('CART AUTH FAILED:', err.name, err.message, 'secretLen='+(jwtSecret||'').length);
       // Token invalid, fall through to guest
     }
   }

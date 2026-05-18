@@ -20,13 +20,16 @@ h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}.item{display:fl
 </div></div></div>
 <script>
 var T=localStorage.getItem("token");
-if(!T){
-  document.getElementById("cartContent").innerHTML='<div class="muted"><a href="/credon/" style="color:var(--gold)" data-i18n="cart.signIn">Sign in</a> <span data-i18n="cart.signInToView">to view cart</span></div>';
-} else { loadCart(); }
+loadCart();
 
 function loadCart() {
   document.getElementById("cartContent").innerHTML='<span class="muted" data-i18n="cart.loading">Loading...</span>';
-  fetch("/api/shop/cart",{headers:{Authorization:"*** "+T}}).then(function(r){return r.json()}).then(function(d){
+  var h={};
+  if(T)h.Authorization="Bearer "+T;
+  var gt=localStorage.getItem("hl-guest-token");
+  if(!T&&gt)h["X-Guest-Token"]=gt;
+  fetch("/api/shop/cart",{headers:h}).then(function(r){return r.json()}).then(function(d){
+    if(d.guest_token)localStorage.setItem("hl-guest-token",d.guest_token);
     var items=d.cart||[];
     if(!items.length){
       document.getElementById("cartContent").innerHTML='<div class="muted"><span data-i18n="cart.empty">Your cart is empty.</span><br><a href="/shop/" style="color:var(--gold)" data-i18n="cart.browse">Browse listings</a></div>';
@@ -44,7 +47,8 @@ function loadCart() {
   })
 }
 function removeItem(id){
-  fetch("/api/shop/cart/"+id,{method:"DELETE",headers:{Authorization:"Bearer "+T}}).then(function(){loadCart()})
+  var h={};if(T)h.Authorization="Bearer "+T;var gt=localStorage.getItem("hl-guest-token");if(!T&&gt)h["X-Guest-Token"]=gt;
+  fetch("/api/shop/cart/"+id,{method:"DELETE",headers:h}).then(function(){loadCart()})
 }
 </script><script src="/i18n.js"></script>
 </body></html>

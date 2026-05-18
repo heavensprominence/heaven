@@ -10,7 +10,7 @@
   "app": {
     "windows": [{
       "title": "HeavensLive — Divinely Underwritten Commerce",
-      "url": "https://heavenslive.com/shop",
+      "url": "https://heavenslive.com/shop?source=desktop",
       "width": 1280,
       "height": 800,
       "minWidth": 900,
