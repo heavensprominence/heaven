@@ -18,7 +18,8 @@ var id = path.substring(path.lastIndexOf('/') + 1);
 var sellerId = '';
 if (!id || id === 'listing') { location.href = '/shop/'; }
 
-fetch('/api/shop/listings/' + id)
+var lang=localStorage.getItem("hl-lang")||"en";
+fetch('/api/shop/listings/' + id + '?lang=' + lang)
   .then(function(r) { return r.json(); })
   .then(function(d) {
     var l = d.listing;
