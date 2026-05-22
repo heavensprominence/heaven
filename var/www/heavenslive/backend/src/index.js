@@ -85,6 +85,7 @@ app.use("/api/shop/admin", shopAdminRoutes);
 app.use("/api/admin", require("./routes/shop/adminDashboard"));
 app.use("/api/ai", require("./routes/shop/aiAssistant"));
 app.use("/api/ai/support", require("./routes/shop/aiSupport"));
+app.use("/api/ai", require("./routes/shop/aiImport"));
 app.use("/api/shop/categories", shopCategoryRoutes);
 app.use("/api/shop/listings", shopListingsRoutes);
 app.use("/api/shop/cart", shopCartRoutes);
@@ -335,7 +336,10 @@ app.get('/sitemap.xml', async (req, res) => {
 
 (async () => { try { const db = require('./db'); await db.query("CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())"); } catch(e) {} })();
 
-app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server on http://localhost:${PORT}`);
+});
+
 
 // Ensure user_sessions table exists
 (async () => { try { const db = require('./db'); await db.query(`CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())`); } catch(e) {} })();
