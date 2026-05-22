@@ -371,7 +371,8 @@
     "label_name": "Nome",
     "not_set": "Não definido",
     "super_admin": "Super Admin",
-    "member": "Membro"
+    "member": "Membro",
+    "label_images": "📸 Imagens"
   },
   "brand": {
     "disputes": "⚖️ Disputas",

@@ -371,7 +371,8 @@
     "label_name": "Namn",
     "not_set": "Inte inställd",
     "super_admin": "Superadministratör",
-    "member": "Ledamot"
+    "member": "Ledamot",
+    "label_images": "📸 Bilder"
   },
   "brand": {
     "disputes": "⚖️ Tvister",

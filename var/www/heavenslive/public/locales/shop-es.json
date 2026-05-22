@@ -421,7 +421,8 @@
     "label_name": "Nombre",
     "not_set": "No establecido",
     "super_admin": "Súper administrador",
-    "member": "Miembro"
+    "member": "Miembro",
+    "label_images": "📸 Imágenes"
   },
   "messages": {
     "title": "💬 Mensajes",

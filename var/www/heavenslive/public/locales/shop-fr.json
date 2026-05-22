@@ -432,7 +432,8 @@
     "label_name": "Nom",
     "not_set": "Non défini",
     "super_admin": "Super Admin",
-    "member": "Membre"
+    "member": "Membre",
+    "label_images": "📸Images"
   },
   "create": {
     "step1": "1. Informations",

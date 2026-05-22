@@ -382,7 +382,8 @@
     "label_name": "الاسم",
     "not_set": "غير محدد",
     "super_admin": "المسؤول الفائق",
-    "member": "عضو"
+    "member": "عضو",
+    "label_images": "📸 الصور"
   },
   "brand": {
     "disputes": "⚖️ النزاعات",

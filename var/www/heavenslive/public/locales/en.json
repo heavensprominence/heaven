@@ -495,5 +495,8 @@
     "importReview": "Review and submit.",
     "importFailed": "Import failed",
     "importError": "Error importing"
+  },
+  "page": {
+    "label_images": "📸 Images"
   }
 }

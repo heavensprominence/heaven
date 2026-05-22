@@ -382,7 +382,8 @@
     "label_name": "名称",
     "not_set": "未设置",
     "super_admin": "超级管理员",
-    "member": "成员"
+    "member": "成员",
+    "label_images": "📸 图片"
   },
   "brand": {
     "disputes": "⚖️纠纷",

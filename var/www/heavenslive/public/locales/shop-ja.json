@@ -432,7 +432,8 @@
     "label_name": "名称",
     "not_set": "未設定",
     "super_admin": "スーパー管理者",
-    "member": "メンバー"
+    "member": "メンバー",
+    "label_images": "📸画像"
   },
   "create": {
     "step1": "1.情報",

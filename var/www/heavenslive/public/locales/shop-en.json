@@ -427,7 +427,8 @@
     "btn_change": "Change",
     "h3_delete_account": "Delete Account",
     "p_delete_account": "Permanently delete your account and all data",
-    "session_info": "Signed in as"
+    "session_info": "Signed in as",
+    "label_images": "📸 Images"
   },
   "create": {
     "step1": "1. Info",

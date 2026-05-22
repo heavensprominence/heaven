@@ -432,7 +432,8 @@
     "label_name": "نام",
     "not_set": "تنظیم نشده",
     "super_admin": "ابرمدیر",
-    "member": "عضو"
+    "member": "عضو",
+    "label_images": "📸تصاویر"
   },
   "create": {
     "step1": "۱. اطلاعات",

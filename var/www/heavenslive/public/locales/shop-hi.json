@@ -371,7 +371,8 @@
     "label_name": "नाम",
     "not_set": "सेट नहीं किया गया",
     "super_admin": "सुपर एडमिन",
-    "member": "सदस्य"
+    "member": "सदस्य",
+    "label_images": "📸 छवियाँ"
   },
   "brand": {
     "disputes": "⚖️विवाद",

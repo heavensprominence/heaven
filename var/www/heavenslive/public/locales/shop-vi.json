@@ -410,7 +410,8 @@
     "label_name": "Tên",
     "not_set": "Chưa được thiết lập",
     "super_admin": "Quản trị viên cao cấp",
-    "member": "Thành viên"
+    "member": "Thành viên",
+    "label_images": "📸 Hình ảnh"
   },
   "errors": {
     "noResults": "Không tìm thấy mục nào",

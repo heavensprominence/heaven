@@ -371,7 +371,8 @@
     "label_name": "İsim",
     "not_set": "Ayarlanmamış",
     "super_admin": "Süper Yönetici",
-    "member": "Üye"
+    "member": "Üye",
+    "label_images": "📸 Görseller"
   },
   "brand": {
     "disputes": "⚖️ Anlaşmazlıklar",

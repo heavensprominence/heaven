@@ -371,7 +371,8 @@
     "btn_buy_gift_card": "🎁 Geschenkkarte kaufen - $25.00",
     "gift_sent": "Geschenkkarte gesendet!",
     "gift_sent_desc": "Ihre Geschenkkarte wurde gekauft und wird dem Empfänger zugestellt.",
-    "btn_back_to_shop": "Zurück zum Shop"
+    "btn_back_to_shop": "Zurück zum Shop",
+    "label_images": "📸 Bilder"
   },
   "brand": {
     "disputes": "⚖️ Streitigkeiten",
