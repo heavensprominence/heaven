@@ -1,67 +1,32 @@
 /**
- * AI Support Chat — 24/7 customer support, 17 languages
- * Floating chat widget that lives on every page
+ * AI Support Chat — 24/7 customer support
+ * Smart keyword matching with 12 response categories
  */
 const express = require('express');
 const router = express.Router();
-const { execSync } = require('child_process');
 
-// Knowledge base — common questions about HeavensLive
-const KNOWLEDGE = `
-HEAVENSLIVE KNOWLEDGE BASE:
-- HeavensLive is a divine marketplace with Credon digital wallet
-- Available on web, Linux, Windows, macOS, Android, iOS
-- Free to join, free to browse, free to list items
-- Pro plan unlocks featured listings, analytics, bulk import ($9/mo)
-- Business plan adds priority support, more featured slots ($29/mo)
-- Credon Wallet: send money, exchange currencies, get loans
-- Prayer audio available on landing page and shop nav
-- 17 languages supported
-- 100+ currencies via live exchange rates
-- PayPal and Credon Wallet accepted for payments
-- Guest checkout available — no account needed to browse
-- Disputes resolved within 48 hours
-- Affiliate program: earn commissions on sales you refer
-- Download apps at heavenslive.com/shop/download
-- Contact support: heavenslive.com/shop/contact
-- Bug reports: heavenslive.com/shop/bug-report
-- Password reset: heavenslive.com/shop/reset-password
-`;
+const RESPONSES = [
+  { p: [/download|app|install|get.*app|desktop|mobile|android|ios/i], r: 'Download free for all platforms at heavenslive.com/shop/download — Linux, Windows, macOS, Android, iOS.' },
+  { p: [/price|cost|fee|plan|subscription|pricing|pro|business/i], r: 'Free to join! Pro plan ($9/mo) unlocks featured listings, analytics, bulk import. Business ($29/mo) adds priority support.' },
+  { p: [/wallet|credontoken|credon|send.*money|exchange|loan|balance/i], r: 'Credon Wallet is borderless banking — send money, exchange 100+ currencies, get interest-bearing loans. Visit /credon/wallet!' },
+  { p: [/listing|sell|post|create.*item|classified|auction/i], r: 'Create a listing at /shop/create. Our AI assistant generates your listing from a plain description!' },
+  { p: [/shipping|delivery|ship|pickup|worldwide/i], r: 'Worldwide shipping + local pickup available. Sellers set shipping options per listing.' },
+  { p: [/language|translate|persian|farsi|arabic|chinese|japanese|korean|french|spanish/i], r: '17 languages supported! Select your language from the top navigation dropdown.' },
+  { p: [/payment|pay|paypal|bitcoin|crypto|currency|usd/i], r: 'Pay via PayPal or Credon Wallet. 100+ currencies with live exchange rates. Guest checkout available!' },
+  { p: [/featured|featured.*listing|top.*listing|promot/i], r: 'Feature your listing at the top of search results! Included with Pro/Business plans, or $1/mo via PayPal.' },
+  { p: [/affiliate|refer|commission|earn/i], r: 'Our affiliate program pays commissions on every purchase by people you refer! Get your link at /shop/affiliate-v2.' },
+  { p: [/password|reset|forgot|login.*problem|can.*log/i], r: 'Reset your password at /shop/reset-password. Still stuck? Visit /shop/contact.' },
+  { p: [/support|help|contact|issue|problem|bug/i], r: 'For direct support visit /shop/contact or report bugs at /shop/bug-report. We respond within 24 hours!' },
+  { p: [/hi|hello|hey|salam|hola|bonjour/i], r: 'Hello! 👋 I can help with downloads, plans, wallet, listings, payments, and more. What would you like to know?' },
+];
 
 router.post('/chat', async (req, res) => {
   try {
-    const { message, history = [] } = req.body;
-    if (!message || message.length < 2) {
-      return res.status(400).json({ error: 'Please ask a question.' });
-    }
-
-    const historyStr = history.map(h => `${h.role}: ${h.content}`).join('\n');
-    
-    const prompt = `You are a helpful support assistant for HeavensLive. Answer questions based on this knowledge:
-
-${KNOWLEDGE}
-
-Conversation history:
-${historyStr}
-
-User: ${message}
-
-Keep answers concise (1-3 sentences). Be friendly. If you don't know, suggest visiting /shop/contact. Never make up features that aren't listed above.`;
-
-    const result = execSync(`gemini --output-format text "${prompt.replace(/"/g, '\\"').replace(/\n/g, ' ')}"`, {
-      encoding: 'utf-8',
-      timeout: 15000,
-      maxBuffer: 1024 * 512,
-    });
-
-    res.json({
-      reply: result.trim(),
-      timestamp: new Date().toISOString()
-    });
-  } catch (e) {
-    console.error('AI Support Chat error:', e.message);
-    res.status(500).json({ error: 'Support chat temporarily unavailable. Please visit /shop/contact.' });
-  }
+    const { message } = req.body;
+    if (!message || message.length < 2) return res.status(400).json({ error: 'Please ask a question.' });
+    for (const r of RESPONSES) { if (r.p.some(p => p.test(message))) return res.json({ reply: r.r, timestamp: new Date().toISOString() }); }
+    res.json({ reply: 'I can help with downloads, plans, wallet, listings, payments, and more! Try: "How do I download the app?" or "What plans are available?"', timestamp: new Date().toISOString() });
+  } catch (e) { res.status(500).json({ error: 'Support chat temporarily unavailable.' }); }
 });
 
 module.exports = router;
