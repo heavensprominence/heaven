@@ -51,6 +51,8 @@
     localStorage.setItem(LANG_KEY,lang);
     document.documentElement.lang=lang;
     document.documentElement.dir=['ar','fa','ur'].includes(lang)?'rtl':'ltr';
+    // Update any existing hardcoded language selectors
+    document.querySelectorAll('select[id="langSelect"], select[id="langSel"]').forEach(function(s){s.value=lang});
     loadAndApply(lang);
   };
   
@@ -243,6 +245,8 @@
   document.addEventListener('DOMContentLoaded',function(){
     setTimeout(function(){
       injectLangSelector();
+      // Update hardcoded selectors
+      document.querySelectorAll('select[id="langSelect"], select[id="langSel"]').forEach(function(s){s.value=currentLang});
       if(currentLang!=='en'){
         document.documentElement.lang=currentLang;
         document.documentElement.dir=['ar','fa','ur'].includes(currentLang)?'rtl':'ltr';
