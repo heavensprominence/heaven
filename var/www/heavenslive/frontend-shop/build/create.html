@@ -228,7 +228,7 @@ document.getElementById('lImages').addEventListener('change', function(e){
     reader.readAsDataURL(f);
   });
 });
-function removeImage(idx){ imageData.splice(idx,1); document.getElementById('imagePreview').children[idx]?.remove(); }
+function removeImage(idx){ imageData.splice(idx,1); var p=document.getElementById('imagePreview');if(p.children[idx])p.children[idx].remove() } function refreshImagePreview(){ var p=document.getElementById('imagePreview');p.innerHTML='';imageData.forEach(function(d,i){var r=new FileReader();r.onload=function(e){p.innerHTML+='<div style="position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.1)"><img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover"><button onclick="removeImage('+i+')" style="position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);border:none;color:white;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer">✕</button></div>'};r.readAsDataURL(new Blob([d]))}) }
 
 function toggleFeaturedOptions(){
   var c=document.getElementById("wantFeatured").checked;
@@ -297,6 +297,21 @@ async function importListing(){
       document.getElementById('lTitle').value=s.title||'';
       document.getElementById('lDesc').value=s.description||'';
       document.getElementById('lPrice').value=((s.price_cents||0)/100).toFixed(2);
+      // Handle imported images — fetch and convert to base64 for the form
+      if(s.images&&s.images.length){
+        imageData=[];var loaded=0;
+        s.images.slice(0,3).forEach(function(url,i){
+          var img=new Image();img.crossOrigin='anonymous';
+          img.onload=function(){
+            var c=document.createElement('canvas');c.width=img.width;c.height=img.height;
+            c.getContext('2d').drawImage(img,0,0);
+            imageData.push(c.toDataURL('image/jpeg',0.8));loaded++;
+            if(loaded===Math.min(3,s.images.length))refreshImagePreview();
+          };
+          img.onerror=function(){loaded++;if(loaded===Math.min(3,s.images.length))refreshImagePreview()};
+          img.src=url;
+        });
+      }
       st.textContent='✅ Imported from '+s.platform+'! Review and submit.';st.style.color='#2ECC71';
     }else{st.textContent='❌ '+(d.error||'Import failed');st.style.color='#E74C3C'}
   }catch(e){st.textContent='❌ Error importing';st.style.color='#E74C3C'}
