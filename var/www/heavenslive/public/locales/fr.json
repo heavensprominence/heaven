@@ -473,5 +473,17 @@
     "availableGrants": "Subventions disponibles",
     "noGrants": "Aucune subvention disponible",
     "loading": "Chargement..."
+  },
+  "create": {
+    "aiTitle": "Assistant de référencement IA",
+    "aiNew": "✨Nouveau",
+    "aiDesc": "Décrivez votre article dans un langage simple :",
+    "aiDesc2": "L'IA remplit tout le reste.",
+    "aiPlaceholder": "par exemple, veste en cuir vintage, taille moyenne, excellent état...",
+    "aiGenerate": "✨ Générer une liste",
+    "aiThinking": "Pensée...",
+    "aiGenerating": "Générer avec l'IA...",
+    "aiDone": "Formulaire rempli ! Examinez et soumettez.",
+    "aiError": "Erreur lors du contact avec l'IA"
   }
 }

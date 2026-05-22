@@ -473,5 +473,17 @@
     "availableGrants": "Subvenciones disponibles",
     "noGrants": "No hay subvenciones disponibles",
     "loading": "Cargando..."
+  },
+  "create": {
+    "aiTitle": "Asistente de listado de IA",
+    "aiNew": "✨ Nuevo",
+    "aiDesc": "Describe tu artículo en lenguaje sencillo:",
+    "aiDesc2": "La IA llena todo lo demás.",
+    "aiPlaceholder": "Por ejemplo, chaqueta de cuero vintage, talla mediana, excelente estado...",
+    "aiGenerate": "✨ Generar listado",
+    "aiThinking": "Pensamiento...",
+    "aiGenerating": "Generando con IA...",
+    "aiDone": "¡Formulario lleno! Revisar y enviar.",
+    "aiError": "Error al contactar con IA"
   }
 }

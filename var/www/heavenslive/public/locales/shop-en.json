@@ -462,7 +462,17 @@
     "personalNote": "Personal listings are free. Stores require",
     "currencyNote": "💡 This is your",
     "freeItems": "Enter 0 for free items",
-    "featuredIncluded": "Included in your '+p.plan_name+' plan"
+    "featuredIncluded": "Included in your '+p.plan_name+' plan",
+    "aiTitle": "AI Listing Assistant",
+    "aiNew": "✨ New",
+    "aiDesc": "Describe your item in plain language —",
+    "aiDesc2": "AI fills everything else.",
+    "aiPlaceholder": "e.g., Vintage leather jacket, size medium...",
+    "aiGenerate": "✨ Generate Listing",
+    "aiThinking": "Thinking...",
+    "aiGenerating": "Generating with AI...",
+    "aiDone": "Form filled! Review and submit.",
+    "aiError": "Error contacting AI"
   },
   "pricing": {
     "subtitle": "Choose the right plan for your business",

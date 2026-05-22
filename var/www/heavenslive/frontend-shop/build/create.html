@@ -65,11 +65,11 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
 
   <!-- AI Fill: describe your item in one box, AI generates everything -->
   <div id="aiAssist" style="background:linear-gradient(135deg,rgba(74,144,217,.08),rgba(74,144,217,.02));border:1px solid rgba(74,144,217,.2);border-radius:10px;padding:14px;margin:12px 0">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:1.2rem">🤖</span><strong style="color:#4A90D9">AI Listing Assistant</strong><span style="color:var(--muted);font-size:.7rem;margin-left:auto">✨ New</span></div>
-    <p style="color:var(--muted);font-size:.75rem;margin-bottom:8px">Describe your item in plain language — AI fills everything else.</p>
-    <textarea id="aiDesc" placeholder="e.g., Vintage leather jacket, size medium, excellent condition, barely worn, brown color, bought in Italy..." style="width:100%;min-height:70px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);padding:10px;font-size:.82rem;resize:vertical;margin-bottom:8px"></textarea>
-    <button class="btn btn-sm" id="aiBtn" onclick="aiFill()" style="background:var(--accent);color:white">✨ Generate Listing</button>
-    <span id="aiStatus" style="font-size:.7rem;color:var(--muted);margin-left:8px"></span>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:1.2rem">🤖</span><strong style="color:#4A90D9" data-i18n="create.aiTitle">AI Listing Assistant</strong><span style="color:var(--muted);font-size:.7rem;margin-left:auto" data-i18n="create.aiNew">✨ New</span></div>
+    <p style="color:var(--muted);font-size:.75rem;margin-bottom:8px" data-i18n="create.aiDesc">Describe your item in plain language — <span data-i18n="create.aiDesc2">AI fills everything else.</span></p>
+    <textarea id="aiDesc" data-i18n-placeholder="create.aiPlaceholder" placeholder="e.g., Vintage leather jacket, size medium, excellent condition, barely worn, brown color, bought in Italy..." style="width:100%;min-height:70px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);padding:10px;font-size:.82rem;resize:vertical;margin-bottom:8px"></textarea>
+    <button class="btn btn-sm" id="aiBtn" onclick="aiFill()" style="background:var(--accent);color:white" data-i18n="create.aiGenerate">✨ Generate Listing</button>
+    <span id="aiStatus" style="font-size:.7rem;color:var(--muted);margin-left:8px" data-i18n="create.aiStatus"></span>
   </div>
   
   <label class="label" data-i18n="page.label_description">Description</label><textarea id="lDesc" data-i18n-placeholder="create.phDesc" placeholder="Describe your item in detail..."></textarea>
@@ -282,7 +282,7 @@ async function aiFill(){
   var desc=document.getElementById('aiDesc').value.trim();
   if(desc.length<10){alert('Please describe your item in more detail');return}
   var btn=document.getElementById('aiBtn'),st=document.getElementById('aiStatus');
-  btn.disabled=true;btn.textContent='⏳ Thinking...';st.textContent='Generating with AI...';
+  btn.disabled=true;btn.textContent='⏳ '+(loc&&loc.create&&loc.create.aiThinking||'Thinking...');st.textContent=(loc&&loc.create&&loc.create.aiGenerating||'Generating with AI...');
   try{
     var r=await fetch('/api/ai/listing-suggest',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({description:desc})});
     var d=await r.json();
@@ -293,9 +293,9 @@ async function aiFill(){
       document.getElementById('lPrice').value=(s.price_cents/100).toFixed(2);
       if(s.type){document.getElementById('lType').value=s.type;updatePriceLabel()}
       if(s.category){var cat=document.getElementById('lCat');for(var i=0;i<cat.options.length;i++){if(cat.options[i].value===s.category||cat.options[i].text.includes(s.category)){cat.selectedIndex=i;break}}}
-      st.textContent='✅ Form filled! Review and submit.';st.style.color='#2ECC71';
+      st.textContent='✅ '+(loc&&loc.create&&loc.create.aiDone||'Form filled! Review and submit.');st.style.color='#2ECC71';
     }else{st.textContent='❌ '+(d.error||'AI failed');st.style.color='#E74C3C'}
-  }catch(e){st.textContent='❌ Error contacting AI';st.style.color='#E74C3C'}
+  }catch(e){st.textContent='❌ '+(loc&&loc.create&&loc.create.aiError||'Error contacting AI');st.style.color='#E74C3C'}
   btn.disabled=false;btn.textContent='✨ Generate Listing';
 }
 function buildReview(){document.getElementById("reviewType").textContent=document.getElementById("lType").options[document.getElementById("lType").selectedIndex].text;document.getElementById("reviewTitle").textContent=document.getElementById("lTitle").value||"(No title)";var rc=document.getElementById("lCurrency");var cs=rc?rc.value:"USD";var cs2=document.getElementById("lCurrency");var sel=cs2?cs2.options[cs2.selectedIndex].text.split(" — ")[0]:"USD";document.getElementById("reviewPrice").textContent=sel+" "+(document.getElementById("lPrice").value||"0");document.getElementById("reviewDesc").textContent=document.getElementById("lDesc").value||"(No description)";document.getElementById("reviewFeatured").textContent=document.getElementById("featured").checked?"🌟 Featured Listing — $1.00/mo":""}

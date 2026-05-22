@@ -473,5 +473,17 @@
     "availableGrants": "助成金一覧",
     "noGrants": "助成金は現在募集しておりません",
     "loading": "読み込み中..."
+  },
+  "create": {
+    "aiTitle": "AIリストアシスタント",
+    "aiNew": "✨新しい",
+    "aiDesc": "商品を平易な言葉で説明してください —",
+    "aiDesc2": "AI はその他すべてを満たします。",
+    "aiPlaceholder": "例: ヴィンテージ レザー ジャケット、サイズはミディアム、状態は良好...",
+    "aiGenerate": "✨ リストを生成する",
+    "aiThinking": "考え...",
+    "aiGenerating": "AIで生成中…",
+    "aiDone": "フォームが埋まりました！確認して送信します。",
+    "aiError": "AI への接続エラー"
   }
 }

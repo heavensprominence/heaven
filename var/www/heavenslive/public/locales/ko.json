@@ -473,5 +473,17 @@
     "availableGrants": "이용 가능한 보조금",
     "noGrants": "이용 가능한 보조금 없음",
     "loading": "로딩 중..."
+  },
+  "create": {
+    "aiTitle": "AI 상장 도우미",
+    "aiNew": "✨ 새로운",
+    "aiDesc": "귀하의 품목을 일반 언어로 설명하십시오 —",
+    "aiDesc2": "AI는 다른 모든 것을 채웁니다.",
+    "aiPlaceholder": "예: 빈티지 가죽 재킷, 미디엄 사이즈, 상태 매우 좋음...",
+    "aiGenerate": "✨ 목록 생성",
+    "aiThinking": "생각...",
+    "aiGenerating": "AI로 생성…",
+    "aiDone": "양식이 작성되었습니다! 검토하고 제출하세요.",
+    "aiError": "AI 연결 오류"
   }
 }

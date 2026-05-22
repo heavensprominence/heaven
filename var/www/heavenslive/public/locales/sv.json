@@ -473,5 +473,17 @@
     "availableGrants": "Tillgängliga bidrag",
     "noGrants": "Inga bidrag finns tillgängliga",
     "loading": "Laddar..."
+  },
+  "create": {
+    "aiTitle": "AI Listing Assistant",
+    "aiNew": "✨ Nytt",
+    "aiDesc": "Beskriv ditt föremål på ett enkelt språk —",
+    "aiDesc2": "AI fyller allt annat.",
+    "aiPlaceholder": "t.ex. Vintage skinnjacka, storlek medium, utmärkt skick...",
+    "aiGenerate": "✨ Skapa notering",
+    "aiThinking": "Tänkande...",
+    "aiGenerating": "Genererar med AI...",
+    "aiDone": "Formuläret ifyllt! Granska och skicka in.",
+    "aiError": "Det gick inte att kontakta AI"
   }
 }

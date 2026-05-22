@@ -473,5 +473,17 @@
     "availableGrants": "Available Grants",
     "noGrants": "No grants available",
     "loading": "Loading..."
+  },
+  "create": {
+    "aiTitle": "AI Listing Assistant",
+    "aiNew": "✨ New",
+    "aiDesc": "Describe your item in plain language —",
+    "aiDesc2": "AI fills everything else.",
+    "aiPlaceholder": "e.g., Vintage leather jacket, size medium...",
+    "aiGenerate": "✨ Generate Listing",
+    "aiThinking": "Thinking...",
+    "aiGenerating": "Generating with AI...",
+    "aiDone": "Form filled! Review and submit.",
+    "aiError": "Error contacting AI"
   }
 }

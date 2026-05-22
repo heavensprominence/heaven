@@ -473,5 +473,17 @@
     "availableGrants": "Verfügbare Zuschüsse",
     "noGrants": "Keine Zuschüsse verfügbar",
     "loading": "Laden..."
+  },
+  "create": {
+    "aiTitle": "AI-Listing-Assistent",
+    "aiNew": "✨ Neu",
+    "aiDesc": "Beschreiben Sie Ihren Artikel in einfacher Sprache –",
+    "aiDesc2": "KI füllt alles andere.",
+    "aiPlaceholder": "z.B. Vintage-Lederjacke, Größe M, ausgezeichneter Zustand...",
+    "aiGenerate": "✨ Auflistung erstellen",
+    "aiThinking": "Denken...",
+    "aiGenerating": "Generieren mit KI...",
+    "aiDone": "Formular ausgefüllt! Überprüfen und einreichen.",
+    "aiError": "Fehler beim Kontaktieren von AI"
   }
 }
