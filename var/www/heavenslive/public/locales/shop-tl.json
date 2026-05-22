@@ -467,7 +467,17 @@
     "personalNote": "Libreng personal na listahan. Kinakailangan ng mga tindahan",
     "currencyNote": "💡 Ito ang iyong",
     "freeItems": "Ipasok ang 0 para sa mga libreng bagay.",
-    "featuredIncluded": "Kasama sa iyong planong '+p.plan_name+'"
+    "featuredIncluded": "Kasama sa iyong planong '+p.plan_name+'",
+    "aiTitle": "AI Listing Assistant",
+    "aiNew": "✨ Bago",
+    "aiDesc": "Ilarawan ang iyong item sa simpleng wika —",
+    "aiDesc2": "Pinupuno ng AI ang lahat ng iba pa.",
+    "aiPlaceholder": "hal., Vintage na leather jacket, medium size...",
+    "aiGenerate": "✨ Bumuo ng Listahan",
+    "aiThinking": "Iniisip...",
+    "aiGenerating": "Bumubuo gamit ang AI...",
+    "aiDone": "Napuno ang form! Suriin at isumite.",
+    "aiError": "Error sa pakikipag-ugnayan sa AI"
   },
   "pricing": {
     "subtitle": "Pumili ng tamang plano para sa iyong negosyo.",

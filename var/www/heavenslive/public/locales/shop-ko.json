@@ -467,7 +467,17 @@
     "personalNote": "개인 목록은 무료입니다. 스토어에는 다음이 필요합니다.",
     "currencyNote": "💡 이것은 당신의",
     "freeItems": "무료 항목은 0을 입력합니다.",
-    "featuredIncluded": "'+p.plan_name+' 요금제에 포함되어 있습니다."
+    "featuredIncluded": "'+p.plan_name+' 요금제에 포함되어 있습니다.",
+    "aiTitle": "AI 상장 도우미",
+    "aiNew": "✨ 새로운",
+    "aiDesc": "귀하의 품목을 일반 언어로 설명하십시오 —",
+    "aiDesc2": "AI는 다른 모든 것을 채웁니다.",
+    "aiPlaceholder": "예: 빈티지 가죽 재킷, 미디엄 사이즈, 상태 매우 좋음...",
+    "aiGenerate": "✨ 목록 생성",
+    "aiThinking": "생각...",
+    "aiGenerating": "AI로 생성…",
+    "aiDone": "양식이 작성되었습니다! 검토하고 제출하세요.",
+    "aiError": "AI 연결 오류"
   },
   "pricing": {
     "subtitle": "비즈니스에 적합한 요금제 선택",

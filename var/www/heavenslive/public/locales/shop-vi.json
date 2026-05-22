@@ -461,7 +461,17 @@
     "personalNote": "Quảng cáo cá nhân là miễn phí. Đối với các cửa hàng thì cần phải",
     "currencyNote": "💡 Đây là của bạn",
     "freeItems": "Nhập 0 để nhận các mặt hàng miễn phí",
-    "featuredIncluded": "Được bao gồm trong gói '+p.plan_name+' của bạn"
+    "featuredIncluded": "Được bao gồm trong gói '+p.plan_name+' của bạn",
+    "aiTitle": "Trợ lý danh sách AI",
+    "aiNew": "✨ Mới",
+    "aiDesc": "Mô tả mặt hàng của bạn bằng ngôn ngữ đơn giản -",
+    "aiDesc2": "AI lấp đầy mọi thứ khác.",
+    "aiPlaceholder": "ví dụ: Áo khoác da cổ điển, cỡ vừa...",
+    "aiGenerate": "✨ Tạo danh sách",
+    "aiThinking": "Đang suy nghĩ...",
+    "aiGenerating": "Đang tạo bằng AI...",
+    "aiDone": "Mẫu đã điền! Xem xét và gửi.",
+    "aiError": "Lỗi liên hệ với AI"
   },
   "pricing": {
     "subtitle": "Chọn gói dịch vụ phù hợp với doanh nghiệp của bạn",

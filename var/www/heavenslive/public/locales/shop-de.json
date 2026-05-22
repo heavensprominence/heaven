@@ -467,7 +467,17 @@
     "personalNote": "Persönliche Inserate sind kostenlos. Läden erfordern",
     "currencyNote": "💡 Dies ist Ihr",
     "freeItems": "0 für Gratisartikel eingeben",
-    "featuredIncluded": "Enthalten in Ihrem Plan '+p.plan_name+'."
+    "featuredIncluded": "Enthalten in Ihrem Plan '+p.plan_name+'.",
+    "aiTitle": "AI-Listing-Assistent",
+    "aiNew": "✨ Neu",
+    "aiDesc": "Beschreiben Sie Ihren Artikel in einfacher Sprache –",
+    "aiDesc2": "KI füllt alles andere.",
+    "aiPlaceholder": "z.B. Vintage-Lederjacke, Größe M, ausgezeichneter Zustand...",
+    "aiGenerate": "✨ Auflistung erstellen",
+    "aiThinking": "Denken...",
+    "aiGenerating": "Generieren mit KI...",
+    "aiDone": "Formular ausgefüllt! Überprüfen und einreichen.",
+    "aiError": "Fehler beim Kontaktieren von AI"
   },
   "pricing": {
     "subtitle": "Wählen Sie den richtigen Plan für Ihr Unternehmen",

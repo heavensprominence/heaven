@@ -467,7 +467,17 @@
     "personalNote": "Personliga listningar är gratis. Butiker kräver",
     "currencyNote": "💡 Detta är din",
     "freeItems": "Ange 0 för gratis varor",
-    "featuredIncluded": "Ingår i din plan \"+p.plan_name+"
+    "featuredIncluded": "Ingår i din plan \"+p.plan_name+",
+    "aiTitle": "AI Listing Assistant",
+    "aiNew": "✨ Nytt",
+    "aiDesc": "Beskriv ditt föremål på ett enkelt språk —",
+    "aiDesc2": "AI fyller allt annat.",
+    "aiPlaceholder": "t.ex. Vintage skinnjacka, storlek medium, utmärkt skick...",
+    "aiGenerate": "✨ Skapa notering",
+    "aiThinking": "Tänkande...",
+    "aiGenerating": "Genererar med AI...",
+    "aiDone": "Formuläret ifyllt! Granska och skicka in.",
+    "aiError": "Det gick inte att kontakta AI"
   },
   "pricing": {
     "subtitle": "Välj rätt plan för ditt företag",

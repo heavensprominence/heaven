@@ -467,7 +467,17 @@
     "personalNote": "个人列表免费。商店要求",
     "currencyNote": "💡这是您的",
     "freeItems": "输入 0 可获得免费物品",
-    "featuredIncluded": "包含在您的 \"+p.plan_name+\"计划中"
+    "featuredIncluded": "包含在您的 \"+p.plan_name+\"计划中",
+    "aiTitle": "人工智能上市助手",
+    "aiNew": "✨ 新",
+    "aiDesc": "用通俗易懂的语言描述您的物品 —",
+    "aiDesc2": "人工智能填补了其他一切。",
+    "aiPlaceholder": "例如，复古皮夹克，中号...",
+    "aiGenerate": "✨ 生成列表",
+    "aiThinking": "思维...",
+    "aiGenerating": "用人工智能生成...",
+    "aiDone": "表格填写完毕！审核并提交。",
+    "aiError": "联系 AI 时出错"
   },
   "pricing": {
     "subtitle": "选择适合您企业的计划",

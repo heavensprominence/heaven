@@ -467,7 +467,17 @@
     "personalNote": "Los anuncios personales son gratuitos. Las tiendas requieren",
     "currencyNote": "💡 Este es tu",
     "freeItems": "Introduzca 0 para artículos gratuitos",
-    "featuredIncluded": "Incluido en tu plan '+p.plan_name+'"
+    "featuredIncluded": "Incluido en tu plan '+p.plan_name+'",
+    "aiTitle": "Asistente de listado de IA",
+    "aiNew": "✨ Nuevo",
+    "aiDesc": "Describe tu artículo en lenguaje sencillo:",
+    "aiDesc2": "La IA llena todo lo demás.",
+    "aiPlaceholder": "Por ejemplo, chaqueta de cuero vintage, talla mediana, excelente estado...",
+    "aiGenerate": "✨ Generar listado",
+    "aiThinking": "Pensamiento...",
+    "aiGenerating": "Generando con IA...",
+    "aiDone": "¡Formulario lleno! Revisar y enviar.",
+    "aiError": "Error al contactar con IA"
   },
   "pricing": {
     "subtitle": "Elija el plan adecuado para su negocio",

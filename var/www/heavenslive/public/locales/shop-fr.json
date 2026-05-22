@@ -467,7 +467,17 @@
     "personalNote": "Les inscriptions personnelles sont gratuites. Les magasins doivent",
     "currencyNote": "💡 C'est votre",
     "freeItems": "Entrez 0 pour les articles gratuits",
-    "featuredIncluded": "Inclus dans votre plan '+p.nom_du_plan+'."
+    "featuredIncluded": "Inclus dans votre plan '+p.nom_du_plan+'.",
+    "aiTitle": "Assistant de référencement IA",
+    "aiNew": "✨Nouveau",
+    "aiDesc": "Décrivez votre article dans un langage simple :",
+    "aiDesc2": "L'IA remplit tout le reste.",
+    "aiPlaceholder": "par exemple, veste en cuir vintage, taille moyenne, excellent état...",
+    "aiGenerate": "✨ Générer une liste",
+    "aiThinking": "Pensée...",
+    "aiGenerating": "Générer avec l'IA...",
+    "aiDone": "Formulaire rempli ! Examinez et soumettez.",
+    "aiError": "Erreur lors du contact avec l'IA"
   },
   "pricing": {
     "subtitle": "Choisissez le bon plan",

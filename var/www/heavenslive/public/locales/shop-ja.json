@@ -467,7 +467,17 @@
     "personalNote": "個人出品は無料。店舗は",
     "currencyNote": "💡 これはあなたの",
     "freeItems": "無料アイテムに0を入力",
-    "featuredIncluded": "あなたの「+p.plan_name+」プランに含まれる。"
+    "featuredIncluded": "あなたの「+p.plan_name+」プランに含まれる。",
+    "aiTitle": "AIリストアシスタント",
+    "aiNew": "✨新しい",
+    "aiDesc": "商品を平易な言葉で説明してください —",
+    "aiDesc2": "AI はその他すべてを満たします。",
+    "aiPlaceholder": "例: ヴィンテージ レザー ジャケット、サイズはミディアム、状態は良好...",
+    "aiGenerate": "✨ リストを生成する",
+    "aiThinking": "考え...",
+    "aiGenerating": "AIで生成中…",
+    "aiDone": "フォームが埋まりました！確認して送信します。",
+    "aiError": "AI への接続エラー"
   },
   "pricing": {
     "subtitle": "お客様のビジネスに適したプランをお選びください",

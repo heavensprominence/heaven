@@ -467,7 +467,17 @@
     "personalNote": "Kişisel listeler ücretsizdir. Mağazalar şunları gerektirir",
     "currencyNote": "💡 Bu senin",
     "freeItems": "Ücretsiz ürünler için 0 girin",
-    "featuredIncluded": "'+p.plan_adı+' planınıza dahildir"
+    "featuredIncluded": "'+p.plan_adı+' planınıza dahildir",
+    "aiTitle": "AI Listeleme Asistanı",
+    "aiNew": "✨ Yeni",
+    "aiDesc": "Öğenizi sade bir dille tanımlayın —",
+    "aiDesc2": "Yapay zeka diğer her şeyi dolduruyor.",
+    "aiPlaceholder": "örneğin, Vintage deri ceket, orta boy...",
+    "aiGenerate": "✨ Liste Oluştur",
+    "aiThinking": "Düşünüyorum...",
+    "aiGenerating": "Yapay zeka ile üretiliyor...",
+    "aiDone": "Form dolduruldu! İnceleyin ve gönderin.",
+    "aiError": "AI ile iletişim kurulurken hata oluştu"
   },
   "pricing": {
     "subtitle": "İşletmeniz için doğru planı seçin",
