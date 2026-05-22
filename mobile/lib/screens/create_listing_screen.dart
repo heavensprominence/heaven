@@ -108,7 +108,7 @@ class _CreateListingScreenState extends State<CreateListingScreen> {
             dropdownColor: const Color(0xFF16213E), style: const TextStyle(color: Colors.white),
             decoration: _inputDeco('Category'),
             hint: const Text('Select category', style: TextStyle(color: Colors.grey)),
-            items: _categories.map((c) => DropdownMenuItem(value: c['slug'], child: Text(c['name'] ?? ''))).toList(),
+            items: _categories.map((c) => DropdownMenuItem<String>(value: c['slug'], child: Text(c['name'] ?? ''))).toList(),
             onChanged: (v) => setState(() => _category = v!)),
           const SizedBox(height: 8),
           TextFormField(controller: _city, style: const TextStyle(color: Colors.white), decoration: _inputDeco('City')),
