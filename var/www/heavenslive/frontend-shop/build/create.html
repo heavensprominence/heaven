@@ -70,6 +70,12 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
     <textarea id="aiDesc" data-i18n-placeholder="create.aiPlaceholder" placeholder="e.g., Vintage leather jacket, size medium, excellent condition, barely worn, brown color, bought in Italy..." style="width:100%;min-height:70px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);padding:10px;font-size:.82rem;resize:vertical;margin-bottom:8px"></textarea>
     <button class="btn btn-sm" id="aiBtn" onclick="aiFill()" style="background:var(--accent);color:white" data-i18n="create.aiGenerate">✨ Generate Listing</button>
     <span id="aiStatus" style="font-size:.7rem;color:var(--muted);margin-left:8px" data-i18n="create.aiStatus"></span>
+    
+    <!-- Import from other platforms -->
+    <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);display:flex;gap:8px;align-items:center">
+      <input type="url" id="importUrl" placeholder="Or paste a listing URL (eBay, Etsy, Amazon)..." style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;color:var(--text);padding:6px 10px;font-size:.75rem">
+      <button class="btn btn-sm" onclick="importListing()" style="background:transparent;border:1px solid rgba(200,169,81,.3);color:var(--gold);white-space:nowrap;font-size:.72rem">📋 Import</button>
+    </div>
   </div>
   
   <label class="label" data-i18n="page.label_description">Description</label><textarea id="lDesc" data-i18n-placeholder="create.phDesc" placeholder="Describe your item in detail..."></textarea>
@@ -278,6 +284,24 @@ async function loadCredonBalance(){
 function updatePriceLabel(){document.getElementById("buyNowField").style.display=document.getElementById("lType").value==="auction"?"block":"none";var loc={};try{var ls=localStorage.getItem("hl-shop-locale");if(ls)loc=JSON.parse(ls).create||{}}catch(e){};var t=document.getElementById("lType").value,l={mall:loc.labelPrice||"Price ($)",classifieds:loc.labelPrice||"Price ($)",auction:loc.labelMinBid||"Minimum Bid ($)",reverse_auction:loc.labelMaxBid||"Maximum Budget ($)"};document.getElementById("priceLabel").textContent=l[t]||loc.labelPrice||"Price ($)"}
 function updateFeaturedInfo(){var c=document.getElementById("featured").checked,d=document.getElementById("featuredInfo");d.innerHTML=c?'<span style="color:#2ECC71">✅ This listing will be FEATURED</span> — $1.00/month or included with <a href="/shop/pricing" style="color:var(--gold)">Pro/Business</a> plans.':'Makes your listing appear at the top of search results. <a href="/shop/pricing" style="color:var(--gold)">$1.00 per month</a> or included with Pro/Business plans.'}
 // AI Listing Assistant
+async function importListing(){
+  var url=document.getElementById('importUrl').value.trim();
+  if(!url){alert('Paste a listing URL from eBay, Etsy, Amazon, etc.');return}
+  var btn=event.target,st=document.getElementById('aiStatus');
+  btn.disabled=true;btn.textContent='⏳ Importing...';st.textContent='Fetching from URL...';
+  try{
+    var r=await fetch('/api/ai/import-listing',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({url:url})});
+    var d=await r.json();
+    if(d.success&&d.imported){
+      var s=d.imported;
+      document.getElementById('lTitle').value=s.title||'';
+      document.getElementById('lDesc').value=s.description||'';
+      document.getElementById('lPrice').value=((s.price_cents||0)/100).toFixed(2);
+      st.textContent='✅ Imported from '+s.platform+'! Review and submit.';st.style.color='#2ECC71';
+    }else{st.textContent='❌ '+(d.error||'Import failed');st.style.color='#E74C3C'}
+  }catch(e){st.textContent='❌ Error importing';st.style.color='#E74C3C'}
+  btn.disabled=false;btn.textContent='📋 Import';
+}
 async function aiFill(){
   var desc=document.getElementById('aiDesc').value.trim();
   if(desc.length<10){alert('Please describe your item in more detail');return}
