@@ -21,25 +21,25 @@ window.PowerSyncDB = PowerSyncDatabase;
 </head><body>
 <nav><div class="nav-brand">💱 Credon</div><div class="nav-links" id="navR"></div></nav>
 <div class="container">
-<div class="card" style="text-align:center"><div class="muted">Total Balance (USD equivalent)</div><div class="bal" id="balDisplay">$0.00</div></div>
+<div class="card" style="text-align:center"><div class="muted"><span data-i18n="wallet.totalBalance"><span data-i18n="wallet.to">To</span>tal Balance (USD equivalent)</span></div><div class="bal" id="balDisplay">$0.00</div></div>
 
 <div class="tabs" id="mainTabs">
-<button class="tab on" onclick="showTab('dash')">📊 Dashboard</button>
-<button class="tab" onclick="showTab('send')">📤 Send</button>
-<button class="tab" onclick="showTab('exchange')">💱 Exchange</button>
-<button class="tab" onclick="showTab('history')">📋 History</button>
-<button class="tab" onclick="showTab('loans')">🏦 Loans</button>
-<button class="tab" onclick="showTab('appointments')">📅 Appointments</button>
-<button class="tab" onclick="showTab('currency')">💵 Currency</button>
-<button class="tab" onclick="showTab('grants')">🎁 Grants</button>
+<button class="tab on" onclick="showTab('dash')"><span data-i18n="wallet.dashboard">📊 Dashboard</span></button>
+<button class="tab" onclick="showTab('send')"><span data-i18n="wallet.send">📤 <span data-i18n="wallet.sendBtn">Send</span></span></button>
+<button class="tab" onclick="showTab('exchange')"><span data-i18n="wallet.exchange">💱 Exchange</span></button>
+<button class="tab" onclick="showTab('history')"><span data-i18n="wallet.history">📋 History</span></button>
+<button class="tab" onclick="showTab('loans')"><span data-i18n="wallet.loans">🏦 Loans</span></button>
+<button class="tab" onclick="showTab('appointments')"><span data-i18n="wallet.appointments">📅 Appointments</span></button>
+<button class="tab" onclick="showTab('currency')"><span data-i18n="wallet.currency">💵 Currency</span></button>
+<button class="tab" onclick="showTab('grants')"><span data-i18n="wallet.grants">🎁 Grants</span></button>
 </div>
 
 <div id="tab-dash"><div class="grid2"><div class="card" id="quickStats"></div><div class="card" id="rateCard"></div></div></div>
-<div id="tab-send" style="display:none"><div class="card"><h3>📤 Send Credon</h3><input id="sendEmail" placeholder="Recipient email"><input id="sendAmount" type="number" step="0.01" placeholder="Amount (USD)"><input id="sendNote" placeholder="Note (optional)"><button class="btn" onclick="doSend()" style="width:100%">Send</button><div id="sendMsg"></div></div></div>
-<div id="tab-exchange" style="display:none"><div class="card"><h3>💱 Convert Currency</h3><div class="grid2"><select id="exFrom"></select><select id="exTo"></select></div><input id="exAmount" type="number" step="0.01" placeholder="Amount"><div class="muted" id="exPreview"></div><button class="btn" onclick="doConvert()" style="width:100%">Convert</button><div id="exMsg"></div></div></div>
+<div id="tab-send" style="display:none"><div class="card"><h3>📤 Send Credon</h3><input id="sendEmail" placeholder="Recipient email"><input id="send<span data-i18n="wallet.amount">Amount</span>" type="number" step="0.01" placeholder="Amount (USD)"><input id="sendNote" placeholder="<span data-i18n="wallet.note">Note (optional)</span>"><button class="btn" onclick="doSend()" style="width:100%">Send</button><div id="sendMsg"></div></div></div>
+<div id="tab-exchange" style="display:none"><div class="card"><h3>💱 Convert Currency</h3><div class="grid2"><select id="ex<span data-i18n="wallet.from">From</span>"></select><select id="exTo"></select></div><input id="exAmount" type="number" step="0.01" placeholder="Amount"><div class="muted" id="exPreview"></div><button class="btn" onclick="doConvert()" style="width:100%">Convert</button><div id="exMsg"></div></div></div>
 <div id="tab-history" style="display:none"><div class="card"><h3>📋 Transaction History</h3><div id="txList"></div></div></div>
 <div id="tab-loans" style="display:none"><div class="card"><h3>🏦 Loans</h3><div id="loanContent"></div></div></div>
-<div id="tab-appointments" style="display:none"><div class="card"><h3>📅 Book Appointment</h3><div class="grid2"><input id="aptDate" type="date" min=""><input id="aptTime" type="time" step="900" min="09:00" max="17:00"></div><select id="aptDuration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option></select><input id="aptReason" placeholder="Reason for appointment"><button class="btn" onclick="bookApt()" style="width:100%">Book Appointment</button><div id="aptMsg"></div></div><div class="card"><h3>📅 My Appointments</h3><div id="aptList"></div></div></div>
+<div id="tab-appointments" style="display:none"><div class="card"><h3>📅 <span data-i18n="wallet.bookAppointment">Book Appointment</span></h3><div class="grid2"><input id="apt<span data-i18n="wallet.date">Date</span>" type="date" min=""><input id="apt<span data-i18n="wallet.time">Time</span>" type="time" step="900" min="09:00" max="17:00"></div><select id="aptDuration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option></select><input id="aptReason" placeholder="Reason for appointment"><button class="btn" onclick="bookApt()" style="width:100%">Book Appointment</button><div id="aptMsg"></div></div><div class="card"><h3>📅 My Appointments</h3><div id="aptList"></div></div></div>
 <div id="tab-currency" style="display:none"><div class="card" id="currencyContent"><p class="muted">Loading currencies...</p></div></div>
 <div id="tab-grants" style="display:none"><div class="card"><h3>🎁 Grants</h3><div id="grantContent"></div></div></div>
 </div>
@@ -65,7 +65,7 @@ var PS = null;
 var T=localStorage.getItem('hl-token')||'';
 if(T){try{var d=JSON.parse(atob(T.split('.')[1]));window.UID=d.id||d.userId}catch(e){}}
 var T=localStorage.getItem('token'),U={};if(!T)location.href='/credon/';
-document.getElementById('navR').innerHTML='<a href="/shop/">Shop</a><a href="/credon/admin">Admin</a><a href="/">Home</a><span onclick="logout()" style="cursor:pointer">Logout</span>';
+document.getElementById('navR').innerHTML='<a href="/shop/" data-i18n="credontoken.navShop">Shop</a><a href="/credon/admin">Admin</a><a href="/">Home</a><span onclick="logout()" style="cursor:pointer"><span data-i18n="credontoken.logout">Logout</span></span>';
 function logout(){localStorage.removeItem('token');location.href='/credon/'}
 
 function F(url,opts){
@@ -89,13 +89,13 @@ function showTab(name){
 function loadDash(){
   F('/api/wallet/balance').then(function(d){document.getElementById('balDisplay').textContent='$'+(d.balance_usd||(d.balance_cents||0)/100).toFixed(2)}).catch(function(){});
   F('/api/wallet/transactions?limit=5').then(function(d){
-    var tx=d.transactions||[],h='<h3>Recent</h3>';
+    var tx=d.transactions||[],h='<h3><span data-i18n="wallet.recent">Recent</span></h3>';
     tx.forEach(function(t){h+='<div class="row"><span>'+t.description+'</span><span class="'+(t.amount_cents>0?'tx-in':'tx-out')+'">$'+(Math.abs(t.amount_cents||0)/100).toFixed(2)+'</span></div>'});
-    if(!tx.length)h+='<p class="muted">No transactions</p>';
+    if(!tx.length)h+='<p class="muted"><span data-i18n="wallet.noTransactions">No transactions</span></p>';
     document.getElementById('quickStats').innerHTML=h;
   }).catch(function(){});
   F('/api/wallet/exchange-rates').then(function(d){
-    var rates=d.rates||{},h='<h3>Live Rates</h3>',i=0;
+    var rates=d.rates||{},h='<h3><span data-i18n="wallet.liveRates">Live Rates</span></h3>',i=0;
     ['EUR','GBP','JPY','BTC','ETH','CAD','AUD','CHF','CNY'].forEach(function(c){
       if(rates[c]&&i++<8){var v=typeof rates[c].rate==='number'?rates[c].rate.toFixed(4):rates[c].rate;h+='<div class="row"><span>'+c+'</span><span>'+v+'</span></div>'}
     });
@@ -151,7 +151,7 @@ function loadLoans(){
     var loans=d.loans||[],h='';
     if(!loans.length)h+='<p class="muted">No active loans</p>';
     else loans.forEach(function(l){h+='<div class="card"><div class="row"><strong>'+l.description+'</strong><span>$'+(l.amount_cents/100).toFixed(2)+'</span></div><div class="row"><span class="muted">Remaining</span><span>$'+(l.remaining_cents/100).toFixed(2)+'</span></div><button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\')">Repay</button></div>'});
-    h+='<div class="card" style="margin-top:12px"><h3>Apply for Loan</h3><input id="loanAmount" type="number" placeholder="Amount (USD)"><input id="loanReason" placeholder="Purpose"><button class="btn" onclick="applyLoan()">Apply</button></div>';
+    h+='<div class="card" style="margin-top:12px"><h3>Apply for Loan</h3><input id="loanAmount" type="number" placeholder="Amount (USD)"><input id="loanReason" placeholder="<span data-i18n="wallet.purpose">Purpose</span>"><button class="btn" onclick="applyLoan()">Apply</button></div>';
     document.getElementById('loanContent').innerHTML=h;
   }).catch(function(){document.getElementById('loanContent').innerHTML='<p class="muted">Could not load</p>'});
 }
@@ -217,7 +217,7 @@ function loadCurrency(){
       '<div class="row" style="margin-bottom:8px"><select id="physCode" onchange="loadDenominations()" style="flex:1;margin-right:4px">'+opts+'</select>'+
       '<select id="physDenom" style="flex:1;margin-right:4px"><option value="">Denomination</option></select>'+
       '<input id="physQty" type="number" value="1" min="1" style="width:55px;margin-right:4px" placeholder="Qty">'+
-      '<button class="btn btn-sm" onclick="addToCart()">Add</button></div>'+
+      '<button class="btn btn-sm" onclick="addToCart()"><span data-i18n="wallet.add">Add</span></button></div>'+
       '<div id="physCart" style="margin:8px 0;min-height:24px;font-size:.78rem;color:var(--muted)"></div>'+
       '<button class="btn btn-o btn-sm" onclick="clearCart()" style="margin-bottom:8px;display:none" id="clearCartBtn">Clear</button>'+
       '<input id="physName" placeholder="Full Name">'+

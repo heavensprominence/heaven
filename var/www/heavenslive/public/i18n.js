@@ -58,9 +58,12 @@
   if(typeof resetCategoryTree==='function')resetCategoryTree();
     Promise.all([
       fetch('/locales/landing-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
-      fetch('/locales/shop-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})
+      fetch('/locales/shop-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+      fetch('/locales/'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})
     ]).then(function(results){
-      var landing=results[0],shop=results[1];
+      var landing=results[0],shop=results[1],credontoken=results[2];
+      // Merge credontoken keys into landing object so applyLanding picks them up
+      if(credontoken){for(var k in credontoken){if(credontoken.hasOwnProperty(k))landing[k]=credontoken[k]}}
       applyLanding(landing);
       applyShopI18n(shop);
       applyShop(shop);
@@ -69,9 +72,10 @@
   }
   
   // Pre-load English locales as fallback
-  var EN_SHOP = null, EN_LANDING = null;
+  var EN_SHOP = null, EN_LANDING = null, EN_CREDON = null;
   fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){});
   fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){});
+  fetch('/locales/en.json').then(function(r){return r.json()}).then(function(j){EN_CREDON=j}).catch(function(){});
 
   function applyLanding(t){
     if(!t) return;
