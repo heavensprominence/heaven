@@ -1,7 +1,43 @@
 const { parse } = require('csv-parse');
 const { autoTranslateListing } = require("./translationService");
 const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const http = require('http');
+const crypto = require('crypto');
 const db = require('../db');
+
+const UPLOADS_DIR = path.join(__dirname, '../../../public/uploads/listings');
+
+// Download and save an image from a remote URL to local uploads
+function downloadImage(url) {
+  return new Promise((resolve) => {
+    try {
+      const parsed = new URL(url);
+      const mod = parsed.protocol === 'https:' ? https : http;
+      const ext = path.extname(parsed.pathname).split('?')[0] || '.jpg';
+      const filename = `bulk-${Date.now()}_${crypto.randomBytes(4).toString('hex')}${ext}`;
+      const filepath = path.join(UPLOADS_DIR, filename);
+      
+      fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+      
+      mod.get(url, { timeout: 15000 }, (res) => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+          return downloadImage(res.headers.location).then(resolve);
+        }
+        if (res.statusCode !== 200) return resolve(null);
+        const chunks = [];
+        let size = 0;
+        res.on('data', chunk => { size += chunk.length; if (size <= 5 * 1024 * 1024) chunks.push(chunk); });
+        res.on('end', () => {
+          if (size === 0) return resolve(null);
+          fs.writeFileSync(filepath, Buffer.concat(chunks));
+          resolve(`/uploads/listings/${filename}`);
+        });
+      }).on('error', () => resolve(null));
+    } catch(e) { resolve(null); }
+  });
+}
 
 // Expected CSV headers
 const EXPECTED_HEADERS = [
@@ -76,7 +112,7 @@ async function processBulkImport(userId, filePath, storeMap = {}) {
     });
 }
 
-function processListingRow(userId, row, storeMap, rowNum) {
+async function processListingRow(userId, row, storeMap, rowNum) {
     const errors = [];
     
     // Validate type
@@ -117,8 +153,15 @@ function processListingRow(userId, row, storeMap, rowNum) {
         storeId = storeMap[row.store_name];
     }
     
-    // Process images (comma-separated URLs)
-    const images = row.images ? row.images.split(',').map(u => u.trim()).filter(u => u) : [];
+    // Process images (comma-separated URLs) — download and save locally
+    const rawUrls = row.images ? row.images.split(',').map(u => u.trim()).filter(u => u) : [];
+    const images = [];
+    for (const url of rawUrls) {
+      try {
+        const localPath = await downloadImage(url);
+        if (localPath) images.push(localPath);
+      } catch(e) { console.error('Bulk import image download failed:', url, e.message); }
+    }
     
     // Process dimensions
     const dimensions = {
