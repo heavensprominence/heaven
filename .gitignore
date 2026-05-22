@@ -30,3 +30,7 @@ mobile/build/
 # Desktop build artifacts
 desktop/AppDir/
 desktop/*.AppImage
+
+playwright-report/
+test-results/
+logs/
