@@ -233,6 +233,18 @@ setInterval(async () => {
 
 // Weekly Business plan lottery (every Monday 9 AM check)
 const { runWeeklyLottery } = require("./services/promotionEngine");
+
+// Automated daily backups (3 AM)
+const { runBackup } = require("./services/backupService");
+setInterval(async () => {
+  try {
+    const now = new Date();
+    if (now.getHours() === 3 && now.getMinutes() < 10) {
+      await runBackup();
+    }
+  } catch(e) { console.error('Backup error:', e.message); }
+}, 10 * 60 * 1000);
+
 setInterval(async () => {
   try {
     const now = new Date();
@@ -273,6 +285,31 @@ app.get('/api/admin/metrics', async (req, res) => {
   } catch(e) {
     res.json({ system: getMetrics(), error: e.message });
   }
+});
+
+// Image recovery — upload replacement image for a listing
+app.post('/api/admin/recover-image', async (req, res) => {
+  try {
+    const db = require('./db');
+    const { listingId, image } = req.body;
+    if (!listingId || !image) return res.status(400).json({ error: 'listingId and image required' });
+    
+    // Save the image
+    const fs = require('fs');
+    const path = require('path');
+    const crypto = require('crypto');
+    const ext = (image.match(/^data:image\/(\w+)/)||['','jpg'])[1];
+    const filename = `${Date.now()}_${crypto.randomBytes(4).toString('hex')}.${ext}`;
+    const uploadDir = path.join(UPLOADS_DIR, 'listings');
+    fs.mkdirSync(uploadDir, { recursive: true });
+    const base64 = image.replace(/^data:image\/\w+;base64,/, '');
+    fs.writeFileSync(path.join(uploadDir, filename), Buffer.from(base64, 'base64'));
+    
+    // Update the listing
+    const url = `/uploads/listings/${filename}`;
+    await db.query('UPDATE listings SET images = ARRAY[$1] WHERE id = $2', [url, listingId]);
+    res.json({ success: true, url });
+  } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 // Dynamic sitemap
