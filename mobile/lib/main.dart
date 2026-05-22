@@ -10,8 +10,11 @@ import 'screens/profile_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/affiliate_screen.dart';
 import 'screens/store_screen.dart';
+import 'screens/messages_screen.dart';
+import 'screens/create_listing_screen.dart';
 import 'services/auth_service.dart';
 import 'services/powersync_service.dart';
+import 'services/prayer_audio_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,6 +59,8 @@ class _HeavensLiveAppState extends State<HeavensLiveApp> {
         '/profile': (_) => const ProfileScreen(),
         '/settings': (_) => const SettingsScreen(),
         '/affiliate': (_) => const AffiliateScreen(),
+        '/messages': (_) => const MessagesScreen(),
+        '/create': (_) => const CreateListingScreen(),
       },
     );
   }
@@ -71,10 +76,40 @@ class _MainShellState extends State<MainShell> {
   final _screens = const [
     MarketplaceScreen(), WalletScreen(), CartScreen(), ProfileScreen(),
   ];
+  final _titles = const ['HeavensMarket', 'Credon Wallet', 'Shopping Cart', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_titles[_currentIndex]),
+        backgroundColor: const Color(0xFF0F0F1A),
+        foregroundColor: const Color(0xFFC8A951),
+        actions: [
+          ListenableBuilder(
+            listenable: PrayerAudioService(),
+            builder: (context, _) {
+              final isPlaying = PrayerAudioService().isPlaying;
+              return IconButton(
+                icon: Icon(isPlaying ? Icons.music_note : Icons.music_note_outlined),
+                color: isPlaying ? const Color(0xFFC8A951) : Colors.grey,
+                tooltip: isPlaying ? 'Pause Prayer Audio' : 'Play Prayer Audio',
+                onPressed: () => PrayerAudioService().toggle(),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_circle_outline),
+            tooltip: 'Create Listing',
+            onPressed: () => Navigator.pushNamed(context, '/create'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.message_outlined),
+            tooltip: 'Messages',
+            onPressed: () => Navigator.pushNamed(context, '/messages'),
+          ),
+        ],
+      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

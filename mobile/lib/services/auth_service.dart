@@ -15,6 +15,10 @@ class AuthService {
     return true;
   }
 
+  Future<String?> getToken() async {
+    return await _storage.read(key: _tokenKey);
+  }
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     final res = await _api.post('/api/auth/login', body: {
       'email': email, 'password': password,

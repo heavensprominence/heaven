@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+/// Persistent prayer audio service — plays across all screens
+class PrayerAudioService extends ChangeNotifier {
+  static final PrayerAudioService _instance = PrayerAudioService._();
+  factory PrayerAudioService() => _instance;
+  PrayerAudioService._() {
+    _player = AudioPlayer();
+    _init();
+  }
+
+  late final AudioPlayer _player;
+  bool _isPlaying = false;
+  bool get isPlaying => _isPlaying;
+  static const _url = 'https://heavenslive.com/static/media/audio.d525093d0a0cfdd98120.mp3';
+
+  Future<void> _init() async {
+    try {
+      await _player.setUrl(_url);
+      _player.setLoopMode(LoopMode.one);
+      // Restore previous state
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getBool('prayer_audio_playing') ?? false) {
+        await _player.play();
+        _isPlaying = true;
+      }
+      _player.playerStateStream.listen((state) {
+        if (state.playing != _isPlaying) {
+          _isPlaying = state.playing;
+          prefs.setBool('prayer_audio_playing', state.playing);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      debugPrint('Prayer audio init error: $e');
+    }
+  }
+
+  Future<void> toggle() async {
+    try {
+      if (_isPlaying) {
+        await _player.pause();
+        _isPlaying = false;
+      } else {
+        await _player.play();
+        _isPlaying = true;
+      }
+      notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool('prayer_audio_playing', _isPlaying);
+    } catch (e) {
+      debugPrint('Prayer audio toggle error: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
+}
