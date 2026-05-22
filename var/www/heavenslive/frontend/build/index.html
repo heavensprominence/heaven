@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Credon — Sign In</title>
+<title data-i18n="credontoken.pageTitle">Credon — Sign In</title>
 <style>
 :root{--gold:#C8A951;--gold-light:#F5E6B8;--dark:#1A1A2E;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C;--radius:12px;--radius-sm:8px}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -44,56 +44,56 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,26,0.95);backdrop-
 <body><div class="bg"></div>
 <nav>
     <select id="langSelect" onchange="switchLanguage(this.value)" style="appearance:none;padding:5px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-size:.78rem;cursor:pointer;margin-right:12px"><option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option></select>
-    <div class="nav-brand">Credon</div>
-    <a href="/">← Home</a><a href="/shop/">Shop</a>
+    <div class="nav-brand" data-i18n="credontoken.brand">Credon</div>
+    <a href="/" data-i18n="credontoken.navHome">← Home</a><a href="/shop/" data-i18n="credontoken.navShop">Shop</a>
   </div>
 </nav>
 
 <div class="auth-container">
   <div class="auth-tabs">
-    <button class="auth-tab active" onclick="showTab('login')">Sign In</button>
-    <button class="auth-tab" onclick="showTab('register')">Register</button>
-    <button class="auth-tab" onclick="showTab('forgot')">Reset</button>
+    <button class="auth-tab active" onclick="showTab('login')" data-i18n="credontoken.tabSignIn">Sign In</button>
+    <button class="auth-tab" onclick="showTab('register')" data-i18n="credontoken.tabRegister">Register</button>
+    <button class="auth-tab" onclick="showTab('forgot')" data-i18n="credontoken.tabReset">Reset</button>
   </div>
   <div class="auth-card">
     <!-- LOGIN -->
     <form class="auth-form active" id="loginForm" onsubmit="doLogin(event)">
-      <h2>Welcome Back</h2>
+      <h2 data-i18n="credontoken.loginTitle">Welcome Back</h2>
       <div class="alert" id="loginMsg"></div>
-      <div class="form-group"><label>Email</label><input id="loginEmail" type="email" placeholder="you@email.com" required></div>
-      <div class="form-group"><label>Password</label><input id="loginPass" type="password" placeholder="••••••••" required></div>
-      <button type="submit" class="btn" id="loginBtn">Sign In</button>
-      <p class="footer-text">Don't have an account? <a onclick="showTab('register')">Register here</a></p>
+      <div class="form-group"><label data-i18n="credontoken.email">Email</label><input id="loginEmail" type="email" placeholder="you@email.com" required></div>
+      <div class="form-group"><label data-i18n="credontoken.password">Password</label><input id="loginPass" type="password" placeholder="••••••••" required></div>
+      <button type="submit" class="btn" id="loginBtn" data-i18n="credontoken.signIn">Sign In</button>
+      <p class="footer-text" data-i18n="credontoken.noAccount">Don't have an account? <a onclick="showTab('register')">Register here</a></p>
     </form>
     <!-- Two-Step Verification (hidden until needed) -->
     <form class="auth-form" id="twofaForm" onsubmit="doVerify2FA(event)" style="display:none">
-      <h2>Two-Step Verification</h2>
+      <h2 data-i18n="credontoken.twofaTitle">Two-Step Verification</h2>
       <div class="alert" id="twofaMsg"></div>
-      <p style="color:var(--muted);text-align:center;font-size:0.9rem">Enter the 6-digit code sent to your email</p>
+      <p style="color:var(--muted);text-align:center;font-size:0.9rem" data-i18n="credontoken.twofaDesc">Enter the 6-digit code sent to your email</p>
       <div class="form-group"><input id="twofaCode" class="twofa-input" type="text" maxlength="6" placeholder="000000" required autocomplete="off"></div>
-      <button type="submit" class="btn">Verify & Sign In</button>
+      <button type="submit" class="btn" data-i18n="credontoken.twofaVerify">Verify & Sign In</button>
       <input type="hidden" id="twofaSession">
     </form>
     <!-- REGISTER -->
     <form class="auth-form" id="registerForm" onsubmit="doRegister(event)">
-      <h2>Create Account</h2>
+      <h2 data-i18n="credontoken.registerTitle">Create Account</h2>
       <div class="alert" id="regMsg"></div>
-      <div class="invite-badge">🔑 Invite-only access</div>
-      <div class="form-group"><label>Full Name</label><input id="regName" type="text" placeholder="John Doe"></div>
-      <div class="form-group"><label>Email</label><input id="regEmail" type="email" placeholder="you@email.com" required></div>
-      <div class="form-group"><label>Password</label><input id="regPass" type="password" placeholder="Min 8 chars" minlength="8" required></div>
-      <div class="form-group"><label>Referral Code (optional)</label><input id="regRef" type="text" placeholder="Enter referral code if you have one"></div>
-      <div class="form-group"><label>Why do you want to join the test phase?</label><textarea id="regReason" placeholder="Tell us why you'd like to participate..." style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem;min-height:80px;resize:vertical"></textarea></div>
-      <button type="submit" class="btn">Request Access</button>
-      <p class="footer-text">Already have an account? <a onclick="showTab('login')">Sign in</a></p>
+      <div class="invite-badge" data-i18n="credontoken.inviteOnly">🔑 Invite-only access</div>
+      <div class="form-group"><label data-i18n="credontoken.fullName">Full Name</label><input id="regName" type="text" placeholder="John Doe"></div>
+      <div class="form-group"><label data-i18n="credontoken.email">Email</label><input id="regEmail" type="email" placeholder="you@email.com" required></div>
+      <div class="form-group"><label data-i18n="credontoken.password">Password</label><input id="regPass" type="password" placeholder="Min 8 chars" minlength="8" required></div>
+      <div class="form-group"><label data-i18n="credontoken.referralCode">Referral Code (optional)</label><input id="regRef" type="text" data-i18n-placeholder="credontoken.refPlaceholder" placeholder="Enter referral code if you have one"></div>
+      <div class="form-group"><label data-i18n="credontoken.joinReason">Why do you want to join the test phase?</label><textarea id="regReason" data-i18n-placeholder="credontoken.reasonPlaceholder" placeholder="Tell us why you'd like to participate..." style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem;min-height:80px;resize:vertical"></textarea></div>
+      <button type="submit" class="btn" data-i18n="credontoken.requestAccess">Request Access</button>
+      <p class="footer-text" data-i18n="credontoken.haveAccount">Already have an account? <a onclick="showTab('login')">Sign in</a></p>
     </form>
     <!-- FORGOT -->
     <form class="auth-form" id="forgotForm" onsubmit="doForgot(event)">
-      <h2>Reset Password</h2>
+      <h2 data-i18n="credontoken.forgotTitle">Reset Password</h2>
       <div class="alert" id="forgotMsg"></div>
-      <div class="form-group"><label>Email</label><input id="forgotEmail" type="email" placeholder="you@email.com" required></div>
-      <button type="submit" class="btn">Send Reset Link</button>
-      <p class="footer-text"><a onclick="showTab('login')">← Back to Sign In</a></p>
+      <div class="form-group"><label data-i18n="credontoken.email">Email</label><input id="forgotEmail" type="email" placeholder="you@email.com" required></div>
+      <button type="submit" class="btn" data-i18n="credontoken.sendReset">Send Reset Link</button>
+      <p class="footer-text" data-i18n="credontoken.backToSignIn"><a onclick="showTab('login')">← Back to Sign In</a></p>
     </form>
   </div>
 </div>
@@ -169,7 +169,7 @@ async function doForgot(e){
 }
 
 // i18n placeholder
-async function switchLanguage(lang){localStorage.setItem('hl-lang',lang)}
+async function switchLanguage(lang){localStorage.setItem('hl-lang',lang);location.reload()}
 </script>
 <script src="/i18n.js"></script>
 <!-- Default Statcounter code for HeavenS on Earth
