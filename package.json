@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "npx playwright test --project=chromium",
+    "test:mobile": "npx playwright test --project=mobile",
+    "test:all": "npx playwright test",
+    "test:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}
