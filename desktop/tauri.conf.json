@@ -17,7 +17,7 @@
       "minHeight": 600
     }],
     "security": {
-      "csp": "default-src 'self' https://heavenslive.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://heavenslive.com; script-src 'self' 'unsafe-inline' https://heavenslive.com"
+      "csp": "default-src 'self' https://heavenslive.com; media-src 'self' https://heavenslive.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://heavenslive.com; script-src 'self' 'unsafe-inline' https://heavenslive.com"
     }
   },
   "bundle": {

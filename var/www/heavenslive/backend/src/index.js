@@ -37,6 +37,10 @@ const BUILD_DIR = path.join(__dirname, "../../frontend/build");
 const SHOP_BUILD_DIR = path.join(__dirname, "../../frontend-shop/build");
 const UPLOADS_DIR = path.join(__dirname, "../../public/uploads");
 
+// Structured logging + metrics
+const { accessLogger, getMetrics } = require("./services/logger");
+app.use(accessLogger);
+
 // Ensure uploads directory exists
 require('fs').mkdirSync(path.join(UPLOADS_DIR, 'listings'), { recursive: true });
 
@@ -222,5 +226,49 @@ setInterval(async () => {
     await cleanupOrphanedImages();
   } catch(e) { console.error('Periodic cleanup error:', e.message); }
 }, 6 * 60 * 60 * 1000);
+
+// Weekly Business plan lottery (every Monday 9 AM check)
+const { runWeeklyLottery } = require("./services/promotionEngine");
+setInterval(async () => {
+  try {
+    const now = new Date();
+    if (now.getDay() === 1 && now.getHours() === 9 && now.getMinutes() < 10) {
+      const result = await runWeeklyLottery();
+      console.log('🎰 Weekly lottery result:', result);
+    }
+  } catch(e) { console.error('Lottery error:', e.message); }
+}, 10 * 60 * 1000); // Check every 10 minutes
+
+// Health check endpoint
+app.get('/api/health', async (req, res) => {
+  try {
+    const db = require('./db');
+    await db.query('SELECT 1');
+    res.json({ status: 'ok', uptime: process.uptime(), db: 'connected', timestamp: new Date().toISOString() });
+  } catch(e) {
+    res.status(503).json({ status: 'degraded', db: 'disconnected', error: e.message });
+  }
+});
+
+// Metrics endpoint for monitoring dashboard
+app.get('/api/admin/metrics', async (req, res) => {
+  try {
+    const db = require('./db');
+    const users = await db.query('SELECT COUNT(*) FROM users');
+    const listings = await db.query("SELECT COUNT(*) FROM listings WHERE status = 'active'");
+    const plans = await db.query('SELECT COUNT(*) FROM subscriptions');
+    res.json({
+      system: getMetrics(),
+      db: {
+        users: parseInt(users.rows[0].count),
+        activeListings: parseInt(listings.rows[0].count),
+        subscriptions: parseInt(plans.rows[0].count)
+      },
+      serverTime: new Date().toISOString()
+    });
+  } catch(e) {
+    res.json({ system: getMetrics(), error: e.message });
+  }
+});
 
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));

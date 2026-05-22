@@ -32,10 +32,13 @@ async function grantAutoPro(userId) {
         expires.setMonth(expires.getMonth() + 1);
 
         await db.query(
-            `INSERT INTO subscriptions (user_id, plan, source, duration_months, expires_at) VALUES ($1, 'pro', 'auto_pro', 1, $2)`,
-            [userId, expires]
+            `INSERT INTO subscriptions (user_id, plan, source, duration_months, expires_at) VALUES ($1, 'pro', 'auto_pro', 999, NULL)`,
+            [userId]
         );
-        await db.query(`UPDATE users SET subscription_plan = 'pro' WHERE id = $1`, [userId]);
+        await db.query(
+            `UPDATE users SET current_plan_id = (SELECT id FROM subscription_plans WHERE slug = 'pro') WHERE id = $1`,
+            [userId]
+        );
 
         console.log(`🎉 Auto-Pro granted to user ${userId}`);
         return { granted: true, plan: 'pro', expires_at: expires };
@@ -93,7 +96,10 @@ async function runWeeklyLottery() {
                 `INSERT INTO subscriptions (user_id, plan, source, duration_months, expires_at, promo_campaign_id) VALUES ($1, 'business', 'lottery', 1, $2, $3)`,
                 [w.user_id, expires, c.id]
             );
-            await db.query(`UPDATE users SET subscription_plan = 'business' WHERE id = $1`, [w.user_id]);
+            await db.query(
+                `UPDATE users SET current_plan_id = (SELECT id FROM subscription_plans WHERE slug = 'business') WHERE id = $1`,
+                [w.user_id]
+            );
 
             // Mark entry as won
             await db.query(

@@ -59,7 +59,7 @@ router.get('/', async (req, res) => {
             case 'price_low': query += ` ORDER BY COALESCE(l.price_cents, l.starting_price_cents, 0) ASC`; break;
             case 'price_high': query += ` ORDER BY COALESCE(l.price_cents, l.starting_price_cents, 0) DESC`; break;
             case 'ending_soon': query += ` ORDER BY l.auction_end_time ASC NULLS LAST`; break;
-            default: query += ` ORDER BY l.created_at DESC`;
+            default: query += ` ORDER BY l.is_featured DESC, l.created_at DESC`;
         }
         
         query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;

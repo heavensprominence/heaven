@@ -7,7 +7,8 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:8px}.item .title{flex:1}.item .price{color:var(--gold);font-weight:700;white-space:nowrap}
 .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--gold);color:var(--darker);text-decoration:none;display:inline-block}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold);text-decoration:none;display:inline-block}.btn-sm{padding:4px 10px;font-size:.75rem}.btn-danger{background:var(--danger);color:white}
 .summary{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);text-align:right}.summary .total{font-size:1.3rem;font-weight:800;color:var(--gold)}
-</style></head><body>
+</style><script src="/error-recovery.js"></script>
+</head><body>
 <nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/" data-i18n="nav.browse">← Browse</a><a href="/shop/wishlist">❤️</a><a href="/shop/create">+ Post</a></div></nav>
 <div class="container"><h1 data-i18n="cart.title">🛒 Shopping Cart</h1>
 <div class="card"><div id="cartContent"><span class="muted" data-i18n="cart.loading">Loading cart...</span></div>
@@ -51,4 +52,21 @@ function removeItem(id){
   fetch("/api/shop/cart/"+id,{method:"DELETE",headers:h}).then(function(){loadCart()})
 }
 </script><script src="/i18n.js"></script>
+<!-- Default Statcounter code for HeavenS on Earth
+https://heavenslive.com -->
+<script type="text/javascript">
+var sc_project=13203022; 
+var sc_invisible=1; 
+var sc_security="eb001532"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="hit counter"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13203022/0/eb001532/1/"
+alt="hit counter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
 </body></html>

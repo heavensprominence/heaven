@@ -7,7 +7,8 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);margin:12px 0}
 .meta{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:.85rem;color:var(--muted)}
 .btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
-</style></head><body>
+</style><script src="/error-recovery.js"></script>
+</head><body>
 <nav><div class="nav-inner" style="display:flex;align-items:center;gap:12px"><span class="nav-brand">HeavensMarket</span><select id="langSel" onchange="switchLang(this.value)" style="padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;font-size:.75rem"><option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="es">🇪🇸 Español</option><option value="de">🇩🇪 Deutsch</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option><option value="sv">🇸🇪 Svenska</option><option value="tl">🇵🇭 Tagalog</option></select><a href="/shop/" style="color:var(--text);text-decoration:none;font-size:.85rem" data-i18n="detail.backToShop">Back to Shop</a></div></nav>
 <div class="container"><div id="content"><div style="text-align:center;padding:40px;color:var(--muted)">Loading...</div></div></div>
 <script>
@@ -82,4 +83,21 @@ function msgSeller() {
 <script>
 document.getElementById('langSel').value = localStorage.getItem('hl-lang') || 'en';
 </script>
+<!-- Default Statcounter code for HeavenS on Earth
+https://heavenslive.com -->
+<script type="text/javascript">
+var sc_project=13203022; 
+var sc_invisible=1; 
+var sc_security="eb001532"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="hit counter"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13203022/0/eb001532/1/"
+alt="hit counter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
 </body></html>
