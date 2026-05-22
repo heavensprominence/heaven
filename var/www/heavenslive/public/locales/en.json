@@ -472,7 +472,10 @@
     "add": "Add",
     "availableGrants": "Available Grants",
     "noGrants": "No grants available",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "amountPlaceholder": "Amount (USD)",
+    "notePlaceholder": "Note (optional)",
+    "purposePlaceholder": "Purpose"
   },
   "create": {
     "aiTitle": "AI Listing Assistant",

@@ -560,5 +560,10 @@
     "backToShop": "Back to Shop",
     "addToCart": "Add to Cart",
     "messageSeller": "Message Seller"
+  },
+  "wallet": {
+    "amountPlaceholder": "Amount (USD)",
+    "notePlaceholder": "Note (optional)",
+    "purposePlaceholder": "Purpose"
   }
 }
