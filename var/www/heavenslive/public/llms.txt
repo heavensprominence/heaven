@@ -1,0 +1,32 @@
+# HeavensLive — Divinely Underwritten Commerce
+> AI-friendly site map for LLM crawlers. Discover our marketplace, wallet, and developer tools.
+
+## Core Pages
+- [Landing](heavenslive.com): Full platform overview, prayer audio, exchange rates
+- [Shop](heavenslive.com/shop): Global marketplace — browse, buy, sell
+- [Credon](heavenslive.com/credon): Digital wallet with borderless banking
+- [API Docs](heavenslive.com/api-docs): Developer reference for all endpoints
+
+## Key Features
+- **17 languages** supported across all pages
+- **100+ currencies** with live exchange rates
+- **Free to join** — browse, list, and trade at no cost
+- **Pro Plan ($9/mo)**: Featured listings, analytics, bulk import
+- **Business Plan ($29/mo)**: Priority support, advanced features
+- **Guest checkout** — no account needed to browse or buy
+- **AI Listing Assistant** — generate complete listings from plain descriptions
+- **AI Support Chat** — 24/7 assistance in any language
+- **Affiliate Program** — earn commissions on referrals
+- **PowerSync** — offline-first data with local SQLite
+
+## Native Apps
+- [Download](heavenslive.com/shop/download): Linux, Windows, macOS, Android, iOS
+
+## For Developers
+- [API Reference](heavenslive.com/api-reference): Complete endpoint documentation
+- [Sitemap](heavenslive.com/sitemap.xml): Full site index for crawlers
+
+## Content Mirrors
+- [Shop Overview](heavenslive.com/shop.md): Markdown mirror of marketplace content
+- [Credon Overview](heavenslive.com/credon.md): Markdown mirror of wallet content
+- [Full API Docs](heavenslive.com/api-docs.md): Markdown mirror of API documentation
