@@ -72,6 +72,7 @@ window.PowerSync = { PowerSyncDatabase };
       <a href="/shop/download" class="btn btn-sm" style="background:transparent;border:1px solid var(--gold);color:var(--gold)">📥 Apps</a>
       <a href="/credon/wallet" title="Credon Wallet" data-i18n="nav.wallet">💱 Wallet</a>
       <a href="/" data-i18n="nav.home" data-i18n="nav.home">🏠 Home</a>
+      <button id="prayerBtn" title="Prayer Audio" style="background:transparent;border:1px solid rgba(200,169,81,.35);color:var(--muted);padding:3px 8px;border-radius:6px;cursor:pointer;font-size:.85rem" onclick="togglePrayerAudio()">🙏</button>
       <span id="authSpot"></span>
       <div class="user-dropdown" id="userMenu" style="top:100%;right:0">
         <a href="/shop/seller/dashboard" data-i18n="nav.sellerDashboard">📊 Seller Dashboard</a>
@@ -173,6 +174,10 @@ window.PowerSync = { PowerSyncDatabase };
   </div>
   <div class="footer-bottom">© 2026 HeavensLive </div>
 </footer>
+
+<audio id="prayerAudio" preload="none" loop style="display:none">
+  <source src="https://heavenslive.com/static/media/audio.d525093d0a0cfdd98120.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 // Desktop app: clear leaked browser state on first launch
@@ -281,6 +286,7 @@ function clearFilters(){
 function buyNow(id){location.href="/shop/listing/"+id}
 function makeOffer(id){var o=prompt("Enter your offer amount (USD):");if(!o||isNaN(o))return;var T=localStorage.getItem("token");if(!T){alert("Please sign in");return}fetch("/api/shop/offers",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id,amount_cents:Math.round(parseFloat(o)*100)})}).then(function(r){return r.json()}).then(function(d){alert(d.success?"Offer submitted!":d.error||"Failed")}).catch(function(){})}
 function wishlistToggle(id,el){var T=localStorage.getItem("token");if(!T){alert("Sign in to save items");return}fetch("/api/shop/wishlist/toggle",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({listingId:id})}).then(function(r){return r.json()}).then(function(d){if(d.added||d.success)el.textContent="❤️"})}
+function togglePrayerAudio(){var a=document.getElementById('prayerAudio'),b=document.getElementById('prayerBtn');if(!a)return;if(a.paused){a.play().then(function(){b.style.color='var(--gold)';b.style.borderColor='var(--gold)'}).catch(function(){})}else{a.pause();b.style.color='var(--muted)';b.style.borderColor='rgba(200,169,81,.35)'}}
 function addToCart(id){var T=localStorage.getItem("token");var h={"Content-Type":"application/json"};if(T)h.Authorization="Bearer "+T;var b={listingId:id,quantity:1};var gt=localStorage.getItem("hl-guest-token");if(!T&&gt)h["X-Guest-Token"]=gt;fetch("/api/shop/cart/add",{method:"POST",headers:h,body:JSON.stringify(b)}).then(function(r){return r.json()}).then(function(d){if(d.guest_token)localStorage.setItem("hl-guest-token",d.guest_token);if(d.success)alert("Added to cart!")}).catch(function(){alert("Error adding to cart")})}
 
 // Category tree
