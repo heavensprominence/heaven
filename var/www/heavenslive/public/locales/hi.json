@@ -433,7 +433,8 @@
     "haveAccount": "क्या आपके पास पहले से एक खाता मौजूद है? दाखिल करना",
     "forgotTitle": "पासवर्ड रीसेट",
     "sendReset": "रीसेट लिंक भेजें",
-    "backToSignIn": "← साइन इन पर वापस जाएं"
+    "backToSignIn": "← साइन इन पर वापस जाएं",
+    "logout": "लॉग आउट"
   },
   "wallet": {
     "totalBalance": "कुल शेष (USD समतुल्य)",
