@@ -275,10 +275,7 @@ app.get('/api/admin/metrics', async (req, res) => {
   }
 });
 
-// Dyn
-app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
-
-amic sitemap
+// Dynamic sitemap
 app.get('/sitemap.xml', async (req, res) => {
   try {
     const db = require('./db');
@@ -289,10 +286,14 @@ app.get('/sitemap.xml', async (req, res) => {
     xml += '  <url><loc>https://heavenslive.com/shop/download</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
     xml += '  <url><loc>https://heavenslive.com/credon/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
     for (const l of listings.rows) {
-      xml += `  <url><loc>https://heavenslive.com/shop/listing/${l.id}</loc><lastmod>${new Date(l.updated_at).toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+      const id = l.id, d = new Date(l.updated_at).toISOString().split('T')[0];
+      xml += '<url><loc>https://heavenslive.com/shop/listing/' + id + '</loc><lastmod>' + d + '</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n';
     }
     xml += '</urlset>';
     res.header('Content-Type', 'application/xml');
     res.send(xml);
   } catch(e) { res.status(500).send('Error generating sitemap'); }
 });
+
+
+app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
