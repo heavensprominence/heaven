@@ -477,7 +477,14 @@
     "aiThinking": "سوچ رہا ہے...",
     "aiGenerating": "AI کے ساتھ پیدا ہو رہا ہے...",
     "aiDone": "فارم بھرا! جائزہ لیں اور جمع کرائیں۔",
-    "aiError": "AI سے رابطہ کرنے میں خرابی۔"
+    "aiError": "AI سے رابطہ کرنے میں خرابی۔",
+    "importPlaceholder": "یا ایک لسٹنگ URL پیسٹ کریں (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 درآمد کریں۔",
+    "importFetching": "URL سے بازیافت ہو رہی ہے...",
+    "imported": "سے درآمد شدہ",
+    "importReview": "جائزہ لیں اور جمع کرائیں۔",
+    "importFailed": "درآمد ناکام ہو گیا۔",
+    "importError": "درآمد کرنے میں خرابی۔"
   },
   "pricing": {
     "subtitle": "اپنے کاروبار کے لیے صحیح منصوبہ منتخب کریں۔",

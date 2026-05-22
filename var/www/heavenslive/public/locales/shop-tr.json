@@ -477,7 +477,14 @@
     "aiThinking": "Düşünüyorum...",
     "aiGenerating": "Yapay zeka ile üretiliyor...",
     "aiDone": "Form dolduruldu! İnceleyin ve gönderin.",
-    "aiError": "AI ile iletişim kurulurken hata oluştu"
+    "aiError": "AI ile iletişim kurulurken hata oluştu",
+    "importPlaceholder": "Veya bir listeleme URL'si yapıştırın (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 İçe aktar",
+    "importFetching": "URL'den getiriliyor...",
+    "imported": "Şuradan içe aktarıldı:",
+    "importReview": "İnceleyin ve gönderin.",
+    "importFailed": "İçe aktarma başarısız oldu",
+    "importError": "İçe aktarma hatası"
   },
   "pricing": {
     "subtitle": "İşletmeniz için doğru planı seçin",

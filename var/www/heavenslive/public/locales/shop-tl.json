@@ -477,7 +477,14 @@
     "aiThinking": "Iniisip...",
     "aiGenerating": "Bumubuo gamit ang AI...",
     "aiDone": "Napuno ang form! Suriin at isumite.",
-    "aiError": "Error sa pakikipag-ugnayan sa AI"
+    "aiError": "Error sa pakikipag-ugnayan sa AI",
+    "importPlaceholder": "O mag-paste ng URL ng listahan (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Mag-import",
+    "importFetching": "Kinukuha mula sa URL...",
+    "imported": "Na-import mula sa",
+    "importReview": "Suriin at isumite.",
+    "importFailed": "Nabigo ang pag-import",
+    "importError": "Error sa pag-import"
   },
   "pricing": {
     "subtitle": "Pumili ng tamang plano para sa iyong negosyo.",

@@ -477,7 +477,14 @@
     "aiThinking": "فکر کردن...",
     "aiGenerating": "تولید با هوش مصنوعی...",
     "aiDone": "فرم پر شد! بررسی و ارسال کنید.",
-    "aiError": "خطا در تماس با هوش مصنوعی"
+    "aiError": "خطا در تماس با هوش مصنوعی",
+    "importPlaceholder": "یا یک URL فهرست (eBay، Etsy، Amazon) را جای‌گذاری کنید...",
+    "importBtn": "📋 واردات",
+    "importFetching": "در حال واکشی از URL...",
+    "imported": "وارد شده از",
+    "importReview": "بررسی و ارسال کنید.",
+    "importFailed": "واردات انجام نشد",
+    "importError": "خطا در وارد کردن"
   },
   "pricing": {
     "subtitle": "طرح مناسب برای کسب و کار خود را انتخاب کنید",

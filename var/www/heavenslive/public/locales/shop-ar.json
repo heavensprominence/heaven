@@ -477,7 +477,14 @@
     "aiThinking": "أفكر...",
     "aiGenerating": "التوليد بالذكاء الاصطناعي...",
     "aiDone": "النموذج مملوء! مراجعة وتقديم.",
-    "aiError": "حدث خطأ أثناء الاتصال بـ AI"
+    "aiError": "حدث خطأ أثناء الاتصال بـ AI",
+    "importPlaceholder": "أو الصق عنوان URL للقائمة (eBay، Etsy، Amazon)...",
+    "importBtn": "📋 استيراد",
+    "importFetching": "جارٍ الجلب من URL...",
+    "imported": "مستورد من",
+    "importReview": "مراجعة وتقديم.",
+    "importFailed": "فشل الاستيراد",
+    "importError": "حدث خطأ أثناء الاستيراد"
   },
   "pricing": {
     "subtitle": "اختر الخطة المناسبة لعملك",

@@ -471,7 +471,14 @@
     "aiThinking": "Đang suy nghĩ...",
     "aiGenerating": "Đang tạo bằng AI...",
     "aiDone": "Mẫu đã điền! Xem xét và gửi.",
-    "aiError": "Lỗi liên hệ với AI"
+    "aiError": "Lỗi liên hệ với AI",
+    "importPlaceholder": "Hoặc dán URL danh sách (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Nhập khẩu",
+    "importFetching": "Đang tìm nạp từ URL...",
+    "imported": "Nhập khẩu từ",
+    "importReview": "Xem xét và gửi.",
+    "importFailed": "Nhập không thành công",
+    "importError": "Lỗi nhập"
   },
   "pricing": {
     "subtitle": "Chọn gói dịch vụ phù hợp với doanh nghiệp của bạn",

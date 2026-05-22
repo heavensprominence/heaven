@@ -477,7 +477,14 @@
     "aiThinking": "思维...",
     "aiGenerating": "用人工智能生成...",
     "aiDone": "表格填写完毕！审核并提交。",
-    "aiError": "联系 AI 时出错"
+    "aiError": "联系 AI 时出错",
+    "importPlaceholder": "或者粘贴列表 URL（eBay、Etsy、Amazon）...",
+    "importBtn": "📋 导入",
+    "importFetching": "正在从 URL 获取...",
+    "imported": "进口自",
+    "importReview": "审核并提交。",
+    "importFailed": "导入失败",
+    "importError": "导入时出错"
   },
   "pricing": {
     "subtitle": "选择适合您企业的计划",

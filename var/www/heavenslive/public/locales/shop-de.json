@@ -477,7 +477,14 @@
     "aiThinking": "Denken...",
     "aiGenerating": "Generieren mit KI...",
     "aiDone": "Formular ausgefüllt! Überprüfen und einreichen.",
-    "aiError": "Fehler beim Kontaktieren von AI"
+    "aiError": "Fehler beim Kontaktieren von AI",
+    "importPlaceholder": "Oder fügen Sie eine Angebots-URL ein (eBay, Etsy, Amazon) ...",
+    "importBtn": "📋 Importieren",
+    "importFetching": "Von der URL abrufen...",
+    "imported": "Importiert von",
+    "importReview": "Überprüfen und einreichen.",
+    "importFailed": "Der Import ist fehlgeschlagen",
+    "importError": "Fehler beim Importieren"
   },
   "pricing": {
     "subtitle": "Wählen Sie den richtigen Plan für Ihr Unternehmen",

@@ -477,7 +477,14 @@
     "aiThinking": "Думая...",
     "aiGenerating": "Генерация с помощью ИИ...",
     "aiDone": "Форма заполнена! Рассмотрите и отправьте.",
-    "aiError": "Ошибка связи с AI"
+    "aiError": "Ошибка связи с AI",
+    "importPlaceholder": "Или вставьте URL-адрес листинга (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Импорт",
+    "importFetching": "Загрузка с URL...",
+    "imported": "Импортировано из",
+    "importReview": "Рассмотрите и отправьте.",
+    "importFailed": "Импорт не удался",
+    "importError": "Ошибка импорта"
   },
   "pricing": {
     "subtitle": "Выберите подходящий план для вашего бизнеса",

@@ -477,7 +477,14 @@
     "aiThinking": "생각...",
     "aiGenerating": "AI로 생성…",
     "aiDone": "양식이 작성되었습니다! 검토하고 제출하세요.",
-    "aiError": "AI 연결 오류"
+    "aiError": "AI 연결 오류",
+    "importPlaceholder": "또는 목록 URL(eBay, Etsy, Amazon)을 붙여넣으세요...",
+    "importBtn": "📋 가져오기",
+    "importFetching": "URL에서 가져오는 중...",
+    "imported": "다음에서 수입됨",
+    "importReview": "검토하고 제출하세요.",
+    "importFailed": "가져오기 실패",
+    "importError": "가져오는 중 오류가 발생했습니다."
   },
   "pricing": {
     "subtitle": "비즈니스에 적합한 요금제 선택",

@@ -477,7 +477,14 @@
     "aiThinking": "Pensamiento...",
     "aiGenerating": "Generando con IA...",
     "aiDone": "¡Formulario lleno! Revisar y enviar.",
-    "aiError": "Error al contactar con IA"
+    "aiError": "Error al contactar con IA",
+    "importPlaceholder": "O pegue la URL de un anuncio (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Importar",
+    "importFetching": "Obteniendo de URL...",
+    "imported": "Importado de",
+    "importReview": "Revisar y enviar.",
+    "importFailed": "Importación fallida",
+    "importError": "Error al importar"
   },
   "pricing": {
     "subtitle": "Elija el plan adecuado para su negocio",

@@ -477,7 +477,14 @@
     "aiThinking": "Tänkande...",
     "aiGenerating": "Genererar med AI...",
     "aiDone": "Formuläret ifyllt! Granska och skicka in.",
-    "aiError": "Det gick inte att kontakta AI"
+    "aiError": "Det gick inte att kontakta AI",
+    "importPlaceholder": "Eller klistra in en webbadress (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Importera",
+    "importFetching": "Hämtar från URL...",
+    "imported": "Importerad från",
+    "importReview": "Granska och skicka in.",
+    "importFailed": "Importen misslyckades",
+    "importError": "Fel vid import"
   },
   "pricing": {
     "subtitle": "Välj rätt plan för ditt företag",

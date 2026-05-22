@@ -477,7 +477,14 @@
     "aiThinking": "考え...",
     "aiGenerating": "AIで生成中…",
     "aiDone": "フォームが埋まりました！確認して送信します。",
-    "aiError": "AI への接続エラー"
+    "aiError": "AI への接続エラー",
+    "importPlaceholder": "または、出品 URL (eBay、Etsy、Amazon) を貼り付けます...",
+    "importBtn": "📋 インポート",
+    "importFetching": "URLから取得中...",
+    "imported": "輸入元",
+    "importReview": "確認して送信します。",
+    "importFailed": "インポートに失敗しました",
+    "importError": "インポートエラー"
   },
   "pricing": {
     "subtitle": "お客様のビジネスに適したプランをお選びください",

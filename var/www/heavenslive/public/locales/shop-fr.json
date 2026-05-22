@@ -477,7 +477,14 @@
     "aiThinking": "Pensée...",
     "aiGenerating": "Générer avec l'IA...",
     "aiDone": "Formulaire rempli ! Examinez et soumettez.",
-    "aiError": "Erreur lors du contact avec l'IA"
+    "aiError": "Erreur lors du contact avec l'IA",
+    "importPlaceholder": "Ou collez une URL d'annonce (eBay, Etsy, Amazon)...",
+    "importBtn": "📋 Importer",
+    "importFetching": "Récupération à partir de l'URL...",
+    "imported": "Importé de",
+    "importReview": "Examinez et soumettez.",
+    "importFailed": "Échec de l'importation",
+    "importError": "Erreur lors de l'importation"
   },
   "pricing": {
     "subtitle": "Choisissez le bon plan",
