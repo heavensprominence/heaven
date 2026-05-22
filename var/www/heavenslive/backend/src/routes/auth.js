@@ -172,4 +172,50 @@ router.delete('/account', verifyToken, async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// GET /api/auth/sessions — list active sessions
+router.get('/sessions', verifyToken, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT id, ip_address, user_agent, created_at, last_active FROM user_sessions WHERE user_id = $1 ORDER BY last_active DESC',
+      [req.userId]
+    );
+    res.json({ sessions: result.rows, currentSessionId: req.sessionId });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// DELETE /api/auth/sessions/:id — revoke a session
+router.delete('/sessions/:id', verifyToken, async (req, res) => {
+  try {
+    await db.query('DELETE FROM user_sessions WHERE id = $1 AND user_id = $2', [req.params.id, req.userId]);
+    res.json({ success: true });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/auth/2fa/setup — enable 2FA
+router.post('/2fa/setup', verifyToken, async (req, res) => {
+  try {
+    const crypto = require('crypto');
+    const secret = crypto.randomBytes(20).toString('hex');
+    await db.query('UPDATE users SET two_factor_secret = $1, two_factor_enabled = true WHERE id = $2', [secret, req.userId]);
+    res.json({ success: true, secret });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/auth/2fa/verify — verify 2FA code
+router.post('/2fa/verify', verifyToken, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const user = await db.query('SELECT two_factor_secret FROM users WHERE id = $1', [req.userId]);
+    if (!user.rows[0]?.two_factor_secret) return res.status(400).json({ error: '2FA not set up' });
+    // TOTP verification stub — in production, use speakeasy or otplib
+    const crypto = require('crypto');
+    const expected = crypto.createHmac('sha1', user.rows[0].two_factor_secret).update(Math.floor(Date.now()/30000).toString()).digest('hex').substring(0,6);
+    if (code === expected) {
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ error: 'Invalid code' });
+    }
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 module.exports = router;

@@ -333,4 +333,9 @@ app.get('/sitemap.xml', async (req, res) => {
 });
 
 
+(async () => { try { const db = require('./db'); await db.query("CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())"); } catch(e) {} })();
+
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
+
+// Ensure user_sessions table exists
+(async () => { try { const db = require('./db'); await db.query(`CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())`); } catch(e) {} })();
