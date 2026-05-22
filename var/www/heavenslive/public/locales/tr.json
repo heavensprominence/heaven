@@ -433,7 +433,8 @@
     "haveAccount": "Zaten bir hesabınız mı var? Giriş yapın",
     "forgotTitle": "Şifreyi Sıfırla",
     "sendReset": "Sıfırlama Bağlantısını Gönder",
-    "backToSignIn": "← Giriş sayfasına dön"
+    "backToSignIn": "← Giriş sayfasına dön",
+    "logout": "Oturumu kapat"
   },
   "wallet": {
     "totalBalance": "Toplam Bakiye (ABD Doları karşılığı)",

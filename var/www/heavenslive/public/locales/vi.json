@@ -433,7 +433,8 @@
     "haveAccount": "Bạn đã có tài khoản chưa? Đăng nhập",
     "forgotTitle": "Đặt lại mật khẩu",
     "sendReset": "Gửi liên kết đặt lại",
-    "backToSignIn": "← Quay lại trang Đăng nhập"
+    "backToSignIn": "← Quay lại trang Đăng nhập",
+    "logout": "Đăng xuất"
   },
   "wallet": {
     "totalBalance": "Tổng số dư (tính theo USD)",

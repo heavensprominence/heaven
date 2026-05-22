@@ -433,7 +433,8 @@
     "haveAccount": "이미 계정이 있으신가요? 로그인",
     "forgotTitle": "비밀번호 재설정",
     "sendReset": "재설정 링크 보내기",
-    "backToSignIn": "← 로그인 화면으로 돌아가기"
+    "backToSignIn": "← 로그인 화면으로 돌아가기",
+    "logout": "로그아웃"
   },
   "wallet": {
     "totalBalance": "총 잔액 (USD 환산)",

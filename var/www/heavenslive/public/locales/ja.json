@@ -433,7 +433,8 @@
     "haveAccount": "すでにアカウントをお持ちですか？ログイン",
     "forgotTitle": "パスワードをリセット",
     "sendReset": "リセットリンクを送信",
-    "backToSignIn": "← ログイン画面に戻る"
+    "backToSignIn": "← ログイン画面に戻る",
+    "logout": "ログアウト"
   },
   "wallet": {
     "totalBalance": "残高合計（米ドル換算）",

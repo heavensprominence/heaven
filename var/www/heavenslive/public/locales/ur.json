@@ -433,7 +433,8 @@
     "haveAccount": "پہلے سے ہی اکاؤنٹ ہے؟ سائن ان کریں۔",
     "forgotTitle": "پاس ورڈ ری سیٹ کریں۔",
     "sendReset": "ری سیٹ لنک بھیجیں۔",
-    "backToSignIn": "← واپس سائن ان کریں۔"
+    "backToSignIn": "← واپس سائن ان کریں۔",
+    "logout": "لاگ آؤٹ"
   },
   "wallet": {
     "totalBalance": "کل بیلنس (USD مساوی)",

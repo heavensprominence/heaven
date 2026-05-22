@@ -433,7 +433,8 @@
     "haveAccount": "Har du redan ett konto? Logga in",
     "forgotTitle": "Återställ lösenord",
     "sendReset": "Skicka återställningslänk",
-    "backToSignIn": "← Tillbaka till inloggning"
+    "backToSignIn": "← Tillbaka till inloggning",
+    "logout": "Utloggning"
   },
   "wallet": {
     "totalBalance": "Totalt saldo (motsvarande belopp i USD)",

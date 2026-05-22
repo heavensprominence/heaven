@@ -433,7 +433,8 @@
     "haveAccount": "Já tem uma conta? Faça login",
     "forgotTitle": "Redefinir senha",
     "sendReset": "Enviar link de redefinição",
-    "backToSignIn": "← Voltar para o login"
+    "backToSignIn": "← Voltar para o login",
+    "logout": "Sair"
   },
   "wallet": {
     "totalBalance": "Saldo total (equivalente em dólares americanos)",

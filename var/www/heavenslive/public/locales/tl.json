@@ -433,7 +433,8 @@
     "haveAccount": "Mayroon ka nang account? Mag-sign in",
     "forgotTitle": "I-reset ang Password",
     "sendReset": "Ipadala ang Reset Link",
-    "backToSignIn": "← Bumalik sa Mag-sign In"
+    "backToSignIn": "← Bumalik sa Mag-sign In",
+    "logout": "Mag-logout"
   },
   "wallet": {
     "totalBalance": "Kabuuang Balanse (katumbas ng USD)",
