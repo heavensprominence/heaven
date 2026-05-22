@@ -485,7 +485,8 @@
     "imported": "से आयातित",
     "importReview": "समीक्षा करें और सबमिट करें.",
     "importFailed": "आयात विफल",
-    "importError": "आयात करने में त्रुटि"
+    "importError": "आयात करने में त्रुटि",
+    "chooseImages": "📁 छवियाँ चुनें"
   },
   "pricing": {
     "subtitle": "अपने व्यवसाय के लिए सही योजना चुनें",

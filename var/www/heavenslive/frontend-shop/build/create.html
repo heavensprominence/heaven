@@ -80,7 +80,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   
   <label class="label" data-i18n="page.label_description">Description</label><textarea id="lDesc" data-i18n-placeholder="create.phDesc" placeholder="Describe your item in detail..."></textarea>
   
-  <label class="label" data-i18n="page.label_images">📸 Images</label><input id="lImages" type="file" accept="image/*" multiple style="margin-bottom:8px"><div id="imagePreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
+  <label class="label" data-i18n="page.label_images">📸 Images</label><input id="lImages" type="file" accept="image/*" multiple style="display:none"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><button class="btn btn-o btn-sm" onclick="document.getElementById('lImages').click()" style="font-size:.78rem" data-i18n="create.chooseImages">📁 Choose Images</button><span id="fileCount" style="color:var(--muted);font-size:.75rem"></span></div><div id="imagePreview" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px"></div>
   
   <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
   
@@ -216,6 +216,7 @@ function prevStep(){goStep(step-1)}
 var imageData = [];
 document.getElementById('lImages').addEventListener('change', function(e){
   var files = e.target.files;
+  document.getElementById('fileCount').textContent = files.length ? files.length + ' file(s) selected' : '';
   var preview = document.getElementById('imagePreview');
   preview.innerHTML = '';
   imageData = [];

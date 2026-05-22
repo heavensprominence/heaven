@@ -485,7 +485,8 @@
     "imported": "مستورد من",
     "importReview": "مراجعة وتقديم.",
     "importFailed": "فشل الاستيراد",
-    "importError": "حدث خطأ أثناء الاستيراد"
+    "importError": "حدث خطأ أثناء الاستيراد",
+    "chooseImages": "📁 اختر الصور"
   },
   "pricing": {
     "subtitle": "اختر الخطة المناسبة لعملك",

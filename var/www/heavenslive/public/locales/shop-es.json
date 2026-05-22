@@ -485,7 +485,8 @@
     "imported": "Importado de",
     "importReview": "Revisar y enviar.",
     "importFailed": "Importación fallida",
-    "importError": "Error al importar"
+    "importError": "Error al importar",
+    "chooseImages": "📁 Elija imágenes"
   },
   "pricing": {
     "subtitle": "Elija el plan adecuado para su negocio",

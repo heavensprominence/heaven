@@ -479,7 +479,8 @@
     "imported": "Nhập khẩu từ",
     "importReview": "Xem xét và gửi.",
     "importFailed": "Nhập không thành công",
-    "importError": "Lỗi nhập"
+    "importError": "Lỗi nhập",
+    "chooseImages": "📁 Chọn hình ảnh"
   },
   "pricing": {
     "subtitle": "Chọn gói dịch vụ phù hợp với doanh nghiệp của bạn",

@@ -473,7 +473,8 @@
     "aiThinking": "Thinking...",
     "aiGenerating": "Generating with AI...",
     "aiDone": "Form filled! Review and submit.",
-    "aiError": "Error contacting AI"
+    "aiError": "Error contacting AI",
+    "chooseImages": "📁 Choose Images"
   },
   "pricing": {
     "subtitle": "Choose the right plan for your business",

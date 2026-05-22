@@ -494,7 +494,8 @@
     "imported": "Imported from",
     "importReview": "Review and submit.",
     "importFailed": "Import failed",
-    "importError": "Error importing"
+    "importError": "Error importing",
+    "chooseImages": "📁 Choose Images"
   },
   "page": {
     "label_images": "📸 Images"

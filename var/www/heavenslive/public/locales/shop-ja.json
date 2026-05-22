@@ -485,7 +485,8 @@
     "imported": "輸入元",
     "importReview": "確認して送信します。",
     "importFailed": "インポートに失敗しました",
-    "importError": "インポートエラー"
+    "importError": "インポートエラー",
+    "chooseImages": "📁 画像の選択"
   },
   "pricing": {
     "subtitle": "お客様のビジネスに適したプランをお選びください",

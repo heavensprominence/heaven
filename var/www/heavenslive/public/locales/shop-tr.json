@@ -485,7 +485,8 @@
     "imported": "Şuradan içe aktarıldı:",
     "importReview": "İnceleyin ve gönderin.",
     "importFailed": "İçe aktarma başarısız oldu",
-    "importError": "İçe aktarma hatası"
+    "importError": "İçe aktarma hatası",
+    "chooseImages": "📁 Görselleri Seçin"
   },
   "pricing": {
     "subtitle": "İşletmeniz için doğru planı seçin",

@@ -485,7 +485,8 @@
     "imported": "وارد شده از",
     "importReview": "بررسی و ارسال کنید.",
     "importFailed": "واردات انجام نشد",
-    "importError": "خطا در وارد کردن"
+    "importError": "خطا در وارد کردن",
+    "chooseImages": "📁 تصاویر را انتخاب کنید"
   },
   "pricing": {
     "subtitle": "طرح مناسب برای کسب و کار خود را انتخاب کنید",

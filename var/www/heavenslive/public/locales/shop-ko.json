@@ -485,7 +485,8 @@
     "imported": "다음에서 수입됨",
     "importReview": "검토하고 제출하세요.",
     "importFailed": "가져오기 실패",
-    "importError": "가져오는 중 오류가 발생했습니다."
+    "importError": "가져오는 중 오류가 발생했습니다.",
+    "chooseImages": "📁 이미지 선택"
   },
   "pricing": {
     "subtitle": "비즈니스에 적합한 요금제 선택",

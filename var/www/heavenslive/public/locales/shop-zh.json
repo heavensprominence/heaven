@@ -485,7 +485,8 @@
     "imported": "进口自",
     "importReview": "审核并提交。",
     "importFailed": "导入失败",
-    "importError": "导入时出错"
+    "importError": "导入时出错",
+    "chooseImages": "📁 选择图像"
   },
   "pricing": {
     "subtitle": "选择适合您企业的计划",
