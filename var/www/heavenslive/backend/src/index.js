@@ -100,6 +100,7 @@ app.use("/api/shop/promotions", shopPromotionsRoutes);
 app.use("/api/shop/saved-searches", shopSavedSearchesRoutes);
 app.use("/api/shop/gift-cards", shopGiftCardsRoutes);
 app.use("/api/shop/affiliate", shopAffiliateRoutes);
+app.use("/api/affiliate", require("./routes/shop/affiliateEngine"));
 app.use("/api/shop/promos", require("./routes/shop/promos"));
 app.use("/api/shop/admin/affiliate", shopAdminAffiliateRoutes);
 app.use("/api/shop/subscriptions", shopSubscriptionsRoutes);
