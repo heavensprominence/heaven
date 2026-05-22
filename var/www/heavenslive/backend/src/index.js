@@ -275,4 +275,24 @@ app.get('/api/admin/metrics', async (req, res) => {
   }
 });
 
+// Dyn
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
+
+amic sitemap
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const db = require('./db');
+    const listings = await db.query("SELECT id, title, updated_at FROM listings WHERE status = 'active' ORDER BY updated_at DESC LIMIT 500");
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    xml += '  <url><loc>https://heavenslive.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n';
+    xml += '  <url><loc>https://heavenslive.com/shop/</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>\n';
+    xml += '  <url><loc>https://heavenslive.com/shop/download</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
+    xml += '  <url><loc>https://heavenslive.com/credon/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
+    for (const l of listings.rows) {
+      xml += `  <url><loc>https://heavenslive.com/shop/listing/${l.id}</loc><lastmod>${new Date(l.updated_at).toISOString().split('T')[0]}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n`;
+    }
+    xml += '</urlset>';
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch(e) { res.status(500).send('Error generating sitemap'); }
+});
