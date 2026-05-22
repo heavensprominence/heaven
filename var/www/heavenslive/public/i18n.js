@@ -70,6 +70,7 @@
       applyLanding(landing);
       applyShopI18n(shop);
       applyShop(shop);
+      translatePlaceholders(landing, shop);
       translateCommonStrings(landing,shop);
     });
   }
@@ -79,6 +80,19 @@
   fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){});
   fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){});
   fetch('/locales/en.json').then(function(r){return r.json()}).then(function(j){EN_CREDON=j}).catch(function(){});
+
+  // Translate placeholder attributes
+  function translatePlaceholders(landing, shop){
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+      var key=el.getAttribute('data-i18n-placeholder'),parts=key.split('.'),val=landing||shop;
+      for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
+      if(typeof val!=='string'||!val){
+        val=shop;
+        for(var j=0;j<parts.length;j++){if(!val)break;val=val[parts[j]]}
+      }
+      if(typeof val==='string'&&val)el.placeholder=val;
+    });
+  }
 
   function applyLanding(t){
     if(!t) return;
