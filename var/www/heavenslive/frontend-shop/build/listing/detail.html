@@ -43,6 +43,9 @@ fetch('/api/shop/listings/' + id)
       '<p style="margin:16px 0;line-height:1.6">' + (l.description||'') + '</p>' +
       (l.quantity_available ? '<p style="color:var(--muted);font-size:.85rem)">Qty: ' + l.quantity_available + '</p>' : '') +
       '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()" data-i18n="detail.addToCart">Add to Cart</button><button class="btn-o" onclick="msgSeller()" data-i18n="detail.messageSeller">Message Seller</button></div></div>';
+    
+    // SEO: Inject JSON-LD structured data + meta tags for Google Shopping
+    injectSEO(l);
   })
   .catch(function(e) {
     document.getElementById('content').innerHTML = '<h1>Error loading listing</h1><p>' + e.message + '</p>';
@@ -78,6 +81,39 @@ function msgSeller() {
     if (d.success) { alert('Message sent! Check Messages for replies.'); location.href = '/shop/messages'; }
     else { alert(d.error || 'Failed to send'); }
   }).catch(function() { alert('Error sending message'); });
+}
+// SEO: Inject structured data for Google Shopping
+function injectSEO(l){
+  // Update page title
+  document.title = (l.title||'Listing') + ' — HeavensLive';
+  
+  // Add meta description
+  var meta=document.createElement('meta');meta.name='description';meta.content=(l.description||'').substring(0,160);document.head.appendChild(meta);
+  
+  // Open Graph
+  var ogt=document.createElement('meta');ogt.setAttribute('property','og:title');ogt.content=l.title||'';document.head.appendChild(ogt);
+  var ogd=document.createElement('meta');ogd.setAttribute('property','og:description');ogd.content=(l.description||'').substring(0,200);document.head.appendChild(ogd);
+  if(l.images&&l.images[0]){var ogi=document.createElement('meta');ogi.setAttribute('property','og:image');ogi.content=l.images[0];document.head.appendChild(ogi)}
+  var ogu=document.createElement('meta');ogu.setAttribute('property','og:url');ogu.content=location.href;document.head.appendChild(ogu);
+  
+  // JSON-LD Product structured data for Google Shopping
+  var price=((l.price_cents||0)/100).toFixed(2);
+  var ld={
+    '@context':'https://schema.org',
+    '@type':'Product',
+    'name':l.title||'',
+    'description':(l.description||'').substring(0,500),
+    'image':l.images&&l.images[0]?l.images[0]:null,
+    'offers':{
+      '@type':'Offer',
+      'price':price,
+      'priceCurrency':l.currency||'USD',
+      'availability':l.status==='active'?'https://schema.org/InStock':'https://schema.org/OutOfStock',
+      'url':location.href
+    }
+  };
+  if(l.seller_name){ld['brand']={'@type':'Brand','name':l.seller_name}}
+  var script=document.createElement('script');script.type='application/ld+json';script.text=JSON.stringify(ld);document.head.appendChild(script);
 }
 </script><script src="/i18n.js"></script>
 <script>

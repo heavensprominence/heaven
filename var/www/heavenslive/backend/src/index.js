@@ -234,6 +234,7 @@ setInterval(async () => {
 
 // Weekly Business plan lottery (every Monday 9 AM check)
 const { runWeeklyLottery } = require("./services/promotionEngine");
+const { regenerateSitemap } = require("./services/sitemapService");
 
 // Automated daily backups (3 AM)
 const { runBackup } = require("./services/backupService");
@@ -255,6 +256,10 @@ setInterval(async () => {
     }
   } catch(e) { console.error('Lottery error:', e.message); }
 }, 10 * 60 * 1000); // Check every 10 minutes
+
+// Auto-regenerate sitemap hourly
+setInterval(regenerateSitemap, 60 * 60 * 1000);
+regenerateSitemap(); // Run on startup
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -336,10 +341,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
 (async () => { try { const db = require('./db'); await db.query("CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())"); } catch(e) {} })();
 
-app.listen(PORT, () => {
-  console.log(`Server on http://localhost:${PORT}`);
-});
-
+app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 
 // Ensure user_sessions table exists
 (async () => { try { const db = require('./db'); await db.query(`CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())`); } catch(e) {} })();
