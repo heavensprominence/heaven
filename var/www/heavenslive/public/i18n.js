@@ -62,7 +62,8 @@
       fetch('/locales/'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})
     ]).then(function(results){
       var landing=results[0],shop=results[1],credontoken=results[2];
-      // Merge credontoken keys into landing object so applyLanding picks them up
+      // Merge credontoken + wallet keys into landing so applyLanding picks them up
+      if(!landing) landing={};
       if(credontoken){for(var k in credontoken){if(credontoken.hasOwnProperty(k))landing[k]=credontoken[k]}}
       applyLanding(landing);
       applyShopI18n(shop);
