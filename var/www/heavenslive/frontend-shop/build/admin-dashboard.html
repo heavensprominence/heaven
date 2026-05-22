@@ -60,7 +60,7 @@ function switchTab(t){
   if(t==='users')loadUsers();if(t==='listings')loadListings();
 }
 async function loadOverview(){
-  try{var r=await fetch('/api/admin/dashboard',{headers:{Authorization:"***"+T}});var d=await r.json();
+  try{var r=await fetch('/api/admin/dashboard',{headers:{Authorization:"Bearer "+T}});var d=await r.json();
     if(r.status===403){location.href='/shop/';return}
     var c=d.counts||{};
     document.getElementById('overviewStats').innerHTML=
@@ -78,7 +78,7 @@ async function loadOverview(){
 var userPage=1;
 async function loadUsers(){
   var q=document.getElementById('userSearch').value;
-  try{var r=await fetch('/api/admin/users?page='+userPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"***"+T}});
+  try{var r=await fetch('/api/admin/users?page='+userPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"Bearer "+T}});
     var d=await r.json();var users=d.users||[];
     var html=users.map(function(u){
       return '<tr><td>'+u.email+'</td><td>'+u.full_name+'</td><td>'+u.current_plan_id+'</td><td>'+u.max_listings+'</td><td>'+(u.is_super_admin?'⭐':'—')+'</td><td>'+new Date(u.created_at).toLocaleDateString()+'</td><td><button class="btn btn-o btn-sm" onclick="editUser(\''+u.id+'\')">Edit</button></td></tr>'
@@ -94,7 +94,7 @@ async function loadUsers(){
 var listingPage=1;
 async function loadListings(){
   var q=document.getElementById('listingSearch').value;
-  try{var r=await fetch('/api/admin/listings?page='+listingPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"***"+T}});
+  try{var r=await fetch('/api/admin/listings?page='+listingPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"Bearer "+T}});
     var d=await r.json();var listings=d.listings||[];
     var html=listings.map(function(l){
       var sb=l.status==='active'?'b-active':l.status==='pending_approval'?'b-pending':'b-rejected';
@@ -105,12 +105,12 @@ async function loadListings(){
 }
 
 async function toggleListing(id,status){
-  await fetch('/api/admin/listings/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"***"+T},body:JSON.stringify({status:status})});
+  await fetch('/api/admin/listings/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"Bearer "+T},body:JSON.stringify({status:status})});
   loadListings();
 }
 function editUser(id){
   var plan=prompt('Plan ID (Business/Pro/Free/Empire):');if(!plan)return;
-  fetch('/api/admin/users/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"***"+T},body:JSON.stringify({planId:plan})}).then(function(){loadUsers()});
+  fetch('/api/admin/users/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"Bearer "+T},body:JSON.stringify({planId:plan})}).then(function(){loadUsers()});
 }
 
 loadOverview();

@@ -83,6 +83,7 @@ app.use("/api/bids", bidsRoutes);
 app.use("/api/disputes", disputesRoutes);
 app.use("/api/shop/admin", shopAdminRoutes);
 app.use("/api/admin", require("./routes/shop/adminDashboard"));
+app.use("/api/ai", require("./routes/shop/aiAssistant"));
 app.use("/api/shop/categories", shopCategoryRoutes);
 app.use("/api/shop/listings", shopListingsRoutes);
 app.use("/api/shop/cart", shopCartRoutes);

@@ -78,3 +78,13 @@ test.describe('API Endpoints', () => {
     expect(count).toBeGreaterThanOrEqual(5);
   });
 });
+
+test('no page has broken *** auth headers', async ({ request }) => {
+    const pages = ['/','/shop/','/shop/cart','/shop/checkout','/shop/create','/shop/admin-dashboard','/credon/'];
+    for (const path of pages) {
+      const resp = await request.get(path);
+      const html = await resp.text();
+      const broken = html.includes('Authorization:"***"+T') || html.includes("Authorization:'***'+T") || html.includes('Authorization:***+T');
+      expect(broken, `BROKEN auth in ${path}: *** instead of Bearer`).toBe(false);
+    }
+  });
