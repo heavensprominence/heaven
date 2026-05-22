@@ -100,6 +100,8 @@
     if(!s) return;
     document.querySelectorAll('[data-i18n]').forEach(function(el){
       var key=el.getAttribute('data-i18n'),parts=key.split('.'),val=s;
+      // Skip keys handled by applyLanding (credontoken, wallet, etc.)
+      if(parts[0]==='credontoken'||parts[0]==='wallet'||parts[0]==='landing')return;
       if(parts[0]==='nav'&&(parts[1]==='shop'||parts[1]==='home'||parts[1]==='signIn'))return;
       for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
       // If locale is missing this key, fall back to English original
