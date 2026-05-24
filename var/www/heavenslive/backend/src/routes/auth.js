@@ -88,8 +88,8 @@ router.post('/register', async (req, res) => {
         const referral_code = Math.floor(10000000 + Math.random() * 90000000).toString();
         const credonPending = !!(joinReason);
         const result = await db.query(
-            "INSERT INTO users (email, password_hash, full_name, referral_code, join_reason, credon_pending, credon_approved) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email, full_name, referral_code",
-            [email.toLowerCase().trim(), hash, fullName, referral_code, joinReason || null, credonPending, false]
+            "INSERT INTO users (email, password_hash, full_name, referral_code, join_reason, credon_pending, credon_approved, two_factor_enabled) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, email, full_name, referral_code",
+            [email.toLowerCase().trim(), hash, fullName, referral_code, joinReason || null, credonPending, false, true]
         );
         const user = result.rows[0];
         // Create wallet

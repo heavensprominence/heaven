@@ -341,6 +341,9 @@ app.get('/sitemap.xml', async (req, res) => {
 
 (async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT false'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_secret TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_code TEXT'); console.log('✅ 2FA + auth columns ready'); } catch(e) { console.log('Auth migration:', e.message); } })();
 
+// Enable email 2FA for all existing users
+(async () => { try { const db = require('./db'); await db.query("UPDATE users SET two_factor_enabled = true WHERE two_factor_enabled IS NOT true"); console.log('✅ Email 2FA enabled for existing users'); } catch(e) { console.log('2FA enable error:', e.message); } })();
+
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 
 // Ensure user_sessions table exists
