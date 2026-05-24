@@ -13,7 +13,11 @@ router.get('/', async (req, res) => {
         const lang = req.query.lang || 'en';
         const result = await db.query(`
             SELECT sc.*, ct.name as translated_name,
-                (SELECT COUNT(*) FROM listings l WHERE l.category = sc.category AND l.status = 'active') as count,
+                (SELECT COUNT(*) FROM listings l WHERE l.status = 'active' AND (
+                l.category = sc.category 
+                OR l.category IN (SELECT category FROM shop_categories WHERE parent_category = sc.category)
+                OR l.category IN (SELECT child.category FROM shop_categories child JOIN shop_categories parent ON child.parent_category = parent.category WHERE parent.parent_category = sc.category)
+            )) as count,
                 (SELECT COUNT(*) FROM shop_categories WHERE parent_category = sc.category) as subcategory_count
             FROM shop_categories sc
             LEFT JOIN category_translations ct ON sc.category = ct.category AND ct.language_code = $1
