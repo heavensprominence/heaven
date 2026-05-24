@@ -49,6 +49,11 @@ const CategoryManager = ({ token }) => {
             ]);
             setCategories(treeRes.data.tree || []);
             setFlatCategories(flatRes.data.categories || []);
+            // Auto-expand all categories with children
+            const allIds = new Set();
+            const collect = (items) => { items.forEach(i => { if (i.children && i.children.length > 0) { allIds.add(i.id); collect(i.children); } }); };
+            collect(treeRes.data.tree || []);
+            setExpandedNodes(allIds);
         } catch (err) { console.error('Failed to fetch categories:', err); }
         finally { setLoading(false); }
     };
