@@ -163,11 +163,14 @@ app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
 
 // Admin pages use React SPA for category management with emoji picker
-app.get(["/shop/admin", "/shop/admin/*"], (req, res) => {
-  res.set("Cache-Control", "no-cache, no-store, must-revalidate");
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
-  sendFile(res, path.join(SHOP_BUILD_DIR, "admin-spa.html"));
+app.use((req, res, next) => {
+  if (req.path === "/shop/admin" || (req.path.startsWith("/shop/admin/") && !req.path.startsWith("/shop/admin/api"))) {
+    res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
+    return sendFile(res, path.join(SHOP_BUILD_DIR, "admin-spa.html"));
+  }
+  next();
 });
 
 // Shop — serves static HTML pages when they exist, falls back to React SPA
