@@ -42,16 +42,28 @@ router.post('/login', async (req, res) => {
         const valid = await bcrypt.compare(password, user.password_hash);
         if (!valid) return res.status(401).json({ error: 'Invalid email or password' });
         
-        // If user has 2FA enabled, require verification step
+        // If user has 2FA enabled, send email verification code
         if (user.two_factor_enabled) {
           const crypto = require('crypto');
+          const code = Math.floor(100000 + Math.random() * 900000).toString();
           const sessionId = crypto.randomBytes(16).toString('hex');
-          // Store pending 2FA session
+          const expires = new Date(Date.now() + 10 * 60 * 1000);
+          
           await db.query(
-            'UPDATE users SET pending_2fa_session = $1, pending_2fa_expires = NOW() + INTERVAL \'10 minutes\' WHERE id = $2',
-            [sessionId, user.id]
+            'UPDATE users SET pending_2fa_session = $1, pending_2fa_expires = $2, pending_2fa_code = $3 WHERE id = $4',
+            [sessionId, expires, code, user.id]
           );
-          return res.json({ requiresTwoFactor: true, sessionId, message: 'Enter the 6-digit verification code from your authenticator app.' });
+          
+          // Send verification code via email
+          try {
+            const { sendEmail } = require('../services/emailService');
+            await sendEmail(user.email, 'Your Verification Code', 'verification_code', {
+              name: user.full_name || user.email.split('@')[0], code: code
+            });
+          } catch(e) { console.error('2FA email error:', e.message); }
+          
+          console.log(`2FA code for ${user.email}: ${code}`);
+          return res.json({ requiresTwoFactor: true, sessionId, message: 'A 6-digit verification code has been sent to your email.' });
         }
         
         const token = jwt.sign(
@@ -214,25 +226,20 @@ router.post('/2fa/setup', verifyToken, async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// POST /api/auth/2fa/verify — verify 2FA code and issue token
+// POST /api/auth/verify-2fa — verify email 2FA code and issue token
 router.post('/verify-2fa', async (req, res) => {
   try {
     const { sessionId, code } = req.body;
     if (!sessionId || !code) return res.status(400).json({ error: 'Session and code required' });
     
-    // Find user with this pending 2FA session
+    // Find user with this pending session and matching code
     const user = await db.query(
-      'SELECT * FROM users WHERE pending_2fa_session = $1 AND pending_2fa_expires > NOW()',
-      [sessionId]
+      'SELECT * FROM users WHERE pending_2fa_session = $1 AND pending_2fa_expires > NOW() AND pending_2fa_code = $2',
+      [sessionId, code]
     );
-    if (user.rows.length === 0) return res.status(400).json({ error: 'Session expired. Please log in again.' });
+    if (user.rows.length === 0) return res.status(400).json({ error: 'Invalid or expired code. Please log in again.' });
     
     const u = user.rows[0];
-    // Verify TOTP code
-    const crypto = require('crypto');
-    const expected = crypto.createHmac('sha1', u.two_factor_secret).update(Math.floor(Date.now()/30000).toString()).digest('hex').substring(0,6);
-    if (code !== expected) return res.status(400).json({ error: 'Invalid verification code.' });
-    
     // Issue JWT token
     const jwt = require('jsonwebtoken');
     const { jwtSecret } = require('../config/auth');
@@ -242,7 +249,7 @@ router.post('/verify-2fa', async (req, res) => {
     );
     
     // Clear pending session
-    await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, last_login = NOW() WHERE id = $1', [u.id]);
+    await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
     
     res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, referral_code: u.referral_code } });
   } catch(e) { res.status(500).json({ error: e.message }); }

@@ -339,7 +339,7 @@ app.get('/sitemap.xml', async (req, res) => {
 });
 
 
-(async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT false'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_secret TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); console.log('✅ 2FA + auth columns ready'); } catch(e) { console.log('Auth migration:', e.message); } })();
+(async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT false'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_secret TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_code TEXT'); console.log('✅ 2FA + auth columns ready'); } catch(e) { console.log('Auth migration:', e.message); } })();
 
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 
