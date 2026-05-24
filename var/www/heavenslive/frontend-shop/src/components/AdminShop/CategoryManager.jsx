@@ -267,11 +267,7 @@ const CategoryManager = ({ token }) => {
                         </div>
                         <div className="form-group">
                             <label>Icon</label>
-                            <div className="icon-selector">
-                                {icons.map(i => (
-                                    <button key={i} type="button" className={`icon-btn ${newCategory.icon === i ? 'active' : ''}`} onClick={() => setNewCategory({...newCategory, icon: i})}>{i}</button>
-                                ))}
-                            </div>
+                            <input type="text" value={newCategory.icon} onChange={(e) => setNewCategory({...newCategory, icon: e.target.value})} placeholder="📁" maxLength={4} style={{fontSize:'1.5rem',textAlign:'center',width:'80px'}} />
                         </div>
                         <div className="modal-actions">
                             <button onClick={handleCreate} className="confirm-btn">Create</button>
@@ -300,9 +296,7 @@ const CategoryManager = ({ token }) => {
                         </div>
                         <div className="form-group">
                             <label>Icon</label>
-                            <div className="icon-selector">{icons.map(i => (
-                                <button key={i} type="button" className={`icon-btn ${editForm.icon === i ? 'active' : ''}`} onClick={() => setEditForm({...editForm, icon: i})}>{i}</button>
-                            ))}</div>
+                            <input type="text" value={editForm.icon} onChange={(e) => setEditForm({...editForm, icon: e.target.value})} placeholder="📁" maxLength={4} style={{fontSize:'1.5rem',textAlign:'center',width:'80px'}} />
                         </div>
                         <div className="form-group">
                             <label className="checkbox-label"><input type="checkbox" checked={editForm.isActive} onChange={(e) => setEditForm({...editForm, isActive: e.target.checked})} /> Active (visible to users)</label>
