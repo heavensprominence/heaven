@@ -162,10 +162,11 @@ app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
 
-// Admin pages use React SPA for category management with emoji picker
+// Admin pages — frontend ProtectedRoute handles admin check
+// API routes are protected at the backend level
 app.use((req, res, next) => {
   if (req.path === "/shop/admin" || (req.path.startsWith("/shop/admin/") && !req.path.startsWith("/shop/admin/api"))) {
-    res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
     res.set("Pragma", "no-cache");
     res.set("Expires", "0");
     return sendFile(res, path.join(SHOP_BUILD_DIR, "admin-spa.html"));

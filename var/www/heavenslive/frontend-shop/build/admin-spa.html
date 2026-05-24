@@ -1,1 +1,16 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin — HeavensLive</title><link rel="icon" href="/shop/favicon.ico"/><script defer="defer" src="/shop/static/js/main.9d20e8a5.js"></script><link href="/shop/static/css/main.1a1d9a8f.css" rel="stylesheet"></head><body><div id="root"></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin — HeavensLive</title></head><body>
+<script>
+// Immediate admin check before React loads
+(function(){
+  var u = JSON.parse(localStorage.getItem("user")||"null");
+  if (!u || u.is_super_admin !== true) {
+    window.location.replace("/shop/");
+    return;
+  }
+})();
+</script>
+<div id="root"></div>
+<link rel="icon" href="/shop/favicon.ico"/>
+<script defer="defer" src="/shop/static/js/main.9d20e8a5.js"></script>
+<link href="/shop/static/css/main.1a1d9a8f.css" rel="stylesheet">
+</body></html>
