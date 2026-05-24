@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
                         'SELECT sc.category, sc.display_name, ct.name as translated_name, sc.icon, (SELECT COUNT(*) FROM listings l WHERE l.category = sc.category AND l.status = $1) as count, (SELECT COUNT(*) FROM shop_categories WHERE parent_category = sc.category) as subcategory_count FROM shop_categories sc LEFT JOIN category_translations ct ON sc.category = ct.category AND ct.language_code = $2 WHERE sc.parent_category = $3 AND sc.is_active = true ORDER BY sc.sort_order, sc.display_name',
                         ['active', lang, cat.slug]
                     );
-                    cat.subcategories = subs.rows.map(sc => ({
+                    cat.children = cat.subcategories = subs.rows.map(sc => ({
                         slug: sc.category,
                         name: sc.translated_name || sc.display_name,
                         icon: sc.icon || '',

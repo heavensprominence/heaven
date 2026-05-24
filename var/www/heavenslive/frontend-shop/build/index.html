@@ -83,7 +83,7 @@ window.PowerSync = { PowerSyncDatabase };
         <a href="/shop/profile" data-i18n="nav.profile">👤 Profile</a>
         <a href="/shop/affiliate" data-i18n="nav.affiliate">🤝 Affiliate Program</a>
         <a href="/shop/settings" data-i18n="nav.settings">⚙️ Settings</a>
-        <a href="/credon/admin" id="adminLink" style="display:none" data-i18n="nav.adminPanel">🔧 Admin Panel</a>
+        <a href="/credon/wallet" data-i18n="nav.adminPanel">🔧 Admin Panel</a>
         <hr>
         <a href="#" onclick="localStorage.clear();location.reload()" data-i18n="nav.signOut">🚪 Sign Out</a>
       </div>
@@ -426,7 +426,7 @@ function switchLang(l){
   if(T)try{
     var b=T.split(".")[1].replace(/-/g,"+").replace(/_/g,"/"),p=JSON.parse(atob(b));
     if(p.email)a.innerHTML='<span class="user-trigger" onclick="document.getElementById(\'userMenu\').classList.toggle(\'show\')">👤 '+p.email.split("@")[0]+' ▾</span>';
-    if(p.isSuperAdmin){var am=document.getElementById('adminLink');if(am)am.style.display='inline'}
+    if(p.isSuperAdmin){var am=document.querySelector('#userMenu a[href="/credon/admin"]');if(am)am.style.display="block"}
   }catch(e){}
   else a.innerHTML='<a href="/credon/" class="btn btn-sm" data-i18n="nav.signIn">Sign In</a><a href="/credon/" class="btn btn-sm btn-o" data-i18n="nav.register">Register</a>';
 }();
