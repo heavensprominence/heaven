@@ -136,6 +136,7 @@ const CategorySuggestions = ({ token: propToken }) => {
                                         onClick={() => {
                                             setSelectedSuggestion(s.id);
                                             setDisplayName(s.suggested_name);
+                                            setIcon('📦');
                                             setShowApproveModal(true);
                                         }}
                                     >
@@ -171,6 +172,14 @@ const CategorySuggestions = ({ token: propToken }) => {
                         </div>
                         <div className="form-group">
                             <label>Icon</label>
+                            <input
+                                type="text"
+                                value={icon}
+                                onChange={(e) => setIcon(e.target.value)}
+                                placeholder="📦"
+                                maxLength={4}
+                                style={{fontSize:'1.5rem',textAlign:'center',width:'80px'}}
+                            />
                             <div className="icon-selector">
                                 {icons.map(i => (
                                     <button
