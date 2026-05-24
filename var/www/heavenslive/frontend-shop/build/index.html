@@ -326,14 +326,16 @@ function suggestSubcat(){
     var cats=d.categories||[];
     var sel=document.getElementById('sugParent');
     if(!sel)return;
-    cats.forEach(function(c){
-      var prefix=c.parent_category?'  └ ':'';
-      sel.innerHTML+='<option value="'+c.slug+'">'+prefix+c.name+'</option>';
-      // Also add subcategories if loaded
-      if(c.subcategories) c.subcategories.forEach(function(sc){
-        sel.innerHTML+='<option value="'+sc.slug+'">    └ '+sc.name+'</option>';
+    // Recursive renderer for full tree depth
+    function addOptions(list,depth){
+      if(!list)return;
+      list.forEach(function(c){
+        var indent='  '.repeat(depth)+(depth>0?'└ ':'📁 ');
+        sel.innerHTML+='<option value="'+c.slug+'">'+indent+c.name+' ('+c.count+')</option>';
+        if(c.subcategories) addOptions(c.subcategories, depth+1);
       });
-    });
+    }
+    addOptions(cats,0);
   });
   var html='<div style="font-family:system-ui;padding:12px"><p style="margin-bottom:8px;color:#C8A951"><strong>Suggest a Subcategory</strong></p><label style="display:block;font-size:.8rem;color:#A0A0B0;margin-bottom:4px">Parent Category</label><select id="sugParent" style="width:100%;padding:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;margin-bottom:8px">'+parentOpts+'</select><label style="display:block;font-size:.8rem;color:#A0A0B0;margin-bottom:4px">Subcategory Name</label><input id="sugName" style="width:100%;padding:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;margin-bottom:12px" placeholder="e.g., Smartphones"><button id="sugSubmit" style="padding:8px 20px;background:#C8A951;color:#0F0F1A;border:none;border-radius:6px;cursor:pointer;font-weight:600" onclick="submitSuggestion()">Submit</button><button style="padding:8px 20px;background:transparent;border:1px solid rgba(255,255,255,.15);color:#A0A0B0;border-radius:6px;cursor:pointer;margin-left:8px" onclick="closeSuggestion()">Cancel</button></div>';
   var modal=document.createElement('div');
