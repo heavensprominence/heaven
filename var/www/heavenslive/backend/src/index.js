@@ -16,6 +16,8 @@ const path = require("path");
 const cors = require("cors");
 const app = express();
 const PORT = 5000;
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 const PUBLIC_DIR = path.join(__dirname, "../../public");
 
