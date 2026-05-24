@@ -175,6 +175,7 @@ const CategorySuggestions = ({ token: propToken }) => {
                                 {icons.map(i => (
                                     <button
                                         key={i}
+                                        type="button"
                                         className={`icon-btn ${icon === i ? 'active' : ''}`}
                                         onClick={() => setIcon(i)}
                                     >
