@@ -216,6 +216,14 @@ router.delete('/sessions/:id', verifyToken, async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// GET /api/auth/2fa/status — check 2FA status
+router.get('/2fa/status', verifyToken, async (req, res) => {
+  try {
+    const user = await db.query('SELECT two_factor_enabled, two_factor_secret FROM users WHERE id = $1', [req.userId]);
+    res.json({ enabled: user.rows[0]?.two_factor_enabled || false, hasAuthenticator: !!user.rows[0]?.two_factor_secret });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 // POST /api/auth/2fa/setup — enable 2FA
 router.post('/2fa/setup', verifyToken, async (req, res) => {
   try {
