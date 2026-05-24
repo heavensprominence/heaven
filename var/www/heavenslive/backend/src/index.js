@@ -339,24 +339,7 @@ app.get('/sitemap.xml', async (req, res) => {
 });
 
 
-(async () => { try { const db = require('./db'); await db.query("CREATE TABLE IF NOT EXISTS user_sessions (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID REFERENCES users(id), ip_address TEXT, user_agent TEXT, created_at TIMESTAMPTZ DEFAULT NOW(), last_active TIMESTAMPTZ DEFAULT NOW())"); } catch(e) {} })();
-
-
-// One-time: translate all existing listings
-app.post('/api/admin/translate-all-listings', async (req, res) => {
-  try {
-    const db = require('./db');
-    const { autoTranslateListing } = require('./services/translationService');
-    const listings = await db.query("SELECT id FROM listings WHERE status = 'active'");
-    let count = 0, errors = 0;
-    for (const l of listings.rows) {
-      try { await autoTranslateListing(l.id); count++; } catch(e) { errors++; }
-    }
-    res.json({ success: true, translated: count, errors, total: listings.rows.length });
-  } catch(e) { res.status(500).json({ error: e.message }); }
-});
-
-(async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); console.log('✅ 2FA columns ready'); } catch(e) { console.log('2FA migration:', e.message); } })();
+(async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT false'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_secret TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); console.log('✅ 2FA + auth columns ready'); } catch(e) { console.log('Auth migration:', e.message); } })();
 
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 
