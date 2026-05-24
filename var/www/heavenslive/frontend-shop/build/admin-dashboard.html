@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--red:#E74C3C;--green:#2ECC71;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:0}
+.tab{padding:10px 20px;border-radius:8px 8px 0 0;cursor:pointer;font-size:.85rem;color:var(--muted);background:transparent;border:none;transition:all .15s}
+.tab.on{color:var(--gold);border-bottom:2px solid var(--gold);font-weight:600}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05)}
+.card h3{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.card .big{font-size:2rem;font-weight:800;color:var(--gold)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{text-align:left;padding:10px 12px;color:var(--muted);font-size:.7rem;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.06)}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04)}tr:hover{background:rgba(200,169,81,.04)}
+.badge{padding:3px 8px;border-radius:10px;font-size:.65rem;font-weight:700;display:inline-block}
+.b-active{background:rgba(46,204,113,.15);color:var(--green)}.b-pending{background:rgba(200,169,81,.15);color:var(--gold)}
+.b-rejected{background:rgba(231,76,60,.15);color:var(--red)}.b-open{background:rgba(200,169,81,.15);color:var(--gold)}
+input,select{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--text);padding:8px 12px;border-radius:6px;font-size:.8rem}
+.btn{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:.75rem;font-weight:600}
+.btn-gold{background:var(--gold);color:var(--darker)}.btn-red{background:var(--red);color:white}
+.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.search-bar{display:flex;gap:8px;margin-bottom:16px}.search-bar input{flex:1}
+.pagination{display:flex;justify-content:center;gap:6px;margin-top:16px}
+</style></head><body>
+<nav><div class="nav-brand">🔧 HeavensLive Admin</div><div class="nav-links"><a href="/shop/">← Shop</a><a href="/shop/monitor">📊 Monitor</a></div></nav>
+<div class="container">
+<div class="tabs">
+  <button class="tab on" onclick="switchTab('overview')">Overview</button>
+  <button class="tab" onclick="switchTab('users')">Users</button>
+  <button class="tab" onclick="switchTab('listings')">Listings</button>
+</div>
+
+<div id="tab-overview">
+  <div class="grid4" id="overviewStats">Loading...</div>
+  <div class="card"><h3>Plan Distribution</h3><div id="planBreakdown">—</div></div>
+  <div class="card" style="margin-top:12px"><h3>Recent Signups</h3><table id="recentUsers"><tr><td>—</td></tr></table></div>
+</div>
+
+<div id="tab-users" style="display:none">
+  <div class="search-bar"><input id="userSearch" placeholder="Search by email or name..." onkeydown="if(event.key==='Enter')loadUsers()"><button class="btn btn-gold" onclick="loadUsers()">Search</button></div>
+  <table><thead><tr><th>Email</th><th>Name</th><th>Plan</th><th>Listings</th><th>Admin</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="userTable"><tr><td colspan="7">Loading...</td></tr></tbody></table>
+  <div class="pagination" id="userPagination"></div>
+</div>
+
+<div id="tab-listings" style="display:none">
+  <div class="search-bar"><input id="listingSearch" placeholder="Search listings..." onkeydown="if(event.key==='Enter')loadListings()"><button class="btn btn-gold" onclick="loadListings()">Search</button></div>
+  <table><thead><tr><th>Title</th><th>Seller</th><th>Status</th><th>Featured</th><th>Created</th><th>Actions</th></tr></thead><tbody id="listingTable"><tr><td colspan="6">Loading...</td></tr></tbody></table>
+  <div class="pagination" id="listingPagination"></div>
+</div>
+</div>
+
+<script src="/error-recovery.js"></script>
+<script>
+var T=localStorage.getItem("token");if(!T)location.href="/credon/";
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(function(el){el.classList.toggle('on',el.textContent.toLowerCase().includes(t))});
+  document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display=el.id==='tab-'+t?'block':'none'});
+  if(t==='users')loadUsers();if(t==='listings')loadListings();
+}
+async function loadOverview(){
+  try{var r=await fetch('/api/admin/dashboard',{headers:{Authorization:"Bearer "+T}});var d=await r.json();
+    if(r.status===403){location.href='/shop/';return}
+    var c=d.counts||{};
+    document.getElementById('overviewStats').innerHTML=
+      '<div class="card"><h3>Users</h3><div class="big">'+c.users+'</div></div>'+
+      '<div class="card"><h3>Active Listings</h3><div class="big">'+c.activeListings+'</div></div>'+
+      '<div class="card"><h3>Open Disputes</h3><div class="big">'+c.openDisputes+'</div></div>'+
+      '<div class="card"><h3>Uptime</h3><div class="big">'+Math.floor((d.system?.uptime||0)/60)+'m</div></div>';
+    var pb=d.plans||[];var ph=pb.map(function(p){return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>'+p.name+'</span><span style="color:var(--gold)">'+p.count+'</span></div>'}).join('');
+    document.getElementById('planBreakdown').innerHTML=ph||'No data';
+    var ru=d.recentUsers||[];var rh=ru.map(function(u){return '<tr><td>'+u.email+'</td><td>'+u.full_name+'</td><td>'+new Date(u.created_at).toLocaleDateString()+'</td></tr>'}).join('');
+    document.getElementById('recentUsers').innerHTML=rh?'<tr><th>Email</th><th>Name</th><th>Joined</th></tr>'+rh:'<tr><td>—</td></tr>';
+  }catch(e){}
+}
+
+var userPage=1;
+async function loadUsers(){
+  var q=document.getElementById('userSearch').value;
+  try{var r=await fetch('/api/admin/users?page='+userPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"Bearer "+T}});
+    var d=await r.json();var users=d.users||[];
+    var html=users.map(function(u){
+      return '<tr><td>'+u.email+'</td><td>'+u.full_name+'</td><td>'+u.current_plan_id+'</td><td>'+u.max_listings+'</td><td>'+(u.is_super_admin?'⭐':'—')+'</td><td>'+new Date(u.created_at).toLocaleDateString()+'</td><td><button class="btn btn-o btn-sm" onclick="editUser(\''+u.id+'\')">Edit</button></td></tr>'
+    }).join('');
+    document.getElementById('userTable').innerHTML=html||'<tr><td colspan="7">No users found</td></tr>';
+    var tp=d.totalPages||1;
+    var phtml='';
+    for(var i=1;i<=tp;i++)phtml+='<button class="btn '+(i===userPage?'btn-gold':'btn-o')+'" onclick="userPage='+i+';loadUsers()">'+i+'</button>';
+    document.getElementById('userPagination').innerHTML=phtml;
+  }catch(e){}
+}
+
+var listingPage=1;
+async function loadListings(){
+  var q=document.getElementById('listingSearch').value;
+  try{var r=await fetch('/api/admin/listings?page='+listingPage+'&search='+encodeURIComponent(q),{headers:{Authorization:"Bearer "+T}});
+    var d=await r.json();var listings=d.listings||[];
+    var html=listings.map(function(l){
+      var sb=l.status==='active'?'b-active':l.status==='pending_approval'?'b-pending':'b-rejected';
+      return '<tr><td>'+l.title+'</td><td>'+l.seller_email+'</td><td><span class="badge '+sb+'">'+l.status+'</span></td><td>'+(l.is_featured?'⭐':'—')+'</td><td>'+new Date(l.created_at).toLocaleDateString()+'</td><td><button class="btn btn-o btn-sm" onclick="toggleListing(\''+l.id+'\',\''+(l.status==='active'?'inactive':'active')+'\')">'+(l.status==='active'?'Deactivate':'Activate')+'</button></td></tr>'
+    }).join('');
+    document.getElementById('listingTable').innerHTML=html||'<tr><td colspan="6">No listings found</td></tr>';
+  }catch(e){}
+}
+
+async function toggleListing(id,status){
+  await fetch('/api/admin/listings/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"Bearer "+T},body:JSON.stringify({status:status})});
+  loadListings();
+}
+function editUser(id){
+  var plan=prompt('Plan ID (Business/Pro/Free/Empire):');if(!plan)return;
+  fetch('/api/admin/users/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:"Bearer "+T},body:JSON.stringify({planId:plan})}).then(function(){loadUsers()});
+}
+
+loadOverview();
+</script>
+</body></html>

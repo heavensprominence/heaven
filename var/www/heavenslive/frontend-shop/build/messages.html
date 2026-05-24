@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Messages — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:12px}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--text)}
+.container{max-width:800px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}.muted{color:var(--muted);font-size:.82rem}
+.convo{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,.02);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background .12s;border:1px solid rgba(255,255,255,.03)}.convo:hover{background:rgba(255,255,255,.05)}
+.convo img{width:42px;height:42px;border-radius:50%;background:rgba(200,169,81,.1);object-fit:cover}.convo .info{flex:1}.convo h3{color:var(--text);font-size:.88rem;margin-bottom:2px}.convo .preview{font-size:.78rem;color:var(--muted)}.convo .meta{text-align:right}.convo .time{font-size:.7rem;color:var(--muted)}.convo .unread{display:inline-block;background:var(--gold);color:var(--darker);border-radius:10px;padding:1px 7px;font-size:.68rem;font-weight:700;margin-top:4px}
+.chat-box{display:none}.chat-box.active{display:block}
+.msg-list{max-height:400px;overflow-y:auto;padding-right:8px;margin-bottom:12px}.msg{display:flex;gap:10px;margin-bottom:12px}.msg.me{justify-content:flex-end}.msg .bubble{max-width:70%;padding:10px 14px;border-radius:12px;font-size:.84rem;line-height:1.4}.msg.me .bubble{background:rgba(200,169,81,.15);color:var(--text);border-bottom-right-radius:4px}.msg.they .bubble{background:rgba(255,255,255,.06);color:var(--text);border-bottom-left-radius:4px}.msg .me-time{font-size:.65rem;color:var(--muted);margin-top:4px}
+.send-bar{display:flex;gap:8px}.send-bar input{flex:1;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.84rem}.send-bar input:focus{outline:none;border-color:var(--gold)}.btn{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.84rem;background:var(--gold);color:var(--darker)}.btn.outline{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
+.empty-state{text-align:center;padding:40px;color:var(--muted)}.empty-state a{color:var(--gold)}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.title">💬 Messages</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/buyer/dashboard">Dashboard</a></div></nav>
+<div class="container">
+<h1 data-i18n="messages.title">💬 Messages</h1><p class="muted" id="subtitle" data-i18n="messages.subtitle">Your conversations with sellers and buyers</p>
+<div id="convos"><div class="empty-state"><span data-i18n="messages.loading">Loading conversations...</span></div></div>
+<div class="chat-box" id="chatBox">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+    <button class="btn outline" onclick="closeChat()" style="font-size:.75rem;padding:4px 10px">← Back</button>
+    <strong id="chatTitle">Conversation</strong>
+  </div>
+  <div class="msg-list" id="msgList"></div>
+  <div class="send-bar">
+    <input id="msgInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="btn" onclick="sendMsg()">Send</button>
+  </div>
+</div>
+</div>
+<script>
+var T=localStorage.getItem("token");if(!T)location.href="/credon/";
+var activeChat=null;
+
+async function loadConvos(){
+  try{
+    var d=await(await fetch('/api/shop/messages/conversations',{headers:{Authorization:'Bearer '+T}})).json();
+    var convos=d.conversations||d.messages||[];
+    if(!convos.length){document.getElementById('convos').innerHTML='<div class="empty-state"><span data-i18n="messages.noConversations">No messages yet. Start a conversation from a listing page.</span></div>';return}
+    document.getElementById('convos').innerHTML=convos.map(function(c){return'<div class="convo" onclick="openChat('+c.id+',\''+(c.with_name||c.with_email||'User')+'\')"><img src="'+(c.avatar||'')+'" alt=""><div class="info"><h3>'+(c.with_name||c.with_email||'User')+(c.unread?'<span class="unread">'+c.unread+'</span>':'')+'</h3><div class="preview">'+(c.last_message||'No messages yet')+'</div></div><div class="meta"><div class="time">'+(c.updated_at?new Date(c.updated_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'')+'</div></div></div>'}).join('')
+  }catch(e){document.getElementById('convos').innerHTML='<div class="empty-state"><span data-i18n="messages.loadError">Could not load messages.</span> <a href="/shop/">Browse listings →</a></div>'}
+}
+
+async function openChat(id,name){
+  activeChat=id;document.getElementById('convos').style.display='none';document.getElementById('chatBox').classList.add('active');document.getElementById('chatTitle').textContent=name;
+  try{
+    var d=await(await fetch('/api/shop/messages/conversations/'+id+'/messages',{headers:{Authorization:'Bearer '+T}})).json();
+    var msgs=d.messages||[];
+    document.getElementById('msgList').innerHTML=msgs.length?msgs.map(function(m){var isMe=m.sender_id!==id;return'<div class="msg '+(isMe?'me':'they')+'"><div class="bubble">'+m.content+'<div class="me-time">'+new Date(m.created_at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+'</div></div></div>'}).join(''):'<div class="empty-state"><span data-i18n="messages.noMessages">No messages yet. Say hello!</span></div>';
+    document.getElementById('msgList').scrollTop=document.getElementById('msgList').scrollHeight;
+  }catch(e){document.getElementById('msgList').innerHTML='<div class="empty-state">Could not load messages</div>'}
+}
+
+function closeChat(){activeChat=null;document.getElementById('convos').style.display='block';document.getElementById('chatBox').classList.remove('active')}
+
+async function sendMsg(){
+  var inp=document.getElementById('msgInput'),text=inp.value.trim();if(!text||!activeChat)return;
+  inp.value='';inp.disabled=true;
+  try{
+    var r=await fetch('/api/shop/messages/conversations/'+activeChat+'/messages',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({content:text})});
+    if(r.ok)openChat(activeChat,document.getElementById('chatTitle').textContent);
+  }catch(e){}
+  inp.disabled=false;inp.focus();
+}
+
+loadConvos();
+</script><script src="/i18n.js"></script>
+</body></html>

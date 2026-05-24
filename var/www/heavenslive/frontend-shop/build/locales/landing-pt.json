@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "Divin<span class=\"gold\">amente Subscrito para Todos Nós",
+    "subtitle": "Comércio baseado na fé, moeda justa e doações voltadas para a comunidade — tudo em uma única plataforma.",
+    "shopBtn": "Explore o mercado",
+    "credonBtn": "Saiba mais sobre Credon"
+  },
+  "features": {
+    "title": "Uma plataforma, três pilares",
+    "marketplace": "Mercado justo",
+    "marketplaceDesc": "Compre e venda com supervisão divina. Leilões, classificados e aquisições — tudo com garantias de justiça integradas.",
+    "credon": "Moeda Credonte",
+    "credonDesc": "Moeda clone estável e apoiada pela fé. Ganhe bônus em cada compra. Acessível em todo o mundo em mais de 84 denominações.",
+    "sacred": "Comércio Sagrado",
+    "sacredDesc": "Doações que se multiplicam. Coleções de oração USB. Cada transação constrói uma comunidade e sustenta a missão."
+  },
+  "donate": {
+    "title": "Dê e será multiplicado",
+    "desc": "Sua generosidade se espalha. Cada doação rende bônus Credon, amplificando seu impacto na comunidade.",
+    "seed": "Semente",
+    "growth": "Crescimento",
+    "harvest": "Colheita",
+    "custom": "Personalizado",
+    "anyAmount": "Qualquer valor",
+    "donateBtn": "Doe agora",
+    "bonusLabel": "Bônus Credão",
+    "bonusEarns": "Sua doação de US$ 50 rende",
+    "multiplier": "Multiplicador de 10x na sua 1ª doação"
+  },
+  "usb": {
+    "title": "Coleção Premium de Oração USB",
+    "desc": "Uma coleção lindamente elaborada de orações, meditações e textos sagrados — em uma unidade USB de metal premium. Inclui download digital.",
+    "feature1": "Coleção de orações selecionada",
+    "feature2": "Unidade USB de metal premium",
+    "feature3": "Compatível com todos os dispositivos",
+    "feature4": "Inclui código de download digital",
+    "feature5": "Frete grátis para todo o mundo",
+    "purchaseBtn": "Compre agora"
+  },
+  "nav": {
+    "shop": "Comprar",
+    "credon": "Credão",
+    "about": "Sobre",
+    "signIn": "Entrar",
+    "getStarted": "Comece"
+  },
+  "footer": {
+    "desc": "Comércio divinamente subscrito para um mundo conectado. Compre, dê e cresça juntos.",
+    "marketplace": "Mercado",
+    "community": "Comunidade",
+    "browse": "Navegar",
+    "sell": "Vender",
+    "auctions": "Leilões",
+    "procurement": "Aquisições",
+    "wallet": "Carteira",
+    "exchange": "Intercâmbio",
+    "bonuses": "Bônus",
+    "getInvited": "Seja convidado",
+    "donateFooter": "Doar",
+    "usbFooter": "Oração USB",
+    "contact": "Contato",
+    "copyright": "© 2026 HeavensLive · Todas as moedas exibidas são moedas clones do Credon para teste"
+  },
+  "prayer": {
+    "label": "Áudio de oração",
+    "download": "Download grátis"
+  }
+}

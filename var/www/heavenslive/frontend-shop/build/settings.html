@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Settings — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--radius:12px;--success:#2ECC71;--danger:#E74C3C}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);overflow-x:hidden;max-width:100vw}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:14px;align-items:center}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--text)}
+.container{max-width:700px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.4rem;margin-bottom:4px}h2{color:var(--gold);font-size:1rem;margin:0 0 12px 0}.muted{color:var(--muted);font-size:.82rem}
+.toggle{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}.toggle .info{flex:1}.toggle .info h3{color:var(--text);font-size:.88rem;margin-bottom:2px}.toggle .info p{color:var(--muted);font-size:.74rem}
+.switch{position:relative;width:44px;height:24px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.1);border-radius:24px;transition:.2s}.slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:var(--text);border-radius:50%;transition:.2s}input:checked+.slider{background:var(--gold)}input:checked+.slider:before{transform:translateX(20px);background:var(--darker)}
+.form-group{margin-bottom:14px}.form-group label{display:block;color:var(--muted);font-size:.75rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}.form-group select,.form-group input{width:100%;padding:10px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.85rem}.form-group select:focus,.form-group input:focus{outline:none;border-color:var(--gold)}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.84rem;background:var(--gold);color:var(--darker)}.btn.danger{background:rgba(231,76,60,.1);color:var(--danger);border:1px solid rgba(231,76,60,.3)}.btn.outline{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
+footer{background:#1A1A2E;border-top:1px solid rgba(200,169,81,.1);padding:20px;text-align:center;margin-top:40px;font-size:.75rem;color:var(--muted)}footer a{color:var(--muted);text-decoration:none;margin:0 10px}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.settings">⚙️ Settings</div><div class="nav-links"><a href="/shop/">Browse</a> · <a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
+<div class="container">
+<h1 data-i18n="brand.settings">⚙️ Settings</h1><p class="muted" data-i18n="page.sub_manage_preferences">Manage your account preferences and notifications</p>
+
+<div class="card" style="margin-top:16px">
+  <h2 data-i18n="page.h2_language_region">Language & Region</h2>
+  <div class="form-group"><label data-i18n="page.label_display_language">Display Language</label><select id="displayLang"><option value="en">English</option><option value="ar">العربية</option><option value="de">Deutsch</option><option value="es">Español</option><option value="fa">فارسی</option><option value="fr">Français</option><option value="hi">हिन्दी</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="pt">Português</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="tl">Tagalog</option><option value="tr">Türkçe</option><option value="ur">اردو</option><option value="vi">Tiếng Việt</option><option value="zh">中文</option></select></div>
+  <div class="form-group"><label data-i18n="page.label_currency_display">Currency Display</label><select id="displayCurrency"><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option><option value="JPY">JPY (¥)</option></select></div>
+  <button class="btn" onclick="saveLang()" data-i18n="page.btn_save">💾 Save</button>
+</div>
+
+<div class="card">
+  <h2 data-i18n="page.h2_notifications">Notifications</h2>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_email_notifs">Email Notifications</h3><p data-i18n="page.p_email_notifs">Receive order updates, messages, and promotions</p></div><label class="switch"><input type="checkbox" id="emailNotif" checked><span class="slider"></span></label></div>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_browser_notifs">Browser Notifications</h3><p data-i18n="page.p_browser_notifs">Get notified even when you're not on the site</p></div><label class="switch"><input type="checkbox" id="browserNotif"><span class="slider"></span></label></div>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_marketing_emails">Marketing Emails</h3><p data-i18n="page.p_marketing_emails">News, offers, and marketplace updates</p></div><label class="switch"><input type="checkbox" id="marketingEmail"><span class="slider"></span></label></div>
+  <button class="btn" onclick="saveNotifs()" data-i18n="page.btn_save">💾 Save</button>
+</div>
+
+<div class="card">
+  <h2 data-i18n="page.h2_account">Account</h2>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_change_password">Change Password</h3><p data-i18n="page.p_change_password">Update your account password</p></div><button class="btn outline" onclick="location.href='/credon/'" style="font-size:.75rem;padding:6px 14px" data-i18n="page.btn_change">Change</button></div>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_delete_account">Delete Account</h3><p data-i18n="page.p_delete_account">Permanently delete your account and all data</p></div><button class="btn danger" onclick="if(confirm('Delete your account permanently?'))alert('Contact support to complete deletion')" style="font-size:.75rem;padding:6px 14px" data-i18n="page.btn_delete">Delete</button></div>
+</div>
+
+<div class="card" style="text-align:center">
+  <p class="muted" style="margin-bottom:8px" data-i18n="page.session_info">Signed in as <span id="sessEmail">...</span></p>
+  <button class="btn danger" onclick="localStorage.clear();location.href='/credon/'" data-i18n="nav.signOut">🚪 Sign Out</button>
+</div>
+</div>
+<footer><a href="/shop/">Browse</a> · <a href="/shop/create">Create Listing</a> · <a href="/credon/wallet">Credon Wallet</a> · <a href="/shop/help">Help</a> · <a href="/shop/terms">Terms</a></footer>
+<script src="/i18n.js"></script>
+<script>
+// Restore saved preferences
+var sl=localStorage.getItem('hl-lang')||'en';
+document.getElementById('displayLang').value=sl;
+// Show email
+var T=localStorage.getItem('token');
+if(T)try{var p=JSON.parse(atob(T.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));document.getElementById('sessEmail').textContent=p.email}catch(e){}
+
+function saveLang(){
+  var l=document.getElementById('displayLang').value;
+  localStorage.setItem('hl-lang',l);
+  var c=document.getElementById('displayCurrency').value;
+  localStorage.setItem('hl-currency',c);
+  if(typeof switchLang==='function')switchLang(l);
+  alert('Saved!');
+}
+function saveNotifs(){alert('Preferences saved!')}
+</script>
+</body></html>

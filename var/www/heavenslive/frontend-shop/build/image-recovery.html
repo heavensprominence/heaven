@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Image Recovery — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--red:#E74C3C;--green:#2ECC71;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);padding:20px}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between;margin-bottom:20px}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:900px;margin:0 auto}h1{color:var(--gold);margin-bottom:4px}.sub{color:var(--muted);margin-bottom:20px}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+.listing-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.listing-row .info{flex:1}.listing-row .title{color:var(--text);font-weight:600}.listing-row .path{color:var(--muted);font-size:.7rem;font-family:monospace}
+.listing-row .broken{color:var(--red);font-size:.7rem}
+.btn{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:.75rem;font-weight:600}
+.btn-gold{background:var(--gold);color:var(--darker)}.btn-green{background:var(--green);color:white}
+.btn-o{background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text)}
+input[type=file]{font-size:.75rem;color:var(--muted)}
+.status{font-size:.7rem;margin-left:8px}
+</style></head><body>
+<nav><div class="nav-brand">🖼️ Image Recovery</div><div class="nav-links"><a href="/shop/admin-dashboard">← Admin</a></div></nav>
+<div class="container">
+<h1>Recover Lost Images</h1>
+<p class="sub">These listings have image URLs pointing to files that failed during VPS migration. Upload the matching image from your phone or computer to restore them.</p>
+<div id="listingList">Loading...</div>
+<p style="margin-top:16px;color:var(--muted);font-size:.75rem;text-align:center">🛡️ Automated daily backups now protect new uploads from loss.</p>
+</div>
+
+<script src="/error-recovery.js"></script>
+<script>
+var T=localStorage.getItem("token");if(!T)location.href="/credon/";
+
+async function load(){
+  try{
+    var r=await fetch('/api/admin/listings?limit=50',{headers:{Authorization:"Bearer "+T}});
+    var d=await r.json();
+    var items=(d.listings||[]).filter(function(l){return l.images&&l.images.length>0});
+    if(!items.length){document.getElementById('listingList').innerHTML='<div class="card" style="text-align:center;color:var(--muted)">✅ No broken images found</div>';return}
+    
+    // Check which images exist (by trying to fetch them)
+    var html='';
+    for(var i=0;i<items.length;i++){
+      var l=items[i],img=l.images[0];
+      html+='<div class="listing-row"><div class="info"><div class="title">'+l.title+'</div><div class="path">'+img+'</div></div>'+
+        '<input type="file" accept="image/*" onchange="uploadImage(event,\''+l.id+'\',\''+i+'\')" style="max-width:200px">'+
+        '<span class="status" id="st'+i+'"></span></div>';
+    }
+    document.getElementById('listingList').innerHTML=html;
+    
+    // Check which images 404 in background
+    for(i=0;i<items.length;i++){
+      var img=items[i].images[0];
+      fetch(img).then(function(r){
+        var idx = arguments[1];
+        return r.ok ? null : idx;
+      }.bind(null,i)).then(function(idx){
+        if(idx!==null)document.getElementById('st'+idx).innerHTML='<span style="color:var(--red)">❌ Missing (404)</span>';
+        else document.getElementById('st'+idx).innerHTML='<span style="color:var(--green)">✅ OK</span>';
+      });
+    }
+  }catch(e){}
+}
+
+async function uploadImage(e,listingId,idx){
+  var file=e.target.files[0];if(!file)return;
+  var st=document.getElementById('st'+idx);st.innerHTML='⏳ Uploading...';st.style.color='var(--gold)';
+  
+  var reader=new FileReader();
+  reader.onload=async function(ev){
+    var base64=ev.target.result;
+    try{
+      var r=await fetch('/api/admin/recover-image',{method:'POST',headers:{'Content-Type':'application/json',Authorization:"Bearer "+T},body:JSON.stringify({listingId:listingId,image:base64})});
+      var d=await r.json();
+      if(d.success){st.innerHTML='✅ Restored!';st.style.color='var(--green)';load()}
+      else{st.innerHTML='❌ '+(d.error||'Failed');st.style.color='var(--red)'}
+    }catch(e){st.innerHTML='❌ Error';st.style.color='var(--red)'}
+  };
+  reader.readAsDataURL(file);
+}
+
+load();
+</script>
+</body></html>

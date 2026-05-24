@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Listing — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.container{max-width:800px;margin:0 auto;padding:24px 20px}
+.card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid rgba(255,255,255,.05)}
+h1{color:var(--gold)}.price{font-size:2rem;font-weight:800;color:var(--gold);margin:12px 0}
+.meta{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:.85rem;color:var(--muted)}
+.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}.btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+</style><script src="/error-recovery.js"></script>
+</head><body>
+<nav><div class="nav-inner" style="display:flex;align-items:center;gap:12px"><span class="nav-brand">HeavensMarket</span><select id="langSel" onchange="switchLang(this.value)" style="padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;font-size:.75rem"><option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="es">🇪🇸 Español</option><option value="de">🇩🇪 Deutsch</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="pt">🇵🇹 Português</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="vi">🇻🇳 Tiếng Việt</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option><option value="sv">🇸🇪 Svenska</option><option value="tl">🇵🇭 Tagalog</option></select><a href="/shop/" style="color:var(--text);text-decoration:none;font-size:.85rem" data-i18n="detail.backToShop">Back to Shop</a></div></nav>
+<div class="container"><div id="content"><div style="text-align:center;padding:40px;color:var(--muted)">Loading...</div></div></div>
+<script>
+// Extract listing ID from URL path
+var path = location.pathname;
+var id = path.substring(path.lastIndexOf('/') + 1);
+var sellerId = '';
+if (!id || id === 'listing') { location.href = '/shop/'; }
+
+var lang=localStorage.getItem("hl-lang")||"en";
+fetch('/api/shop/listings/' + id + '?lang=' + lang)
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    var l = d.listing;
+    sellerId = l.seller_id || '';
+    if (!l) {
+      document.getElementById('content').innerHTML = '<h1>Not Found</h1>';
+      return;
+    }
+    var price;
+    if (l.type === 'auction') price = 'Starting bid: $' + ((l.min_bid_cents||0)/100).toFixed(2);
+    else if (l.type === 'reverse_auction') price = 'Budget: $' + ((l.max_bid_cents||0)/100).toFixed(2);
+    else if (l.price_cents === 0) price = 'FREE';
+    else price = '$' + ((l.price_cents||0)/100).toFixed(2);
+    
+    document.getElementById('content').innerHTML =
+      '<div class="card">' +
+      (l.images && l.images[0] ? '<img src="' + l.images[0] + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:16px">' :
+      '<div style="width:100%;height:300px;background:linear-gradient(135deg,#16213E,#0F0F1A);border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:5rem">📦</div>') +
+      '<h1>' + (l.title||'') + '</h1>' +
+      '<div class="meta"><span>📍 ' + (l.location_city||'Online') + '</span><span>📅 ' + new Date(l.created_at).toLocaleDateString() + '</span><span>👤 ' + (l.seller_name||l.seller_email||'Seller') + '</span><span>🏪 ' + (l.store_name||'Personal') + '</span></div>' +
+      '<div class="price">' + price + '</div>' +
+      '<p style="margin:16px 0;line-height:1.6">' + (l.description||'') + '</p>' +
+      (l.quantity_available ? '<p style="color:var(--muted);font-size:.85rem)">Qty: ' + l.quantity_available + '</p>' : '') +
+      '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()" data-i18n="detail.addToCart">Add to Cart</button><button class="btn-o" onclick="msgSeller()" data-i18n="detail.messageSeller">Message Seller</button></div></div>';
+    
+    // SEO: Inject JSON-LD structured data + meta tags for Google Shopping
+    injectSEO(l);
+  })
+  .catch(function(e) {
+    document.getElementById('content').innerHTML = '<h1>Error loading listing</h1><p>' + e.message + '</p>';
+  });
+
+function addCart() {
+  var T = localStorage.getItem('token');
+  var h = {'Content-Type': 'application/json'};
+  if (T) h['Authorization'] = 'Bearer ' + T;
+  var b = {listingId: id, quantity: 1};
+  var gt = localStorage.getItem('hl-guest-token');
+  if (!T && gt) h['X-Guest-Token'] = gt;
+  fetch('/api/shop/cart/add', {
+    method: 'POST',
+    headers: h,
+    body: JSON.stringify(b)
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.guest_token) localStorage.setItem('hl-guest-token', d.guest_token);
+    alert(d.success ? 'Added!' : (d.error || 'Failed'));
+  });
+}
+function msgSeller() {
+  var T = localStorage.getItem('token');
+  if (!T) { alert('Sign in to message'); location.href = '/credon/'; return; }
+  var msg = prompt('Send a message to the seller:');
+  if (!msg || !msg.trim()) return;
+  var sellerId2 = sellerId;
+  fetch('/api/shop/messages/conversations', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + T},
+    body: JSON.stringify({listingId: id, sellerId: sellerId2, initialMessage: msg.trim()})
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.success) { alert('Message sent! Check Messages for replies.'); location.href = '/shop/messages'; }
+    else { alert(d.error || 'Failed to send'); }
+  }).catch(function() { alert('Error sending message'); });
+}
+// SEO: Inject structured data for Google Shopping
+function injectSEO(l){
+  // Update page title
+  document.title = (l.title||'Listing') + ' — HeavensLive';
+  
+  // Add meta description
+  var meta=document.createElement('meta');meta.name='description';meta.content=(l.description||'').substring(0,160);document.head.appendChild(meta);
+  
+  // Open Graph
+  var ogt=document.createElement('meta');ogt.setAttribute('property','og:title');ogt.content=l.title||'';document.head.appendChild(ogt);
+  var ogd=document.createElement('meta');ogd.setAttribute('property','og:description');ogd.content=(l.description||'').substring(0,200);document.head.appendChild(ogd);
+  if(l.images&&l.images[0]){var ogi=document.createElement('meta');ogi.setAttribute('property','og:image');ogi.content=l.images[0];document.head.appendChild(ogi)}
+  var ogu=document.createElement('meta');ogu.setAttribute('property','og:url');ogu.content=location.href;document.head.appendChild(ogu);
+  
+  // JSON-LD Product structured data for Google Shopping
+  var price=((l.price_cents||0)/100).toFixed(2);
+  var ld={
+    '@context':'https://schema.org',
+    '@type':'Product',
+    'name':l.title||'',
+    'description':(l.description||'').substring(0,500),
+    'image':l.images&&l.images[0]?l.images[0]:null,
+    'offers':{
+      '@type':'Offer',
+      'price':price,
+      'priceCurrency':l.currency||'USD',
+      'availability':l.status==='active'?'https://schema.org/InStock':'https://schema.org/OutOfStock',
+      'url':location.href
+    }
+  };
+  if(l.seller_name){ld['brand']={'@type':'Brand','name':l.seller_name}}
+  var script=document.createElement('script');script.type='application/ld+json';script.text=JSON.stringify(ld);document.head.appendChild(script);
+}
+</script><script src="/i18n.js"></script>
+<script>
+document.getElementById('langSel').value = localStorage.getItem('hl-lang') || 'en';
+</script>
+<!-- Default Statcounter code for HeavenS on Earth
+https://heavenslive.com -->
+<script type="text/javascript">
+var sc_project=13203022; 
+var sc_invisible=1; 
+var sc_security="eb001532"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="hit counter"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13203022/0/eb001532/1/"
+alt="hit counter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</body></html>

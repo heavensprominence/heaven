@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "Divinely <span class=\"gold\">Underwritten</span><br>for All of Us",
+    "subtitle": "基于信仰的商业、公平货币和社区驱动的捐赠——一切都在一个平台上。",
+    "shopBtn": "探索市场",
+    "credonBtn": "了解克雷登"
+  },
+  "features": {
+    "title": "一个平台，三大支柱",
+    "marketplace": "公平市场",
+    "marketplaceDesc": "在神圣的监督下买卖。拍卖、分类广告和采购——所有这些都具有内置的公平保证。",
+    "credon": "信用货币",
+    "credonDesc": "稳定的、有信仰支持的克隆货币。每次购买均可赚取奖金。在全球范围内有超过 84 种面额可供使用。",
+    "sacred": "神圣商业",
+    "sacredDesc": "捐款成倍增加。 USB祈祷集。每笔交易都建立社区并维持使命。"
+  },
+  "donate": {
+    "title": "付出，就会倍增",
+    "desc": "你的慷慨会向外蔓延。每笔捐款都会获得 Credon 奖金，从而扩大您在整个社区的影响力。",
+    "seed": "种子",
+    "growth": "生长",
+    "harvest": "收成",
+    "custom": "风俗",
+    "anyAmount": "任意金额",
+    "donateBtn": "立即捐款",
+    "bonusLabel": "信用奖金",
+    "bonusEarns": "您的 50 美元捐款可赚取",
+    "multiplier": "第一次捐款即可获得 10 倍乘数"
+  },
+  "usb": {
+    "title": "高级USB祈祷集",
+    "desc": "精心制作的祈祷、冥想和神圣文本的集合 - 位于优质金属 USB 驱动器上。包括数字下载。",
+    "feature1": "精心策划的祈祷文集",
+    "feature2": "优质金属 U 盘",
+    "feature3": "与所有设备兼容",
+    "feature4": "包括数字下载代码",
+    "feature5": "全球免费送货",
+    "purchaseBtn": "立即购买"
+  },
+  "nav": {
+    "shop": "店铺",
+    "credon": "克雷登",
+    "about": "关于",
+    "signIn": "登入",
+    "getStarted": "开始使用"
+  },
+  "footer": {
+    "desc": "为互联世界提供神圣的商业保障。一起购物、给予和成长。",
+    "marketplace": "市场",
+    "community": "社区",
+    "browse": "浏览",
+    "sell": "卖",
+    "auctions": "拍卖",
+    "procurement": "采购",
+    "wallet": "钱包",
+    "exchange": "交换",
+    "bonuses": "奖金",
+    "getInvited": "获得邀请",
+    "donateFooter": "捐",
+    "usbFooter": "USB祈祷",
+    "contact": "接触",
+    "copyright": "© 2026 HeavensLive · 所有显示的货币均为用于测试的 Credon 克隆货币"
+  },
+  "prayer": {
+    "label": "祷告音频",
+    "download": "免费下载"
+  }
+}
