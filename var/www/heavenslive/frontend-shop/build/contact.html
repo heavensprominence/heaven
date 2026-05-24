@@ -7,6 +7,19 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}
 input,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);margin-bottom:8px}
 </style></head><body>
-<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
-<div class="container"><h1 data-i18n="brand.contactUs">Contact Us</h1><div class="card"><input placeholder="Name"><input type="email" placeholder="Email"><textarea placeholder="Message"></textarea><button class="btn">Send</button></div></div><script src="/auth.js"></script><script src="/i18n.js"></script>
+<nav><div class="nav-brand" data-i18n="brand.title">HeavensLive</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
+<div class="container"><h1 data-i18n="brand.contactUs">Contact Us</h1><div class="card" id="contactForm"><input id="contactName" placeholder="Name"><input type="email" id="contactEmail" placeholder="Email"><textarea id="contactMsg" placeholder="Message"></textarea><button class="btn" onclick="submitContact()">Send</button><div id="contactStatus" style="display:none;margin-top:12px;padding:12px;border-radius:8px"></div></div></div>
+<script>var T=localStorage.getItem('token')||'';
+async function submitContact(){
+  var n=document.getElementById('contactName').value.trim(),e=document.getElementById('contactEmail').value.trim(),m=document.getElementById('contactMsg').value.trim(),s=document.getElementById('contactStatus');
+  if(!n||!e||!m){s.style.display='block';s.style.background='rgba(231,76,60,.15)';s.style.color='#E74C3C';s.textContent='Please fill in all fields.';return}
+  s.style.display='block';s.style.background='rgba(200,169,81,.1)';s.style.color='var(--gold)';s.textContent='Sending...';
+  try{
+    var r=await fetch('/api/shop/support/contact',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({name:n,email:e,subject:'Contact Form',message:m,category:'general'})});
+    var d=await r.json();
+    if(d.success){s.style.background='rgba(46,204,113,.15)';s.style.color='#2ECC71';s.textContent=d.message||'Message sent! We will respond shortly.';document.getElementById('contactName').value='';document.getElementById('contactEmail').value='';document.getElementById('contactMsg').value=''}
+    else{s.style.background='rgba(231,76,60,.15)';s.style.color='#E74C3C';s.textContent=d.error||'Failed to send message.'}
+  }catch(x){s.style.background='rgba(231,76,60,.15)';s.style.color='#E74C3C';s.textContent='Network error. Please try again or email service@heavenslive.com'}
+}
+</script><script src="/auth.js"></script><script src="/i18n.js"></script>
 </body></html>
