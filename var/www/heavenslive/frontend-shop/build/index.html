@@ -49,7 +49,7 @@ footer{background:var(--card);border-top:1px solid rgba(200,169,81,0.1);padding:
 }</style>
 <script type="module">
 // PowerSync Web — local-first offline data (WASM SQLite)
-import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js';
+import { PowerSyncDatabase } from 'https://esm.sh/@powersync/web';
 window.PowerSync = { PowerSyncDatabase };
 </script>
 <script src="/error-recovery.js"></script>
@@ -197,7 +197,7 @@ var PS = null; // PowerSync database instance
     var openFactory = window.PowerSync.PowerSyncDatabase.withOpenFactory;
     if (!openFactory) return;
     
-    PS = new (await import('https://cdn.jsdelivr.net/npm/@powersync/web@latest/dist/index.js')).PowerSyncDatabase({
+    PS = new (await import('https://esm.sh/@powersync/web')).PowerSyncDatabase({
       schema: {
         listings: { columns: ['id', 'title', 'description', 'price', 'currency', 'type', 'category', 'images', 'seller_id', 'status', 'created_at'] },
         shop_categories: { columns: ['slug', 'name', 'icon', 'parent_slug'] },
