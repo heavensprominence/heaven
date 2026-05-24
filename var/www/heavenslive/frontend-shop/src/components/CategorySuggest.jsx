@@ -11,6 +11,10 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
     const [needsLogin, setNeedsLogin] = useState(false);
     const [validating, setValidating] = useState(true);
     const [validToken, setValidToken] = useState(null);
+    const [parentCategory, setParentCategory] = useState(currentCategory || '');
+    const [categories, setCategories] = useState([]);
+    const [expandedNodes, setExpandedNodes] = useState(new Set());
+    const [loadingTree, setLoadingTree] = useState(false);
 
     // Validate token on mount
     useEffect(() => {
@@ -32,7 +36,6 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
                     setValidToken(token);
                     setNeedsLogin(false);
                 } else {
-                    // Token is invalid - clear it
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     setNeedsLogin(true);
@@ -46,6 +49,77 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
         
         validateToken();
     }, []);
+
+    // Load category tree
+    useEffect(() => {
+        const loadTree = async () => {
+            setLoadingTree(true);
+            try {
+                const res = await axios.get('/api/shop/categories/tree?all=true');
+                setCategories(res.data.categories || []);
+                // Auto-expand to show the current category
+                if (currentCategory) {
+                    const toExpand = new Set();
+                    const findPath = (cats, target, path) => {
+                        for (const cat of cats) {
+                            if (cat.slug === target) {
+                                path.forEach(p => toExpand.add(p));
+                                return true;
+                            }
+                            if (cat.subcategories && findPath(cat.subcategories, target, [...path, cat.slug])) {
+                                toExpand.add(cat.slug);
+                                return true;
+                            }
+                        }
+                        return false;
+                    };
+                    findPath(res.data.categories || [], currentCategory, []);
+                    setExpandedNodes(toExpand);
+                }
+            } catch (e) { console.error('Failed to load category tree:', e); }
+            finally { setLoadingTree(false); }
+        };
+        loadTree();
+    }, [currentCategory]);
+
+    const toggleExpand = (slug) => {
+        const newExpanded = new Set(expandedNodes);
+        newExpanded.has(slug) ? newExpanded.delete(slug) : newExpanded.add(slug);
+        setExpandedNodes(newExpanded);
+    };
+
+    const renderCategoryTree = (cats, depth = 0) => {
+        return cats.map(cat => {
+            const hasChildren = cat.subcategories && cat.subcategories.length > 0;
+            const isExpanded = expandedNodes.has(cat.slug);
+            const isSelected = parentCategory === cat.slug;
+            const indent = '— '.repeat(depth);
+            return (
+                <div key={cat.slug} className="category-tree-item">
+                    <div className="category-row">
+                        <button 
+                            className={`category-btn suggest-tree-btn ${isSelected ? 'active' : ''}`}
+                            onClick={() => setParentCategory(cat.slug)}
+                            style={{ paddingLeft: `${depth * 20 + 12}px` }}
+                        >
+                            <span>{indent}{cat.icon || '📁'} {cat.name}</span>
+                            <span className="count">({cat.count || 0})</span>
+                        </button>
+                        {hasChildren && (
+                            <button className="expand-btn" onClick={(e) => { e.stopPropagation(); toggleExpand(cat.slug); }}>
+                                {isExpanded ? '▼' : '▶'}
+                            </button>
+                        )}
+                    </div>
+                    {hasChildren && isExpanded && (
+                        <div className="subcategory-container">
+                            {renderCategoryTree(cat.subcategories, depth + 1)}
+                        </div>
+                    )}
+                </div>
+            );
+        });
+    };
 
     const submitSuggestion = async (name, desc, category) => {
         if (!validToken) {
@@ -72,7 +146,6 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
             }
         } catch (err) {
             if (err.response?.status === 401) {
-                // Token rejected - clear it
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 setValidToken(null);
@@ -94,22 +167,22 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
             return;
         }
         
-        await submitSuggestion(suggestedName, description, currentCategory);
+        if (!parentCategory) {
+            setError('Please select a parent category from the tree below.');
+            return;
+        }
+        
+        await submitSuggestion(suggestedName, description, parentCategory);
     };
 
     const handleLogin = () => {
-        // Store current location to return after login
         const returnPath = window.location.pathname + window.location.search + window.location.hash;
         sessionStorage.setItem('shopReturnPath', returnPath);
-        
-        // Clear any stale tokens
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        
         const loginPath = window.location.hostname === 'shop.heavenslive.com' 
             ? '/login'
             : '/shop/login';
-        
         window.location.href = loginPath;
     };
 
@@ -174,6 +247,16 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
                     onChange={(e) => setDescription(e.target.value)}
                     rows={3}
                 />
+                <div className="form-group">
+                    <label>Parent Category: <strong>{parentCategory || 'None selected'}</strong></label>
+                    {loadingTree ? (
+                        <div className="loading-subcategories">Loading category tree...</div>
+                    ) : (
+                        <div className="category-tree-scroll">
+                            {renderCategoryTree(categories)}
+                        </div>
+                    )}
+                </div>
                 {error && (
                     <div className="error-message">
                         {error}
@@ -188,7 +271,7 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
                     </div>
                 )}
                 <div className="suggest-actions">
-                    <button type="submit" disabled={loading}>
+                    <button type="submit" disabled={loading || !parentCategory}>
                         {loading ? 'Submitting...' : 'Submit for Review'}
                     </button>
                     <button type="button" onClick={onClose} className="cancel-btn">
@@ -196,7 +279,7 @@ const CategorySuggest = ({ currentCategory, onClose }) => {
                     </button>
                 </div>
                 <p className="suggest-note">
-                    📝 Your suggestion will be reviewed by our admin team.
+                    📝 Select a parent category above, then name your suggested subcategory.
                 </p>
             </form>
         </div>

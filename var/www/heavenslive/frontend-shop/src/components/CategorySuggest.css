@@ -102,3 +102,43 @@
 .login-btn:hover {
     background: #ffed4a !important;
 }
+
+.category-tree-scroll {
+    max-height: 250px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.suggest-tree-btn {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: #ccc;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.suggest-tree-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.suggest-tree-btn.active {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.suggest-note {
+    color: #888;
+    font-size: 0.75rem;
+    margin-top: 8px;
+    text-align: center;
+}
