@@ -6,10 +6,7 @@ const CategorySuggestions = ({ token: propToken }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [selectedSuggestion, setSelectedSuggestion] = useState(null);
-    const [displayName, setDisplayName] = useState('');
-    const [icon, setIcon] = useState('📦');
     const [rejectReason, setRejectReason] = useState('');
-    const [showApproveModal, setShowApproveModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
 
     // Get token from prop or localStorage
@@ -55,18 +52,14 @@ const CategorySuggestions = ({ token: propToken }) => {
         }
     };
 
-    const handleApprove = async () => {
+    const handleDirectApprove = async (suggestionId, name) => {
         try {
-            await axios.post(`/api/shop/categories/suggestions/${selectedSuggestion}/approve`, {
-                displayName,
-                icon
+            await axios.post(`/api/shop/categories/suggestions/${suggestionId}/approve`, {
+                displayName: name,
+                icon: '📁'
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setShowApproveModal(false);
-            setSelectedSuggestion(null);
-            setDisplayName('');
-            setIcon('📦');
             fetchSuggestions();
         } catch (err) {
             alert('Failed to approve: ' + (err.response?.data?.error || err.message));
@@ -88,8 +81,6 @@ const CategorySuggestions = ({ token: propToken }) => {
             alert('Failed to reject: ' + (err.response?.data?.error || err.message));
         }
     };
-
-    const icons = ['📦', '📱', '👕', '🏠', '🏆', '🚗', '🛠️', '💎', '🎮', '📚', '🎵', '🐾', '🌿', '🍔', '💄'];
 
     if (loading) return <div className="loading-message">Loading suggestions...</div>;
     
@@ -133,12 +124,7 @@ const CategorySuggestions = ({ token: propToken }) => {
                                 <td>
                                     <button 
                                         className="approve-btn"
-                                        onClick={() => {
-                                            setSelectedSuggestion(s.id);
-                                            setDisplayName(s.suggested_name);
-                                            setIcon('📦');
-                                            setShowApproveModal(true);
-                                        }}
+                                        onClick={() => handleDirectApprove(s.id, s.suggested_name)}
                                     >
                                         ✅ Approve
                                     </button>
@@ -156,49 +142,6 @@ const CategorySuggestions = ({ token: propToken }) => {
                         ))}
                     </tbody>
                 </table>
-            )}
-
-            {showApproveModal && (
-                <div className="modal-overlay">
-                    <div className="modal">
-                        <h3>Approve Category</h3>
-                        <div className="form-group">
-                            <label>Display Name</label>
-                            <input
-                                type="text"
-                                value={displayName}
-                                onChange={(e) => setDisplayName(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Icon</label>
-                            <input
-                                type="text"
-                                value={icon}
-                                onChange={(e) => setIcon(e.target.value)}
-                                placeholder="📦"
-                                maxLength={4}
-                                style={{fontSize:'1.5rem',textAlign:'center',width:'80px'}}
-                            />
-                            <div className="icon-selector">
-                                {icons.map(i => (
-                                    <button
-                                        key={i}
-                                        type="button"
-                                        className={`icon-btn ${icon === i ? 'active' : ''}`}
-                                        onClick={() => setIcon(i)}
-                                    >
-                                        {i}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="modal-actions">
-                            <button onClick={handleApprove} className="confirm-btn">Approve</button>
-                            <button onClick={() => setShowApproveModal(false)} className="cancel-btn">Cancel</button>
-                        </div>
-                    </div>
-                </div>
             )}
 
             {showRejectModal && (

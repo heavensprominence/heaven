@@ -87,7 +87,7 @@ function App() {
         <Route path="/disputes" element={<ProtectedRoute requireAuth={true}><Disputes /></ProtectedRoute>} />
         <Route path="/disputes/new" element={<ProtectedRoute requireAuth={true}><FileDispute /></ProtectedRoute>} />
         
-        <Route path="/admin" element={<ProtectedRoute requireAuth={true}><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute requireAuth={true} requireAdmin={true}><AdminDashboard /></ProtectedRoute>} />
         
         <Route path="*" element={<ShopHome />} />
       </Routes>

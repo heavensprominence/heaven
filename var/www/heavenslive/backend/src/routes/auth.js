@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
             { expiresIn: '24h' }
         );
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
-        res.json({ success: true, token, user: { id: user.id, email: user.email, full_name: user.full_name, referral_code: user.referral_code } });
+        res.json({ success: true, token, user: { id: user.id, email: user.email, full_name: user.full_name, is_super_admin: user.is_super_admin || false, referral_code: user.referral_code } });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -257,7 +257,7 @@ router.post('/verify-2fa', async (req, res) => {
     // Clear pending session
     await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
     
-    res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, referral_code: u.referral_code } });
+    res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, is_super_admin: u.is_super_admin || false, referral_code: u.referral_code } });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
