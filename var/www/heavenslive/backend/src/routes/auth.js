@@ -42,8 +42,21 @@ router.post('/login', async (req, res) => {
         const valid = await bcrypt.compare(password, user.password_hash);
         if (!valid) return res.status(401).json({ error: 'Invalid email or password' });
         
-        // If user has 2FA enabled, send email verification code
+        // If user has 2FA enabled, check for trusted device
         if (user.two_factor_enabled) {
+          const trustedCookie = req.cookies?.trusted_device;
+          if (trustedCookie && trustedCookie === 'hl_' + user.id) {
+            // Trusted device — skip 2FA
+            const token = jwt.sign(
+              { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
+              jwtSecret, { expiresIn: '24h' }
+            );
+            await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
+            res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
+            return res.json({ success: true, token, user: { id: user.id, email: user.email, full_name: user.full_name, is_super_admin: user.is_super_admin || false, referral_code: user.referral_code } });
+          }
+          
+          // New device — send 2FA code
           const crypto = require('crypto');
           const code = Math.floor(100000 + Math.random() * 900000).toString();
           const sessionId = crypto.randomBytes(16).toString('hex');
@@ -255,8 +268,9 @@ router.post('/verify-2fa', async (req, res) => {
       jwtSecret, { expiresIn: '24h' }
     );
     
-    // Clear pending session
+    // Clear pending session + mark device as trusted
     await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
+    res.cookie('trusted_device', 'hl_' + u.id, { httpOnly: false, sameSite: 'lax', maxAge: 365 * 24 * 60 * 60 * 1000 });
     res.cookie('is_admin', u.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
     res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, is_super_admin: u.is_super_admin || false, referral_code: u.referral_code } });
   } catch(e) { res.status(500).json({ error: e.message }); }
