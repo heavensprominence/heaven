@@ -162,10 +162,12 @@ app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
 
-// Admin pages — frontend ProtectedRoute handles admin check
-// API routes are protected at the backend level
+// Admin pages — require admin (cookie check, server-side)
 app.use((req, res, next) => {
   if (req.path === "/shop/admin" || (req.path.startsWith("/shop/admin/") && !req.path.startsWith("/shop/admin/api"))) {
+    if (req.cookies?.is_admin !== '1') {
+      return res.redirect('/shop/');
+    }
     res.set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
     res.set("Pragma", "no-cache");
     res.set("Expires", "0");
