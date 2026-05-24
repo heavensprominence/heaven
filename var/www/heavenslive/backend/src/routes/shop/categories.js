@@ -249,7 +249,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.put('/:category', async (req, res) => {
+router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
     try {
         const { category } = req.params;
         const { displayName, icon, isActive, parentCategory, lang, name } = req.body;
@@ -281,7 +281,7 @@ router.put('/:category', async (req, res) => {
     }
 });
 
-router.delete('/:category', async (req, res) => {
+router.delete('/:category', verifyToken, requireAdmin, async (req, res) => {
     await db.query('DELETE FROM shop_categories WHERE category = $1 OR parent_category = $1', [req.params.category]);
     res.json({ success: true });
 });
@@ -312,7 +312,7 @@ router.post('/suggest', async (req, res) => {
 });
 
 // Get pending category suggestions
-router.get('/suggestions/pending', async (req, res) => {
+router.get('/suggestions/pending', verifyToken, requireAdmin, async (req, res) => {
     try {
         const result = await db.query(
             "SELECT cs.*, u.email as user_email FROM category_suggestions cs LEFT JOIN users u ON cs.user_id = u.id WHERE cs.status = 'pending' ORDER BY cs.created_at DESC"
@@ -322,7 +322,7 @@ router.get('/suggestions/pending', async (req, res) => {
 });
 
 // Approve suggestion — auto-creates category + "Other" subcategory + translations
-router.post('/suggestions/:id/approve', async (req, res) => {
+router.post('/suggestions/:id/approve', verifyToken, requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const body = req.body || {};
@@ -404,7 +404,7 @@ router.post('/suggestions/:id/approve', async (req, res) => {
 });
 
 // Reject suggestion
-router.post('/suggestions/:id/reject', async (req, res) => {
+router.post('/suggestions/:id/reject', verifyToken, requireAdmin, async (req, res) => {
     try {
         const { reason } = req.body;
         await db.query("UPDATE category_suggestions SET status = 'rejected', admin_notes = $1, reviewed_at = NOW() WHERE id = $2", [reason || '', req.params.id]);
