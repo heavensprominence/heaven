@@ -56,10 +56,8 @@ router.post('/login', async (req, res) => {
           
           // Send verification code via email
           try {
-            const { sendEmail } = require('../services/emailService');
-            await sendEmail(user.email, 'Your Verification Code', 'verification_code', {
-              name: user.full_name || user.email.split('@')[0], code: code
-            });
+            const { sendLoginVerificationCode } = require('../services/emailService');
+            await sendLoginVerificationCode(user.email, code);
           } catch(e) { console.error('2FA email error:', e.message); }
           
           console.log(`2FA code for ${user.email}: ${code}`);
