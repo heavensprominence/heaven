@@ -15,7 +15,20 @@ import { PowerSyncDatabase } from 'https://cdn.jsdelivr.net/npm/@powersync/web@l
 window.PowerSyncDB = PowerSyncDatabase;
 </script>
 <script src="/error-recovery.js"></script>
-</head><body>
+</head><body><script>
+// Verify admin access
+(async function(){
+  var t = localStorage.getItem("token") || localStorage.getItem("hl-token");
+  if (!t) { window.location.replace("/credon/"); return; }
+  try {
+    var r = await fetch("/api/auth/me", { headers: { "Authorization": "Bearer " + t } });
+    if (!r.ok) { window.location.replace("/credon/"); return; }
+    var u = await r.json();
+    if (!u.is_super_admin) { window.location.replace("/credon/"); return; }
+  } catch(e) { window.location.replace("/credon/"); }
+})();
+</script>
+
 <nav><div class="nav-brand">⚙ Admin Panel</div><div class="nav-links"><a href="/credon/wallet">← Wallet</a><a href="/shop/">Shop</a><a href="/">Home</a></div></nav>
 <div class="container"><h1>⚙ Admin Panel</h1>
 <div class="tabs">
