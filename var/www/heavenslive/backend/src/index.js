@@ -356,6 +356,8 @@ app.post('/api/admin/translate-all-listings', async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+(async () => { try { const db = require('./db'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_session TEXT'); await db.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_2fa_expires TIMESTAMPTZ'); console.log('✅ 2FA columns ready'); } catch(e) { console.log('2FA migration:', e.message); } })();
+
 app.listen(PORT, () => console.log(`Server on http://localhost:${PORT}`));
 
 // Ensure user_sessions table exists

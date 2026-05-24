@@ -41,6 +41,19 @@ router.post('/login', async (req, res) => {
         const user = result.rows[0];
         const valid = await bcrypt.compare(password, user.password_hash);
         if (!valid) return res.status(401).json({ error: 'Invalid email or password' });
+        
+        // If user has 2FA enabled, require verification step
+        if (user.two_factor_enabled) {
+          const crypto = require('crypto');
+          const sessionId = crypto.randomBytes(16).toString('hex');
+          // Store pending 2FA session
+          await db.query(
+            'UPDATE users SET pending_2fa_session = $1, pending_2fa_expires = NOW() + INTERVAL \'10 minutes\' WHERE id = $2',
+            [sessionId, user.id]
+          );
+          return res.json({ requiresTwoFactor: true, sessionId, message: 'Enter the 6-digit verification code from your authenticator app.' });
+        }
+        
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
             jwtSecret,
@@ -201,20 +214,37 @@ router.post('/2fa/setup', verifyToken, async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// POST /api/auth/2fa/verify — verify 2FA code
-router.post('/2fa/verify', verifyToken, async (req, res) => {
+// POST /api/auth/2fa/verify — verify 2FA code and issue token
+router.post('/verify-2fa', async (req, res) => {
   try {
-    const { code } = req.body;
-    const user = await db.query('SELECT two_factor_secret FROM users WHERE id = $1', [req.userId]);
-    if (!user.rows[0]?.two_factor_secret) return res.status(400).json({ error: '2FA not set up' });
-    // TOTP verification stub — in production, use speakeasy or otplib
+    const { sessionId, code } = req.body;
+    if (!sessionId || !code) return res.status(400).json({ error: 'Session and code required' });
+    
+    // Find user with this pending 2FA session
+    const user = await db.query(
+      'SELECT * FROM users WHERE pending_2fa_session = $1 AND pending_2fa_expires > NOW()',
+      [sessionId]
+    );
+    if (user.rows.length === 0) return res.status(400).json({ error: 'Session expired. Please log in again.' });
+    
+    const u = user.rows[0];
+    // Verify TOTP code
     const crypto = require('crypto');
-    const expected = crypto.createHmac('sha1', user.rows[0].two_factor_secret).update(Math.floor(Date.now()/30000).toString()).digest('hex').substring(0,6);
-    if (code === expected) {
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ error: 'Invalid code' });
-    }
+    const expected = crypto.createHmac('sha1', u.two_factor_secret).update(Math.floor(Date.now()/30000).toString()).digest('hex').substring(0,6);
+    if (code !== expected) return res.status(400).json({ error: 'Invalid verification code.' });
+    
+    // Issue JWT token
+    const jwt = require('jsonwebtoken');
+    const { jwtSecret } = require('../config/auth');
+    const token = jwt.sign(
+      { id: u.id, email: u.email, isSuperAdmin: u.is_super_admin || false, referral_code: u.referral_code },
+      jwtSecret, { expiresIn: '24h' }
+    );
+    
+    // Clear pending session
+    await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, last_login = NOW() WHERE id = $1', [u.id]);
+    
+    res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, referral_code: u.referral_code } });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 

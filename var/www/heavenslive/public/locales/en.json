@@ -423,7 +423,7 @@
     "twofaDesc": "Enter the 6-digit code sent to your email",
     "twofaVerify": "Verify & Sign In",
     "registerTitle": "Create Account",
-    "inviteOnly": "🔑 Invite-only access",
+    "inviteOnly": "🎉 Free to join — lifetime Pro plan included!",
     "fullName": "Full Name",
     "referralCode": "Referral Code (optional)",
     "refPlaceholder": "Enter referral code if you have one",
@@ -499,5 +499,8 @@
   },
   "page": {
     "label_images": "📸 Images"
+  },
+  "hero": {
+    "joinBtn": "🚀 Join Free"
   }
 }
