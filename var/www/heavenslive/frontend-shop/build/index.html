@@ -156,7 +156,7 @@ window.PowerSync = { PowerSyncDatabase };
       <a href="/shop/wishlist" data-i18n="footer.wishlistFooter">Wishlist</a>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.support">Support</h4>
+      <h4 data-i18n="footer.support">Support</h4><p style="font-size:.8rem;color:var(--muted);margin-bottom:8px"><a href="mailto:service@heavenslive.com" style="color:var(--gold)">service@heavenslive.com</a></p>
       <a href="/shop/help" data-i18n="footer.help">Help Center</a>
       <a href="/shop/contact" data-i18n="footer.contact">Contact Us</a>
       <a href="/shop/gift-cards" data-i18n="footer.giftCards">Gift Cards</a>
@@ -539,12 +539,12 @@ async function sendChat(){
     var r=await fetch('/api/ai/support/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,history:chatHistory})});
     var d=await r.json();
     document.getElementById('aiLoading').remove();
-    var reply=d.reply||'Sorry, I had trouble answering. Please visit /shop/contact for help.';
+    var reply=d.reply||'Sorry, I had trouble answering. Please email service@heavenslive.com or visit /shop/contact for help.';
     chatHistory.push({role:'assistant',content:reply});
     msgs.innerHTML+='<div style="background:rgba(200,169,81,.1);padding:10px 12px;border-radius:8px;color:var(--text,#E8E6E3);align-self:flex-start;max-width:85%">'+reply+'</div>';
   }catch(e){
     document.getElementById('aiLoading').remove();
-    msgs.innerHTML+='<div style="background:rgba(231,76,60,.1);padding:10px 12px;border-radius:8px;color:#E74C3C;align-self:flex-start;max-width:85%">⚠️ Support chat unavailable. Visit <a href="/shop/contact" style="color:var(--gold)">/shop/contact</a></div>';
+    msgs.innerHTML+='<div style="background:rgba(231,76,60,.1);padding:10px 12px;border-radius:8px;color:#E74C3C;align-self:flex-start;max-width:85%">⚠️ Support chat unavailable. Email <a href="mailto:service@heavenslive.com" style="color:var(--gold)">service@heavenslive.com</a> or visit <a href="/shop/contact" style="color:var(--gold)">/shop/contact</a></div>';
   }
   msgs.scrollTop=msgs.scrollHeight;
 }
