@@ -124,7 +124,7 @@ router.post('/forgot-password', async (req, res) => {
         const expires = new Date(Date.now() + 3600000);
         await db.query('INSERT INTO password_resets (user_id, token, expires_at) VALUES ($1, $2, $3) ON CONFLICT (user_id) DO UPDATE SET token = $2, expires_at = $3', [user.id, token, expires]);
         const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/shop/reset-password?token=${token}`;
-        try { const { sendEmail } = require('../services/emailService'); await sendEmail(email, 'Reset Your Password', 'reset-password', { name: user.full_name || email.split('@')[0], resetUrl }); } catch {}
+        try { const { sendPasswordResetEmail } = require('../services/emailService'); await sendPasswordResetEmail(email, token); } catch {}
         res.json({ success: true, message: 'If that email exists, a reset link has been sent.' });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
