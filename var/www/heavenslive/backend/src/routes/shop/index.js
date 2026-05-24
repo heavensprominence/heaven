@@ -663,6 +663,14 @@ router.post('/bug-report', async (req, res) => {
             screenshotFile = filename;
         }
         
+        // Store in database
+        const userId = req.userId || null;
+        const browser = req.headers['user-agent'] || '';
+        await db.query(
+            'INSERT INTO bug_reports (user_id, name, email, page, description, screenshot, browser) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            [userId, req.body.name || null, email || null, page || null, description, screenshotFile || null, browser]
+        );
+        
         const report = `[${new Date().toISOString()}] ${email||'anonymous'} | ${page||'unknown'} | screenshot: ${screenshotFile||'none'}
 ${description}
 ---
@@ -670,6 +678,15 @@ ${description}
         fs.appendFileSync(path.join(__dirname, '../../bug-reports.log'), report);
         res.json({ success: true, message: 'Bug report submitted. Thank you!' });
     } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Admin: get bug reports
+router.get('/bug-reports', verifyToken, async (req, res) => {
+    try {
+        if (!req.isSuperAdmin) return res.status(403).json({ error: 'Admin required' });
+        const result = await db.query('SELECT * FROM bug_reports ORDER BY created_at DESC LIMIT 50');
+        res.json({ reports: result.rows });
+    } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 module.exports = router;
