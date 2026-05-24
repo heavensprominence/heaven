@@ -46,9 +46,7 @@ const ShopFooter = () => {
                 <div className="footer-section">
                     <h4>{t('footer.followUs')}</h4>
                     <div className="social-links">
-                        <a href="#" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">🐦 Twitter</a>
+                        <a href="https://youtube.com/@heavensprominence" target="_blank" rel="noopener noreferrer">📺 YouTube</a>
                     </div>
                 </div>
             </div>
