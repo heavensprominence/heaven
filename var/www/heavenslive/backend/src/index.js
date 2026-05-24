@@ -163,6 +163,9 @@ app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
 // Shop SPA — all /shop/* routes now served by React client-side router
 const serveShopPage = (req, res) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
   sendFile(res, path.join(SHOP_BUILD_DIR, 'index.html'));
 };
 
