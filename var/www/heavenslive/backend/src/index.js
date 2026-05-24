@@ -161,6 +161,15 @@ app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index
 // Shop — serve specific pages when they exist, fallback to SPA
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
+
+// Admin pages use React SPA for category management with emoji picker
+app.get(["/shop/admin", "/shop/admin/*"], (req, res) => {
+  res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  sendFile(res, path.join(SHOP_BUILD_DIR, "admin-spa.html"));
+});
+
 // Shop — serves static HTML pages when they exist, falls back to React SPA
 const serveShopPage = (req, res) => {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
