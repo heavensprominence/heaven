@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Checkout — HeavensMarket</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--danger:#E74C3C}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;margin-left:12px}
+.container{max-width:800px;margin:0 auto;padding:24px 20px}
+h1{color:var(--gold);margin-bottom:16px}h2{color:var(--gold);font-size:1rem;margin:16px 0 8px}
+.card{background:var(--card);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:12px}
+.muted{color:var(--muted);font-size:.82rem}
+.row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:.9rem}.row .price{font-weight:700;color:var(--gold)}.total{border-top:1px solid rgba(255,255,255,.1);padding-top:10px;margin-top:8px;font-size:1.1rem}
+input,select{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.9rem;margin:6px 0}
+.btn{display:block;width:100%;padding:14px;background:var(--gold);color:var(--darker);border:none;border-radius:8px;font-weight:700;font-size:.95rem;cursor:pointer;margin-top:12px}.btn:hover{opacity:.9}.btn:disabled{opacity:.5}
+.pay-option{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin:8px 0;cursor:pointer}.pay-option.selected{border-color:var(--gold);background:rgba(200,169,81,.08)}
+.pay-option .title{font-weight:600;color:var(--gold)}.pay-option .sub{font-size:.78rem;color:var(--muted)}.pay-option .bal{font-size:.75rem;color:var(--success);margin-top:4px}
+.shipping-note{background:rgba(200,169,81,.06);border:1px solid rgba(200,169,81,.15);border-radius:6px;padding:10px;font-size:.78rem;color:var(--muted);margin:8px 0}</style><script src="/error-recovery.js"></script>
+</head><body>
+<nav><div class="nav-brand">Heavens<span style="color:var(--gold)">Market</span></div><div class="nav-links"><a href="/shop/">← Shop</a><a href="/shop/cart">Cart</a></div></nav>
+<div class="container">
+<h1>🛒 Checkout</h1>
+<div id="items"></div>
+<div class="card" id="shippingCard">
+  <h2>📦 Shipping</h2>
+  <input id="shipAddr" placeholder="Street address">
+  <div style="display:flex;gap:8px"><input id="shipCity" placeholder="City" style="flex:1"><input id="shipZip" placeholder="ZIP" style="flex:1"></div>
+  <p class="muted" style="margin-top:8px">Shipping is always charged in <strong>USD</strong>.</p>
+  <div class="row"><span>Estimated shipping</span><span class="price" id="shipCost">$5.00 USD</span></div>
+</div>
+<div class="card">
+  <h2>💳 Payment</h2>
+  <div class="shipping-note">💡 <strong>Wallet-first</strong>: We'll deduct from your Credon balance if funds are available. Otherwise, you'll be redirected to PayPal. <strong>Shipping is always USD.</strong></div>
+  <div class="bal" id="walletBal" style="font-size:.8rem;margin-top:8px">Checking balance...</div>
+</div>
+<div class="card">
+  <div class="row total"><span>Total</span><span class="price" id="grandTotal">$0.00</span></div>
+  <button class="btn" id="payBtn" onclick="doCheckout()">Pay Now</button>
+  <p class="muted" id="result" style="text-align:center;margin-top:8px"></p>
+</div>
+</div>
+<script>
+var T=localStorage.getItem("token");if(!T)location.href="/credon/";
+var items=[],balance=0;
+fetch("/api/shop/cart",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(function(d){
+  items=d.items||[];
+  var html="",total=0;
+  items.forEach(function(i){
+    var p=parseInt(i.price_cents||0)/100,cur=i.currency||"USD";
+    html+='<div class="row"><span>'+i.title+'</span><span class="price">'+((cur!=="USD"?cur+" ":"$")+p.toFixed(2))+'</span></div>';
+    total+=p;
+  });
+  document.getElementById("items").innerHTML='<div class="card"><h2>Items ('+items.length+')</h2>'+html+'<div class="row total"><span>Subtotal</span><span class="price" id="subtotal">$'+total.toFixed(2)+'</span></div></div>';
+  updateTotal();
+}).catch(function(){document.getElementById("items").innerHTML='<div class="card muted">Could not load cart</div>'});
+
+fetch("/api/wallet/balance",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(function(d){
+  balance=(d.balance_cents||0)/100;
+  document.getElementById("walletBal").textContent="Balance: $"+balance.toFixed(2)+" USD equivalent";
+}).catch(function(){document.getElementById("walletBal").textContent="Sign in to see balance"});
+
+function updateTotal(){
+  var sub=parseFloat((document.getElementById("subtotal")||{}).textContent||"$0".replace("$",""))||0;
+  document.getElementById("grandTotal").textContent="$"+(sub+5).toFixed(2);
+}
+
+async function doCheckout(){
+  var b=document.getElementById("payBtn"),r=document.getElementById("result");
+  b.disabled=true;b.textContent="Processing...";
+  var addr={street:document.getElementById("shipAddr").value,city:document.getElementById("shipCity").value,zip:document.getElementById("shipZip").value};
+  var cartItems=items.map(function(i){return{listing_id:i.listing_id||i.id,quantity:1}});
+  try{
+    var resp=await fetch("/api/shop/checkout",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify({cartItems:cartItems,shippingAddress:addr,deliveryMethod:"shipping",shippingCostCents:500})});
+    var d=await resp.json();
+    if(d.success){
+      if(d.paymentMethod==="credon_wallet"){
+        r.innerHTML='<span style="color:var(--success)">✅ Paid $'+(d.deducted/100).toFixed(2)+' from Credon wallet! Redirecting...</span>';
+        setTimeout(function(){location.href="/shop/"},1500);
+      }else if(d.approvalUrl){
+        r.innerHTML='<span style="color:var(--gold)">🅿️ Redirecting to PayPal...</span>';
+        setTimeout(function(){location.href=d.approvalUrl},1000);
+      }else{
+        r.innerHTML='<span style="color:var(--success)">✅ Order placed!</span>';
+        setTimeout(function(){location.href="/shop/"},1500);
+      }
+    }else{
+      r.innerHTML='<span style="color:var(--danger)">❌ '+(d.error||"Checkout failed")+'</span>';
+    }
+  }catch(e){r.innerHTML='<span style="color:var(--danger)">❌ Server error</span>'}
+  b.disabled=false;b.textContent="Pay Now";
+}
+</script>
+<!-- Default Statcounter code for HeavenS on Earth
+https://heavenslive.com -->
+<script type="text/javascript">
+var sc_project=13203022; 
+var sc_invisible=1; 
+var sc_security="eb001532"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="hit counter"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/13203022/0/eb001532/1/"
+alt="hit counter"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</body></html>

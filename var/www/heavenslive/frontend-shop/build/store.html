@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Store — HeavensMarket</title>
+<meta name="description" content="HeavensLive marketplace store — browse listings from this seller.">
+<meta property="og:title" content="Store — HeavensLive">
+<meta property="og:description" content="Browse this seller's listings on HeavensLive.">
+<meta property="og:type" content="website">
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);overflow-x:hidden;max-width:100vw}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-size:1.1rem;font-weight:700;color:var(--gold)}.nav-links{display:flex;gap:12px}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem}.nav-links a:hover{color:var(--text)}
+.container{max-width:1100px;margin:0 auto;padding:24px 20px}.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05);margin-bottom:14px}
+h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}.muted{color:var(--muted);font-size:.82rem}
+.store-header{display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+.store-header .logo{width:72px;height:72px;border-radius:var(--radius);background:rgba(200,169,81,.1);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.store-header .info{flex:1;min-width:200px}.store-header h1{color:var(--gold);font-size:1.5rem;margin-bottom:4px}
+.store-header .url{font-family:monospace;font-size:.75rem;color:var(--accent);margin-top:4px}
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.listing-card{background:var(--card);border-radius:var(--radius);overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,.03);transition:border-color .12s}.listing-card:hover{border-color:rgba(200,169,81,.2)}
+.listing-img{height:140px;background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative}
+.listing-body{padding:12px}.listing-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:6px}.listing-price{font-size:1.05rem;font-weight:800;color:var(--gold)}
+.badge{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:6px;font-size:.65rem;font-weight:700;color:#fff}.badge-featured{background:var(--gold);color:var(--darker)}.badge-auction{background:rgba(243,156,18,.8)}
+.btn{padding:8px 16px;border-radius:7px;border:none;cursor:pointer;font-weight:600;font-size:.82rem;background:var(--gold);color:var(--darker)}.btn.follow{background:rgba(74,144,217,.12);color:var(--accent);border:1px solid rgba(74,144,217,.3)}.btn.following{background:rgba(46,204,113,.12);color:var(--success)}
+</style></head><body>
+<nav><div class="nav-brand" data-i18n="brand.store">🏪 Store</div><div class="nav-links"><a href="/shop/">← Browse</a><a href="/shop/create">+ Post</a></div></nav>
+<div class="container"><div id="loading"><span class="muted">Loading store...</span></div></div>
+<script src="/i18n.js"></script>
+<script>
+var slug=window.location.pathname.split('/').pop();
+if(!slug||slug==='store'){document.getElementById('loading').innerHTML='<h1 data-i18n="page.sub_this_store_does_not_exist">🏪 Store Not Found</h1><p class="muted" data-i18n="page.sub_no_store_slug_provided">No store slug provided.</p>';}
+
+async function load(){
+  try{
+    var d=await(await fetch('/api/shop/stores/'+slug)).json();
+    var s=d.store;if(!s){document.getElementById('loading').innerHTML='<h1 data-i18n="page.sub_this_store_does_not_exist">🏪 Store Not Found</h1><p class="muted" data-i18n="page.sub_this_store_does_not_exist">This store does not exist.</p>';return}
+    var listings=d.listings||[];
+    document.getElementById('loading').innerHTML=''+
+      '<div class="store-header">'+
+        '<div class="logo">'+(s.logo_url?'<img src="'+s.logo_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px">':'🏪')+'</div>'+
+        '<div class="info">'+
+          '<h1>'+esc(s.store_name||'Store')+'</h1>'+
+          '<p class="muted" data-i18n="page.sub_sdescription">'+(s.description||'')+'</p>'+
+          '<div class="url">'+window.location.origin+'/shop/store/'+slug+'</div>'+
+        '</div>'+
+        '<div><button class="btn follow" onclick="followStore()">+ Follow</button></div>'+
+      '</div>'+
+      (listings.length?'<div class="listing-grid">'+listings.map(function(l){
+        var price=l.type==='auction'?'Starting $'+((l.min_bid_cents||0)/100).toFixed(2):l.price_cents===0?'<span style="color:var(--success);font-weight:800">FREE</span>':'$'+(l.price_cents/100).toFixed(2);
+        return'<div class="listing-card" onclick="location.href=\'/shop/listing/'+l.id+'\'"><div class="listing-img">'+(l.is_featured?'<span class="badge badge-featured" data-i18n="brand.featured">★ Featured</span>':'')+(l.type==='auction'?'<span class="badge badge-auction" data-i18n="brand.auctionBadge">Auction</span>':'')+'📦</div><div class="listing-body"><div class="listing-title">'+esc(l.title)+'</div><div class="listing-price">'+price+'</div></div></div>';
+      }).join('')+'</div>':'<div class="muted">No listings yet.</div>');
+  }catch(e){document.getElementById('loading').innerHTML='<h1>Error</h1><p class="muted" data-i18n="page.sub_could_not_load_store">Could not load store.</p>'}
+}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function followStore(){alert('Store followed! (API connect pending)')}
+load();
+</script></body></html>

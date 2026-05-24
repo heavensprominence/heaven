@@ -161,11 +161,31 @@ app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index
 // Shop — serve specific pages when they exist, fallback to SPA
 app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
-// Shop SPA — all /shop/* routes now served by React client-side router
+// Shop — serves static HTML pages when they exist, falls back to React SPA
 const serveShopPage = (req, res) => {
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
+  
+  const reqPath = req.path.replace(/^\/shop\/?/, '') || 'index';
+  
+  // Try exact .html file
+  let filePath = path.join(SHOP_BUILD_DIR, reqPath + '.html');
+  const fs = require('fs');
+  if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  
+  // Try subdirectory/index.html
+  filePath = path.join(SHOP_BUILD_DIR, reqPath, 'index.html');
+  if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  
+  // Try subdir/page.html pattern (e.g. listing/detail → listing/detail.html)
+  const parts = reqPath.split('/');
+  if (parts.length >= 2) {
+    filePath = path.join(SHOP_BUILD_DIR, parts.slice(0, -1).join('/'), parts[parts.length - 1] + '.html');
+    if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  }
+  
+  // Fallback to React SPA
   sendFile(res, path.join(SHOP_BUILD_DIR, 'index.html'));
 };
 
