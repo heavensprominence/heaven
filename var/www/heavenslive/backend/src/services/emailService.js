@@ -197,7 +197,7 @@ const sendAbandonedCartReminder = async (email, name, items) => {
 
 const sendProcurementMatchAlert = async (email, name, match) => {
   const mailOptions = {
-    from: process.env.EMAIL_FROM || 'no_reply@heavenslive.com',
+    from: process.env.EMAIL_FROM || 'service@heavenslive.com',
     to: email,
     subject: `🎯 Match Found: ${match.procurement_title} ↔ ${match.listing_title}`,
     html: `<h2>🎯 We found a match for you!</h2><p>Hi ${name || 'there'},</p><p>Your procurement request <strong>"${match.procurement_title}"</strong> matches this listing:</p><div style="background:#f5f5f5;padding:20px;border-radius:10px;margin:20px 0;"><h3>${match.listing_title}</h3><p><strong>Match Score:</strong> ${match.match_score}% - ${match.match_reason}</p><p><strong>Price:</strong> $${(match.listing_price / 100).toFixed(2)}</p><a href="https://shop.heavenslive.com/listing/${match.matching_listing_id}" style="background:#4CAF50;color:white;padding:12px 24px;text-decoration:none;border-radius:8px;">View Listing →</a></div>`
@@ -208,7 +208,7 @@ const sendProcurementMatchAlert = async (email, name, match) => {
 
 const sendSavedSearchAlert = async (email, name, alert) => {
     const mailOptions = {
-        from: process.env.EMAIL_FROM || 'no_reply@heavenslive.com',
+        from: process.env.EMAIL_FROM || 'service@heavenslive.com',
         to: email,
         subject: `🔔 New Item Matches Your Search: ${alert.title}`,
         html: `<h2>🔔 New Match Found!</h2><p>Hi ${name || 'there'},</p><p>A new listing matches your saved search "${alert.name || 'Untitled'}"</p><div style="background:#f5f5f5;padding:20px;border-radius:10px;margin:20px 0;"><h3>${alert.title}</h3><p><strong>Price:</strong> ${alert.price_cents === 0 ? 'FREE' : '$' + (alert.price_cents / 100).toFixed(2)}</p><a href="https://shop.heavenslive.com/listing/${alert.listing_id}" style="background:#4CAF50;color:white;padding:12px 24px;text-decoration:none;border-radius:8px;">View Item →</a></div>`
@@ -217,6 +217,18 @@ const sendSavedSearchAlert = async (email, name, alert) => {
     catch (error) { console.error('Failed to send search alert:', error); }
 };
 
+
+
+const sendLotteryWinNotification = async (email, name, plan) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || 'service@heavenslive.com',
+    to: email,
+    subject: '🎉 You won the Business Plan Lottery! - HeavensLive',
+    html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0F0F1A;color:#E8E6E3;padding:32px;border-radius:12px;border:1px solid rgba(200,169,81,.2)"><div style="text-align:center;margin-bottom:24px"><h1 style="color:#C8A951;margin:0;font-size:1.4rem">HeavensLive</h1><p style="color:#A0A0B0;font-size:.8rem;margin-top:4px">Lottery Winner</p></div><h2 style="color:#C8A951;font-size:1.05rem;margin-bottom:14px">Congratulations ${name}!</h2><p style="line-height:1.6;font-size:.9rem">You've been selected as this week's lottery winner! Your account has been upgraded to the <strong>${plan}</strong> plan — absolutely free.</p><div style="background:rgba(200,169,81,.06);padding:16px;border-radius:8px;margin:16px 0;border-left:3px solid #C8A951;text-align:center"><p style="font-size:1.2rem;color:#C8A951;margin:0">🎁 ${plan} Plan Activated</p><p style="font-size:.85rem;color:#A0A0B0;margin:4px 0 0">Enjoy all premium features for life!</p></div><hr style="border:none;border-top:1px solid rgba(255,255,255,.05);margin:24px 0 16px"><p style="color:#A0A0B0;font-size:.7rem;text-align:center">HeavensLive · Divinely Underwritten Commerce<br>This is an automated message. Please do not reply.</p></div>`
+  };
+  try { await transporter.sendMail(mailOptions); console.log('📧 Lottery win email sent to', email); }
+  catch (error) { console.error('Failed to send lottery email:', error); }
+};
 
 async function sendDisputeNotification(email, title, action) {
     const subjects = {
@@ -258,6 +270,7 @@ async function sendDisputeNotification(email, title, action) {
 }
 module.exports = {
     sendDisputeNotification,
+    sendLotteryWinNotification,
     sendVerificationEmail,
     sendPasswordResetEmail,
     sendAppointmentConfirmation,

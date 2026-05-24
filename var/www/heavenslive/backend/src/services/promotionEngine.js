@@ -115,13 +115,14 @@ async function runWeeklyLottery() {
 
             // Try to send email
             try {
-                const { sendEmail } = require('./emailService');
+                const { sendLotteryWinNotification } = require('./emailService');
                 const user = await db.query('SELECT email, full_name FROM users WHERE id = $1', [w.user_id]);
                 if (user.rows[0]) {
-                    await sendEmail(user.rows[0].email, '🎉 You won the Business Plan Lottery!', 'lottery_win', {
-                        name: user.rows[0].full_name || 'Seller',
-                        plan: 'Business'
-                    });
+                    await sendLotteryWinNotification(
+                        user.rows[0].email,
+                        user.rows[0].full_name || 'Seller',
+                        'Business'
+                    );
                 }
             } catch (e) { console.log('Lottery email (non-critical):', e.message); }
         }

@@ -11,7 +11,7 @@ const getTransporter = () => {
         port: parseInt(process.env.EMAIL_PORT) || 587,
         secure: false,
         auth: {
-            user: process.env.EMAIL_USER || 'no_reply@heavenslive.com',
+            user: process.env.EMAIL_USER || 'service@heavenslive.com',
             pass: process.env.EMAIL_PASS
         }
     });
@@ -82,7 +82,7 @@ router.post('/contact', async (req, res) => {
         try {
             const transporter = getTransporter();
             await transporter.sendMail({
-                from: 'no_reply@heavenslive.com',
+                from: process.env.EMAIL_FROM || 'service@heavenslive.com',
                 to: 'bmirkalami@gmail.com',
                 subject: `[HeavensLive Shop Support] ${subject}`,
                 text: `
@@ -195,7 +195,7 @@ router.post('/admin/tickets/:id/respond', verifyToken, async (req, res) => {
         try {
             const transporter = getTransporter();
             await transporter.sendMail({
-                from: 'no_reply@heavenslive.com',
+                from: process.env.EMAIL_FROM || 'service@heavenslive.com',
                 to: ticket.rows[0].email,
                 subject: `Re: ${ticket.rows[0].subject}`,
                 text: `
