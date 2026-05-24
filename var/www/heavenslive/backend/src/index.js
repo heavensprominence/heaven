@@ -154,7 +154,25 @@ app.use("/static", express.static(path.join(BUILD_DIR, "static")));
 // Credon SPA
 app.get("/credon", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
 app.get("/credon", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/index.html")));
-app.get("/credon/admin", (req, res) => { if (req.cookies?.is_admin !== '1') return res.redirect('/credon/'); res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html")); });
+app.get("/credon/admin", (req, res) => {
+  // Check cookie first, then token query param
+  if (req.cookies?.is_admin === '1') {
+    res.set("Cache-Control","no-store,no-cache,must-revalidate");
+    return sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html"));
+  }
+  // No admin cookie — check token from URL (for credon wallet link)
+  if (req.query.token) {
+    try {
+      const decoded = jwt.verify(req.query.token, jwtSecret);
+      if (decoded.isSuperAdmin) {
+        res.cookie('is_admin', '1', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
+        res.set("Cache-Control","no-store,no-cache,must-revalidate");
+        return sendFile(res, path.join(PUBLIC_DIR, "credon/admin.html"));
+      }
+    } catch(e) {}
+  }
+  res.redirect('/credon/');
+});
 app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")); });
 app.get("/credon/wallet", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")));
 app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
