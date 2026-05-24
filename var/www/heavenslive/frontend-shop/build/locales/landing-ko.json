@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "title": "우리<span class=\"gold\"> 모두를 위해 신성하게 보증됨",
+    "subtitle": "신앙 기반의 상거래, 공정한 통화, 커뮤니티 중심의 기부가 모두 하나의 플랫폼에 있습니다.",
+    "shopBtn": "마켓플레이스 탐색",
+    "credonBtn": "크레돈에 대해 알아보기"
+  },
+  "features": {
+    "title": "하나의 플랫폼, 세 개의 기둥",
+    "marketplace": "페어 마켓플레이스",
+    "marketplaceDesc": "하나님의 감독하에 사고팔 수 있습니다. 경매, 광고, 조달 등 모두 공정성이 보장됩니다.",
+    "credon": "크레돈 통화",
+    "credonDesc": "안정적이고 믿음이 뒷받침되는 복제 통화입니다. 구매할 때마다 보너스를 받으세요. 전 세계 84개 이상의 종파로 이용 가능합니다.",
+    "sacred": "신성한 상업",
+    "sacredDesc": "늘어나는 기부. USB 기도모음. 모든 거래는 커뮤니티를 구축하고 사명을 유지합니다."
+  },
+  "donate": {
+    "title": "주라, 그러면 배가 될 것이다",
+    "desc": "당신의 관대함이 바깥으로 파급됩니다. 기부할 때마다 Credon 보너스가 적립되어 지역사회에 미치는 영향이 증폭됩니다.",
+    "seed": "씨앗",
+    "growth": "성장",
+    "harvest": "수확하다",
+    "custom": "관습",
+    "anyAmount": "모든 금액",
+    "donateBtn": "지금 기부하세요",
+    "bonusLabel": "크레돈 보너스",
+    "bonusEarns": "50달러 기부로 수익 창출",
+    "multiplier": "첫 번째 기부 시 10배 배수"
+  },
+  "usb": {
+    "title": "프리미엄 USB 기도 컬렉션",
+    "desc": "아름답게 제작된 기도문, 명상, 신성한 텍스트 컬렉션을 고급 금속 USB 드라이브에 담았습니다. 디지털 다운로드가 포함되어 있습니다.",
+    "feature1": "엄선된 기도 컬렉션",
+    "feature2": "프리미엄 메탈 USB 드라이브",
+    "feature3": "모든 장치와 호환 가능",
+    "feature4": "디지털 다운로드 코드 포함",
+    "feature5": "전세계 무료 배송",
+    "purchaseBtn": "지금 구매"
+  },
+  "nav": {
+    "shop": "가게",
+    "credon": "크레돈",
+    "about": "에 대한",
+    "signIn": "로그인",
+    "getStarted": "시작하기"
+  },
+  "footer": {
+    "desc": "연결된 세상을 위한 신성한 상거래입니다. 쇼핑하고, 기부하고, 함께 성장하세요.",
+    "marketplace": "시장",
+    "community": "지역 사회",
+    "browse": "먹다",
+    "sell": "팔다",
+    "auctions": "경매",
+    "procurement": "획득",
+    "wallet": "지갑",
+    "exchange": "교환",
+    "bonuses": "보너스",
+    "getInvited": "초대받기",
+    "donateFooter": "기부",
+    "usbFooter": "USB 기도",
+    "contact": "연락하다",
+    "copyright": "© 2026 HeavensLive · 표시된 모든 통화는 테스트용 Credon 복제 통화입니다."
+  },
+  "prayer": {
+    "label": "기도 오디오",
+    "download": "무료 다운로드"
+  }
+}

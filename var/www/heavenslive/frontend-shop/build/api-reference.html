@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>API Docs — HeavensLive</title>
+<style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--green:#2ECC71;--accent:#4A90D9;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
+nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
+.nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
+.container{max-width:1000px;margin:0 auto;padding:20px}
+h1{color:var(--gold)}h2{color:var(--gold);margin:24px 0 8px;font-size:1.1rem}h3{color:var(--accent);margin:16px 0 4px;font-size:.95rem}
+.endpoint{background:var(--card);border-radius:8px;padding:16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.04)}
+.method{display:inline-block;padding:3px 10px;border-radius:4px;font-size:.65rem;font-weight:700;margin-right:8px;text-transform:uppercase}
+.GET{background:rgba(46,204,113,.15);color:var(--green)}.POST{background:rgba(74,144,217,.15);color:var(--accent)}
+.PUT{background:rgba(200,169,81,.15);color:var(--gold)}.DELETE{background:rgba(231,76,60,.15);color:#E74C3C}
+.path{font-family:monospace;font-size:.85rem;color:var(--text)}.desc{font-size:.8rem;color:var(--muted);margin-top:4px}
+code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:4px;font-size:.8rem;color:var(--accent)}
+pre{background:rgba(0,0,0,.3);padding:12px;border-radius:8px;overflow-x:auto;font-size:.75rem;margin:8px 0}
+.sidebar{position:sticky;top:20px}
+.grid2{display:grid;grid-template-columns:200px 1fr;gap:24px}
+.sticky-nav a{display:block;color:var(--muted);text-decoration:none;font-size:.78rem;padding:4px 0;border-left:2px solid transparent;padding-left:8px}.sticky-nav a:hover{color:var(--gold);border-left-color:var(--gold)}
+</style></head><body>
+<nav><div class="nav-brand">📘 HeavensLive API</div><div class="nav-links"><a href="/shop/">← Shop</a></div></nav>
+<div class="container"><div class="grid2">
+<div class="sidebar"><nav class="sticky-nav">
+<a href="#auth">Authentication</a>
+<a href="#listings">Listings</a>
+<a href="#cart">Cart</a>
+<a href="#wallet">Wallet</a>
+<a href="#messages">Messages</a>
+<a href="#wishlist">Wishlist</a>
+<a href="#affiliate">Affiliate</a>
+<a href="#ai">AI Assistants</a>
+<a href="#admin">Admin</a>
+</nav></div>
+<div>
+<h1>API Reference</h1>
+<p style="color:var(--muted);margin-bottom:20px">Base URL: <code>https://heavenslive.com/api</code></p>
+
+<div id="auth"><h2>🔑 Authentication</h2>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/auth/login</span><div class="desc">Login with email and password. Returns JWT token.</div>
+<pre>curl -X POST https://heavenslive.com/api/auth/login -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"..."}'</pre></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/auth/register</span><div class="desc">Create new account. Auto-grants Pro plan.</div></div>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/auth/me</span><div class="desc">Get current user profile. Requires <code>Authorization: Bearer TOKEN</code></div></div>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/auth/sessions</span><div class="desc">List active sessions. Revoke any session by ID.</div></div>
+</div>
+
+<div id="listings"><h2>🛒 Listings</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/listings</span><div class="desc">Browse all listings. Filters: <code>?category=&type=&sort=&q=&minPrice=&maxPrice=&page=&limit=</code></div></div>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/listings/:id</span><div class="desc">Get single listing details.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/shop/listings</span><div class="desc">Create new listing. Auth required.</div></div>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/categories</span><div class="desc">Get category tree. <code>?lang=fr</code> for translations.</div></div>
+</div>
+
+<div id="cart"><h2>🛒 Cart</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/cart</span><div class="desc">View cart. Guest supported via <code>X-Guest-Token</code> header.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/shop/cart/add</span><div class="desc">Add item. Body: <code>{"listingId":"uuid","quantity":1}</code></div></div>
+<div class="endpoint"><span class="method DELETE">DELETE</span><span class="path">/api/shop/cart/:id</span><div class="desc">Remove item from cart.</div></div>
+</div>
+
+<div id="wallet"><h2>💳 Wallet</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/wallet/balance</span><div class="desc">Get Credon wallet balance. Auth required.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/wallet/send</span><div class="desc">Send money to another user.</div></div>
+</div>
+
+<div id="messages"><h2>💬 Messages</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/shop/messages/conversations</span><div class="desc">List all conversations.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/shop/messages/conversations</span><div class="desc">Start new conversation.</div></div>
+</div>
+
+<div id="affiliate"><h2>💰 Affiliate</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/affiliate/dashboard</span><div class="desc">Referral stats, commission tracking, referral link.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/affiliate/redeem</span><div class="desc">Convert commissions to wallet balance (min $1.00).</div></div>
+</div>
+
+<div id="ai"><h2>🤖 AI Assistants</h2>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/ai/listing-suggest</span><div class="desc">AI generates complete listing from plain description. Auth required.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/ai/support/chat</span><div class="desc">24/7 AI support chat. No auth required. Body: <code>{"message":"question","history":[]}</code></div></div>
+</div>
+
+<div id="admin"><h2>🔧 Admin</h2>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/health</span><div class="desc">System health check. Returns uptime, DB status.</div></div>
+<div class="endpoint"><span class="method GET">GET</span><span class="path">/api/admin/metrics</span><div class="desc">System metrics + DB stats. Admin only.</div></div>
+<div class="endpoint"><span class="method POST">POST</span><span class="path">/api/admin/recover-image</span><div class="desc">Upload replacement image for lost listing image.</div></div>
+</div>
+
+<p style="text-align:center;margin-top:40px;color:var(--muted);font-size:.8rem">All endpoints accept JSON. Auth via <code>Authorization: Bearer TOKEN</code> header. Rate limit: 100 req/min.</p>
+</div></div></div>
+</body></html>
