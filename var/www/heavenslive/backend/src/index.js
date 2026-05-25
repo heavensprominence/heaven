@@ -147,6 +147,11 @@ app.use("/api/sync", syncRoutes);
 app.get("/", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "index.html")));
 
 app.use('/currency-svgs', express.static('/home/bryan/.openclaw/canvas/currency'));
+// Fix MIME types for audio
+app.use((req, res, next) => {
+  if (req.path.endsWith('.wav')) res.type('audio/wav');
+  next();
+});
 app.use(express.static(PUBLIC_DIR));
 app.use("/credon", express.static(BUILD_DIR));
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
