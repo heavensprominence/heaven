@@ -16,7 +16,11 @@ jobs:
         with:
           channel: stable
 
-      - name: Install dependencies
+      - name: Generate iOS platform files
+        working-directory: mobile
+        run: flutter create --platforms ios .
+
+      - name: Install Flutter dependencies
         working-directory: mobile
         run: flutter pub get
 
@@ -44,16 +48,15 @@ jobs:
         with:
           channel: stable
 
-      - name: Install dependencies
-        working-directory: desktop
-        run: flutter pub get --directory ../mobile 2>/dev/null; true
-
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --version "^2"
+
       - name: Build macOS (.dmg)
         working-directory: desktop
-        run: cargo tauri build --target x86_64-apple-darwin
+        run: cargo tauri build --target aarch64-apple-darwin
         env:
           DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
 
@@ -61,4 +64,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: HeavensLive-macOS
-          path: desktop/target/x86_64-apple-darwin/release/bundle/dmg/*.dmg
+          path: desktop/target/aarch64-apple-darwin/release/bundle/dmg/*.dmg
