@@ -152,15 +152,20 @@ function loadLoans(){
   F('/api/wallet/loans').then(function(d){
     var loans=d.loans||[],h='';
     if(!loans.length)h+='<p class="muted">No active loans</p>';
-    else loans.forEach(function(l){h+='<div class="card"><div class="row"><strong>'+l.description+'</strong><span>$'+(l.amount_cents/100).toFixed(2)+'</span></div><div class="row"><span class="muted">Remaining</span><span>$'+(l.remaining_cents/100).toFixed(2)+'</span></div><button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\')">Repay</button></div>'});
-    h+='<div class="card" style="margin-top:12px"><h3>Apply for Loan</h3><input id="loanAmount" type="number" placeholder="Amount (USD)"><input id="loanReason" data-i18n-placeholder="wallet.purposePlaceholder" placeholder="Purpose"><button class="btn" onclick="applyLoan()">Apply</button></div>';
+    else loans.forEach(function(l){var cur=(l.currency||'Credon-USD').replace('Credon-','');h+='<div class="card"><div class="row"><strong>Loan — '+cur+'</strong><span>'+(l.principal_cents/100).toFixed(2)+' '+cur+'</span></div><div class="row"><span class="muted">Remaining</span><span>'+(l.remaining_cents/100).toFixed(2)+' '+cur+'</span></div><button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\')">Repay</button></div>'});
+    h+='<div class="card" style="margin-top:12px"><h3>Apply for Loan</h3>';
+    // Build currency dropdown
+    h+='<select id="loanCurrency" style="margin-bottom:8px"><option value="Credon-USD">💵 Credon-USD</option><option value="Credon-EUR">💶 Credon-EUR</option><option value="Credon-GBP">💷 Credon-GBP</option><option value="Credon-CAD">🇨🇦 Credon-CAD</option><option value="Credon-KES">🇰🇪 Credon-KES</option><option value="Credon-NGN">🇳🇬 Credon-NGN</option><option value="Credon-ZAR">🇿🇦 Credon-ZAR</option><option value="Credon-INR">🇮🇳 Credon-INR</option><option value="Credon-JPY">🇯🇵 Credon-JPY</option><option value="Credon-AUD">🇦🇺 Credon-AUD</option></select>';
+    h+='<input id="loanAmount" type="number" placeholder="Amount"><input id="loanReason" data-i18n-placeholder="wallet.purposePlaceholder" placeholder="Purpose"><button class="btn" onclick="applyLoan()">Apply</button></div>';
     document.getElementById('loanContent').innerHTML=h;
   }).catch(function(){document.getElementById('loanContent').innerHTML='<p class="muted">Could not load</p>'});
 }
 function applyLoan(){
   var a=document.getElementById('loanAmount').value,r=document.getElementById('loanReason').value;
+  var c=document.getElementById('loanCurrency');
+  var cur=c?c.value:'Credon-USD';
   if(!a||!r){alert('Amount and purpose required');return}
-  F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r}}).then(function(d){
+  F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r,currency:cur}}).then(function(d){
     if(d.success){alert('Loan application submitted! Book an appointment to review it.');showTab('appointments')}else alert(d.error||'Failed');
   }).catch(function(e){alert('Error: '+(e.message||'Could not submit'))});
 }

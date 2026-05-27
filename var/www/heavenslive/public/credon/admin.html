@@ -146,8 +146,8 @@ function loans(){
     var l=d.loans||[],h='';
     l.forEach(function(x){
       var days=Math.max(1,Math.ceil((Date.now()-new Date(x.start_date).getTime())/86400000));
-      var int=Math.round(x.principal_cents*(x.interest_rate_percent/100/365)*days);
-      h+='<div class="row"><span>'+x.email+'</span><span>$'+(x.principal_cents/100).toFixed(2)+' (owed: $'+((x.remaining_cents+int)/100).toFixed(2)+' | '+days+'d)</span></div>';
+      var int=Math.round(x.principal_cents*((x.interest_rate||x.interest_rate_percent||0)/100/365)*days);var cur=(x.currency||'Credon-USD').replace('Credon-','');
+      h+='<div class="row"><span>'+x.email+'</span><span>'+(x.principal_cents/100).toFixed(2)+' '+cur+' (owed: '+((x.remaining_cents+int)/100).toFixed(2)+' '+cur+' | '+days+'d)</span></div>';
     });
     document.getElementById('loanActive').innerHTML=h||'<p class="muted">No active loans</p>';
   });

@@ -961,18 +961,20 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         if (amt <= 0) return res.status(400).json({ error: 'Amount required' });
         if (rate < -100 || rate > 5) return res.status(400).json({ error: 'Interest rate must be between -100% and 5%' });
         
+        // Get the loan request to know the currency
+        const lr = await pool.query('SELECT * FROM loan_requests WHERE id = $1', [id]);
+        if (lr.rows.length === 0) return res.status(404).json({ error: 'Loan request not found' });
+        const r = lr.rows[0];
+        
         await pool.query(
-            "UPDATE loan_requests SET status = 'approved', approved_amount_cents = $1, interest_rate_percent = $2, approved_at = NOW(), approved_by = $3 WHERE id = $4",
+            "UPDATE loan_requests SET status = 'approved', amount_requested = $1, interest_rate = $2, approved_at = NOW(), approved_by = $3 WHERE id = $4",
             [amt, rate, req.userId, id]
         );
         
         // Create active loan
-        const lr = await pool.query('SELECT * FROM loan_requests WHERE id = $1', [id]);
-        const r = lr.rows[0];
-        
         await pool.query(
-            "INSERT INTO active_loans (user_id, loan_request_id, principal_cents, remaining_cents, interest_rate_percent, description, start_date) VALUES ($1, $2, $3, $4, $5, $6, NOW())",
-            [r.user_id, id, amt, amt, rate, r.admin_notes || r.reason || 'Loan']
+            "INSERT INTO active_loans (user_id, loan_request_id, principal_cents, remaining_cents, interest_rate, currency, start_date, status) VALUES ($1, $2, $3, $4, $5, $6, NOW(), 'active')",
+            [r.user_id, id, amt, amt, rate, r.currency || 'Credon-USD']
         );
         
         res.json({ success: true });
