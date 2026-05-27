@@ -71,9 +71,12 @@ const sendPasswordResetEmail = async (email, token) => {
 };
 
 const sendAppointmentConfirmation = async (email, appointment) => {
-  const dt = new Date(appointment.appointment_time || appointment.appointmentTime);
-  const dateStr = dt.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  const timeStr = dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+  const rawTime = (appointment && (appointment.appointment_time || appointment.appointmentTime || appointment.appointmentTime)) || null;
+  const dt = rawTime ? new Date(rawTime) : new Date();
+  const validDate = !isNaN(dt.getTime());
+  const dateStr = validDate ? dt.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '(date not set)';
+  const timeStr = validDate ? dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' }) : '(time not set)';
+  const fullDateTime = validDate ? `${dateStr} at ${timeStr}` : 'Pending';
   const cancelUrl = `${process.env.FRONTEND_URL || 'https://heavenslive.com'}/credon/wallet?cancel=${appointment.cancellation_token}`;
   const adminEmail = 'bmirkalami@gmail.com';
   
@@ -81,7 +84,7 @@ const sendAppointmentConfirmation = async (email, appointment) => {
     from: process.env.EMAIL_FROM || 'noreply@heavenslive.com',
     to: email,
     cc: adminEmail,
-    subject: `📅 Appointment Confirmed — ${dateStr}`,
+    subject: `📅 Appointment Confirmed — ${fullDateTime}`,
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px">
       <h1 style="color:#C8A951">📅 Appointment Confirmed</h1>
       <p>Your appointment has been scheduled with <strong>HeavensLive Credon Support</strong>.</p>
@@ -100,6 +103,7 @@ const sendAppointmentConfirmation = async (email, appointment) => {
     </div>`
   };
   try { 
+    console.log('📧 Sending appointment confirmation to', email, '— appt_time:', rawTime, '→ parsed:', fullDateTime);
     await transporter.sendMail(mailOptions); 
     console.log('📧 Appointment confirmation sent to', email, '(cc:', adminEmail, ')');
   } catch (error) { console.error('Failed to send appointment confirmation:', error); }

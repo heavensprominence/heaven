@@ -139,7 +139,7 @@ function loans(){
   c.innerHTML='<div class="card"><h3>🏦 Pending Loan Applications</h3><div id="loanPend"></div></div><div class="card"><h3>Active Loans</h3><div id="loanActive"></div></div>';
   F('/api/admin/loans/pending').then(function(d){
     var l=d.loans||[],h='';
-    l.forEach(function(x){h+='<div class="card"><div class="row"><strong>'+x.email+'</strong><span>$'+(x.amount_cents/100).toFixed(2)+'</span></div><div class="row"><span class="muted">'+x.reason+'</span></div><div class="row"><input id="loanAmt_'+x.id+'" type="number" value="'+(x.amount_cents/100).toFixed(2)+'" step="0.01" placeholder="Amount"><input id="loanRate_'+x.id+'" type="number" value="0" step="0.1" min="-100" max="5" placeholder="Rate %" style="width:80px;display:inline"></div><button class="btn btn-sm" onclick="approveLoan("'+x.id+'")">Approve</button></div>'});
+    l.forEach(function(x){var amt=(x.amount_requested||x.amount_cents||0);var note=x.admin_notes||x.reason||'';h+='<div class="card"><div class="row"><strong>'+x.email+'</strong><span style="font-weight:700">$'+(amt/100).toFixed(2)+' '+x.currency+'</span></div><div class="row"><span class="muted">Purpose: '+(note||'(none)')+'</span><span class="muted">'+new Date(x.created_at).toLocaleDateString()+'</span></div><div class="row" style="align-items:center;gap:8px;margin:8px 0"><label style="font-size:0.8rem;white-space:nowrap">Interest Rate:</label><input id="loanRate_'+x.id+'" type="range" value="0" min="-100" max="5" step="1" oninput="document.getElementById(\'rateVal_'+x.id+'\').textContent=this.value==-100?\'GRANT\':(this.value+\'%\')" style="flex:1"><span id="rateVal_'+x.id+'" style="min-width:60px;font-weight:700;color:var(--gold)">0%</span></div><div style="font-size:0.7rem;color:var(--muted);margin-bottom:8px">-100% = grant &bull; 0% = interest-free &bull; 1-5% = low interest</div><div class="row" style="gap:8px"><button class="btn btn-sm" onclick="approveLoan(\''+x.id+'\',\''+(amt)+'\')">✅ Approve</button><button class="btn btn-sm" style="background:var(--danger)" onclick="rejectLoan(\''+x.id+'\')">❌ Reject</button></div></div>'});
     document.getElementById('loanPend').innerHTML=h||'<p class="muted">None</p>';
   });
   F('/api/admin/loans/active').then(function(d){
@@ -152,11 +152,17 @@ function loans(){
     document.getElementById('loanActive').innerHTML=h||'<p class="muted">No active loans</p>';
   });
 }
-function approveLoan(id){
-  var amt=parseFloat(document.getElementById('loanAmt_'+id).value);
+function approveLoan(id,amountCentsStr){
   var rate=parseFloat(document.getElementById('loanRate_'+id).value);
+  var amt=parseInt(amountCentsStr)||0;
   if(!amt||amt<=0){alert('Amount required');return}
-  F('/api/admin/loans/'+id+'/approve',{method:'POST',body:{amount_cents:Math.round(amt*100),interest_rate_percent:rate||0}}).then(function(d){
+  F('/api/admin/loans/'+id+'/approve',{method:'POST',body:{amount_cents:amt,interest_rate_percent:rate||0}}).then(function(d){
+    if(d.success)loans();else alert(d.error||'Failed');
+  });
+}
+function rejectLoan(id){
+  if(!confirm('Reject this loan application?'))return;
+  F('/api/admin/loans/'+id+'/reject',{method:'POST'}).then(function(d){
     if(d.success)loans();else alert(d.error||'Failed');
   });
 }

@@ -901,21 +901,33 @@ router.post('/affiliate/settings', verifyToken, requireAdmin, async (req, res) =
 router.post('/', verifyToken, async (req, res) => {
     try {
         const { appointment_time, duration_minutes, reason } = req.body;
+        
+        // Enforce minimum 2 hours advance booking
+        const apptTime = new Date(appointment_time);
+        const now = new Date();
+        const minTime = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+        if (isNaN(apptTime.getTime())) return res.status(400).json({ error: 'Invalid date/time' });
+        if (apptTime < minTime) return res.status(400).json({ error: 'Appointments must be booked at least 2 hours in advance' });
+        
         const result = await pool.query(
             'INSERT INTO appointments (user_id, appointment_time, duration_minutes, notes, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
             [req.userId, appointment_time, duration_minutes || 15, reason || 'General', 'scheduled']
         );
         const appointment = result.rows[0];
+        console.log('📅 Appointment booked — input:', appointment_time, '| DB stored:', appointment.appointment_time, '| type:', typeof appointment.appointment_time);
         
         // Send confirmation email to user + admin
         try {
             const user = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [req.userId]);
             if (user.rows[0]?.email) {
+                // Ensure appointment_time is present in the object for email display
+                if (!appointment.appointment_time && appointment_time) {
+                    appointment.appointment_time = appointment_time;
+                }
                 await sendAppointmentConfirmation(user.rows[0].email, appointment);
             }
         } catch (emailErr) {
             console.error('Appointment email failed:', emailErr.message);
-            // Don't fail the booking if email fails
         }
         
         res.json({ success: true, appointment });

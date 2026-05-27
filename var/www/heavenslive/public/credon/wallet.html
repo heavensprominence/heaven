@@ -183,8 +183,10 @@ function loadAppointments(){
 function bookApt(){
   var d=document.getElementById('aptDate').value,t=document.getElementById('aptTime').value,dr=document.getElementById('aptDuration').value,rs=document.getElementById('aptReason').value.trim(),m=document.getElementById('aptMsg');
   if(!d||!t){m.innerHTML='<p style="color:var(--danger)">Date and time required</p>';return}
-  // Convert user's local time to EST (America/Toronto)
+  // Check minimum 2 hours advance
   var localDate=new Date(d+'T'+t);
+  var twoHoursFromNow=new Date(Date.now()+2*60*60*1000);
+  if(localDate<twoHoursFromNow){m.innerHTML='<p style="color:var(--danger)">Please book at least 2 hours in advance</p>';return}
   var estStr=localDate.toLocaleString('en-US',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
   var parts=estStr.match(/(\d+)\/(\d+)\/(\d+),\s*(\d+):(\d+)/);
   var estISO='';

@@ -972,7 +972,7 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         
         await pool.query(
             "INSERT INTO active_loans (user_id, loan_request_id, principal_cents, remaining_cents, interest_rate_percent, description, start_date) VALUES ($1, $2, $3, $4, $5, $6, NOW())",
-            [r.user_id, id, amt, amt, rate, r.reason || 'Loan']
+            [r.user_id, id, amt, amt, rate, r.admin_notes || r.reason || 'Loan']
         );
         
         res.json({ success: true });
