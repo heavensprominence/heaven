@@ -106,6 +106,11 @@ router.post('/register', async (req, res) => {
         const user = result.rows[0];
         // Create wallet
         await db.query("INSERT INTO wallets (user_id, balance_cents) VALUES ($1, 0) ON CONFLICT DO NOTHING", [user.id]);
+        // Track referral if code provided (from URL param or cookie)
+        const refCode = referralCode || req.cookies?.hl_ref || null;
+        if (refCode) {
+            try { const { trackReferral } = require('../services/affiliateService'); await trackReferral(user.id, refCode); } catch (e) { console.error('trackReferral failed:', e.message); }
+        }
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: false, referral_code: user.referral_code },
             jwtSecret, { expiresIn: '24h' }

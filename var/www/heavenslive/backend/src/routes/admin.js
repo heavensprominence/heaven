@@ -842,6 +842,13 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
             [req.userId, isGrant ? 'approve_grant' : 'approve_loan', 'loan_request', req.params.id,
              JSON.stringify({ amount_cents, currency, interest_rate: rate, user_id: lr.user_id })]);
         
+        // Award affiliate commission if user was referred
+        try {
+            const { processReferralPurchase } = require('../services/affiliateService');
+            const commission = await processReferralPurchase(lr.user_id, req.params.id, amount_cents, 'buyer');
+            if (commission) console.log(`📢 Affiliate commission: ${commission} cents for loan approval`);
+        } catch (e) { console.error('Affiliate commission failed:', e.message); }
+        
         res.json({ 
             success: true, 
             type: isGrant ? 'grant' : 'loan',
@@ -935,13 +942,52 @@ router.get('/affiliate/settings', verifyToken, requireAdmin, async (req, res) =>
 
 router.post('/affiliate/settings', verifyToken, requireAdmin, async (req, res) => {
     try {
-        const { signup_bonus, first_purchase_rate, ongoing_purchase_rate, seller_sale_rate, minimum_payout_cents } = req.body;
-        const settings = { signup_bonus, first_purchase_rate, ongoing_purchase_rate, seller_sale_rate, minimum_payout_cents };
+        const { signup_bonus, purchase_commission_rate, sale_commission_rate, minimum_payout_cents } = req.body;
+        // Accept both naming conventions
+        const first_purchase_rate = req.body.first_purchase_rate || purchase_commission_rate || 5;
+        const ongoing_purchase_rate = req.body.ongoing_purchase_rate || purchase_commission_rate || 2;
+        const seller_sale_rate = req.body.seller_sale_rate || sale_commission_rate || 2;
+        const signup_bonus_final = req.body.signup_bonus || 5;
+        const settings = { signup_bonus: signup_bonus_final, first_purchase_rate, ongoing_purchase_rate, seller_sale_rate, minimum_payout_cents };
         await pool.query(
             "INSERT INTO affiliate_settings (setting_key, setting_value) VALUES ('commission_structure', $1) ON CONFLICT (setting_key) DO UPDATE SET setting_value = $1",
             [JSON.stringify(settings)]
         );
         res.json({ success: true, settings });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// Get pending affiliate payouts
+router.get('/affiliate/payouts', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT ap.*, u.email, u.full_name FROM affiliate_payouts ap
+             JOIN users u ON ap.affiliate_id = u.id
+             ORDER BY ap.created_at DESC LIMIT 50`
+        );
+        res.json({ payouts: result.rows });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// Process affiliate payout (approve/reject)
+router.post('/affiliate/payouts/:id/process', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { action } = req.body; // 'approve' or 'reject'
+        if (!['approve','reject'].includes(action)) return res.status(400).json({ error: 'Action must be approve or reject' });
+        
+        const payout = await pool.query('SELECT * FROM affiliate_payouts WHERE id = $1', [id]);
+        if (payout.rows.length === 0) return res.status(404).json({ error: 'Payout not found' });
+        const p = payout.rows[0];
+        
+        if (action === 'reject') {
+            // Refund the balance
+            await pool.query('UPDATE users SET affiliate_balance_cents = affiliate_balance_cents + $1 WHERE id = $2', [p.amount_cents, p.affiliate_id]);
+            await pool.query("UPDATE affiliate_payouts SET status = 'rejected', processed_at = NOW() WHERE id = $1", [id]);
+        } else {
+            await pool.query("UPDATE affiliate_payouts SET status = 'paid', processed_at = NOW() WHERE id = $1", [id]);
+        }
+        res.json({ success: true });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 

@@ -32,6 +32,7 @@ window.PowerSyncDB = PowerSyncDatabase;
 <button class="tab" onclick="showTab('appointments')"><span data-i18n="wallet.appointments">📅 Appointments</span></button>
 <button class="tab" onclick="showTab('currency')"><span data-i18n="wallet.currency">💵 Currency</span></button>
 <button class="tab" onclick="showTab('grants')"><span data-i18n="wallet.grants">🎁 Grants</span></button>
+<button class="tab" onclick="showTab('referrals')">👥 Referrals</button>
 </div>
 
 <div id="tab-dash"><div class="grid2"><div class="card" id="quickStats"></div><div class="card" id="rateCard"></div></div></div>
@@ -42,6 +43,7 @@ window.PowerSyncDB = PowerSyncDatabase;
 <div id="tab-appointments" style="display:none"><div class="card"><h3>📅 <span data-i18n="wallet.bookAppointment">Book Appointment</span></h3><div class="grid2"><label data-i18n="wallet.date">Date</label><input id="aptDate" type="date" min=""><label data-i18n="wallet.time">Time</label><input id="aptTime" type="time" step="900" min="09:00" max="17:00"></div><select id="aptDuration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option></select><input id="aptReason" placeholder="Reason for appointment"><button class="btn" onclick="bookApt()" style="width:100%">Book Appointment</button><div id="aptMsg"></div></div><div class="card"><h3>📅 My Appointments</h3><div id="aptList"></div></div></div>
 <div id="tab-currency" style="display:none"><div class="card" id="currencyContent"><p class="muted">Loading currencies...</p></div></div>
 <div id="tab-grants" style="display:none"><div class="card"><h3>🎁 Grants</h3><div id="grantContent"></div></div></div>
+<div id="tab-referrals" style="display:none"><div class="card"><h3>👥 Your Referrals</h3><div id="refContent"><p class="muted">Loading...</p></div></div></div>
 </div>
 <script>
 // ===== PowerSync Web — local-first offline Credon =====
@@ -80,11 +82,12 @@ function showTab(name){
   document.querySelectorAll('#mainTabs .tab').forEach(function(t){t.classList.remove('on')});
   var btns=document.querySelectorAll('#mainTabs .tab');
   for(var i=0;i<btns.length;i++){var oc=btns[i].getAttribute('onclick')||'';if(oc.indexOf("'"+name+"'")!==-1||oc.indexOf('"'+name+'"')!==-1){btns[i].classList.add('on');break}}
-  ['dash','send','exchange','history','loans','appointments','currency','grants'].forEach(function(x){document.getElementById('tab-'+x).style.display=x===name?'block':'none'});
+  ['dash','send','exchange','history','loans','appointments','currency','grants','referrals'].forEach(function(x){document.getElementById('tab-'+x).style.display=x===name?'block':'none'});
   if(name==='dash')loadDash();if(name==='history')loadHistory();if(name==='loans')loadLoans();if(name==='appointments')loadAppointments();
   if(name==='currency')loadCurrency();
   if(name==='grants')loadGrants();
   if(name==='exchange')loadExchange();
+  if(name==='referrals')loadReferrals();
 }
 
 // DASHBOARD
@@ -310,6 +313,44 @@ function applyGrant(){
   F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r,type:'grant'}}).then(function(d){
     if(d.success){alert('Application submitted!');loadGrants()}else alert(d.error||'Failed');
   });
+}
+
+// REFERRALS
+function loadReferrals(){
+  var el=document.getElementById('refContent');
+  el.innerHTML='<p class="muted">Loading...</p>';
+  F('/api/shop/affiliate/dashboard').then(function(d){
+    if(!d||d.error){el.innerHTML='<p class="muted">Could not load referral data</p>';return}
+    var link=d.referralLink||('https://heavenslive.com/shop/register?ref='+d.referralCode);
+    var h='<div style="text-align:center;margin-bottom:16px">'+
+      '<div style="font-size:1.5rem;font-weight:700;color:var(--gold)">$'+(d.totalEarned||d.balance||0).toFixed(2)+'</div>'+
+      '<div class="muted">Total Earned</div></div>'+
+      '<div class="grid2" style="margin-bottom:16px">'+
+      '<div class="card" style="text-align:center"><div style="font-size:1.3rem;font-weight:700">'+(d.totalReferrals||0)+'</div><div class="muted">Total Referrals</div></div>'+
+      '<div class="card" style="text-align:center"><div style="font-size:1.3rem;font-weight:700">$'+(d.balance||0).toFixed(2)+'</div><div class="muted">Available Balance</div></div></div>'+
+      '<div class="card" style="margin-bottom:12px"><strong>Your Referral Link</strong>'+
+      '<div style="display:flex;gap:8px;margin-top:8px"><input id="refLink" value="'+link+'" readonly style="flex:1;font-size:0.8rem"><button class="btn btn-sm" onclick="copyRef()">Copy</button></div>'+
+      '<div class="muted" style="margin-top:4px;font-size:0.75rem">Code: <strong>'+d.referralCode+'</strong> — Share this to earn commissions!</div></div>';
+    if(d.referrals&&d.referrals.length){
+      h+='<div class="card"><h3>Your Referrals</h3>';
+      d.referrals.forEach(function(r){
+        h+='<div class="row"><span>'+r.email+'</span><span class="muted">'+new Date(r.joined_at||r.created_at).toLocaleDateString()+'</span></div>';
+      });
+      h+='</div>';
+    }
+    if(d.commissions&&d.commissions.length){
+      h+='<div class="card"><h3>Recent Commissions</h3>';
+      d.commissions.slice(0,5).forEach(function(c){
+        h+='<div class="row"><span>'+c.referred_email+' ('+c.commission_type+')</span><span style="color:var(--gold)">$'+(c.commission_cents/100).toFixed(2)+'</span></div>';
+      });
+      h+='</div>';
+    }
+    el.innerHTML=h;
+  }).catch(function(){el.innerHTML='<p class="muted">Could not load referral data</p>'});
+}
+function copyRef(){
+  var inp=document.getElementById('refLink');inp.select();document.execCommand('copy');
+  alert('Referral link copied!');
 }
 
 // Init

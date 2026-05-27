@@ -365,33 +365,23 @@ router.post('/checkout', verifyToken, async (req, res) => {
             );
         }
         
-        // Process affiliate purchase commission (buyer side)
-        // Process affiliate sale commission (seller side)
+        await db.query('DELETE FROM carts WHERE user_id = $1', [userId]);
+        await db.query('COMMIT');
+        
+        // Process affiliate commissions (buyer + seller side)
+        const { processReferralPurchase, awardSaleCommission } = require('../services/affiliateService');
         for (const item of cartItems) {
             try {
-                const { awardSaleCommission } = require('../services/affiliateService');
-                const l = await db.query('SELECT seller_id, price_cents FROM listings WHERE id = $1', [item.listing_id]);
-                if (l.rows[0]) {
-                    await awardSaleCommission(l.rows[0].seller_id, item.listing_id, parseInt(l.rows[0].price_cents) || 0);
-                }
-            } catch (e) { console.log('Sale commission (non-critical):', e.message); }
-        }
-        // Process affiliate commission
-        for (const item of cartItems) {
-            try {
-                const ref = await db.query(
-                    'SELECT referrer_id FROM user_referrals WHERE referred_user_id = $1',
-                    [userId]
-                );
-                if (ref.rows[0]?.referrer_id) {
-                    const { awardPurchaseCommission } = require('../services/affiliateService');
-                    await awardPurchaseCommission(ref.rows[0].referrer_id, userId, null, parseInt(item.price_cents) || 0);
+                const listing = await db.query('SELECT seller_id, price_cents FROM listings WHERE id = $1', [item.listing_id]);
+                if (listing.rows[0]) {
+                    const amountCents = parseInt(listing.rows[0].price_cents) || 0;
+                    // Seller commission (if seller was referred)
+                    await awardSaleCommission(listing.rows[0].seller_id, item.listing_id, amountCents);
+                    // Buyer commission (if buyer was referred)
+                    await processReferralPurchase(userId, item.listing_id, amountCents, 'buyer');
                 }
             } catch (e) { console.log('Affiliate commission (non-critical):', e.message); }
         }
-        
-        await db.query('DELETE FROM carts WHERE user_id = $1', [userId]);
-        await db.query('COMMIT');
         
         res.json({ 
             success: true, 
@@ -613,24 +603,14 @@ router.post('/purchases/complete', verifyToken, async (req, res) => {
             [req.userId, listingId, l.seller_id, amountCents, platformFeeCents, sellerPayoutCents, currency || l.currency || 'USD', paypalOrderId || null]
         );
         
-        // Process affiliate purchase commission (buyer side)
-        // Process affiliate sale commission (seller side)
-        for (const item of cartItems) {
-            try {
-                const { awardSaleCommission } = require('../services/affiliateService');
-                const l = await db.query('SELECT seller_id, price_cents FROM listings WHERE id = $1', [item.listing_id]);
-                if (l.rows[0]) {
-                    await awardSaleCommission(l.rows[0].seller_id, item.listing_id, parseInt(l.rows[0].price_cents) || 0);
-                }
-            } catch (e) { console.log('Sale commission (non-critical):', e.message); }
-        }
-        // Process affiliate commission if applicable
-        if (l.seller_referrer) {
-            try {
-                const { awardPurchaseCommission } = require('../services/affiliateService');
-                await awardPurchaseCommission(l.seller_referrer, l.seller_id, result.rows[0].id, amountCents);
-            } catch (e) { console.log('Affiliate commission failed (non-critical):', e.message); }
-        }
+        // Process affiliate commissions (buyer + seller side)
+        const { processReferralPurchase, awardSaleCommission } = require('../services/affiliateService');
+        try {
+            await awardSaleCommission(l.seller_id, listingId, amountCents);
+        } catch (e) { console.log('Sale commission (non-critical):', e.message); }
+        try {
+            await processReferralPurchase(req.userId, result.rows[0].id, amountCents, 'buyer');
+        } catch (e) { console.log('Affiliate commission (non-critical):', e.message); }
         
         res.json({
             success: true,
