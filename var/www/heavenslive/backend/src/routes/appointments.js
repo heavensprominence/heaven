@@ -901,7 +901,7 @@ router.post('/', verifyToken, async (req, res) => {
     try {
         const { appointment_time, duration_minutes, reason } = req.body;
         await pool.query(
-            'INSERT INTO appointments (user_id, appointment_time, duration_minutes, reason, status) VALUES ($1, $2, $3, $4, $5)',
+            'INSERT INTO appointments (user_id, appointment_time, duration_minutes, notes, status) VALUES ($1, $2, $3, $4, $5)',
             [req.userId, appointment_time, duration_minutes || 15, reason || 'General', 'scheduled']
         );
         res.json({ success: true });
