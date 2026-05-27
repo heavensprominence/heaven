@@ -8,6 +8,7 @@ const Order = require('../models/Order');
 const Appointment = require('../models/Appointment');
 const Dispute = require('../models/Dispute');
 const Bid = require('../models/Bid');
+const { sendAppointmentConfirmation } = require('../services/emailService');
 const MockExchangeRates = require('../services/mockExchangeRates');
 const MockMinting = require('../services/mockMinting');
 
@@ -900,11 +901,24 @@ router.post('/affiliate/settings', verifyToken, requireAdmin, async (req, res) =
 router.post('/', verifyToken, async (req, res) => {
     try {
         const { appointment_time, duration_minutes, reason } = req.body;
-        await pool.query(
-            'INSERT INTO appointments (user_id, appointment_time, duration_minutes, notes, status) VALUES ($1, $2, $3, $4, $5)',
+        const result = await pool.query(
+            'INSERT INTO appointments (user_id, appointment_time, duration_minutes, notes, status) VALUES ($1, $2, $3, $4, $5) RETURNING *',
             [req.userId, appointment_time, duration_minutes || 15, reason || 'General', 'scheduled']
         );
-        res.json({ success: true });
+        const appointment = result.rows[0];
+        
+        // Send confirmation email to user + admin
+        try {
+            const user = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [req.userId]);
+            if (user.rows[0]?.email) {
+                await sendAppointmentConfirmation(user.rows[0].email, appointment);
+            }
+        } catch (emailErr) {
+            console.error('Appointment email failed:', emailErr.message);
+            // Don't fail the booking if email fails
+        }
+        
+        res.json({ success: true, appointment });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
