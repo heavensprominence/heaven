@@ -1,78 +1,49 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Download — HeavensLive</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title data-i18n="download.pageTitle">Get the App — HeavensLive</title>
 <style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--radius:12px}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text)}
 nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:12px 20px;display:flex;justify-content:space-between}
 .nav-brand{font-size:1.2rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--text);text-decoration:none;font-size:.85rem;margin-left:12px}
-.container{max-width:900px;margin:0 auto;padding:24px 20px}h1{color:var(--gold);margin-bottom:8px}.subtitle{color:var(--muted);margin-bottom:24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid rgba(255,255,255,.05)}
-.card h2{font-size:1.1rem;margin-bottom:4px}.card .platform{color:var(--muted);font-size:.8rem;margin-bottom:12px}
-.card .dl{display:flex;flex-wrap:wrap;gap:8px}
-.btn{padding:8px 16px;border-radius:8px;font-weight:600;font-size:.8rem;cursor:pointer;text-decoration:none;display:inline-block;border:none}
-.btn-gold{background:var(--gold);color:var(--darker)}.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}.btn-dim{background:rgba(255,255,255,.08);color:var(--muted);border:1px solid rgba(255,255,255,.08)}
-.size{color:var(--muted);font-size:.7rem;margin-top:8px}
+.container{max-width:800px;margin:0 auto;padding:32px 20px}h1{color:var(--gold);margin-bottom:8px}.subtitle{color:var(--muted);margin-bottom:32px}
+.card{background:var(--card);border-radius:var(--radius);padding:28px;border:1px solid rgba(255,255,255,.05);margin-bottom:16px}
+.card h2{font-size:1.3rem;margin-bottom:16px}
+.step{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.step-num{background:var(--gold);color:var(--darker);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;margin-top:2px}
+.step-text{font-size:.92rem;line-height:1.5;color:var(--text)}
+.note{background:rgba(200,169,81,.08);border:1px solid rgba(200,169,81,.15);border-radius:8px;padding:12px 16px;font-size:.82rem;color:var(--muted);margin-top:12px}
 </style></head><body>
-<nav><div class="nav-brand">HeavensLive</div><div class="nav-links"><a href="/shop/">← Shop</a></div></nav>
+<nav><div class="nav-brand">HeavensLive</div><div class="nav-links"><a href="/shop/" data-i18n="download.navBack">← Shop</a></div></nav>
 <div class="container">
-<h1>📦 Downloads</h1>
-<p class="subtitle">Divinely Underwritten Commerce — on every device.</p>
 
-<div class="grid">
+<h1 data-i18n="download.pageTitle">📱 Get the App</h1>
+<p class="subtitle" data-i18n="download.subtitle">Install HeavensLive on any device — no app store needed.</p>
 
-<!-- Linux -->
-<div class="card">
-  <h2>🐧 Linux</h2>
-  <div class="platform">AppImage · .deb · .rpm</div>
-  <div class="dl">
-    <a href="/downloads/HeavensLive-x86_64.AppImage" class="btn btn-gold">AppImage</a>
-    <a href="/downloads/HeavensLive_1.0.0_amd64.deb" class="btn btn-outline">.deb</a>
-    <a href="/downloads/HeavensLive-1.0.0-1.x86_64.rpm" class="btn btn-outline">.rpm</a>
-  </div>
-  <div class="size">For all Linux distributions</div>
-</div>
+<div class="card"><h2 data-i18n="download.androidTitle">🤖 Android</h2>
+<div class="step"><div class="step-num">1</div><div class="step-text" data-i18n="download.androidStep1">Open Chrome on your phone</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-text" data-i18n="download.androidStep2">Go to heavnslive.com/shop</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-text" data-i18n="download.androidStep3">Tap menu then Add to Home screen</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-text" data-i18n="download.androidStep4">Tap Install — opens fullscreen like a native app</div></div>
+<div class="note" data-i18n="download.androidNote">Also available on Google Play</div></div>
 
-<!-- Windows -->
-<div class="card">
-  <h2>🪟 Windows</h2>
-  <div class="platform">.exe installer</div>
-  <div class="dl">
-    <a href="/downloads/HeavensLive-Setup.exe" class="btn btn-gold">Windows .exe</a>
-  </div>
-  <div class="size">Windows 10+</div>
-</div>
+<div class="card"><h2 data-i18n="download.iosTitle">🍎 iPhone & iPad</h2>
+<div class="step"><div class="step-num">1</div><div class="step-text" data-i18n="download.iosStep1">Open Safari on your device</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-text" data-i18n="download.iosStep2">Go to heavnslive.com/shop</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-text" data-i18n="download.iosStep3">Tap the Share button at the bottom</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-text" data-i18n="download.iosStep4">Scroll down, tap Add to Home Screen, then Add</div></div>
+<div class="note" data-i18n="download.iosNote">Opens fullscreen with the HeavensLive icon. Works offline.</div></div>
 
-<!-- macOS -->
-<div class="card">
-  <h2>🍎 macOS</h2>
-  <div class="platform">.dmg disk image</div>
-  <div class="dl">
-    <a href="/downloads/HeavensLive.dmg" class="btn btn-gold">macOS .dmg</a>
-  </div>
-  <div class="size">macOS 10.15+ · Apple Silicon & Intel</div>
-</div>
+<div class="card"><h2 data-i18n="download.macTitle">💻 macOS</h2>
+<div class="step"><div class="step-num">1</div><div class="step-text" data-i18n="download.macStep1">Open Chrome on your Mac</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-text" data-i18n="download.macStep2">Go to heavnslive.com/shop</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-text" data-i18n="download.macStep3">Click the install icon in the address bar</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-text" data-i18n="download.macStep4">Or: File menu → Cast, Save and Share → Create Shortcut</div></div>
+<div class="note" data-i18n="download.macNote">Opens in its own window like a desktop app. Also works in Safari: File → Add to Dock.</div></div>
 
-<!-- Android -->
-<div class="card">
-  <h2>📱 Android</h2>
-  <div class="platform">.apk direct install</div>
-  <div class="dl">
-    <a href="/downloads/HeavensLive.apk" class="btn btn-gold">Android .apk</a>
-  </div>
-  <div class="size">Android 7.0+ · 57MB</div>
-</div>
-
-<!-- iOS -->
-<div class="card">
-  <h2>📱 iOS</h2>
-  <div class="platform">Coming to the App Store</div>
-  <div class="dl">
-    <span class="btn btn-dim">Coming Soon</span>
-  </div>
-  <div class="size">iOS 16+</div>
-</div>
+<div class="card"><h2 data-i18n="download.desktopTitle">🖥️ Windows & Linux</h2>
+<div class="step"><div class="step-num">1</div><div class="step-text" data-i18n="download.desktopStep1">Open Chrome or Edge</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-text" data-i18n="download.desktopStep2">Go to heavnslive.com/shop</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-text" data-i18n="download.desktopStep3">Click the install icon in the address bar</div></div>
+<div class="note" data-i18n="download.desktopNote">Desktop app with offline support — no download needed.</div></div>
 
 </div>
-
-<p style="text-align:center;margin-top:32px;color:var(--muted);font-size:.8rem">All downloads are free and open-source. <a href="/shop/bug-report" style="color:var(--gold)">Report an issue</a></p>
-</div>
+<script src="/i18n.js"></script>
 </body></html>

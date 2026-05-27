@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
+import 'screens/landing_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/marketplace_screen.dart';
 import 'screens/wallet_screen.dart';
@@ -13,10 +14,12 @@ import 'screens/messages_screen.dart';
 import 'screens/create_listing_screen.dart';
 import 'services/auth_service.dart';
 import 'services/powersync_service.dart';
+import 'services/prayer_audio_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize PowerSync for offline-first data
   try {
     await PowerSyncService().initialize();
   } catch (e) {
@@ -37,12 +40,8 @@ class _HeavensLiveAppState extends State<HeavensLiveApp> {
 
   @override void initState() { super.initState(); _checkAuth(); }
   Future<void> _checkAuth() async {
-    try {
-      final loggedIn = await _auth.isLoggedIn();
-      if (mounted) setState(() => _isLoggedIn = loggedIn);
-    } catch (e) {
-      if (mounted) setState(() => _isLoggedIn = false);
-    }
+    final loggedIn = await _auth.isLoggedIn();
+    setState(() => _isLoggedIn = loggedIn);
   }
 
   @override
@@ -87,6 +86,18 @@ class _MainShellState extends State<MainShell> {
         backgroundColor: const Color(0xFF0F0F1A),
         foregroundColor: const Color(0xFFC8A951),
         actions: [
+          ListenableBuilder(
+            listenable: PrayerAudioService(),
+            builder: (context, _) {
+              final isPlaying = PrayerAudioService().isPlaying;
+              return IconButton(
+                icon: Icon(isPlaying ? Icons.music_note : Icons.music_note_outlined),
+                color: isPlaying ? const Color(0xFFC8A951) : Colors.grey,
+                tooltip: isPlaying ? 'Pause Prayer Audio' : 'Play Prayer Audio',
+                onPressed: () => PrayerAudioService().toggle(),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add_circle_outline),
             tooltip: 'Create Listing',

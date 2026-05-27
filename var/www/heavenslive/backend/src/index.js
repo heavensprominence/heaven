@@ -152,13 +152,14 @@ app.use((req, res, next) => {
   if (req.path.endsWith('.wav')) res.type('audio/wav');
   next();
 });
-app.use(express.static(PUBLIC_DIR));
+// Credon SPA — explicit /credon route BEFORE static to avoid 301 redirect
+app.get("/credon", (req, res) => {
+  res.set("Cache-Control","no-store,no-cache,must-revalidate");
+  sendFile(res, path.join(BUILD_DIR, "index.html"));
+});
 app.use("/credon", express.static(BUILD_DIR));
+app.use(express.static(PUBLIC_DIR));
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
-
-// Credon SPA
-app.get("/credon", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
-app.get("/credon", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/index.html")));
 app.get("/credon/admin", (req, res) => {
   // Check cookie first, then token query param
   if (req.cookies?.is_admin === '1') {
@@ -182,9 +183,36 @@ app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-c
 app.get("/credon/wallet", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")));
 app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
 
-// Shop — serve specific pages when they exist, fallback to SPA
-app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
+// Shop — serves static HTML pages when they exist, falls back to SPA
+const serveShopPage = (req, res) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  
+  const reqPath = req.path.replace(/^\/shop\/?/, '') || 'index';
+  
+  let filePath = path.join(SHOP_BUILD_DIR, reqPath + '.html');
+  const fs = require('fs');
+  if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  
+  filePath = path.join(SHOP_BUILD_DIR, reqPath, 'index.html');
+  if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  
+  const parts = reqPath.split('/');
+  if (parts.length >= 2) {
+    filePath = path.join(SHOP_BUILD_DIR, parts.slice(0, -1).join('/'), parts[parts.length - 1] + '.html');
+    if (fs.existsSync(filePath)) return sendFile(res, filePath);
+  }
+  
+  sendFile(res, path.join(SHOP_BUILD_DIR, 'index.html'));
+};
 
+// MUST be before static mount to avoid /shop -> /shop/ redirect
+app.get("/shop", serveShopPage);
+app.use("/shop", (req, res, next) => { if (req.path !== "/shop") return next(); serveShopPage(req, res); });
+app.use("/shop", (req, res) => { if (req.path === "/shop") return; serveShopPage(req, res); });
+
+app.use("/shop/static", express.static(path.join(SHOP_BUILD_DIR, "static")));
 
 // Admin pages — require admin (cookie check, server-side)
 app.use((req, res, next) => {
@@ -199,39 +227,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-// Shop — serves static HTML pages when they exist, falls back to React SPA
-const serveShopPage = (req, res) => {
-  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.set('Pragma', 'no-cache');
-  res.set('Expires', '0');
-  
-  const reqPath = req.path.replace(/^\/shop\/?/, '') || 'index';
-  
-  // Try exact .html file
-  let filePath = path.join(SHOP_BUILD_DIR, reqPath + '.html');
-  const fs = require('fs');
-  if (fs.existsSync(filePath)) return sendFile(res, filePath);
-  
-  // Try subdirectory/index.html
-  filePath = path.join(SHOP_BUILD_DIR, reqPath, 'index.html');
-  if (fs.existsSync(filePath)) return sendFile(res, filePath);
-  
-  // Try subdir/page.html pattern (e.g. listing/detail → listing/detail.html)
-  const parts = reqPath.split('/');
-  if (parts.length >= 2) {
-    filePath = path.join(SHOP_BUILD_DIR, parts.slice(0, -1).join('/'), parts[parts.length - 1] + '.html');
-    if (fs.existsSync(filePath)) return sendFile(res, filePath);
-  }
-  
-  // Fallback to React SPA
-  sendFile(res, path.join(SHOP_BUILD_DIR, 'index.html'));
-};
-
-app.get("/shop", serveShopPage);
-app.use("/shop", (req, res, next) => { if (req.path !== "/shop") return next(); serveShopPage(req, res); });
-// Catch all other /shop/* paths
-app.use("/shop", (req, res) => { if (req.path === "/shop") return; serveShopPage(req, res); });
 
 // Public store page
 app.get("/shop/store/:slug", (req, res, next) => {

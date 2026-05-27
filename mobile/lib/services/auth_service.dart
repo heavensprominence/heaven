@@ -1,22 +1,21 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'api_client.dart';
 
 class AuthService {
-  final _storage = const FlutterSecureStorage();
   final _api = ApiClient();
   static const _tokenKey = 'jwt_token';
-  static const _langKey = 'hl-lang';
 
   Future<bool> isLoggedIn() async {
-    final token = await _storage.read(key: _tokenKey);
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(_tokenKey);
     if (token == null) return false;
     _api.setToken(token);
     return true;
   }
 
   Future<String?> getToken() async {
-    return await _storage.read(key: _tokenKey);
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenKey);
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
@@ -24,7 +23,8 @@ class AuthService {
       'email': email, 'password': password,
     });
     if (res['success'] == true && res['token'] != null) {
-      await _storage.write(key: _tokenKey, value: res['token']);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_tokenKey, res['token']);
       _api.setToken(res['token']);
     }
     return res;
@@ -39,7 +39,8 @@ class AuthService {
   }
 
   Future<void> logout() async {
-    await _storage.delete(key: _tokenKey);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_tokenKey);
     _api.setToken(null);
   }
 
@@ -47,11 +48,11 @@ class AuthService {
 
   static Future<String> getSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_langKey) ?? 'en';
+    return prefs.getString('hl-lang') ?? 'en';
   }
 
   static Future<void> saveLanguage(String lang) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_langKey, lang);
+    await prefs.setString('hl-lang', lang);
   }
 }

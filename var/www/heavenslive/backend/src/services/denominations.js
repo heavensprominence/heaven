@@ -42,14 +42,15 @@ const FIAT_DENOMINATIONS = {
   'HRK': { paper:[10,20,50,100,200,500,1000], coin:[0.01,0.02,0.05,0.10,0.20,0.50,1,2,5] },
 };
 
-// Crypto denominations — practical everyday amounts
+// Crypto denominations — practical paper money amounts
+// Uses logarithmic scale: 0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 50, 100
 function generateCryptoDenom(decimals) {
-  const denom = [];
-  for (let i = -8; i <= 2; i++) {
-    const amount = parseFloat(Math.pow(10, i).toFixed(Math.abs(Math.min(i,0))));
-    if (amount >= 0.00000001) denom.push(amount);
-  }
-  return denom;
+  const units = [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10, 50, 100];
+  return units.filter(u => {
+    // Only include amounts that make sense for this currency's decimals
+    const minUnit = Math.pow(10, -decimals);
+    return u >= minUnit;
+  });
 }
 
 function buildAllDenominations() {
