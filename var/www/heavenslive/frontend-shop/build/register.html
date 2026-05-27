@@ -51,10 +51,13 @@ function toggleCredon(){
   if(cb.checked){reason.classList.add('enabled')}else{reason.classList.remove('enabled');document.getElementById('reason').value=''}
 }
 
-// Auto-fill referral from URL or localStorage
+// Auto-fill referral from URL or localStorage, ping tracking
 (function(){
   var ref=localStorage.getItem('hl-ref')||new URLSearchParams(window.location.search).get('ref')||'';
-  if(ref){document.getElementById('refCode').value=ref;localStorage.setItem('hl-ref',ref)}
+  if(ref){document.getElementById('refCode').value=ref;localStorage.setItem('hl-ref',ref);
+    // Ping tracking endpoint to record this referral visit in the database
+    fetch('/api/shop/affiliate/click/'+encodeURIComponent(ref)).catch(function(){})
+  }
 })();
 
 async function doRegister(e){

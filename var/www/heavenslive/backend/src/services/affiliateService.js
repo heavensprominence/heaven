@@ -48,6 +48,12 @@ async function trackReferral(newUserId, referralCode) {
             [referrerId, newUserId]
         );
         
+        // Mark any referral visits as converted
+        await db.query(
+            'UPDATE referral_visits SET converted_user_id = $1, converted_at = NOW() WHERE referrer_id = $2 AND referral_code = $3 AND converted_user_id IS NULL',
+            [newUserId, referrerId, referralCode]
+        );
+        
         // Get commission settings
         const settings = await db.query(
             'SELECT setting_value FROM affiliate_settings WHERE setting_key = $1',
