@@ -254,6 +254,20 @@ router.get('/loans', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
+router.post('/loans', verifyToken, async (req, res) => {
+    try {
+        const { amount, reason, currency } = req.body;
+        if (!amount || amount <= 0) return res.status(400).json({ error: 'Amount required' });
+        const amountCents = Math.round(amount * 100);
+        const result = await db.query(
+            `INSERT INTO loan_requests (user_id, amount_requested, currency, admin_notes, status, created_at)
+             VALUES ($1, $2, $3, $4, 'pending', NOW()) RETURNING *`,
+            [req.userId, amountCents, currency || 'Credon-USD', reason || '']
+        );
+        res.json({ success: true, loan: result.rows[0] });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
 router.post('/loans/:id/repay', verifyToken, async (req, res) => {
     try {
         const { amount_cents } = req.body;

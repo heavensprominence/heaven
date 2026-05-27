@@ -160,8 +160,8 @@ function applyLoan(){
   var a=document.getElementById('loanAmount').value,r=document.getElementById('loanReason').value;
   if(!a||!r){alert('Amount and purpose required');return}
   F('/api/wallet/loans',{method:'POST',body:{amount:parseFloat(a),reason:r}}).then(function(d){
-    if(d.success){loadLoans()}else alert(d.error||'Failed');
-  });
+    if(d.success){alert('Loan application submitted! Book an appointment to review it.');showTab('appointments')}else alert(d.error||'Failed');
+  }).catch(function(e){alert('Error: '+(e.message||'Could not submit'))});
 }
 function repayLoan(id){var a=parseFloat(document.getElementById('repayAmt_'+id).value);if(!a||a<=0){alert('Enter an amount');return}F('/api/wallet/loans/'+id+'/repay',{method:'POST',body:{amount:a}}).then(function(d){if(d.success){alert('Repaid $'+a.toFixed(2)+'! Remaining: $'+(d.remaining/100).toFixed(2));loadLoans()}else alert(d.error||'Failed')})}
 
