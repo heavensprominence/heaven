@@ -37,6 +37,7 @@ const FIAT_META = {
   'ISK': { name: 'Icelandic Króna', symbol: 'kr', decimals: 0 },
   'VND': { name: 'Vietnamese Dong', symbol: '₫', decimals: 0 },
   'HRK': { name: 'Croatian Kuna', symbol: 'kn', decimals: 2 },
+  'KES': { name: 'Kenyan Shilling', symbol: 'KSh', decimals: 2 },
 };
 
 const CRYPTO_META = {

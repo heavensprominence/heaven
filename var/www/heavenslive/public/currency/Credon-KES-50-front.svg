@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fefefe"/>
+      <stop offset="100%" stop-color="#f2f8f2"/>
+    </linearGradient>
+    <pattern id="shield" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M20 2 L38 18 L20 38 L2 18 Z" fill="none" stroke="#1B5E20" stroke-width="0.3" opacity="0.04"/>
+    </pattern>
+  </defs>
+  <rect x="0" y="0" width="760" height="320" rx="10" fill="url(#bg)" stroke="#1B5E20" stroke-width="2"/>
+  <rect x="5" y="5" width="750" height="310" rx="8" fill="none" stroke="#1B5E20" stroke-width=".5"/>
+  <rect x="0" y="0" width="760" height="320" rx="10" fill="url(#shield)" opacity=".5"/>
+  <!-- Top band -->
+  <rect x="20" y="14" width="720" height="42" rx="3" fill="#1B5E20" opacity=".1"/>
+  <text x="380" y="38" text-anchor="middle" font-size="20" fill="#1B5E20" font-family="serif" font-weight="bold" letter-spacing="8">CREDON-KES</text>
+  <text x="380" y="50" text-anchor="middle" font-size="7" fill="#1B5E20" font-family="serif" letter-spacing="3">HARAMBEE • PAMOJA TWAWEZA</text>
+  
+  <!-- Portrait area -->
+  <rect x="35" y="75" width="145" height="180" rx="3" fill="rgba(0,0,0,.02)" stroke="#1B5E20" stroke-width="1"/>
+  <text x="107" y="165" text-anchor="middle" font-size="10" fill="#1B5E20" opacity=".12" font-family="serif">PORTRAIT</text>
+  <circle cx="107" cy="165" r="48" fill="rgba(255,255,255,.4)" stroke="#1B5E20" stroke-width=".4" stroke-dasharray="3,4"/>
+  <text x="107" y="168" text-anchor="middle" font-size="8" fill="#1B5E20" opacity=".06" font-family="serif">CREDON</text>
+  
+  <!-- Main body -->
+  <rect x="210" y="75" width="340" height="180" rx="3" fill="rgba(255,255,255,.5)"/>
+  <text x="380" y="115" text-anchor="middle" font-size="13" fill="#1B5E20" font-family="serif">CREDON SHILLINGS</text>
+  <text x="380" y="155" text-anchor="middle" font-size="42" fill="#1B5E20" font-family="serif" font-weight="900">KSh 50</text>
+  <text x="380" y="178" text-anchor="middle" font-size="10" fill="#1B5E20" font-family="serif" font-weight="bold">KENYAN SHILLING</text>
+  <text x="380" y="200" text-anchor="middle" font-size="8" fill="#1B5E20" font-family="serif" letter-spacing="3" opacity=".5">★★★ DIVINELY UNDERWRITTEN ★★★</text>
+  <rect x="372" y="70" width="16" height="190" fill="#1B5E20" opacity=".08"/>
+  
+  <!-- Corner values -->
+  <rect x="28" y="65" width="55" height="28" rx="3" fill="#1B5E20" opacity=".92"/>
+  <text x="56" y="84" text-anchor="middle" font-size="13" fill="white" font-family="serif" font-weight="900">KSh50</text>
+  <rect x="680" y="65" width="55" height="28" rx="3" fill="#1B5E20" opacity=".92"/>
+  <text x="708" y="84" text-anchor="middle" font-size="13" fill="white" font-family="serif" font-weight="900">KSh50</text>
+  <rect x="680" y="227" width="55" height="28" rx="3" fill="#1B5E20" opacity=".92"/>
+  <text x="708" y="246" text-anchor="middle" font-size="13" fill="white" font-family="serif" font-weight="900">KSh50</text>
+  
+  <!-- Security features -->
+  <rect x="620" y="95" width="100" height="65" rx="4" fill="url(#bg)" stroke="#1B5E20" stroke-width=".5" opacity=".3"/>
+  <text x="670" y="132" text-anchor="middle" font-size="8" fill="#1B5E20" opacity=".15">🔒 HOLOGRAM</text>
+  
+  <!-- Serial -->
+  <text x="560" y="22" font-size="8" fill="#1B5E20" font-family="monospace" opacity=".5">HL-KES-00022333</text>
+  <text x="560" y="305" font-size="8" fill="#1B5E20" font-family="monospace" opacity=".5">HL-KES-00031378</text>
+  <text x="380" y="305" text-anchor="middle" font-size="6" fill="#1B5E20" opacity=".25" font-family="serif">THIS NOTE IS LEGAL TENDER FOR ALL CREDON TRANSACTIONS</text>
+</svg>

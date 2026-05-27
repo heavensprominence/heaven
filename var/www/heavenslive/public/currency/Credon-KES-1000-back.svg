@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320">
+  <defs>
+    <linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f8f5"/>
+      <stop offset="100%" stop-color="#eaeeea"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="760" height="320" rx="10" fill="url(#bbg)" stroke="#1B5E20" stroke-width="2"/>
+  <rect x="5" y="5" width="750" height="310" rx="8" fill="none" stroke="#1B5E20" stroke-width=".5"/>
+  
+  <!-- Kenyan-inspired motif -->
+  <rect x="140" y="55" width="480" height="210" rx="4" fill="none" stroke="#1B5E20" stroke-width=".6" opacity=".4"/>
+  <rect x="150" y="65" width="460" height="190" rx="2" fill="rgba(0,0,0,.01)"/>
+  
+  <!-- Savannah silhouette -->
+  <path d="M170 250 Q180 235 190 250 L200 220 Q210 200 220 230 L230 210 Q240 195 250 225 L260 245 Q270 230 280 248 L290 220 Q300 200 310 240 L320 250 Q340 230 350 248 L370 210 Q390 190 400 230 L410 250 Q430 225 440 248 L450 220 Q460 200 470 235 L480 250 L490 220 Q500 205 510 228 L520 250 L540 225 Q550 210 560 240 L570 250 Q580 240 590 250" fill="none" stroke="#1B5E20" stroke-width="1.2" opacity=".2"/>
+  
+  <!-- Kilimanjaro outline -->
+  <path d="M280 200 L310 140 L330 110 L350 140 L370 160 L390 120 L410 155 L430 200" fill="none" stroke="#1B5E20" stroke-width="1" opacity=".15"/>
+  
+  <!-- Crest/shield area -->
+  <circle cx="380" cy="160" r="60" fill="rgba(255,255,255,.5)" stroke="#1B5E20" stroke-width=".8" opacity=".3"/>
+  <text x="380" y="158" text-anchor="middle" font-size="9" fill="#1B5E20" opacity=".08" font-family="serif">CREST</text>
+  
+  <text x="380" y="35" text-anchor="middle" font-size="16" fill="#1B5E20" font-family="serif" font-weight="bold" letter-spacing="6">CREDON-KES</text>
+  <text x="380" y="145" text-anchor="middle" font-size="28" fill="#1B5E20" opacity=".05" font-family="serif" font-weight="900">KSh 1000</text>
+  <text x="380" y="280" text-anchor="middle" font-size="9" fill="#1B5E20" font-family="serif" letter-spacing="4" opacity=".4">HARAMBEE • PAMOJA TWAWEZA • 2026</text>
+  <text x="380" y="300" text-anchor="middle" font-size="7" fill="#1B5E20" opacity=".25">CREDON SHILLINGS — KENYAN SHILLING</text>
+  
+  <!-- Corner marks -->
+  <rect x="20" y="20" width="45" height="22" rx="3" fill="#1B5E20" opacity=".6"/>
+  <text x="42" y="35" text-anchor="middle" font-size="10" fill="white" font-family="serif" font-weight="bold">KSh1000</text>
+</svg>

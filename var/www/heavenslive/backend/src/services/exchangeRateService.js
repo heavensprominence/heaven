@@ -78,7 +78,7 @@ async function fetchCoinGeckoRates() {
 function getMockRates() {
   const { FIAT_META, CRYPTO_META } = require('../utils/constants');
   const rates = {};
-  const fiatMocks = { 'USD':1.0,'EUR':0.92,'GBP':0.79,'JPY':150.5,'CNY':7.24,'CAD':1.37,'AUD':1.52,'CHF':0.89,'HKD':7.82,'SGD':1.34,'SEK':10.5,'KRW':1350,'NOK':10.7,'NZD':1.63,'INR':83.5,'MXN':17.1,'BRL':5.05,'ZAR':18.3,'TRY':32.5,'RUB':92.0,'PLN':3.97,'THB':36.2,'IDR':15800,'HUF':360,'CZK':23.1,'ILS':3.72,'DKK':6.87,'PHP':57.5,'MYR':4.72,'RON':4.58,'BGN':1.80,'HRK':6.93,'ISK':138,'VND':25400 };
+  const fiatMocks = { 'USD':1.0,'EUR':0.92,'GBP':0.79,'JPY':150.5,'CNY':7.24,'CAD':1.37,'AUD':1.52,'CHF':0.89,'HKD':7.82,'SGD':1.34,'SEK':10.5,'KRW':1350,'NOK':10.7,'NZD':1.63,'INR':83.5,'MXN':17.1,'BRL':5.05,'ZAR':18.3,'TRY':32.5,'RUB':92.0,'PLN':3.97,'THB':36.2,'IDR':15800,'HUF':360,'CZK':23.1,'ILS':3.72,'DKK':6.87,'PHP':57.5,'MYR':4.72,'RON':4.58,'BGN':1.80,'HRK':6.93,'ISK':138,'VND':25400,'KES':130 };
   for (const code of Object.keys(FIAT_META)) {
     rates[code] = { rate: fiatMocks[code] || 1.0, source: 'fallback', type: 'fiat', updated: new Date().toISOString() };
   }
@@ -111,6 +111,14 @@ async function buildRateTable() {
           type: 'fiat',
           updated: new Date().toISOString(),
         };
+      }
+    }
+    // Fill in any FIAT_META currencies not covered by Frankfurter (e.g. KES)
+    const mockFiat = getMockRates();
+    const { FIAT_META } = require('../utils/constants');
+    for (const currency of Object.keys(FIAT_META)) {
+      if (!rates[currency] && mockFiat[currency]) {
+        rates[currency] = mockFiat[currency];
       }
     }
   }
