@@ -790,16 +790,22 @@ router.get('/loans', verifyToken, requireAdmin, async (req, res) => {
 
 router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) => {
     try {
-        const { amount_cents, currency, interest_rate } = req.body;
+        const { amount_cents, currency, interest_rate, interest_rate_percent } = req.body;
+        const requestedCurrency = currency || null;
+        const rawRate = interest_rate_percent !== undefined ? interest_rate_percent : interest_rate;
         if (!amount_cents || amount_cents <= 0) return res.status(400).json({ error: 'Amount required' });
-        if (interest_rate === undefined) return res.status(400).json({ error: 'Interest rate required (-100 = grant, 0 = interest-free, 1-5 = low interest)' });
+        if (rawRate === undefined || rawRate === null || rawRate === '') return res.status(400).json({ error: 'Interest rate required (-100 = grant, 0 = interest-free, 1-5 = low interest)' });
+        
+        const rate = parseFloat(rawRate);
+        if (isNaN(rate)) return res.status(400).json({ error: 'Interest rate must be a number' });
+        if (rate < -100 || rate > 5) return res.status(400).json({ error: 'Interest rate must be between -100% and 5%' });
         
         // Get the loan request
         const loan = await pool.query('SELECT * FROM loan_requests WHERE id = $1', [req.params.id]);
         if (loan.rows.length === 0) return res.status(404).json({ error: 'Loan not found' });
         
         const lr = loan.rows[0];
-        const rate = parseFloat(interest_rate);
+        const finalCurrency = requestedCurrency || lr.currency || 'Credon-USD';
         const isGrant = rate === -100;
         
         // Mint funds if needed (check treasury)
@@ -813,13 +819,13 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         // Distribute to user
         await MockMinting.distributeFromTreasury(
             lr.user_id, amount_cents,
-            `${isGrant ? 'Grant' : 'Loan'} approved: ${rate}% interest, ${currency || 'Credon-USD'}`
+            `${isGrant ? 'Grant' : 'Loan'} approved: ${rate}% interest, ${finalCurrency}`
         );
         
         // Update loan request
         await pool.query(
             'UPDATE loan_requests SET status = $1, amount_requested = $2, currency = $3, interest_rate = $4, approved_by = $5, approved_at = NOW(), admin_notes = $6 WHERE id = $7',
-            ['approved', amount_cents, currency || 'Credon-USD', rate, req.userId,
+            ['approved', amount_cents, finalCurrency, rate, req.userId,
              `${isGrant ? 'GRANT' : 'LOAN'} — ${rate}% interest`,
              req.params.id]
         );
@@ -828,7 +834,7 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         if (!isGrant) {
             await pool.query(
                 'INSERT INTO active_loans (user_id, loan_request_id, principal_cents, remaining_cents, interest_rate, currency) VALUES ($1, $2, $3, $4, $5, $6)',
-                [lr.user_id, req.params.id, amount_cents, amount_cents, rate, currency || 'Credon-USD']
+                [lr.user_id, req.params.id, amount_cents, amount_cents, rate, finalCurrency]
             );
         }
         
@@ -840,7 +846,7 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
             success: true, 
             type: isGrant ? 'grant' : 'loan',
             amount: amount_cents / 100, 
-            currency: currency || 'Credon-USD',
+            currency: finalCurrency,
             interest_rate: rate 
         });
     } catch (error) { res.status(500).json({ error: error.message }); }
