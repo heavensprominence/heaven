@@ -78,7 +78,8 @@ function F(url,opts){
 
 function showTab(name){
   document.querySelectorAll('#mainTabs .tab').forEach(function(t){t.classList.remove('on')});
-  event.target.classList.add('on');
+  var btns=document.querySelectorAll('#mainTabs .tab');
+  for(var i=0;i<btns.length;i++){var oc=btns[i].getAttribute('onclick')||'';if(oc.indexOf("'"+name+"'")!==-1||oc.indexOf('"'+name+'"')!==-1){btns[i].classList.add('on');break}}
   ['dash','send','exchange','history','loans','appointments','currency','grants'].forEach(function(x){document.getElementById('tab-'+x).style.display=x===name?'block':'none'});
   if(name==='dash')loadDash();if(name==='history')loadHistory();if(name==='loans')loadLoans();if(name==='appointments')loadAppointments();
   if(name==='currency')loadCurrency();
