@@ -61,7 +61,7 @@ async function trackReferral(newUserId, referralCode) {
         );
         const commissionSettings = settings.rows[0]?.setting_value || {};
         
-        // Award signup bonus if configured
+        // Award signup bonus to REFERRER if configured
         if (commissionSettings.signup_bonus > 0) {
             await awardCommission(
                 referrerId, newUserId, null,

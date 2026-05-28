@@ -11,12 +11,15 @@ textarea{min-height:80px;resize:vertical}
 .alert{padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:.82rem;display:none}.alert.error{background:rgba(231,76,60,.1);color:var(--danger);display:block}.alert.success{background:rgba(46,204,113,.1);color:var(--success);display:block}
 .footer-links{text-align:center;margin-top:16px;font-size:.78rem;color:var(--muted)}.footer-links a{color:var(--gold);text-decoration:none}.footer-links a:hover{text-decoration:underline}
 .back-link{display:block;text-align:center;margin-bottom:20px;color:var(--muted);font-size:.82rem;text-decoration:none}.back-link:hover{color:var(--gold)}
+.bonus-banner{text-align:center;background:linear-gradient(135deg,rgba(46,204,113,.15),rgba(200,169,81,.15));border:2px solid #2ECC71;border-radius:12px;padding:14px 20px;margin:16px 0 20px;font-size:.95rem;color:#E8E6E3;animation:bonus-glow 2s ease-in-out infinite alternate}
+@keyframes bonus-glow{from{box-shadow:0 0 10px rgba(46,204,113,.15)}to{box-shadow:0 0 22px rgba(46,204,113,.35)}}
 </style></head><body>
 <div class="container">
   <a href="/shop/" class="back-link">← Back to Shop</a>
   <div class="card" id="regCard">
     <h1 data-i18n="nav.register">Create Account</h1>
     <p class="muted" data-i18n="page.sub_join_heavensmarket">Join HeavensMarket to buy, sell, and trade</p>
+    <div class="bonus-banner">🎁 <strong>20 Credon-USD FREE</strong> added to your wallet instantly</div>
     <div class="alert" id="msg"></div>
     <form onsubmit="doRegister(event)">
       <div class="form-group"><label data-i18n="page.label_full_name">Full Name</label><input id="name" type="text" placeholder="Your name"></div>

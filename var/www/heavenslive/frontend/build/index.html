@@ -36,7 +36,9 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,26,0.95);backdrop-
 .footer-text{text-align:center;margin-top:16px;font-size:0.9rem;color:var(--muted)}
 .footer-text a{color:var(--gold);cursor:pointer;text-decoration:none}
 .footer-text a:hover{text-decoration:underline}
-.invite-badge{display:inline-block;background:rgba(200,169,81,0.15);color:var(--gold);padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-bottom:12px;text-align:center}
+.bonus-banner{text-align:center;background:linear-gradient(135deg,rgba(46,204,113,.15),rgba(200,169,81,.15));border:2px solid #2ECC71;border-radius:12px;padding:12px 20px;margin:0 0 16px;font-size:.9rem;color:#E8E6E3;animation:bonus-glow 2s ease-in-out infinite alternate}
+@keyframes bonus-glow{from{box-shadow:0 0 10px rgba(46,204,113,.15)}to{box-shadow:0 0 22px rgba(46,204,113,.35)}}
+.invite-badge{display:none}
 </style>
 <script src="/auth.js"></script>
 <script src="/error-recovery.js"></script>
@@ -78,7 +80,7 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,26,0.95);backdrop-
     <form class="auth-form" id="registerForm" onsubmit="doRegister(event)">
       <h2 data-i18n="credontoken.registerTitle">Create Account</h2>
       <div class="alert" id="regMsg"></div>
-      <div class="invite-badge" data-i18n="credontoken.inviteOnly">🔑 Invite-only access</div>
+      <div class="bonus-banner" data-i18n="credontoken.freeBonus">🎁 <strong>20 Credon-USD FREE</strong> added to your wallet instantly</div>
       <div class="form-group"><label data-i18n="credontoken.fullName">Full Name</label><input id="regName" type="text" placeholder="John Doe"></div>
       <div class="form-group"><label data-i18n="credontoken.email">Email</label><input id="regEmail" type="email" placeholder="you@email.com" required></div>
       <div class="form-group"><label data-i18n="credontoken.password">Password</label><input id="regPass" type="password" placeholder="Min 8 chars" minlength="8" required></div>

@@ -106,6 +106,9 @@ router.post('/register', async (req, res) => {
         const user = result.rows[0];
         // Create wallet
         await db.query("INSERT INTO wallets (user_id, balance_cents) VALUES ($1, 0) ON CONFLICT DO NOTHING", [user.id]);
+        // Award 20 Credon-USD welcome bonus to every new signup
+        const welcomeBonus = 2000; // 20 Credon-USD in cents
+        await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, user.id]);
         // Track referral if code provided (from URL param or cookie)
         const refCode = referralCode || req.cookies?.hl_ref || null;
         if (refCode) {

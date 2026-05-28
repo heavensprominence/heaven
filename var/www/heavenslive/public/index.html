@@ -14,6 +14,8 @@ nav .container{display:flex;justify-content:space-between;align-items:center;pad
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,169,81,.08),transparent 70%)}
 .hero h1{font-size:3.5rem;font-weight:800;line-height:1.1;margin-bottom:16px;position:relative}
 .hero h1 .gold{color:var(--gold)}.hero p{font-size:1.2rem;color:var(--muted);max-width:600px;margin:0 auto 32px;position:relative}
+.bonus-banner{text-align:center;background:linear-gradient(135deg,rgba(46,204,113,.15),rgba(200,169,81,.15));border:2px solid #2ECC71;border-radius:12px;padding:16px 24px;margin:20px auto 24px;max-width:520px;font-size:1.1rem;color:#E8E6E3;animation:bonus-glow 2s ease-in-out infinite alternate}
+@keyframes bonus-glow{from{box-shadow:0 0 12px rgba(46,204,113,.2)}to{box-shadow:0 0 28px rgba(46,204,113,.4)}}
 .hero-buttons{display:flex;gap:16px;justify-content:center;position:relative}
 .features{padding:80px 0}.features h2{text-align:center;font-size:2rem;margin-bottom:48px;color:var(--gold)}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -64,10 +66,11 @@ document.getElementById('welcomeOverlay').addEventListener('click',function(){
 <section class="hero"><div class="container">
 <h1 data-i18n="hero.title">Divinely <span class="gold">Underwritten</span><br>for All of Us</h1>
 <p data-i18n="hero.subtitle">Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.</p>
+<div class="bonus-banner">🎁 <strong>20 Credon-USD FREE</strong> when you join — instantly added to your wallet</div>
 <div class="hero-buttons">
 <a href="/shop/" class="btn btn-primary" style="font-size:1.1rem;padding:14px 36px;text-decoration:none" data-i18n="hero.shopBtn">Explore the Marketplace</a>
 <a href="/credon/" class="btn btn-outline" style="font-size:1.1rem;padding:14px 36px;text-decoration:none" data-i18n="hero.credonBtn">Learn About Credon</a>
-<a href="/credon/" class="btn btn-primary" style="font-size:1.1rem;padding:14px 36px;text-decoration:none;background:var(--success);animation:pulse 2s infinite" data-i18n="hero.joinBtn">🚀 Join Free</a></div>
+<a href="/credon/" class="btn btn-primary" style="font-size:1.1rem;padding:14px 36px;text-decoration:none;background:var(--success);animation:pulse 2s infinite" data-i18n="hero.joinBtn">🎁 Join Free — Get 20 Credits</a></div>
 </div></section>
 
 <section class="features"><div class="container">
