@@ -511,7 +511,7 @@ router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
         // Record destroyed balance as treasury reversal before deleting user
         if (destroyedBalance > 0) {
             await pool.query(
-                "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, reference_id, title) VALUES ($1, 'Balance destroyed on user deletion', 'user_deleted', $2, $3, 'User Deleted')",
+                "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, reference_id, title) VALUES ($1, 'Balance destroyed on user deletion', 'burn_user_deleted', $2, $3, 'Burn: User Deleted')",
                 [-destroyedBalance, adminId, userId]
             );
         }

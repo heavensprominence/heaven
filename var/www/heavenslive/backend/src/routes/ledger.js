@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
+const { verifyToken } = require('../middleware/auth');
+
+// ---- public endpoints (no auth) ----
 
 // GET /api/ledger/summary — public stats
 router.get('/summary', async (req, res) => {
@@ -102,6 +105,45 @@ router.get('/actions', async (req, res) => {
             "SELECT DISTINCT action FROM treasury_ledger WHERE created_at >= NOW() - INTERVAL '3 years' ORDER BY action"
         );
         res.json(actions.rows.map(r => r.action));
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// ---- admin endpoints (auth required) ----
+
+const requireAdmin = async (req, res, next) => {
+    try {
+        const user = await pool.query('SELECT is_super_admin, is_admin FROM users WHERE id = $1', [req.user.id]);
+        if (user.rows.length === 0) return res.status(403).json({ error: 'Unauthorized' });
+        if (!user.rows[0].is_super_admin && !user.rows[0].is_admin) return res.status(403).json({ error: 'Admin access required' });
+        next();
+    } catch (e) { res.status(500).json({ error: e.message }); }
+};
+
+// POST /api/ledger/burn — manually burn currency from circulation (admin only)
+router.post('/burn', verifyToken, requireAdmin, async (req, res) => {
+    try {
+        const { amountCents, reason } = req.body;
+        const adminId = req.user.id;
+        if (!amountCents || amountCents <= 0) {
+            return res.status(400).json({ error: 'amountCents must be a positive integer' });
+        }
+        const burn = await pool.query(
+            "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, title) VALUES ($1, $2, 'burn', $3, 'Burn: Supply Reduction') RETURNING *",
+            [-amountCents, reason || 'Manual supply reduction', adminId]
+        );
+        res.json({
+            success: true,
+            burned: amountCents,
+            entry: {
+                id: burn.rows[0].id,
+                action: 'burn',
+                amountCents: parseInt(burn.rows[0].amount_cents),
+                reason: burn.rows[0].reason,
+                createdAt: burn.rows[0].created_at
+            }
+        });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

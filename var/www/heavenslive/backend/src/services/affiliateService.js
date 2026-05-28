@@ -95,6 +95,18 @@ async function awardCommission(referrerId, referredUserId, purchaseId, amountCen
         [commissionCents, referrerId]
     );
     
+    // Also credit main wallet so it shows in general balance
+    await db.query(
+        'INSERT INTO wallets (user_id, balance_cents) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET balance_cents = wallets.balance_cents + $2',
+        [referrerId, commissionCents]
+    );
+    
+    // Record in treasury ledger for open-books transparency
+    await db.query(
+        "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, reference_id, title) VALUES ($1, $2, 'commission', NULL, $3, 'Affiliate Commission')",
+        [commissionCents, `Commission from ${commissionType}: referred user ${referredUserId}`, referrerId]
+    );
+    
     await db.query('COMMIT');
     
     return commissionCents;
@@ -255,20 +267,40 @@ async function awardSaleCommission(sellerId, listingId, amountCents, saleCommiss
         
         const rate = saleCommissionRate || 2; // default 2%
         const commissionCents = Math.round(amountCents * rate / 100);
+        const referrerId = ref.rows[0].referrer_id;
+        
+        await db.query('BEGIN');
         
         await db.query(
             'INSERT INTO affiliate_commissions (referrer_id, referred_user_id, purchase_id, amount_cents, commission_rate, commission_cents, commission_type, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-            [ref.rows[0].referrer_id, sellerId, listingId, amountCents, rate, commissionCents, 'sale', 'pending']
+            [referrerId, sellerId, listingId, amountCents, rate, commissionCents, 'sale', 'pending']
         );
         
         await db.query(
             'UPDATE users SET affiliate_balance_cents = affiliate_balance_cents + $1, total_affiliate_earned_cents = total_affiliate_earned_cents + $1 WHERE id = $2',
-            [commissionCents, ref.rows[0].referrer_id]
+            [commissionCents, referrerId]
         );
         
-        console.log('Sale commission awarded:', commissionCents, 'cents to', ref.rows[0].referrer_id);
+        // Also credit main wallet
+        await db.query(
+            'INSERT INTO wallets (user_id, balance_cents) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET balance_cents = wallets.balance_cents + $2',
+            [referrerId, commissionCents]
+        );
+        
+        // Record in treasury ledger
+        await db.query(
+            "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, reference_id, title) VALUES ($1, $2, 'commission', NULL, $3, 'Sale Commission')",
+            [commissionCents, `Sale commission from listing ${listingId}`, referrerId]
+        );
+        
+        await db.query('COMMIT');
+        
+        console.log('Sale commission awarded:', commissionCents, 'cents to', referrerId);
         return commissionCents;
-    } catch (e) { console.log('Sale commission error:', e.message); return 0; }
+    } catch (e) {
+        await db.query('ROLLBACK').catch(() => {});
+        console.log('Sale commission error:', e.message); return 0;
+    }
 }
 
 module.exports = { awardSaleCommission,

@@ -40,7 +40,8 @@
   .action-badge.mint { background: rgba(52,211,153,0.15); color: #34d399; }
   .action-badge.distribute { background: rgba(96,165,250,0.15); color: #60a5fa; }
   .action-badge.signup_bonus { background: rgba(167,139,250,0.15); color: #a78bfa; }
-  .action-badge.user_deleted { background: rgba(248,113,113,0.15); color: #f87171; }
+  .action-badge.burn, .action-badge.burn_user_deleted { background: rgba(248,113,113,0.15); color: #f87171; }
+  .action-badge.commission { background: rgba(251,191,36,0.15); color: #fbbf24; }
   .action-badge.default { background: rgba(255,255,255,0.05); color: #999; }
   .amount-positive { color: #34d399; font-weight: 600; }
   .amount-negative { color: #f87171; font-weight: 600; }
@@ -72,10 +73,11 @@
   </header>
 
   <div class="stats-bar" id="statsBar">
-    <div class="stat-card"><div class="label">Total Minted</div><div class="value neutral" id="statMint">—</div></div>
-    <div class="stat-card"><div class="label">Total Distributed</div><div class="value neutral" id="statDist">—</div></div>
-    <div class="stat-card"><div class="label">Signup Bonuses</div><div class="value positive" id="statBonus">—</div></div>
-    <div class="stat-card"><div class="label">Net Circulation</div><div class="value" id="statNet">—</div></div>
+    <div class="stat-card"><div class="label">💰 Total Minted</div><div class="value neutral" id="statMint">—</div></div>
+    <div class="stat-card"><div class="label">📨 Total Distributed</div><div class="value neutral" id="statDist">—</div></div>
+    <div class="stat-card"><div class="label">🎁 Signup Bonuses</div><div class="value positive" id="statBonus">—</div></div>
+    <div class="stat-card"><div class="label">🔥 Total Burned</div><div class="value" id="statBurn">—</div></div>
+    <div class="stat-card"><div class="label">⚖️ Net Circulation</div><div class="value" id="statNet">—</div></div>
   </div>
 
   <div class="controls">
@@ -107,7 +109,7 @@
 
   <footer>
     <p>HeavensLive Open Books · All treasury activity since inception · <span id="footerRange"></span></p>
-    <p class="summary-note">Net circulation = Total Minted − Total Distributed + Signup Bonuses − User Deletions</p>
+    <p class="summary-note">Net Circulation = Minted − Distributed + Bonuses − Burned. Every cent accounted for.</p>
   </footer>
 </div>
 
@@ -126,11 +128,15 @@ function fmtDate(d) {
 }
 
 function actionClass(a) {
-  const map = { mint:'mint', distribute:'distribute', signup_bonus:'signup_bonus', user_deleted:'user_deleted' };
+  if (a.startsWith('burn')) return 'burn';
+  const map = { mint:'mint', distribute:'distribute', signup_bonus:'signup_bonus', commission:'commission' };
   return map[a] || 'default';
 }
 
-function actionLabel(a) { return a.replace(/_/g, ' '); }
+function actionLabel(a) {
+  if (a.startsWith('burn')) return '🔥 ' + a.replace(/_/g, ' ').replace('burn', 'Burned').replace('Burned user', 'User');
+  return a.replace(/_/g, ' ');
+}
 
 function shortRef(id) { return id ? id.slice(0,8)+'...' : '—'; }
 
@@ -143,6 +149,11 @@ async function loadSummary() {
     document.getElementById('statMint').textContent = fmtCents(byAction.mint || 0);
     document.getElementById('statDist').textContent = fmtCents(byAction.distribute || 0);
     document.getElementById('statBonus').textContent = fmtCents(byAction.signup_bonus || 0);
+    // Sum all burn-* actions
+    const totalBurned = d.byAction.filter(a=>a.action.startsWith('burn')).reduce((s,a)=>s+a.totalCents,0);
+    const burnEl = document.getElementById('statBurn');
+    burnEl.textContent = fmtCents(totalBurned);
+    burnEl.className = 'value ' + (totalBurned < 0 ? 'negative' : 'neutral');
     const netEl = document.getElementById('statNet');
     netEl.textContent = fmtCents(d.netCirculationCents);
     netEl.className = 'value ' + (d.netCirculationCents > 0 ? 'positive' : d.netCirculationCents < 0 ? 'negative' : 'neutral');
