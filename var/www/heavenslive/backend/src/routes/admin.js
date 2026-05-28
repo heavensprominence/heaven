@@ -489,12 +489,23 @@ router.delete('/bids/:bidId', verifyToken, requireAdmin, async (req, res) => {
 
 router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
     try {
-        await pool.query('DELETE FROM wallets WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM transactions WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM carts WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM listings WHERE seller_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM users WHERE id = $1', [req.params.id]);
-        res.json({ success: true });
+        const userId = req.params.id;
+        // Dynamically find ALL tables with FK references to users.id and cascade-delete
+        const fks = await pool.query(`
+            SELECT tc.table_name, kcu.column_name
+            FROM information_schema.table_constraints tc
+            JOIN information_schema.key_column_usage kcu ON tc.constraint_name = kcu.constraint_name
+            JOIN information_schema.constraint_column_usage ccu ON ccu.constraint_name = tc.constraint_name
+            WHERE tc.constraint_type = 'FOREIGN KEY'
+              AND ccu.table_name = 'users'
+              AND tc.table_name != 'users'
+              AND tc.table_schema = 'public'
+        `);
+        for (const fk of fks.rows) {
+            await pool.query(`DELETE FROM "${fk.table_name}" WHERE "${fk.column_name}" = $1`, [userId]);
+        }
+        await pool.query('DELETE FROM users WHERE id = $1', [userId]);
+        res.json({ success: true, cascadedTables: fks.rows.length });
     } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -559,61 +570,6 @@ router.get('/stats', verifyToken, requireAdmin, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// GET /api/admin/stats — Dashboard overview
-router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
-    try {
-        await pool.query('DELETE FROM wallets WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM transactions WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM carts WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM listings WHERE seller_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM users WHERE id = $1', [req.params.id]);
-        res.json({ success: true });
-    } catch(e) { res.status(500).json({ error: e.message }); }
-});
-
-router.get('/stats', verifyToken, requireAdmin, async (req, res) => {
-    try {
-        const users = await pool.query('SELECT COUNT(*) as count FROM users');
-        const listings = await pool.query("SELECT COUNT(*) as count FROM listings WHERE status = 'active'");
-        const treasury = await pool.query('SELECT COALESCE(SUM(CASE WHEN action=\'mint\' THEN amount_cents ELSE -amount_cents END),0) as balance FROM treasury_ledger');
-        res.json({
-            users: parseInt(users.rows[0].count),
-            listings: parseInt(listings.rows[0].count),
-            treasury: parseInt(treasury.rows[0].balance) / 100,
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// GET stats for admin dashboard
-router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
-    try {
-        await pool.query('DELETE FROM wallets WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM transactions WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM carts WHERE user_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM listings WHERE seller_id = $1', [req.params.id]);
-        await pool.query('DELETE FROM users WHERE id = $1', [req.params.id]);
-        res.json({ success: true });
-    } catch(e) { res.status(500).json({ error: e.message }); }
-});
-
-router.get('/stats', verifyToken, requireAdmin, async (req, res) => {
-  try {
-    const users = await pool.query("SELECT COUNT(*) as count FROM users");
-    const listings = await pool.query("SELECT COUNT(*) as count FROM listings WHERE status = 'active'");
-    const treasury = await pool.query("SELECT COALESCE(SUM(CASE WHEN action = 'mint' THEN amount_cents ELSE -amount_cents END), 0) as balance FROM treasury_ledger");
-    res.json({
-      users: parseInt(users.rows[0].count),
-      listings: parseInt(listings.rows[0].count),
-      treasury: parseInt(treasury.rows[0].balance) / 100,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 
 // === SYSTEM SETTINGS (Admin) ===
 const SystemSettings = require('../services/systemSettings');
