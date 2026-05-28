@@ -1,7 +1,9 @@
-name: Build iOS + macOS
+name: Build iOS + macOS [DISABLED]
 
 on:
   workflow_dispatch:
+    # Disabled — web wrappers are sufficient, no native apps needed
+  workflow_call:
 
 jobs:
   ios-app:
