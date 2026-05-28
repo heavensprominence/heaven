@@ -143,6 +143,9 @@ app.use("/payment", require("./routes/payment"));
 // PowerSync — device upload + conflict resolution (last-write-wins)
 app.use("/api/sync", syncRoutes);
 
+// Public Open Books ledger — fully transparent treasury history
+app.use("/api/ledger", require("./routes/ledger"));
+
 // Static files
 app.get("/", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "index.html")));
 
