@@ -65,7 +65,7 @@ async function trackReferral(newUserId, referralCode) {
         if (commissionSettings.signup_bonus > 0) {
             await awardCommission(
                 referrerId, newUserId, null,
-                commissionSettings.signup_bonus * 100, 0, 'signup'
+                commissionSettings.signup_bonus * 100, 100, 'signup'
             );
         }
         
