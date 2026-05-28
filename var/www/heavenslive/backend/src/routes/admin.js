@@ -490,6 +490,10 @@ router.delete('/bids/:bidId', verifyToken, requireAdmin, async (req, res) => {
 router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
     try {
         const userId = req.params.id;
+        const adminId = req.user.id;
+        // Capture wallet balance for audit trail before deleting
+        const wallet = await pool.query('SELECT balance_cents FROM wallets WHERE user_id = $1', [userId]);
+        const destroyedBalance = wallet.rows.length > 0 ? parseInt(wallet.rows[0].balance_cents) : 0;
         // Dynamically find ALL tables with FK references to users.id and cascade-delete
         const fks = await pool.query(`
             SELECT tc.table_name, kcu.column_name
@@ -504,8 +508,15 @@ router.delete('/users/:id', verifyToken, requireAdmin, async (req, res) => {
         for (const fk of fks.rows) {
             await pool.query(`DELETE FROM "${fk.table_name}" WHERE "${fk.column_name}" = $1`, [userId]);
         }
+        // Record destroyed balance as treasury reversal before deleting user
+        if (destroyedBalance > 0) {
+            await pool.query(
+                "INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, reference_id, title) VALUES ($1, 'Balance destroyed on user deletion', 'user_deleted', $2, $3, 'User Deleted')",
+                [-destroyedBalance, adminId, userId]
+            );
+        }
         await pool.query('DELETE FROM users WHERE id = $1', [userId]);
-        res.json({ success: true, cascadedTables: fks.rows.length });
+        res.json({ success: true, cascadedTables: fks.rows.length, destroyedBalance });
     } catch(e) { res.status(500).json({ error: e.message }); }
 });
 

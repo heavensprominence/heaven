@@ -109,6 +109,10 @@ router.post('/register', async (req, res) => {
         // Award 20 Credon-USD welcome bonus to every new signup
         const welcomeBonus = 2000; // 20 Credon-USD in cents
         await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, user.id]);
+        await db.query(
+            "INSERT INTO treasury_ledger (amount_cents, reason, action, reference_id, title) VALUES ($1, 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
+            [welcomeBonus, user.id]
+        );
         // Track referral if code provided (from URL param or cookie)
         const refCode = referralCode || req.cookies?.hl_ref || null;
         if (refCode) {
