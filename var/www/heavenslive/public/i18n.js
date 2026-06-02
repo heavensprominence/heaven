@@ -36,7 +36,7 @@
       var sel=document.createElement('select');
       sel.id='i18nLangSel';
       sel.onchange=function(){switchLang(this.value)};
-      sel.style.cssText='appearance:none;padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;font-size:.75rem;cursor:pointer;margin-right:10px';
+      sel.style.cssText='appearance:none;padding:4px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#E8E6E3;font-size:.75rem;cursor:pointer;max-width:80px;width:auto;margin-right:10px';
       sel.innerHTML='<option value="en">🌐 English</option><option value="ar">🇸🇦 العربية</option><option value="fa">🇮🇷 فارسی</option><option value="fr">🇫🇷 Français</option><option value="zh">🇨🇳 中文</option><option value="ja">🇯🇵 日本語</option><option value="ko">🇰🇷 한국어</option><option value="de">🇩🇪 Deutsch</option><option value="es">🇪🇸 Español</option><option value="ru">🇷🇺 Русский</option><option value="hi">🇮🇳 हिन्दी</option><option value="pt">🇵🇹 Português</option><option value="sv">🇸🇪 Svenska</option><option value="tl">🇵🇭 Tagalog</option><option value="tr">🇹🇷 Türkçe</option><option value="ur">🇵🇰 اردو</option><option value="vi">🇻🇳 Tiếng Việt</option>';
       sel.value=currentLang;
       var brand=nav.querySelector('.nav-brand');
