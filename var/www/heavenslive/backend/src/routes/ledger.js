@@ -11,21 +11,43 @@ router.get('/summary', async (req, res) => {
         const stats = await pool.query(`
             SELECT
                 action,
+                currency,
                 COUNT(*)::int as count,
                 SUM(amount_cents)::bigint as total_cents
             FROM treasury_ledger
             WHERE created_at >= NOW() - INTERVAL '3 years'
-            GROUP BY action
-            ORDER BY action
+            GROUP BY action, currency
+            ORDER BY action, currency
         `);
-        const net = stats.rows.reduce((sum, r) => sum + parseInt(r.total_cents), 0);
+
+        const USD_RATES = {
+          USD: 1, KES: 130, EUR: 0.92, GBP: 0.79, CAD: 1.37, AUD: 1.53,
+          NGN: 1550, INR: 83.5, JPY: 155, CNY: 7.24, ZAR: 18.5
+        };
+        function toUsdCents(c, cur) {
+          const rate = USD_RATES[cur] || 1;
+          return Math.round(c / rate);
+        }
+
+        const byActionMap = {};
+        for (const r of stats.rows) {
+          const key = r.action;
+          if (!byActionMap[key]) byActionMap[key] = { count: 0, totalUsdCents: 0 };
+          byActionMap[key].count += r.count;
+          byActionMap[key].totalUsdCents += toUsdCents(parseInt(r.total_cents), r.currency);
+        }
+
+        const byAction = Object.entries(byActionMap).map(([action, v]) => ({
+            action,
+            count: v.count,
+            totalCents: v.totalUsdCents
+        }));
+
+        const netUsdCents = byAction.reduce((sum, a) => sum + a.totalCents, 0);
+
         res.json({
-            netCirculationCents: net,
-            byAction: stats.rows.map(r => ({
-                action: r.action,
-                count: r.count,
-                totalCents: parseInt(r.total_cents)
-            }))
+            netCirculationCents: netUsdCents,
+            byAction
         });
     } catch (e) {
         res.status(500).json({ error: e.message });
