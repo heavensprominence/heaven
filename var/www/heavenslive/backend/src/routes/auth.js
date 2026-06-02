@@ -106,9 +106,11 @@ router.post('/register', async (req, res) => {
         const user = result.rows[0];
         // Create wallet
         await db.query("INSERT INTO wallets (user_id, balance_cents) VALUES ($1, 0) ON CONFLICT DO NOTHING", [user.id]);
+await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES (, 'USD', 0) ON CONFLICT DO NOTHING", [user.id]);
         // Award 20 Credon-USD welcome bonus to every new signup
         const welcomeBonus = 2000; // 20 Credon-USD in cents
         await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, user.id]);
+await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES (, 'USD', ) ON CONFLICT (user_id, currency) DO UPDATE SET balance_cents = wallet_balances.balance_cents + ", [user.id, welcomeBonus]);
         await db.query(
             "INSERT INTO treasury_ledger (amount_cents, reason, action, reference_id, title) VALUES ($1, 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
             [welcomeBonus, user.id]

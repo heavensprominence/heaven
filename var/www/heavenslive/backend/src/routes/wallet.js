@@ -45,39 +45,20 @@ const SystemSettings = require('../services/systemSettings');
 // GET wallet balance
 router.get('/balance', verifyToken, async (req, res) => {
   try {
-    const balanceCents = await Wallet.getBalance(req.userId);
-    const wallet = await Wallet.getByUserId(req.userId);
-    
-    // Get supported currencies for conversion
-    const currencies = await ExchangeRates.getSupportedCurrencies();
-    
-    // Calculate balance in all currencies (live rates)
-    const balances = {};
-    for (const currency of currencies) {
-      try {
-        const converted = await ExchangeRates.convert(balanceCents / 100, 'Credon-USD', currency);
-        balances[currency] = converted;
-      } catch (err) {
-        balances[currency] = null;
-      }
-    }
-    
-    // Get purchase count and bonus info
+    const perCurrency = await Wallet.getBalances(req.userId);
+    const balanceUsd = await Wallet.getTotalBalanceUsd(req.userId);
     const purchaseResult = await db.query('SELECT 0 as purchase_count FROM users WHERE id = $1', [req.userId]);
     const purchaseCount = parseInt(purchaseResult.rows[0]?.purchase_count) || 0;
     const BonusCalculator = require('../services/bonusCalculator');
     const bonus = BonusCalculator.getBonusMultiplier(purchaseCount + 1);
-    
     res.json({
-      balance_cents: balanceCents,
-      balance_usd: balanceCents / 100,
-      wallet,
-      balances,
+      balance_cents: balanceUsd,
+      balance_usd: balanceUsd / 100,
+      per_currency: perCurrency,
       purchase_count: purchaseCount,
       next_purchase: purchaseCount + 1,
       bonus_multiplier: bonus,
-      bonus_label: bonus + '×',
-      supported_currencies: currencies,
+      bonus_label: bonus + '\u00d7',
       testing_disclaimer: "THIS IS A TESTING SYSTEM ONLY. No real currency or financial instruments are being offered."
     });
   } catch (error) {
@@ -86,13 +67,12 @@ router.get('/balance', verifyToken, async (req, res) => {
   }
 });
 
-// GET transaction history
 router.get('/transactions', verifyToken, async (req, res) => {
   const limit = parseInt(req.query.limit) || 50;
   const offset = parseInt(req.query.offset) || 0;
   
   try {
-    const history = await Wallet.getTransactionHistory(req.userId, limit, offset);
+    const history = await Wallet.getUserTransactions(req.userId, limit, offset);
     res.json(history);
   } catch (error) {
     console.error('Get transactions error:', error);
