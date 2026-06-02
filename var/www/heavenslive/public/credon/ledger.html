@@ -127,11 +127,21 @@ const API = '/api/ledger';
 let currentPage = 1;
 const limit = 25;
 
-function fmtCents(c) {
+// Currency symbols for display
+let currencySymbols = {
+  USD: '$', KES: 'KSh', EUR: '€', GBP: '£', CAD: 'C$',
+  AUD: 'A$', NGN: '₦', INR: '₹', JPY: '¥', CNY: '¥',
+  ZAR: 'R', GHS: 'GH₵', TZS: 'TSh', UGX: 'USh', RWF: 'FRw'
+};
+
+function fmtCents(c, currency) {
   const d = (Math.abs(c) / 100).toFixed(2);
+  const sym = currencySymbols[currency] || currency || '$';
   const sign = c >= 0 ? '+' : '−';
-  return sign + '$' + d;
+  return sign + sym + ' ' + d;
 }
+
+function fmtUsd(c) { return fmtCents(c, 'USD'); }
 
 function fmtDate(d) {
   return new Date(d).toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -154,18 +164,19 @@ async function loadSummary() {
   try {
     const r = await fetch(API + '/summary');
     const d = await r.json();
+    if (d.symbols) Object.assign(currencySymbols, d.symbols);
     const byAction = {};
     d.byAction.forEach(a => { byAction[a.action] = a.totalUsdCents; });
-    document.getElementById('statMint').textContent = fmtCents(byAction.mint || 0);
-    document.getElementById('statDist').textContent = fmtCents(byAction.distribute || 0);
-    document.getElementById('statBonus').textContent = fmtCents(byAction.signup_bonus || 0);
+    document.getElementById('statMint').textContent = fmtUsd(byAction.mint || 0);
+    document.getElementById('statDist').textContent = fmtUsd(byAction.distribute || 0);
+    document.getElementById('statBonus').textContent = fmtUsd(byAction.signup_bonus || 0);
     // Sum all burn-* actions
     const totalBurned = d.byAction.filter(a=>a.action.startsWith('burn')).reduce((s,a)=>s+a.totalUsdCents,0);
     const burnEl = document.getElementById('statBurn');
-    burnEl.textContent = fmtCents(totalBurned);
+    burnEl.textContent = fmtUsd(totalBurned);
     burnEl.className = 'value ' + (totalBurned < 0 ? 'negative' : 'neutral');
     const netEl = document.getElementById('statNet');
-    netEl.textContent = fmtCents(d.netUsdCents);
+    netEl.textContent = fmtUsd(d.netUsdCents);
     netEl.className = 'value ' + (d.netUsdCents > 0 ? 'positive' : d.netUsdCents < 0 ? 'negative' : 'neutral');
   } catch(e) { console.error('summary', e); }
 }
@@ -205,7 +216,7 @@ async function loadEntries() {
         <tr>
           <td>${fmtDate(e.createdAt)}</td>
           <td><span class="action-badge ${actionClass(e.action)}">${actionLabel(e.action)}</span></td>
-          <td class="${e.amountCents > 0 ? 'amount-positive' : e.amountCents < 0 ? 'amount-negative' : 'amount-zero'}">${fmtCents(e.amountCents)}</td>
+          <td class="${e.amountCents > 0 ? 'amount-positive' : e.amountCents < 0 ? 'amount-negative' : 'amount-zero'}">${fmtCents(e.amountCents, e.currency || 'USD')}<span class="currency-badge">${e.currency || 'USD'}</span></td>
           <td>${e.title || e.reason || '—'}</td>
           <td>${shortRef(e.referenceId)}</td>
         </tr>
