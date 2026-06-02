@@ -14,12 +14,9 @@ LOCAL_REPO="${HOME}/.openclaw/workspace/heavenslive/var/www/heavenslive"
 LOG_FILE="/tmp/heavenslive-deploy.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
-# Colors
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
-
-log()  { echo -e "${GREEN}[${TIMESTAMP}]${NC} $*" | tee -a "$LOG_FILE"; }
-warn() { echo -e "${YELLOW}[${TIMESTAMP}] WARN:${NC} $*" | tee -a "$LOG_FILE"; }
-die()  { echo -e "${RED}[${TIMESTAMP}] FATAL:${NC} $*" | tee -a "$LOG_FILE"; exit 1; }
+log()  { echo "[${TIMESTAMP}] $*" | tee -a "$LOG_FILE"; }
+warn() { echo "[${TIMESTAMP}] WARN: $*" | tee -a "$LOG_FILE"; }
+die()  { echo "[${TIMESTAMP}] FATAL: $*" | tee -a "$LOG_FILE"; exit 1; }
 
 # ── Local → VPS sync ──────────────────────────────────────
 sync_to_vps() {
