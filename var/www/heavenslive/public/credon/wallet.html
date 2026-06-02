@@ -227,10 +227,10 @@ function loadCurrency(){
       
       '<div id="curPhysical" style="display:none">'+
       '<div class="row" style="margin-bottom:8px"><select id="physCode" onchange="loadDenominations()" style="flex:1;margin-right:4px">'+opts+'</select>'+
-      '<select id="physDenom" style="flex:1;margin-right:4px"><option value="">Denomination</option></select>'+
+      '<select id="physDenom" onchange="showBillPreview()" style="flex:1;margin-right:4px"><option value="">Denomination</option></select>'+
       '<input id="physQty" type="number" value="1" min="1" style="width:55px;margin-right:4px" placeholder="Qty">'+
       '<button class="btn btn-sm" onclick="addToCart()"><span data-i18n="wallet.add">Add</span></button></div>'+
-      '<div id="physCart" style="margin:8px 0;min-height:24px;font-size:.78rem;color:var(--muted)"></div>'+
+      '<div id="physBill" style="text-align:center;margin:8px 0;display:none"><img id="physBillImg" style="max-height:160px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div><div id="physCart" style="margin:8px 0;min-height:24px;font-size:.78rem;color:var(--muted)"></div>'+
       '<button class="btn btn-o btn-sm" onclick="clearCart()" style="margin-bottom:8px;display:none" id="clearCartBtn">Clear</button>'+
       '<input id="physName" placeholder="Full Name">'+
       '<input id="physAddr" placeholder="Address">'+
@@ -258,6 +258,18 @@ function loadDenominations(){
   if(!cur)return;
   (cur.paper||[]).forEach(function(v){sel.innerHTML+='<option value="'+v+'">📄 '+(typeof v==="object"?v.value:v)+' '+cur.symbol+'</option>'});
   (cur.coin||[]).forEach(function(v){sel.innerHTML+='<option value="'+v+'">🪙 '+(typeof v==="object"?v.value:v)+' '+cur.symbol+'</option>'});
+  showBillPreview();
+}
+
+function showBillPreview(){
+  var code=document.getElementById("physCode").value;
+  var denom=document.getElementById("physDenom").value;
+  var div=document.getElementById("physBill");
+  var img=document.getElementById("physBillImg");
+  if(!code||!denom){div.style.display="none";return;}
+  img.src="/currency/Credon-"+code+"-"+denom+"-front.svg";
+  img.onerror=function(){div.style.display="none"};
+  img.onload=function(){div.style.display="block"};
 }
 
 function buyDigital(){
