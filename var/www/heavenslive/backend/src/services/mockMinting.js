@@ -42,7 +42,7 @@ class MockMinting {
   static async getTreasuryBalance() {
     const result = await db.query(`
       SELECT 
-        COALESCE(SUM(CASE WHEN action = 'mint' THEN amount_cents ELSE -amount_cents END), 0) as balance
+        COALESCE(SUM(CASE WHEN action = 'mint' THEN amount_cents WHEN action = 'distribute' THEN -amount_cents ELSE 0 END), 0) as balance
       FROM treasury_ledger
     `);
     return parseInt(result.rows[0].balance) || 0;
