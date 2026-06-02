@@ -161,7 +161,7 @@ app.get("/credon/faq.html", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "c
 // Credon SPA — explicit /credon route BEFORE static to avoid 301 redirect
 app.get("/credon", (req, res) => {
   res.set("Cache-Control","no-store,no-cache,must-revalidate");
-  sendFile(res, path.join(BUILD_DIR, "index.html"));
+  sendFile(res, path.join(PUBLIC_DIR, "credon/index.html"));
 });
 app.use("/credon", express.static(BUILD_DIR));
 app.use(express.static(PUBLIC_DIR));
