@@ -158,6 +158,7 @@ app.use((req, res, next) => {
 app.get("/credon/ledger", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/ledger.html")));
 app.get("/credon/faq.html", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/faq.html")));
 
+app.get("/credon/login", (req, res) => res.redirect("/credon"));
 // Credon SPA — explicit /credon route BEFORE static to avoid 301 redirect
 app.get("/credon", (req, res) => {
   res.set("Cache-Control","no-store,no-cache,must-revalidate");
