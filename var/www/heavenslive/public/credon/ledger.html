@@ -129,7 +129,8 @@ const limit = 25;
 
 function fmtCents(c) {
   const d = (Math.abs(c) / 100).toFixed(2);
-  return c >= 0 ? '+$' + d : '−$' + d.slice(1);
+  const sign = c >= 0 ? '+' : '−';
+  return sign + '$' + d;
 }
 
 function fmtDate(d) {
@@ -154,18 +155,18 @@ async function loadSummary() {
     const r = await fetch(API + '/summary');
     const d = await r.json();
     const byAction = {};
-    d.byAction.forEach(a => { byAction[a.action] = a.totalCents; });
+    d.byAction.forEach(a => { byAction[a.action] = a.totalUsdCents; });
     document.getElementById('statMint').textContent = fmtCents(byAction.mint || 0);
     document.getElementById('statDist').textContent = fmtCents(byAction.distribute || 0);
     document.getElementById('statBonus').textContent = fmtCents(byAction.signup_bonus || 0);
     // Sum all burn-* actions
-    const totalBurned = d.byAction.filter(a=>a.action.startsWith('burn')).reduce((s,a)=>s+a.totalCents,0);
+    const totalBurned = d.byAction.filter(a=>a.action.startsWith('burn')).reduce((s,a)=>s+a.totalUsdCents,0);
     const burnEl = document.getElementById('statBurn');
     burnEl.textContent = fmtCents(totalBurned);
     burnEl.className = 'value ' + (totalBurned < 0 ? 'negative' : 'neutral');
     const netEl = document.getElementById('statNet');
-    netEl.textContent = fmtCents(d.netCirculationCents);
-    netEl.className = 'value ' + (d.netCirculationCents > 0 ? 'positive' : d.netCirculationCents < 0 ? 'negative' : 'neutral');
+    netEl.textContent = fmtCents(d.netUsdCents);
+    netEl.className = 'value ' + (d.netUsdCents > 0 ? 'positive' : d.netUsdCents < 0 ? 'negative' : 'neutral');
   } catch(e) { console.error('summary', e); }
 }
 
