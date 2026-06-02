@@ -1,100 +1,103 @@
-const pool = require('../config/database');
+/**
+ * Wallet Model — Multi-Currency
+ * Each user can hold balances in multiple currencies.
+ */
+const pool = require('../db');
 
 class Wallet {
-  // Get wallet by user ID
-  static async getByUserId(userId) {
+  /**
+   * Get all balances for a user, keyed by currency.
+   * Returns { USD: 50000, EUR: 50000, ... }
+   */
+  static async getBalances(userId) {
     const result = await pool.query(
-      `SELECT id, user_id, balance_cents, created_at, updated_at 
-       FROM wallets WHERE user_id = $1`,
+      "SELECT currency, balance_cents FROM wallet_balances WHERE user_id = $1",
       [userId]
     );
-    return result.rows[0];
+    const balances = {};
+    result.rows.forEach(r => { balances[r.currency] = parseInt(r.balance_cents); });
+    return balances;
   }
-  
-  // Get balance in base cents
-  static async getBalance(userId) {
-    const wallet = await this.getByUserId(userId);
-    return wallet ? Number(wallet.balance_cents) || 0 : 0;
+
+  /**
+   * Get balance for a specific currency (defaults to USD if wallet not found).
+   */
+  static async getBalance(userId, currency = 'USD') {
+    const result = await pool.query(
+      "SELECT balance_cents FROM wallet_balances WHERE user_id = $1 AND currency = $2",
+      [userId, currency]
+    );
+    return result.rows.length > 0 ? parseInt(result.rows[0].balance_cents) : 0;
   }
-  
-  // Update balance (with transaction record)
-  static async updateBalance(userId, amountCents, type, description, referenceId = null, currencyClone = 'Credon-USD') {
+
+  /**
+   * Get total balance in USD equivalent across all currencies.
+   */
+  static async getTotalBalanceUsd(userId) {
+    const balances = await this.getBalances(userId);
+    const rates = { USD: 1, EUR: 0.92, GBP: 0.79, CAD: 1.37, AUD: 1.53, KES: 130, NGN: 1550, INR: 83.5, JPY: 155, CNY: 7.24, ZAR: 18.5 };
+    let total = 0;
+    for (const [cur, cents] of Object.entries(balances)) {
+      const rate = rates[cur] || 1;
+      total += Math.round(cents / rate);
+    }
+    return total;
+  }
+
+  /**
+   * Update balance for a specific currency.
+   */
+  static async updateBalance(userId, amountCents, type, description, referenceId = null, currency = 'USD') {
     const client = await pool.connect();
     
     try {
       await client.query('BEGIN');
       
-      // Get current wallet
-      const walletResult = await client.query(
-        `SELECT id, balance_cents FROM wallets WHERE user_id = $1 FOR UPDATE`,
-        [userId]
+      // Ensure wallet_balance row exists for this currency
+      await client.query(
+        "INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES ($1, $2, 0) ON CONFLICT (user_id, currency) DO NOTHING",
+        [userId, currency]
       );
       
-      if (!walletResult.rows[0]) {
-        throw new Error('Wallet not found');
-      }
+      // Get current balance with row lock
+      const walletResult = await client.query(
+        "SELECT balance_cents FROM wallet_balances WHERE user_id = $1 AND currency = $2 FOR UPDATE",
+        [userId, currency]
+      );
       
-      const walletId = walletResult.rows[0].id;
-      const currentBalance = walletResult.rows[0].balance_cents;
+      const currentBalance = parseInt(walletResult.rows[0].balance_cents);
       const newBalance = currentBalance + amountCents;
       
       if (newBalance < 0) {
-        throw new Error('Insufficient balance');
+        throw new Error(`Insufficient ${currency} balance. Has ${currentBalance}, needs ${Math.abs(amountCents)}`);
       }
       
-      // Update wallet balance
       await client.query(
-        `UPDATE wallets SET balance_cents = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2`,
-        [newBalance, walletId]
+        "UPDATE wallet_balances SET balance_cents = $1, updated_at = NOW() WHERE user_id = $2 AND currency = $3",
+        [newBalance, userId, currency]
       );
       
-      // Record transaction
-      const transactionResult = await client.query(
-        `INSERT INTO transactions (user_id, type, amount_cents, balance_after_cents, currency_clone, reference_id, description, is_mock)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         RETURNING id, transaction_hash, created_at`,
-        [userId, type, amountCents, newBalance, currencyClone, referenceId, description, true]
+      // Record transaction with currency
+      await client.query(
+        `INSERT INTO transactions (user_id, type, amount_cents, balance_after_cents, currency_clone, description, reference_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [userId, type, amountCents, newBalance, currency, description, referenceId]
       );
       
       await client.query('COMMIT');
+      return { currency, newBalance, amountCents };
       
-      return {
-        transaction: transactionResult.rows[0],
-        newBalance
-      };
-    } catch (error) {
+    } catch (e) {
       await client.query('ROLLBACK');
-      throw error;
+      throw e;
     } finally {
       client.release();
     }
   }
-  
-  // Get transaction history
-  static async getTransactionHistory(userId, limit = 100, offset = 0) {
-    const result = await pool.query(
-      `SELECT id, type, amount_cents, balance_after_cents, currency_clone, description, created_at
-       FROM transactions
-       WHERE user_id = $1
-       ORDER BY created_at DESC
-       LIMIT $2 OFFSET $3`,
-      [userId, limit, offset]
-    );
-    
-    const countResult = await pool.query(
-      `SELECT COUNT(*) FROM transactions WHERE user_id = $1`,
-      [userId]
-    );
-    
-    return {
-      transactions: result.rows,
-      total: parseInt(countResult.rows[0].count),
-      limit,
-      offset
-    };
-  }
-  
-  // Get all transactions for ledger (admin, redacted)
+
+  /**
+   * Get all transactions (for public ledger / user history).
+   */
   static async getAllTransactions(limit = 200, offset = 0) {
     const result = await pool.query(
       `SELECT t.id, t.type, t.amount_cents, t.currency_clone, t.description, t.created_at,
@@ -108,7 +111,17 @@ class Wallet {
        LIMIT $1 OFFSET $2`,
       [limit, offset]
     );
-    
+    return result.rows;
+  }
+
+  /**
+   * Get transactions for a specific user.
+   */
+  static async getUserTransactions(userId, limit = 50, offset = 0) {
+    const result = await pool.query(
+      "SELECT * FROM transactions WHERE user_id = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3",
+      [userId, limit, offset]
+    );
     return result.rows;
   }
 }

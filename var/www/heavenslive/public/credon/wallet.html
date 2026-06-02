@@ -101,7 +101,21 @@ function showTab(name){
 
 // DASHBOARD
 function loadDash(){
-  F('/api/wallet/balance').then(function(d){document.getElementById('balDisplay').textContent='$'+(d.balance_usd||(d.balance_cents||0)/100).toFixed(2)}).catch(function(){});
+  F('/api/wallet/balance').then(function(d){
+    var total='$'+(d.balance_usd||0).toFixed(2);
+    document.getElementById('balDisplay').textContent=total;
+    var pc=d.per_currency||{};
+    var codes=Object.keys(pc).filter(function(c){return pc[c]!==0});
+    if(codes.length>0){
+      var breakdown='<div style="margin-top:8px;font-size:.78rem;color:var(--muted)">';
+      codes.forEach(function(c){
+        var sym={USD:'$',EUR:'\u20ac',KES:'KSh',GBP:'\u00a3',CAD:'C$',AUD:'A$',NGN:'\u20a6',INR:'\u20b9',JPY:'\u00a5',ZAR:'R'}[c]||c;
+        breakdown+='<span style="margin-right:12px">'+sym+' '+(pc[c]/100).toFixed(2)+'</span>';
+      });
+      breakdown+='</div>';
+      document.getElementById('balDisplay').innerHTML=total+breakdown;
+    }
+  }).catch(function(){});
   F('/api/wallet/transactions?limit=5').then(function(d){
     var tx=d.transactions||[],h='<h3><span data-i18n="wallet.recent">Recent</span></h3>';
     tx.forEach(function(t){h+='<div class="row"><span>'+t.description+'</span><span class="'+(t.amount_cents>0?'tx-in':'tx-out')+'">$'+(Math.abs(t.amount_cents||0)/100).toFixed(2)+'</span></div>'});
