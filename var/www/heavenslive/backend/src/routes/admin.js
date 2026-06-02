@@ -780,13 +780,15 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         const treasuryBefore = await MockMinting.getTreasuryBalance();
         if (treasuryBefore < amount_cents) {
             // Auto-mint the difference
-            await MockMinting.mintToTreasury(amount_cents - treasuryBefore, 'Auto-mint for loan/grant approval', req.userId);
+            const currencyCode = finalCurrency.replace("Credon-", ""); await MockMinting.mintToTreasury(amount_cents - treasuryBefore, "Auto-mint for loan/grant approval", req.userId, currencyCode);
         }
         
         // Distribute to user
         await MockMinting.distributeFromTreasury(
             lr.user_id, amount_cents,
-            `${isGrant ? 'Grant' : 'Loan'} approved: ${rate}% interest, ${finalCurrency}`
+            `${isGrant ? 'Grant' : 'Loan'} approved: ${rate}% interest, ${finalCurrency}`,
+            null,
+            currencyCode
         );
         
         // Update loan request

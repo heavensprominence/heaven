@@ -69,7 +69,7 @@ router.get('/entries', async (req, res) => {
         // Entries
         const entries = await pool.query(
             `SELECT
-                id, action, amount_cents, reason, title, created_at,
+                id, action, amount_cents, currency, reason, title, created_at,
                 admin_id, reference_id
             FROM treasury_ledger ${where}
             ORDER BY created_at DESC
@@ -86,6 +86,7 @@ router.get('/entries', async (req, res) => {
                 id: e.id,
                 action: e.action,
                 amountCents: parseInt(e.amount_cents),
+                currency: e.currency || 'USD',
                 title: e.title || '',
                 reason: e.reason || '',
                 createdAt: e.created_at,
