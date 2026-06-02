@@ -186,8 +186,6 @@ app.get("/credon/admin", (req, res) => {
   res.redirect('/credon/');
 });
 app.get("/credon/wallet", (req, res) => { res.set("Cache-Control","no-store,no-cache,must-revalidate"); sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")); });
-app.get("/credon/wallet", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/wallet.html")));
-app.get("/credon/:path", (req, res) => sendFile(res, path.join(BUILD_DIR, "index.html")));
 
 // Shop — serves static HTML pages when they exist, falls back to SPA
 const serveShopPage = (req, res) => {
