@@ -163,6 +163,8 @@ app.get("/credon", (req, res) => {
 app.use("/credon", express.static(BUILD_DIR));
 app.use(express.static(PUBLIC_DIR));
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
+app.get("/credon/ledger", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/ledger.html")));
+app.get("/credon/faq.html", (req, res) => sendFile(res, path.join(PUBLIC_DIR, "credon/faq.html")));
 app.get("/credon/admin", (req, res) => {
   // Check cookie first, then token query param
   if (req.cookies?.is_admin === '1') {
