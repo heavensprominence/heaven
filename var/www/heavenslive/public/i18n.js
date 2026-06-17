@@ -60,7 +60,7 @@
   if(typeof resetCategoryTree==='function')resetCategoryTree();
     Promise.all([
       fetch('/locales/landing-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
-      fetch('/locales/shop-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+      fetch('/locales/shop-'+lang+'.json?v=10').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
       fetch('/locales/'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})
     ]).then(function(results){
       var landing=results[0],shop=results[1],credontoken=results[2];
