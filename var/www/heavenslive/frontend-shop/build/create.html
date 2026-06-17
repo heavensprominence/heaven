@@ -427,7 +427,7 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
   window.switchLang=function(l){
     localStorage.setItem("hl-lang",l);document.documentElement.lang=l;
     document.documentElement.dir=["ar","fa","ur"].includes(l)?"rtl":"ltr";
-    fetch("/locales/shop-"+l+".json").then(function(r){return r.json()}).then(function(s){
+    fetch("/locales/shop-"+l+".json?v=10").then(function(r){return r.json()}).then(function(s){
       localStorage.setItem("hl-shop-locale",JSON.stringify(s));
       applyLoc(s);
     }).catch(function(){});
