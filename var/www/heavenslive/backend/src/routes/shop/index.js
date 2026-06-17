@@ -173,7 +173,7 @@ router.post('/listings', verifyToken, async (req, res) => {
             location_country, coords.lat, coords.lng, JSON.stringify(shipping_options || []), weight_oz, JSON.stringify(dimensions || {}),
             expires_at, quantity_available || 1,
             allow_local_pickup || false, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
-            is_featured, currency || 'USD', accepted_currencies ? JSON.stringify(accepted_currencies) : null,, accepted_payment_methods ? JSON.stringify(accepted_payment_methods) : JSON.stringify(["paypal", "credon_wallet"])
+            is_featured, currency || 'USD', accepted_currencies ? JSON.stringify(accepted_currencies) : null, accepted_payment_methods ? JSON.stringify(accepted_payment_methods) : JSON.stringify(["paypal", "credon_wallet"])
         ]);
         
         res.status(201).json({ success: true, listing: result.rows[0] });
