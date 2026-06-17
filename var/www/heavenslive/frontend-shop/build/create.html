@@ -423,26 +423,27 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
     }).catch(function(){});
   }
   
-  // Language switcher
-  window.switchLang=function(l){
-    localStorage.setItem("hl-lang",l);document.documentElement.lang=l;
-    document.documentElement.dir=["ar","fa","ur"].includes(l)?"rtl":"ltr";
-    fetch("/locales/shop-"+l+".json?v=10").then(function(r){return r.json()}).then(function(s){
-      localStorage.setItem("hl-shop-locale",JSON.stringify(s));
-      applyLoc(s);
-    }).catch(function(){});
-    // Re-fetch categories in new language
-    fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
-      var cats=d.categories||[],opts='';
-      cats.forEach(function(c){
-        opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';
-        if(c.subcategories)c.subcategories.forEach(function(sc){
-          opts+='<option value="'+sc.slug+'">  └ '+sc.name+'</option>';
+  // Language switcher — uses i18n.js loadAndApply + category refresh
+  (function(){
+    var _orig = window.switchLang;
+    window.switchLang = function(l){
+      if (typeof _orig === "function" && _orig !== window.switchLang) {
+        _orig(l);
+      }
+      localStorage.setItem("hl-lang", l);
+      // Re-fetch categories in new language
+      fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
+        var cats = d.categories || [], opts = "";
+        cats.forEach(function(c){
+          opts += '<option value="' + c.slug + '">' + (c.icon || '📁') + ' ' + c.name + '</option>';
+          if (c.subcategories) c.subcategories.forEach(function(sc){
+            opts += '<option value="' + sc.slug + '">  └ ' + sc.name + '</option>';
+          });
         });
-      });
-      document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
-    });
-  };
+        document.getElementById("lCat").innerHTML = opts || '<option>No categories</option>';
+      }).catch(function(){});
+    };
+  })();
 }();
 </script>
 </body></html>
