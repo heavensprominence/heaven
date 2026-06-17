@@ -94,7 +94,20 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
   
   <label class="label" data-i18n="page.label_quantity">Quantity</label><input id="lQty" type="number" min="1" value="1">
-<label class="label" style="margin-top:12px" data-i18n="create.acceptedPaymentMethods">Accepted Payment Methods</label>  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">      <span data-i18n="create.acceptPaypal">🅿️ PayPal</span>    </label>    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">      <span data-i18n="create.acceptCredon">💱 Credon</span>    </label>  </div>  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px" data-i18n="create.paymentHintBoth">Buyers can pay with either method</div>
+<label class="label" style="margin-top:12px" data-i18n="create.acceptedPaymentMethods">Accepted Payment Methods</label>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">
+      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">
+      <span data-i18n="create.acceptPaypal">PayPal</span>
+    </label>
+    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">
+      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">
+      <span data-i18n="create.acceptCredon">Credon</span>
+    </label>
+  </div>
+  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px" data-i18n="create.paymentHintBoth">Buyers can pay with either method</div>
+
+<label class="label" style="margin-top:12px">Accepted Payment Methods</label>  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">      <span>🅿️ PayPal</span>    </label>    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">      <span>💱 Credon</span>    </label>  </div>  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px">Buyers can pay with either method</div>
   
   <label class="label" data-i18n="page.label_duration">Duration</label><select id="lDur"><option value="2weeks" data-i18n="create.dur2weeks">2 Weeks (Free)</option><option value="1month">1 Month (Pro)</option><option value="1year">1 Year (Pro)</option></select>
 </div>
@@ -211,7 +224,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
 <div class="muted" id="result" data-i18n="create.result" style="text-align:center;margin-top:16px"></div>
 </div>
 
-<script>\n// Translation helper\nfunction t(key,fallback){try{var parts=key.split("\.");var val=window._shopData;for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"<script><script>val)?val:fallback}catch(e){return fallback}}
+<script>
 var step=1,T=localStorage.getItem("token");if(!T)location.href="/credon/";
 function goStep(n){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById("sec"+n).classList.add("active");
@@ -278,7 +291,7 @@ function toggleFeaturedOptions(){
   });
 }
 function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(c){m.push(c.value)});return m.length?m:[paypal]}
-function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t('create.paymentHintBoth','Buyers can pay with either method')}else if(methods[0]==='paypal'){hint=t('create.paymentHintPaypal','Only PayPal accepted')}else if(methods[0]==='credon_wallet'){hint=t('create.paymentHintCredon','Only Credon accepted')}else{hint=t('create.paymentHintNone','Please select at least one payment method');document.getElementById('nextBtn').disabled=true;return}document.getElementById('nextBtn').disabled=false;document.getElementById('paymentMethodsHint').textContent=hint}
+function updatePaymentMethods(){  var methods=[];  document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(cb){methods.push(cb.value)});  var hint=methods.length===2?Buyers can pay with either method:methods[0]===paypal?Only PayPal accepted:Only Credon accepted;  if(methods.length===0){hint=⚠ Please select at least one payment method;    document.getElementById(nextBtn).disabled=true}else{    document.getElementById(nextBtn).disabled=false}  document.getElementById(paymentMethodsHint).textContent=hint}
 function updateFeaturedPay(){
   var v=document.querySelector('input[name="featuredPay"]:checked').value;
   document.querySelectorAll('#featuredOptions label').forEach(function(l){l.style.opacity=".6"});
@@ -376,7 +389,7 @@ async function submit(){
   var pf=type==="auction"?"min_bid_cents":type==="reverse_auction"?"max_bid_cents":"price_cents";
   var pc=Math.round(parseFloat(document.getElementById("lPrice").value||0)*100)||0;
   var currency=document.getElementById("lCurrency").value||"USD";
-  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],accepted_payment_methods:getAcceptedPaymentMethods(),images:imageData};d[pf]=pc;
+  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],accepted_payment_methods:getAcceptedPaymentMethods(),accepted_payment_methods:getAcceptedPaymentMethods(),images:imageData};d[pf]=pc;
   try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
   btn.disabled=false;btn.textContent="Submit"
 }
@@ -394,7 +407,7 @@ fetch("/api/shop/categories?lang="+(localStorage.getItem("hl-lang")||"en")+"&all
   var opts=buildOpts(cats,0);
   document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
 });
-</script><script>\n// Translation helper\nfunction t(key,fallback){try{var parts=key.split("\.");var val=window._shopData;for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"<script><script>val)?val:fallback}catch(e){return fallback}}
+</script><script>
 // Inline i18n for create listing form
 document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
 !function(){
@@ -423,33 +436,30 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
     }).catch(function(){});
   }
   
-  // Hook into i18n.js switchLang to also refresh categories
-  (function(){
-    var _refreshCategories = function(l){
-      fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
-        var cats = d.categories || [], opts = "";
-        cats.forEach(function(c){
-          opts += '<option value="' + c.slug + '">' + (c.icon || '📁') + ' ' + c.name + '</option>';
-          if (c.subcategories) c.subcategories.forEach(function(sc){
-            opts += '<option value="' + sc.slug + '">  └ ' + sc.name + '</option>';
-          });
+  // Language switcher
+  window.switchLang=function(l){
+    localStorage.setItem("hl-lang",l);document.documentElement.lang=l;
+    document.documentElement.dir=["ar","fa","ur"].includes(l)?"rtl":"ltr";
+    fetch("/locales/shop-"+l+".json").then(function(r){return r.json()}).then(function(s){
+      localStorage.setItem("hl-shop-locale",JSON.stringify(s));
+      applyLoc(s);
+    }).catch(function(){});
+    // Re-fetch categories in new language
+    fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
+      var cats=d.categories||[],opts='';
+      cats.forEach(function(c){
+        opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';
+        if(c.subcategories)c.subcategories.forEach(function(sc){
+          opts+='<option value="'+sc.slug+'">  └ '+sc.name+'</option>';
         });
-        document.getElementById("lCat").innerHTML = opts || '<option>No categories</option>';
-      }).catch(function(){});
-    };
-    // Wait for i18n.js to load, then wrap switchLang
-    var _interval = setInterval(function(){
-      if (typeof window.switchLang === "function" && !window._refreshed) {
-        var _orig = window.switchLang;
-        window.switchLang = function(l){
-          _orig(l);
-          _refreshCategories(l);
-        };
-        window._refreshed = true;
-        clearInterval(_interval);
-      }
-    }, 100);
-  })();
+      });
+      document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
+    });
+  };
+function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
+function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(c){m.push(c.value)});return m.length?m:["paypal"]}
+function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t("create.paymentHintBoth","Buyers can pay with either method")}else if(methods[0]==="paypal"){hint=t("create.paymentHintPaypal","Only PayPal accepted")}else if(methods[0]==="credon_wallet"){hint=t("create.paymentHintCredon","Only Credon accepted")}else{hint=t("create.paymentHintNone","Please select at least one payment method");document.getElementById("nextBtn").disabled=true;return}document.getElementById("nextBtn").disabled=false;document.getElementById("paymentMethodsHint").textContent=hint}
+
 }();
 </script>
 </body><script src="/i18n.js"></script>
