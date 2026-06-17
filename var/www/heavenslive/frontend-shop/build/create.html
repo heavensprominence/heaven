@@ -219,7 +219,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
 <div class="action-bar" id="actions">
   <button class="btn-o" id="backBtn" onclick="prevStep()" style="display:none">← Back</button>
   <span></span>
-  <button class="btn" id="nextBtn" onclick="nextStep()">Continue →</button>
+  <button class="btn" id="nextBtn" onclick="nextStep()" data-i18n="create.continue">Continue →</button>
 </div>
 <div class="muted" id="result" data-i18n="create.result" style="text-align:center;margin-top:16px"></div>
 </div>
@@ -415,54 +415,30 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
   document.documentElement.lang=lang;
   if(["ar","fa","ur"].includes(lang))document.documentElement.dir="rtl";
   
-  function applyLoc(s){
-    if(!s)return;
-    document.querySelectorAll("[data-i18n]").forEach(function(el){
-      var key=el.getAttribute("data-i18n"),parts=key.split("."),val=s;
-      for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
-      if(typeof val=="string"&&val)el.textContent=val;
-    });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el){
-      var key=el.getAttribute("data-i18n-placeholder"),parts=key.split("."),val=s;
-      for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
-      if(typeof val=="string"&&val)el.placeholder=val;
-    });
-  }
   
   if(lang!=="en"){
     fetch("/locales/shop-"+lang+".json").then(function(r){return r.json()}).then(function(s){
       localStorage.setItem("hl-shop-locale",JSON.stringify(s));
-      applyLoc(s);
     }).catch(function(){});
   }
   
-  // Hook i18n.js switchLang to also refresh categories
-  (function(){
-    var _wait = setInterval(function(){
-      if (typeof window.switchLang === "function" && !window._catHooked) {
-        var _orig = window.switchLang;
-        window.switchLang = function(l){
-          _orig(l);
-          localStorage.setItem("hl-lang", l);
-          fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
-            var cats = d.categories || [], opts = "";
-            function buildOpts(list, depth){
-              var o = "", prefix = "";
-              for(var i = 0; i < depth; i++) prefix += "  ";
-              list.forEach(function(c){
-                o += prefix + '<option value="' + c.slug + '">' + (c.icon || '📁') + ' ' + c.name + '</option>';
-                if(c.subcategories) o += buildOpts(c.subcategories, depth + 1);
-              });
-              return o;
-            }
-            document.getElementById("lCat").innerHTML = buildOpts(cats, 0) || '<option>No categories</option>';
-          }).catch(function(){});
-        };
-        window._catHooked = true;
-        clearInterval(_wait);
+  // Load categories on init. i18n.js handles language switching.
+  (function loadCats(){
+    var lang = localStorage.getItem("hl-lang") || "en";
+    fetch("/api/shop/categories?lang="+lang+"&all=true").then(function(r){return r.json()}).then(function(d){
+      var cats = d.categories || [];
+      function build(list, depth){
+        var o = "", p = "";
+        for (var i = 0; i < depth; i++) p += "  ";
+        list.forEach(function(c){
+          o += p + '<option value="' + c.slug + '">' + (c.icon || '📁') + ' ' + c.name + '</option>';
+          if (c.subcategories) o += build(c.subcategories, depth + 1);
+        });
+        return o;
       }
-    }, 100);
-  })();function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
+      document.getElementById("lCat").innerHTML = build(cats, 0) || '<option>No categories</option>';
+    }).catch(function(){});
+  })(););function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
 function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(c){m.push(c.value)});return m.length?m:["paypal"]}
 function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t("create.paymentHintBoth","Buyers can pay with either method")}else if(methods[0]==="paypal"){hint=t("create.paymentHintPaypal","Only PayPal accepted")}else if(methods[0]==="credon_wallet"){hint=t("create.paymentHintCredon","Only Credon accepted")}else{hint=t("create.paymentHintNone","Please select at least one payment method");document.getElementById("nextBtn").disabled=true;return}document.getElementById("nextBtn").disabled=false;document.getElementById("paymentMethodsHint").textContent=hint}
 
