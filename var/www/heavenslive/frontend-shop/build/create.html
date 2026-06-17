@@ -389,7 +389,7 @@ async function submit(){
   var pf=type==="auction"?"min_bid_cents":type==="reverse_auction"?"max_bid_cents":"price_cents";
   var pc=Math.round(parseFloat(document.getElementById("lPrice").value||0)*100)||0;
   var currency=document.getElementById("lCurrency").value||"USD";
-  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],accepted_payment_methods:getAcceptedPaymentMethods(),accepted_payment_methods:getAcceptedPaymentMethods(),images:imageData};d[pf]=pc;
+  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],accepted_payment_methods:getAcceptedPaymentMethods(),images:imageData};d[pf]=pc;
   try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
   btn.disabled=false;btn.textContent="Submit"
 }
@@ -436,27 +436,33 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
     }).catch(function(){});
   }
   
-  // Language switcher
-  window.switchLang=function(l){
-    localStorage.setItem("hl-lang",l);document.documentElement.lang=l;
-    document.documentElement.dir=["ar","fa","ur"].includes(l)?"rtl":"ltr";
-    fetch("/locales/shop-"+l+".json").then(function(r){return r.json()}).then(function(s){
-      localStorage.setItem("hl-shop-locale",JSON.stringify(s));
-      applyLoc(s);
-    }).catch(function(){});
-    // Re-fetch categories in new language
-    fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
-      var cats=d.categories||[],opts='';
-      cats.forEach(function(c){
-        opts+='<option value="'+c.slug+'">'+(c.icon||'📁')+' '+c.name+'</option>';
-        if(c.subcategories)c.subcategories.forEach(function(sc){
-          opts+='<option value="'+sc.slug+'">  └ '+sc.name+'</option>';
-        });
-      });
-      document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
-    });
-  };
-function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
+  // Hook i18n.js switchLang to also refresh categories
+  (function(){
+    var _wait = setInterval(function(){
+      if (typeof window.switchLang === "function" && !window._catHooked) {
+        var _orig = window.switchLang;
+        window.switchLang = function(l){
+          _orig(l);
+          localStorage.setItem("hl-lang", l);
+          fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
+            var cats = d.categories || [], opts = "";
+            function buildOpts(list, depth){
+              var o = "", prefix = "";
+              for(var i = 0; i < depth; i++) prefix += "  ";
+              list.forEach(function(c){
+                o += prefix + '<option value="' + c.slug + '">' + (c.icon || '📁') + ' ' + c.name + '</option>';
+                if(c.subcategories) o += buildOpts(c.subcategories, depth + 1);
+              });
+              return o;
+            }
+            document.getElementById("lCat").innerHTML = buildOpts(cats, 0) || '<option>No categories</option>';
+          }).catch(function(){});
+        };
+        window._catHooked = true;
+        clearInterval(_wait);
+      }
+    }, 100);
+  })();function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
 function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(c){m.push(c.value)});return m.length?m:["paypal"]}
 function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t("create.paymentHintBoth","Buyers can pay with either method")}else if(methods[0]==="paypal"){hint=t("create.paymentHintPaypal","Only PayPal accepted")}else if(methods[0]==="credon_wallet"){hint=t("create.paymentHintCredon","Only Credon accepted")}else{hint=t("create.paymentHintNone","Please select at least one payment method");document.getElementById("nextBtn").disabled=true;return}document.getElementById("nextBtn").disabled=false;document.getElementById("paymentMethodsHint").textContent=hint}
 
