@@ -94,7 +94,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
   
   <label class="label" data-i18n="page.label_quantity">Quantity</label><input id="lQty" type="number" min="1" value="1">
-<label class="label" style="margin-top:12px">Accepted Payment Methods</label>  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">      <span>🅿️ PayPal</span>    </label>    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">      <span>💱 Credon</span>    </label>  </div>  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px">Buyers can pay with either method</div>
+<label class="label" style="margin-top:12px" data-i18n="create.acceptedPaymentMethods">Accepted Payment Methods</label>  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">      <span>🅿️ PayPal</span>    </label>    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">      <span>💱 Credon</span>    </label>  </div>  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px" data-i18n="create.paymentHintBoth">Buyers can pay with either method</div>
   
   <label class="label" data-i18n="page.label_duration">Duration</label><select id="lDur"><option value="2weeks" data-i18n="create.dur2weeks">2 Weeks (Free)</option><option value="1month">1 Month (Pro)</option><option value="1year">1 Year (Pro)</option></select>
 </div>
@@ -211,7 +211,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
 <div class="muted" id="result" data-i18n="create.result" style="text-align:center;margin-top:16px"></div>
 </div>
 
-<script>
+<script>\n// Translation helper\nfunction t(key,fallback){try{var parts=key.split("\.");var val=window._shopData;for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"<script><script>val)?val:fallback}catch(e){return fallback}}
 var step=1,T=localStorage.getItem("token");if(!T)location.href="/credon/";
 function goStep(n){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById("sec"+n).classList.add("active");
@@ -278,7 +278,7 @@ function toggleFeaturedOptions(){
   });
 }
 function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(c){m.push(c.value)});return m.length?m:[paypal]}
-function updatePaymentMethods(){  var methods=[];  document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(cb){methods.push(cb.value)});  var hint=methods.length===2?Buyers can pay with either method:methods[0]===paypal?Only PayPal accepted:Only Credon accepted;  if(methods.length===0){hint=⚠ Please select at least one payment method;    document.getElementById(nextBtn).disabled=true}else{    document.getElementById(nextBtn).disabled=false}  document.getElementById(paymentMethodsHint).textContent=hint}
+function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t('create.paymentHintBoth','Buyers can pay with either method')}else if(methods[0]==='paypal'){hint=t('create.paymentHintPaypal','Only PayPal accepted')}else if(methods[0]==='credon_wallet'){hint=t('create.paymentHintCredon','Only Credon accepted')}else{hint=t('create.paymentHintNone','Please select at least one payment method');document.getElementById('nextBtn').disabled=true;return}document.getElementById('nextBtn').disabled=false;document.getElementById('paymentMethodsHint').textContent=hint}
 function updateFeaturedPay(){
   var v=document.querySelector('input[name="featuredPay"]:checked').value;
   document.querySelectorAll('#featuredOptions label').forEach(function(l){l.style.opacity=".6"});
@@ -394,7 +394,7 @@ fetch("/api/shop/categories?lang="+(localStorage.getItem("hl-lang")||"en")+"&all
   var opts=buildOpts(cats,0);
   document.getElementById("lCat").innerHTML=opts||'<option>No categories</option>';
 });
-</script><script>
+</script><script>\n// Translation helper\nfunction t(key,fallback){try{var parts=key.split("\.");var val=window._shopData;for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"<script><script>val)?val:fallback}catch(e){return fallback}}
 // Inline i18n for create listing form
 document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
 !function(){
