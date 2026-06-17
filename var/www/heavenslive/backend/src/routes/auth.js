@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
             // Trusted device — skip 2FA
             const token = jwt.sign(
               { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
-              jwtSecret, { expiresIn: "7d" }
+              jwtSecret, { expiresIn: "30d" }
             );
             await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
             res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
             jwtSecret,
-            { expiresIn: "7d" }
+            { expiresIn: "30d" }
         );
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
         res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
@@ -122,7 +122,7 @@ await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) V
         }
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: false, referral_code: user.referral_code },
-            jwtSecret, { expiresIn: "7d" }
+            jwtSecret, { expiresIn: "30d" }
         );
         // Auto-Pro grant
         try { const { grantAutoPro } = require('../services/promotionEngine'); await grantAutoPro(user.id); } catch {}
@@ -279,7 +279,7 @@ router.post('/verify-2fa', async (req, res) => {
     const { jwtSecret } = require('../config/auth');
     const token = jwt.sign(
       { id: u.id, email: u.email, isSuperAdmin: u.is_super_admin || false, referral_code: u.referral_code },
-      jwtSecret, { expiresIn: "7d" }
+      jwtSecret, { expiresIn: "30d" }
     );
     
     // Clear pending session + mark device as trusted
