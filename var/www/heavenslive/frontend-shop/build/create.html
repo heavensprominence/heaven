@@ -438,7 +438,7 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
       }
       document.getElementById("lCat").innerHTML = build(cats, 0) || '<option>No categories</option>';
     }).catch(function(){});
-  })(););function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
+  })();function t(key,fallback){try{var parts=key.split(".");var val=JSON.parse(localStorage.getItem("hl-shop-locale")||"{}");for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}return(typeof val==="string"&&val)?val:fallback}catch(e){return fallback}}
 function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(c){m.push(c.value)});return m.length?m:["paypal"]}
 function updatePaymentMethods(){var methods=[];document.querySelectorAll('input[name="acceptPay"]:checked').forEach(function(cb){methods.push(cb.value)});var hint;if(methods.length===2){hint=t("create.paymentHintBoth","Buyers can pay with either method")}else if(methods[0]==="paypal"){hint=t("create.paymentHintPaypal","Only PayPal accepted")}else if(methods[0]==="credon_wallet"){hint=t("create.paymentHintCredon","Only Credon accepted")}else{hint=t("create.paymentHintNone","Please select at least one payment method");document.getElementById("nextBtn").disabled=true;return}document.getElementById("nextBtn").disabled=false;document.getElementById("paymentMethodsHint").textContent=hint}
 
