@@ -423,15 +423,9 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
     }).catch(function(){});
   }
   
-  // Language switcher — uses i18n.js loadAndApply + category refresh
+  // Hook into i18n.js switchLang to also refresh categories
   (function(){
-    var _orig = window.switchLang;
-    window.switchLang = function(l){
-      if (typeof _orig === "function" && _orig !== window.switchLang) {
-        _orig(l);
-      }
-      localStorage.setItem("hl-lang", l);
-      // Re-fetch categories in new language
+    var _refreshCategories = function(l){
       fetch("/api/shop/categories?lang="+l+"&all=true").then(function(r){return r.json()}).then(function(d){
         var cats = d.categories || [], opts = "";
         cats.forEach(function(c){
@@ -443,6 +437,18 @@ document.getElementById("langSel").value=localStorage.getItem("hl-lang")||"en";
         document.getElementById("lCat").innerHTML = opts || '<option>No categories</option>';
       }).catch(function(){});
     };
+    // Wait for i18n.js to load, then wrap switchLang
+    var _interval = setInterval(function(){
+      if (typeof window.switchLang === "function" && !window._refreshed) {
+        var _orig = window.switchLang;
+        window.switchLang = function(l){
+          _orig(l);
+          _refreshCategories(l);
+        };
+        window._refreshed = true;
+        clearInterval(_interval);
+      }
+    }, 100);
   })();
 }();
 </script>
