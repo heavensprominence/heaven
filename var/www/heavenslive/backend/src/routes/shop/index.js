@@ -106,7 +106,7 @@ router.post('/listings', verifyToken, async (req, res) => {
             images, location_city, location_state, location_country,
             shipping_options, weight_oz, dimensions, duration, quantity_available, store_id, currency, accepted_currencies,
             allow_local_pickup, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
-            is_featured = false
+            is_featured = false, accepted_payment_methods
         } = req.body;
         
         // Validate featured listing request
@@ -164,8 +164,8 @@ router.post('/listings', verifyToken, async (req, res) => {
                 location_country, latitude, longitude, shipping_options, weight_oz, dimensions, 
                 status, expires_at, auction_end_time, quantity_available,
                 allow_local_pickup, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
-                is_featured, currency, accepted_currencies
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, 'pending_approval', $19, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30)
+                is_featured, currency, accepted_currencies, accepted_payment_methods
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, 'pending_approval', $19, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31)
             RETURNING *
         `, [
             userId, store_id || null, type, title, description, category, price_cents || 0,
@@ -174,6 +174,7 @@ router.post('/listings', verifyToken, async (req, res) => {
             expires_at, quantity_available || 1,
             allow_local_pickup || false, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
             is_featured, currency || 'USD', accepted_currencies ? JSON.stringify(accepted_currencies) : null
+accepted_payment_methods ? JSON.stringify(accepted_payment_methods) : JSON.stringify(["paypal", "credon_wallet"])
         ]);
         
         res.status(201).json({ success: true, listing: result.rows[0] });
@@ -358,7 +359,7 @@ router.post('/checkout', verifyToken, async (req, res) => {
         // Deduct from Credon wallet if paying with wallet
         if (useWallet) {
             const totalCents = cartItems.reduce((sum, item) => sum + (parseInt(item.price_cents) || 0), 0) + (shippingCostCents || 0);
-            await db.query('UPDATE wallets SET balance_cents = balance_cents - $1 WHERE user_id = $2', [totalCents, userId]);
+            await Wallet.updateBalance(userId, -totalCents, 'purchase', `Shop purchase: $${(totalCents/100).toFixed(2)}`, null, 'USD');
             await db.query(
                 "INSERT INTO transactions (user_id, amount_cents, type, description) VALUES ($1, $2, 'debit', $3)",
                 [userId, -totalCents, 'Marketplace purchase via Credon wallet']

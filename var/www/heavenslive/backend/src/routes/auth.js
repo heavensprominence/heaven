@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
             // Trusted device — skip 2FA
             const token = jwt.sign(
               { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
-              jwtSecret, { expiresIn: '24h' }
+              jwtSecret, { expiresIn: "7d" }
             );
             await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
             res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: user.is_super_admin || false, referral_code: user.referral_code },
             jwtSecret,
-            { expiresIn: '24h' }
+            { expiresIn: "7d" }
         );
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
         res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
@@ -106,11 +106,11 @@ router.post('/register', async (req, res) => {
         const user = result.rows[0];
         // Create wallet
         await db.query("INSERT INTO wallets (user_id, balance_cents) VALUES ($1, 0) ON CONFLICT DO NOTHING", [user.id]);
-await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES (, 'USD', 0) ON CONFLICT DO NOTHING", [user.id]);
+await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES ($1, 'USD', 0) ON CONFLICT DO NOTHING", [user.id]);
         // Award 20 Credon-USD welcome bonus to every new signup
         const welcomeBonus = 2000; // 20 Credon-USD in cents
         await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, user.id]);
-await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES (, 'USD', ) ON CONFLICT (user_id, currency) DO UPDATE SET balance_cents = wallet_balances.balance_cents + ", [user.id, welcomeBonus]);
+        await Wallet.updateBalance(user.id, welcomeBonus, 'signup_bonus', 'Welcome bonus for new signup', null, 'USD');
         await db.query(
             "INSERT INTO treasury_ledger (amount_cents, reason, action, reference_id, title) VALUES ($1, 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
             [welcomeBonus, user.id]
@@ -122,7 +122,7 @@ await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) V
         }
         const token = jwt.sign(
             { id: user.id, email: user.email, isSuperAdmin: false, referral_code: user.referral_code },
-            jwtSecret, { expiresIn: '24h' }
+            jwtSecret, { expiresIn: "7d" }
         );
         // Auto-Pro grant
         try { const { grantAutoPro } = require('../services/promotionEngine'); await grantAutoPro(user.id); } catch {}
@@ -279,7 +279,7 @@ router.post('/verify-2fa', async (req, res) => {
     const { jwtSecret } = require('../config/auth');
     const token = jwt.sign(
       { id: u.id, email: u.email, isSuperAdmin: u.is_super_admin || false, referral_code: u.referral_code },
-      jwtSecret, { expiresIn: '24h' }
+      jwtSecret, { expiresIn: "7d" }
     );
     
     // Clear pending session + mark device as trusted

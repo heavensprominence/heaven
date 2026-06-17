@@ -94,6 +94,7 @@ input,textarea,select{width:100%;padding:10px 14px;background:rgba(255,255,255,.
   <label class="label" data-i18n="page.label_category">Category</label><select id="lCat"><option>Loading categories...</option></select>
   
   <label class="label" data-i18n="page.label_quantity">Quantity</label><input id="lQty" type="number" min="1" value="1">
+<label class="label" style="margin-top:12px">Accepted Payment Methods</label>  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="paypal" checked onchange="updatePaymentMethods()">      <span>🅿️ PayPal</span>    </label>    <label style="flex:1;min-width:120px;padding:8px 12px;background:rgba(46,204,113,.08);border:2px solid rgba(46,204,113,.2);border-radius:8px;cursor:pointer;text-align:center;font-size:.82rem">      <input type="checkbox" name="acceptPay" value="credon_wallet" checked onchange="updatePaymentMethods()">      <span>💱 Credon</span>    </label>  </div>  <div id="paymentMethodsHint" style="font-size:.7rem;color:var(--muted);margin-bottom:8px">Buyers can pay with either method</div>
   
   <label class="label" data-i18n="page.label_duration">Duration</label><select id="lDur"><option value="2weeks" data-i18n="create.dur2weeks">2 Weeks (Free)</option><option value="1month">1 Month (Pro)</option><option value="1year">1 Year (Pro)</option></select>
 </div>
@@ -276,6 +277,8 @@ function toggleFeaturedOptions(){
     loadCredonBalance();
   });
 }
+function getAcceptedPaymentMethods(){var m=[];document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(c){m.push(c.value)});return m.length?m:[paypal]}
+function updatePaymentMethods(){  var methods=[];  document.querySelectorAll(input[name=acceptPay]:checked).forEach(function(cb){methods.push(cb.value)});  var hint=methods.length===2?Buyers can pay with either method:methods[0]===paypal?Only PayPal accepted:Only Credon accepted;  if(methods.length===0){hint=⚠ Please select at least one payment method;    document.getElementById(nextBtn).disabled=true}else{    document.getElementById(nextBtn).disabled=false}  document.getElementById(paymentMethodsHint).textContent=hint}
 function updateFeaturedPay(){
   var v=document.querySelector('input[name="featuredPay"]:checked').value;
   document.querySelectorAll('#featuredOptions label').forEach(function(l){l.style.opacity=".6"});
@@ -373,7 +376,7 @@ async function submit(){
   var pf=type==="auction"?"min_bid_cents":type==="reverse_auction"?"max_bid_cents":"price_cents";
   var pc=Math.round(parseFloat(document.getElementById("lPrice").value||0)*100)||0;
   var currency=document.getElementById("lCurrency").value||"USD";
-  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],images:imageData};d[pf]=pc;
+  var d={type:type,title:document.getElementById("lTitle").value,currency:currency,description:document.getElementById("lDesc").value,category:document.getElementById("lCat").value,quantity_available:parseInt(document.getElementById("lQty").value)||1,duration:document.getElementById("lDur").value,location_city:document.getElementById("lCity").value,location_state:document.getElementById("lState").value,location_country:document.getElementById("lCountry").value||"US",store_id:document.getElementById("storeId").value||null,is_featured:document.getElementById("wantFeatured").checked,featured_payment_method:document.querySelector('input[name="featuredPay"]:checked')?.value||null,accepted_currencies:[currency],accepted_payment_methods:getAcceptedPaymentMethods(),images:imageData};d[pf]=pc;
   try{var r=await fetch("/api/shop/listings",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+T},body:JSON.stringify(d)});var j=await r.json();document.getElementById("result").innerHTML=j.success?'<span style="color:#2ECC71">✅ Posted! <a href="/shop/" style="color:var(--gold)">View</a></span>':'<span style="color:#E74C3C">❌ '+(j.error||"Failed")+'</span>'}catch(e){document.getElementById("result").innerHTML='<span style="color:#E74C3C">Error</span>'}
   btn.disabled=false;btn.textContent="Submit"
 }
