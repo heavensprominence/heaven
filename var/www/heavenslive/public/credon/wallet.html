@@ -75,7 +75,7 @@ var PS = null;
 // ===== Credon wallet logic =====
 var T=localStorage.getItem('hl-token')||'';
 if(T){try{var d=JSON.parse(atob(T.split('.')[1]));window.UID=d.id||d.userId}catch(e){}}
-var T=localStorage.getItem('token'),U={};if(!T)location.href='/credon/';
+var q=new URLSearchParams(location.search);var T=localStorage.getItem('token')||q.get('token');if(T){localStorage.setItem('token',T);history.replaceState({},document.title,location.pathname)}var U={};if(!T)location.href='/credon/';
 var isAdmin=false;if(T){{try{{var d2=JSON.parse(atob(T.split('.')[1]));isAdmin=d2.isSuperAdmin===true}}catch(e){{}}}}
 document.getElementById('navR').innerHTML='<a href="/credon/ledger">📒 Open Books</a> · <a href="/credon/faq.html">❓ FAQ</a> · <a href="/shop/" data-i18n="credontoken.navShop">Shop</a>'+(isAdmin?'<a href="/credon/admin?token='+encodeURIComponent(T)+'">Admin</a>':'')+'<a href="/">Home</a><span onclick="logout()" style="cursor:pointer"><span data-i18n="credontoken.logout">Logout</span></span>';
 function logout(){localStorage.removeItem('token');location.href='/credon/'}
