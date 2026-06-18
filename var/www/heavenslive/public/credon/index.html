@@ -144,7 +144,7 @@ async function doLogin(e){
       document.getElementById('twofaSession').value=data.sessionId;
       showMsg('twofaMsg',data.message,'info');
     }else if(data.token){
-      localStorage.setItem('token',data.token);
+      localStorage.setItem("token",data.token);setTimeout(function(){location.href="/credon/wallet?token="+encodeURIComponent(data.token)},300);
       if(data.refreshToken)localStorage.setItem('refreshToken',data.refreshToken);
       showMsg('loginMsg','✅ Signed in! Welcome, '+data.user.email,'success');
       setTimeout(()=>{window.location.href='/credon/wallet'},1000);
@@ -161,7 +161,7 @@ async function doVerify2FA(e){
     const resp=await fetch('/api/auth/verify-2fa',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:document.getElementById('twofaSession').value,code:document.getElementById('twofaCode').value,rememberDevice:true})});
     const data=await resp.json();
     if(data.token){
-      localStorage.setItem('token',data.token);
+      localStorage.setItem("token",data.token);setTimeout(function(){location.href="/credon/wallet?token="+encodeURIComponent(data.token)},300);
       if(data.refreshToken)localStorage.setItem('refreshToken',data.refreshToken);
       showMsg('twofaMsg','✅ Verified! Redirecting...','success');
       setTimeout(()=>{window.location.href='/credon/wallet'},1000);
