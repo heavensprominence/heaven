@@ -59,7 +59,7 @@ var PS_Admin = null;
 })();
 
 // Existing admin logic
-var T=localStorage.getItem('token');if(!T)location.href='/credon/';
+var q=new URLSearchParams(location.search);var T=localStorage.getItem('token')||q.get('token');if(T){localStorage.setItem('token',T)}if(!T)location.href='/credon/';
 function F(u,o){o=o||{};var h=o.headers||{};if(T)h['authorization']='Bearer '+T;if(o.body&&typeof o.body=='object'){h['Content-Type']='application/json';o.body=JSON.stringify(o.body)}return fetch(u,{method:o.method||'GET',headers:h,body:o.body}).then(function(r){return r.json()})}
 function showTab(n,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});if(el)el.classList.add('on');var f={overview:ov,categories:cat,suggestions:sug,listings:lst,users:usr,settings:set,analytics:analytics,loans:loans,affiliate:aff};if(f[n])f[n]()}
 var c=document.getElementById('content');
