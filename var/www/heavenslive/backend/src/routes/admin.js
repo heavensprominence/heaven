@@ -774,13 +774,14 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
         const lr = loan.rows[0];
         const finalCurrency = requestedCurrency || lr.currency || 'Credon-USD';
         const isGrant = rate === -100;
+        const currencyCode = finalCurrency.replace("Credon-", "");
         
         // Mint funds if needed (check treasury)
         const MockMinting = require('../services/mockMinting');
         const treasuryBefore = await MockMinting.getTreasuryBalance();
         if (treasuryBefore < amount_cents) {
             // Auto-mint the difference
-            const currencyCode = finalCurrency.replace("Credon-", ""); await MockMinting.mintToTreasury(amount_cents - treasuryBefore, "Auto-mint for loan/grant approval", req.userId, currencyCode);
+            await MockMinting.mintToTreasury(amount_cents - treasuryBefore, "Auto-mint for loan/grant approval", req.userId, currencyCode);
         }
         
         // Distribute to user
