@@ -2,7 +2,16 @@ User-agent: *
 Allow: /
 Allow: /shop/
 Allow: /credon/
+Allow: /currency-catalog.html
+Allow: /sitemap.xml
+Allow: /llms.txt
+Allow: /shop.md
+Allow: /credon.md
 Disallow: /api/
 Disallow: /shop/admin
 Disallow: /shop/monitor
+Disallow: /shop/listing/
+Disallow: /uploads/
+Disallow: /static/
+Disallow: /powersync/
 Sitemap: https://heavenslive.com/sitemap.xml
