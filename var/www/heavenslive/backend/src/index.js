@@ -166,6 +166,7 @@ app.get("/credon", (req, res) => {
 });
 app.use("/credon", express.static(BUILD_DIR));
 app.use(express.static(PUBLIC_DIR));
+// Return 404 for unknown paths instead of falling through to nginx try_filesapp.use((req, res, next) => {  const ext = require("path").extname(req.path);  if (ext && ext !== ".html") return next();  res.status(404).send("Not Found");});
 app.use("/static", express.static(path.join(BUILD_DIR, "static")));
 app.get("/credon/admin", (req, res) => {
   // Check cookie first, then token query param
