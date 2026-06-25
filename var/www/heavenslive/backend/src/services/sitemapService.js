@@ -9,11 +9,36 @@ async function regenerateSitemap() {
   try {
     const listings = await db.query("SELECT id, updated_at FROM listings WHERE status = 'active' ORDER BY updated_at DESC LIMIT 500");
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-    xml += '  <url><loc>https://heavenslive.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n';
-    xml += '  <url><loc>https://heavenslive.com/shop/</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>\n';
-    xml += '  <url><loc>https://heavenslive.com/shop/download</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
-    xml += '  <url><loc>https://heavenslive.com/credon/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n';
-    xml += '  <url><loc>https://heavenslive.com/shop/pricing</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>\n';
+    const STATIC_URLS = [
+      {loc:"https://heavenslive.com/",changefreq:"daily",priority:"1.0"},
+      {loc:"https://heavenslive.com/shop/",changefreq:"hourly",priority:"0.9"},
+      {loc:"https://heavenslive.com/credon/",changefreq:"weekly",priority:"0.8"},
+      {loc:"https://heavenslive.com/credon/wallet",changefreq:"weekly",priority:"0.8"},
+      {loc:"https://heavenslive.com/credon/ledger",changefreq:"weekly",priority:"0.8"},
+      {loc:"https://heavenslive.com/shop/register",changefreq:"weekly",priority:"0.8"},
+      {loc:"https://heavenslive.com/shop/create",changefreq:"weekly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop/download",changefreq:"weekly",priority:"0.8"},
+      {loc:"https://heavenslive.com/shop/pricing",changefreq:"monthly",priority:"0.6"},
+      {loc:"https://heavenslive.com/shop/seller/dashboard",changefreq:"weekly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop/buyer/dashboard",changefreq:"weekly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop/affiliate",changefreq:"weekly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop/gift-cards",changefreq:"weekly",priority:"0.6"},
+      {loc:"https://heavenslive.com/shop/wanted",changefreq:"weekly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop/promotions",changefreq:"weekly",priority:"0.6"},
+      {loc:"https://heavenslive.com/shop/settings",changefreq:"monthly",priority:"0.4"},
+      {loc:"https://heavenslive.com/shop/profile",changefreq:"monthly",priority:"0.5"},
+      {loc:"https://heavenslive.com/shop/terms",changefreq:"monthly",priority:"0.3"},
+      {loc:"https://heavenslive.com/shop/privacy",changefreq:"monthly",priority:"0.3"},
+      {loc:"https://heavenslive.com/shop/api-reference",changefreq:"monthly",priority:"0.6"},
+      {loc:"https://heavenslive.com/currency-catalog.html",changefreq:"monthly",priority:"0.5"},
+      {loc:"https://heavenslive.com/credon/faq.html",changefreq:"monthly",priority:"0.7"},
+      {loc:"https://heavenslive.com/shop.md",changefreq:"monthly",priority:"0.4"},
+      {loc:"https://heavenslive.com/credon.md",changefreq:"monthly",priority:"0.4"},
+      {loc:"https://heavenslive.com/llms.txt",changefreq:"monthly",priority:"0.4"},
+    ];
+    for (const u of STATIC_URLS) {
+      xml += '  <url><loc>' + u.loc + '</loc><changefreq>' + u.changefreq + '</changefreq><priority>' + u.priority + '</priority></url>\n';
+    }
     for (const l of listings.rows) {
       const d = new Date(l.updated_at).toISOString().split('T')[0];
       xml += '  <url><loc>https://heavenslive.com/shop/listing/' + l.id + '</loc><lastmod>' + d + '</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n';
