@@ -225,7 +225,7 @@ async function getPlatformFeePercent() {
             };
         }
     } catch (e) { console.log('Platform fee lookup failed:', e.message); }
-    return { clone: 0.02, fiat: 0.05 };
+    return { clone: 0.07, fiat: 0.09 };
 }
 
 // Calculate platform fee and seller payout

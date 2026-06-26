@@ -1,4 +1,5 @@
 const express = require('express');
+const Wallet = require("../models/Wallet");
 const router = express.Router();
 const db = require('../db');
 const bcrypt = require("bcrypt");
