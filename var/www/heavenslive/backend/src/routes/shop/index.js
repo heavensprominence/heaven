@@ -220,8 +220,8 @@ async function getPlatformFeePercent() {
                 ? JSON.parse(r.rows[0].setting_value) 
                 : r.rows[0].setting_value;
             return {
-                clone: (s.clone_fee_percent || 2) / 100,
-                fiat: (s.fiat_fee_percent || 5) / 100
+                clone: (s.clone_fee_percent || 7) / 100,
+                fiat: (s.fiat_fee_percent || 9) / 100
             };
         }
     } catch (e) { console.log('Platform fee lookup failed:', e.message); }
