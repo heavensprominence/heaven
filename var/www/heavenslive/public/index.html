@@ -43,22 +43,8 @@ footer a{color:var(--muted);text-decoration:none;font-size:.85rem;display:block;
 <link rel="llms.txt" href="/llms.txt">
 </head><body>
 
-<div id="welcomeOverlay" style="position:fixed;inset:0;background:rgba(15,15,26,.92);z-index:400;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px)">
-  <div style="text-align:center;color:#E8E6E3">
-    <div style="font-size:5rem;margin-bottom:24px">🕊️</div>
-    <h2 style="color:#C8A951;font-size:2rem;margin-bottom:12px">Welcome to HeavensLive</h2>
-    <p style="color:#A0A0B0;font-size:1.1rem;margin-bottom:32px">Click anywhere to begin</p>
-    <div style="display:inline-block;padding:14px 40px;background:#C8A951;color:#0F0F1A;border-radius:12px;font-weight:700;font-size:1.1rem;animation:pulse 2s infinite">✨ Enter</div>
-  </div>
-</div>
-<style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}</style>
-<script>
-document.getElementById('welcomeOverlay').addEventListener('click',function(){
-  this.style.display='none';
-  var a=document.getElementById('prayerAudio');
-  if(a){a.play().catch(function(){});a.volume=1.0}
-});
-</script>
+
+
 
 <nav><div class="container">
 <div class="lang-select"><select id="langSelect" onchange="switchLang(this.value)">
@@ -81,6 +67,11 @@ document.getElementById('welcomeOverlay').addEventListener('click',function(){
   <span style="color:#888;margin-left:8px">The case for a single public ledger vs. fragmented banking</span>
 </div>
 
+<div style="max-width:600px;margin:20px auto;padding:16px 24px;background:rgba(200,169,81,0.06);border:1px solid rgba(200,169,81,0.15);border-radius:12px;text-align:center">
+  <p style="font-size:.9rem;color:#A0A0B0;margin-bottom:10px">🕊️ <strong style="color:#C8A951">Prayer Audio</strong> — optional, always free</p>
+  <button onclick="togglePrayer()" style="background:#C8A951;color:#0F0F1A;border:none;padding:10px 28px;border-radius:8px;font-weight:700;font-size:.95rem;cursor:pointer">▶ Listen</button>
+  <span style="font-size:.78rem;color:var(--muted);margin-left:12px">Plays in the background while you browse</span>
+</div>
 <section class="hero"><div class="container">
 <h1 data-i18n="hero.title">Divinely <span class="gold">Underwritten</span><br>for All of Us</h1>
 <p data-i18n="hero.subtitle">Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.</p>
@@ -234,7 +225,7 @@ fetch('/api/wallet/exchange-rates').then(function(r){return r.json()}).then(func
 
 <div id="prayerPlayer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,26,.97);border-top:1px solid rgba(200,169,81,.2);z-index:300;padding:10px 20px;backdrop-filter:blur(10px)">
   <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-    <span style="font-size:.7rem;color:#C8A951;text-transform:uppercase;letter-spacing:1px" data-i18n="prayer.label">🙏 Prayer Audio</span>
+    <span style="font-size:.75rem;color:#C8A951;font-weight:600" data-i18n="prayer.label">🕊️ Listen to the Prayer</span>
     <button id="playBtn" onclick="togglePrayer()" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.2rem">▶</button>
     <div style="flex:1;display:flex;align-items:center;gap:8px">
       <input type="range" id="progressBar" value="0" min="0" max="100" oninput="seekPrayer(this.value)" style="flex:1;height:4px">
