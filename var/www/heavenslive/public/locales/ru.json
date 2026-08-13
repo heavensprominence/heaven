@@ -434,7 +434,12 @@
     "forgotTitle": "Сбросить пароль",
     "sendReset": "Отправить ссылку для сброса",
     "backToSignIn": "← Вернуться к входу",
-    "logout": "Выход из системы"
+    "logout": "Выход из системы",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "Джон Доу",
+    "passwordHint": "Мин. 8 символов"
   },
   "wallet": {
     "totalBalance": "Общий баланс (эквивалент долларов США)",

@@ -434,7 +434,12 @@
     "forgotTitle": "पासवर्ड रीसेट",
     "sendReset": "रीसेट लिंक भेजें",
     "backToSignIn": "← साइन इन पर वापस जाएं",
-    "logout": "लॉग आउट"
+    "logout": "लॉग आउट",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "जॉन डो",
+    "passwordHint": "न्यूनतम 8 अक्षर"
   },
   "wallet": {
     "totalBalance": "कुल शेष (USD समतुल्य)",

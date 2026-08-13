@@ -434,7 +434,12 @@
     "forgotTitle": "بازنشانی رمز عبور",
     "sendReset": "ارسال لینک بازنشانی",
     "backToSignIn": "← بازگشت به ورود به سیستم",
-    "logout": "خروج از سیستم"
+    "logout": "خروج از سیستم",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "جان دو",
+    "passwordHint": "حداقل 8 کاراکتر"
   },
   "wallet": {
     "totalBalance": "کل موجودی (معادل USD)",

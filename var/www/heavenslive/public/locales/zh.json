@@ -434,7 +434,12 @@
     "forgotTitle": "重置密码",
     "sendReset": "发送重置链接",
     "backToSignIn": "← 返回登录页面",
-    "logout": "退出"
+    "logout": "退出",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "约翰·多伊",
+    "passwordHint": "最少 8 个字符"
   },
   "wallet": {
     "totalBalance": "总余额（美元等值）",

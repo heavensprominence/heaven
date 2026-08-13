@@ -434,7 +434,12 @@
     "forgotTitle": "비밀번호 재설정",
     "sendReset": "재설정 링크 보내기",
     "backToSignIn": "← 로그인 화면으로 돌아가기",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "존 도",
+    "passwordHint": "최소 8자"
   },
   "wallet": {
     "totalBalance": "총 잔액(USD 환산액)",

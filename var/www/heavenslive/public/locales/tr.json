@@ -434,7 +434,12 @@
     "forgotTitle": "Şifreyi Sıfırla",
     "sendReset": "Sıfırlama Bağlantısını Gönder",
     "backToSignIn": "← Giriş sayfasına dön",
-    "logout": "Oturumu kapat"
+    "logout": "Oturumu kapat",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "En az 8 karakter"
   },
   "wallet": {
     "totalBalance": "Toplam Bakiye (USD eşdeğeri)",

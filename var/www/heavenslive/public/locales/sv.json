@@ -434,7 +434,12 @@
     "forgotTitle": "Återställ lösenord",
     "sendReset": "Skicka återställningslänk",
     "backToSignIn": "← Tillbaka till inloggning",
-    "logout": "Utloggning"
+    "logout": "Utloggning",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "Minst 8 tecken"
   },
   "wallet": {
     "totalBalance": "Totalt saldo (motsvarande USD)",

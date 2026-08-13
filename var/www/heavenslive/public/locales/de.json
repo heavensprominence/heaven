@@ -434,7 +434,12 @@
     "forgotTitle": "Passwort zurücksetzen",
     "sendReset": "Link zum Zurücksetzen senden",
     "backToSignIn": "← Zurück zu Anmelden",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "Mindestens 8 Zeichen"
   },
   "wallet": {
     "totalBalance": "Gesamtsaldo (USD-Äquivalent)",

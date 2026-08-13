@@ -434,7 +434,12 @@
     "forgotTitle": "Réinitialiser le mot de passe",
     "sendReset": "Envoyer le lien de réinitialisation",
     "backToSignIn": "← Retour à la connexion",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "Minimum 8 caractères"
   },
   "wallet": {
     "totalBalance": "Solde total (équivalent en USD)",

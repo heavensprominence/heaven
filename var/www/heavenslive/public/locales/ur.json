@@ -434,7 +434,12 @@
     "forgotTitle": "پاس ورڈ ری سیٹ کریں۔",
     "sendReset": "ری سیٹ لنک بھیجیں۔",
     "backToSignIn": "← واپس سائن ان کریں۔",
-    "logout": "لاگ آؤٹ"
+    "logout": "لاگ آؤٹ",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "جان ڈو",
+    "passwordHint": "کم از کم 8 حروف"
   },
   "wallet": {
     "totalBalance": "کل بیلنس (USD مساوی)",

@@ -434,7 +434,12 @@
     "forgotTitle": "إعادة تعيين كلمة المرور",
     "sendReset": "أرسل رابط إعادة الضبط",
     "backToSignIn": "← العودة إلى تسجيل الدخول",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "جون دو",
+    "passwordHint": "الحد الأدنى 8 أحرف"
   },
   "wallet": {
     "totalBalance": "إجمالي الرصيد (ما يعادله بالدولار الأمريكي)",

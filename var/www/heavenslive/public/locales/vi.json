@@ -434,7 +434,12 @@
     "forgotTitle": "Đặt lại mật khẩu",
     "sendReset": "Gửi liên kết đặt lại",
     "backToSignIn": "← Quay lại trang Đăng nhập",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "Tối thiểu 8 ký tự"
   },
   "wallet": {
     "totalBalance": "Tổng số dư (tương đương USD)",

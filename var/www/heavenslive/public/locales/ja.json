@@ -434,7 +434,12 @@
     "forgotTitle": "パスワードをリセット",
     "sendReset": "リセットリンクを送信",
     "backToSignIn": "← ログイン画面に戻る",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "ジョン・ドゥ",
+    "passwordHint": "8文字以上"
   },
   "wallet": {
     "totalBalance": "合計残高（米ドル換算）",

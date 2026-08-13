@@ -434,7 +434,12 @@
     "forgotTitle": "Reset Password",
     "sendReset": "Send Reset Link",
     "backToSignIn": "← Back to Sign In",
-    "logout": "Logout"
+    "logout": "Logout",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "John Doe",
+    "passwordHint": "Min 8 chars"
   },
   "wallet": {
     "totalBalance": "Total Balance (USD equivalent)",

@@ -434,7 +434,12 @@
     "forgotTitle": "Restablecer contraseña",
     "sendReset": "Enviar enlace de reinicio",
     "backToSignIn": "← Volver a Iniciar sesión",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "emailPlaceholder": "you@email.com",
+    "passwordPlaceholder": "••••••••",
+    "codePlaceholder": "000000",
+    "namePlaceholder": "Juan Pérez",
+    "passwordHint": "Mínimo 8 caracteres"
   },
   "wallet": {
     "totalBalance": "Saldo total (equivalente en USD)",
