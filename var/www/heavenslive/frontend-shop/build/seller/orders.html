@@ -15,10 +15,10 @@ table{width:100%;border-collapse:collapse;font-size:.84rem}th{text-align:left;pa
 </style></head><body>
 <nav><div class="nav-brand" data-i18n="brand.orders">📋 Orders</div><div class="nav-links"><a href="/shop/seller/dashboard">← Dashboard</a><a href="/shop/">Browse</a><a href="/shop/create">+ Post</a></div></nav>
 <div class="container">
-<a href="/shop/seller/dashboard" class="back-link">← Back to Dashboard</a>
+<a href="/shop/seller/dashboard" class="back-link" data-i18n="seller.backToDashboard">← Back to Dashboard</a>
 <h1 data-i18n="brand.orders">📋 Orders</h1><p class="muted" data-i18n="page.sub_manage_incoming_orders_shi">Manage incoming orders, ship items, and rate buyers</p>
-<div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl">Loading...</div></div></div>
-<div class="card"><table><thead><tr><th>Item</th><th>Buyer</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="ordersBody"><tr><td colspan="6" class="empty-state">Loading...</td></tr></tbody></table></div></div>
+<div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl" data-i18n="seller.loading">Loading...</div></div></div>
+<div class="card"><table><thead><tr><th data-i18n="seller.item">Item</th><th data-i18n="seller.buyer">Buyer</th><th data-i18n="seller.amount">Amount</th><th data-i18n="seller.status">Status</th><th data-i18n="seller.date">Date</th><th data-i18n="seller.actions">Actions</th></tr></thead><tbody id="ordersBody"><tr><td colspan="6" class="empty-state" data-i18n="seller.loading">Loading...</td></tr></tbody></table></div></div>
 <script>
 var T=localStorage.getItem("token");if(!T)location.href="/credon/";
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
@@ -26,10 +26,10 @@ async function loadOrders(){
   try{
     var d=await(await fetch('/api/shop/seller/orders',{headers:{Authorization:'Bearer '+T}})).json();var orders=d.orders||[];
     var pending=orders.filter(function(o){return o.status==='pending'||o.status==='paid'}).length,shipped=orders.filter(function(o){return o.status==='shipped'}).length,total=orders.reduce(function(s,o){return s+(o.amount_cents||0)},0)/100;
-    document.getElementById('statsGrid').innerHTML='<div class="stat-card"><div class="val">'+orders.length+'</div><div class="lbl">Total Orders</div></div><div class="stat-card"><div class="val">'+pending+'</div><div class="lbl">⏳ Pending</div></div><div class="stat-card"><div class="val">'+shipped+'</div><div class="lbl">📦 Shipped</div></div><div class="stat-card"><div class="val">$'+total.toFixed(2)+'</div><div class="lbl">Total Revenue</div></div>';
+    document.getElementById('statsGrid').innerHTML='<div class="stat-card"><div class="val">'+orders.length+'</div><div class="lbl" data-i18n="seller.totalOrders">Total Orders</div></div><div class="stat-card"><div class="val">'+pending+'</div><div class="lbl" data-i18n="seller.pending">⏳ Pending</div></div><div class="stat-card"><div class="val">'+shipped+'</div><div class="lbl" data-i18n="seller.shipped">📦 Shipped</div></div><div class="stat-card"><div class="val">$'+total.toFixed(2)+'</div><div class="lbl" data-i18n="seller.totalRevenue">Total Revenue</div></div>';
     document.getElementById('ordersBody').innerHTML=orders.length?orders.map(function(o){
-      return'<tr><td><div class="order-item"><img src="'+(o.image||'/shop-banner.png')+'" alt=""><span>'+esc(o.title||'Item')+'</span></div></td><td>'+esc(o.buyer_email||o.buyer_name||'Buyer')+'</td><td>$'+(o.amount_cents/100).toFixed(2)+'</td><td><span class="status-badge '+o.status+'">'+o.status+'</span></td><td>'+new Date(o.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</td><td><a class="btn-sm view" href="/shop/listing/'+o.listing_id+'">View</a> <a class="btn-sm rate" href="/shop/rate/'+o.id+'">⭐ Rate Buyer</a></td></tr>';
-    }).join(''):'<tr><td colspan="6" class="empty-state">No orders yet. Share your listings to start selling!</td></tr>';
+      return'<tr><td><div class="order-item"><img src="'+(o.image||'/shop-banner.png')+'" alt=""><span>'+esc(o.title||'Item')+'</span></div></td><td>'+esc(o.buyer_email||o.buyer_name||'Buyer')+'</td><td>$'+(o.amount_cents/100).toFixed(2)+'</td><td><span class="status-badge '+o.status+'">'+o.status+'</span></td><td>'+new Date(o.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</td><td><a class="btn-sm view" href="/shop/listing/'+o.listing_id+'" data-i18n="seller.view">View</a> <a class="btn-sm rate" href="/shop/rate/'+o.id+'" data-i18n="seller.rateBuyer">⭐ Rate Buyer</a></td></tr>';
+    }).join(''):'<tr><td colspan="6" class="empty-state" data-i18n="seller.noOrders">No orders yet. Share your listings to start selling!</td></tr>';
   }catch(e){console.error(e)}
 }loadOrders();
 </script><script src="/i18n.js"></script>

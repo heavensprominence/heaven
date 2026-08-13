@@ -16,16 +16,16 @@ h2{color:var(--gold);font-size:1.05rem;margin-bottom:10px}
 </style></head><body>
 <nav><div class="nav-brand" data-i18n="brand.advancedAnalytics">🔬 Advanced Analytics</div><div class="nav-links"><a href="/shop/seller/dashboard">← Dashboard</a><a href="/shop/seller/analytics">📈 Basic</a><a href="/shop/">Browse</a></div></nav>
 <div class="container">
-<a href="/shop/seller/dashboard" class="back-link">← Back to Dashboard</a>
+<a href="/shop/seller/dashboard" class="back-link" data-i18n="seller.backToDashboard">← Back to Dashboard</a>
 <h1 data-i18n="brand.advancedAnalytics">🔬 Advanced Analytics</h1><p class="muted" data-i18n="page.sub_deep_performance_insights_">Deep performance insights, buyer behavior, and revenue forecasting</p>
 
-<div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl">Loading...</div></div></div>
+<div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl" data-i18n="seller.loading">Loading...</div></div></div>
 
 <div class="chart-grid">
-  <div class="card"><h2 data-i18n="page.h2_health_score">🎯 Health Score</h2><div class="progress-ring" id="healthRing"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="12"/><circle cx="80" cy="80" r="68" fill="none" stroke="var(--gold)" stroke-width="12" stroke-dasharray="0 999" stroke-linecap="round" id="healthArc"/><text x="80" y="75" text-anchor="middle" class="pct" id="healthPct">0%</text><text x="80" y="95" text-anchor="middle" class="sub">Health Score</text></svg></div></div>
-  <div class="card"><h2 data-i18n="page.h2_buyer_demographics">👥 Buyer Demographics</h2><div id="buyerDemos"><span class="muted">Sample data from trends</span></div></div>
+  <div class="card"><h2 data-i18n="page.h2_health_score">🎯 Health Score</h2><div class="progress-ring" id="healthRing"><svg width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="12"/><circle cx="80" cy="80" r="68" fill="none" stroke="var(--gold)" stroke-width="12" stroke-dasharray="0 999" stroke-linecap="round" id="healthArc"/><text x="80" y="75" text-anchor="middle" class="pct" id="healthPct">0%</text><text x="80" y="95" text-anchor="middle" class="sub" data-i18n="seller.healthScore">Health Score</text></svg></div></div>
+  <div class="card"><h2 data-i18n="page.h2_buyer_demographics">👥 Buyer Demographics</h2><div id="buyerDemos"><span class="muted" data-i18n="seller.sampleData">Sample data from trends</span></div></div>
   <div class="card"><h2 data-i18n="page.h2_activity_heatmap">🔥 Activity Heatmap</h2><div class="heatmap" id="heatmap"></div></div>
-  <div class="card"><h2 data-i18n="page.h2_revenue_forecast">💰 Revenue Forecast</h2><div id="revenueProj"><span class="muted">Projecting based on current trends</span></div></div>
+  <div class="card"><h2 data-i18n="page.h2_revenue_forecast">💰 Revenue Forecast</h2><div id="revenueProj"><span class="muted" data-i18n="seller.projecting">Projecting based on current trends</span></div></div>
 </div></div>
 <script>
 var T=localStorage.getItem("token");if(!T)location.href="/credon/";
@@ -40,25 +40,25 @@ async function load(){
     var health=Math.round(Math.min(100,(active/totalPosts*40)+(totalSales/totalPosts*30)+(totalPosts>0?45:0)+Math.min(revenue*0.1,25)));
     
     document.getElementById('statsGrid').innerHTML=
-      '<div class="stat-card"><div class="val">'+health+'%</div><div class="lbl">Health Score</div></div>'+
-      '<div class="stat-card"><div class="val">'+active+'/'+totalPosts+'</div><div class="lbl">Active Ratio</div></div>'+
-      '<div class="stat-card"><div class="val">$'+avgPrice.toFixed(2)+'</div><div class="lbl">Avg Sale</div></div>'+
-      '<div class="stat-card"><div class="val">$'+revenue.toFixed(2)+'</div><div class="lbl">Total Revenue</div></div>';
+      '<div class="stat-card"><div class="val">'+health+'%</div><div class="lbl" data-i18n="seller.healthScore">Health Score</div></div>'+
+      '<div class="stat-card"><div class="val">'+active+'/'+totalPosts+'</div><div class="lbl" data-i18n="seller.activeRatio">Active Ratio</div></div>'+
+      '<div class="stat-card"><div class="val">$'+avgPrice.toFixed(2)+'</div><div class="lbl" data-i18n="seller.avgSale">Avg Sale</div></div>'+
+      '<div class="stat-card"><div class="val">$'+revenue.toFixed(2)+'</div><div class="lbl" data-i18n="seller.totalRevenue">Total Revenue</div></div>';
     
     // Health ring
     var circ=2*Math.PI*68,offset=circ-(health/100*circ);
     document.getElementById('healthArc').setAttribute('stroke-dasharray',circ);document.getElementById('healthArc').setAttribute('stroke-dashoffset',offset);document.getElementById('healthPct').textContent=health+'%';
     
     // Buyer demographics
-    document.getElementById('buyerDemos').innerHTML='<div class="metric-bar"><span class="label">🛍 Mall Buyers</span><div class="bar-container"><div class="fill" style="width:65%;background:var(--accent)">65%</div></div><span class="value">65%</span></div><div class="metric-bar"><span class="label">📰 Classifieds</span><div class="bar-container"><div class="fill" style="width:20%;background:var(--purple)">20%</div></div><span class="value">20%</span></div><div class="metric-bar"><span class="label">🔨 Auction Bidders</span><div class="bar-container"><div class="fill" style="width:10%;background:var(--orange)">10%</div></div><span class="value">10%</span></div><div class="metric-bar"><span class="label">📋 Procuring</span><div class="bar-container"><div class="fill" style="width:5%;background:var(--pink)">5%</div></div><span class="value">5%</span></div>';
+    document.getElementById('buyerDemos').innerHTML='<div class="metric-bar"><span class="label" data-i18n="seller.mallBuyers">🛍 Mall Buyers</span><div class="bar-container"><div class="fill" style="width:65%;background:var(--accent)">65%</div></div><span class="value">65%</span></div><div class="metric-bar"><span class="label" data-i18n="seller.classifieds">📰 Classifieds</span><div class="bar-container"><div class="fill" style="width:20%;background:var(--purple)">20%</div></div><span class="value">20%</span></div><div class="metric-bar"><span class="label" data-i18n="seller.auctionBidders">🔨 Auction Bidders</span><div class="bar-container"><div class="fill" style="width:10%;background:var(--orange)">10%</div></div><span class="value">10%</span></div><div class="metric-bar"><span class="label" data-i18n="seller.procuring">📋 Procuring</span><div class="bar-container"><div class="fill" style="width:5%;background:var(--pink)">5%</div></div><span class="value">5%</span></div>';
     
     // Heatmap (7x5 = 35 days)
-    var h='<div class="labels">Mon</div><div class="labels">Tue</div><div class="labels">Wed</div><div class="labels">Thu</div><div class="labels">Fri</div><div class="labels">Sat</div><div class="labels">Sun</div>';
+    var h='<div class="labels" data-i18n="seller.mon">Mon</div><div class="labels" data-i18n="seller.tue">Tue</div><div class="labels" data-i18n="seller.wed">Wed</div><div class="labels" data-i18n="seller.thu">Thu</div><div class="labels" data-i18n="seller.fri">Fri</div><div class="labels" data-i18n="seller.sat">Sat</div><div class="labels" data-i18n="seller.sun">Sun</div>';
     for(var i=0;i<35;i++){var lvl=Math.floor(Math.random()*5);h+='<div class="cell l'+lvl+'"></div>'}
     document.getElementById('heatmap').innerHTML=h;
     
     // Revenue forecast
-    document.getElementById('revenueProj').innerHTML='<div class="metric-bar"><span class="label">Current Month</span><div class="bar-container"><div class="fill" style="width:100%;background:var(--gold)">$'+revenue.toFixed(2)+'</div></div></div><div class="metric-bar"><span class="label">Next Month (est.)</span><div class="bar-container"><div class="fill" style="width:'+Math.min(100,revenue>0?120:30)+'%;background:var(--success)">$'+(revenue*1.2).toFixed(2)+'</div></div></div><div class="metric-bar"><span class="label">3-Mo Projection</span><div class="bar-container"><div class="fill" style="width:'+Math.min(100,revenue>0?150:40)+'%;background:var(--accent)">$'+(revenue*1.5).toFixed(2)+'</div></div></div>';
+    document.getElementById('revenueProj').innerHTML='<div class="metric-bar"><span class="label" data-i18n="seller.currentMonth">Current Month</span><div class="bar-container"><div class="fill" style="width:100%;background:var(--gold)">$'+revenue.toFixed(2)+'</div></div></div><div class="metric-bar"><span class="label" data-i18n="seller.nextMonth">Next Month (est.)</span><div class="bar-container"><div class="fill" style="width:'+Math.min(100,revenue>0?120:30)+'%;background:var(--success)">$'+(revenue*1.2).toFixed(2)+'</div></div></div><div class="metric-bar"><span class="label" data-i18n="seller.projection3mo">3-Mo Projection</span><div class="bar-container"><div class="fill" style="width:'+Math.min(100,revenue>0?150:40)+'%;background:var(--accent)">$'+(revenue*1.5).toFixed(2)+'</div></div></div>';
   }catch(e){console.error(e)}
 }load();
 </script><script src="/i18n.js"></script>

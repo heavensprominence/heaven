@@ -45,27 +45,27 @@ table{width:100%;border-collapse:collapse;font-size:.84rem}th{text-align:left;pa
 <div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl">Loading...</div></div></div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('posts')">📋 My Listings <span class="cnt" id="postCount"></span></button>
-  <button class="tab" onclick="switchTab('sales')">💰 Sales <span class="cnt" id="saleCount"></span></button>
+  <button class="tab active" onclick="switchTab('posts')"><span data-i18n="seller.myListings">📋 My Listings</span> <span class="cnt" id="postCount"></span></button>
+  <button class="tab" onclick="switchTab('sales')"><span data-i18n="seller.sales">💰 Sales</span> <span class="cnt" id="saleCount"></span></button>
   <button class="tab" onclick="switchTab('overview')" data-i18n="nav.overview">📊 Overview</button>
 </div>
 
 <div class="panel active" id="panel-posts">
   <div class="filter-bar">
-    <span class="filter-btn active" onclick="filterPosts('all',this)" id="filtAll">All</span>
+    <span class="filter-btn active" onclick="filterPosts('all',this)" id="filtAll" data-i18n="filters.all">All</span>
     <span class="filter-btn" onclick="filterPosts('selling',this)" data-i18n="page.label_selling">🛍 Selling</span>
     <span class="filter-btn" onclick="filterPosts('procuring',this)" data-i18n="page.label_procuring">📋 Procuring</span>
   </div>
-  <div class="bulk-bar" id="bulkBar"><span id="bulkCount">0 selected</span><button class="del-btn" onclick="bulkDelete()">🗑 Delete Selected</button><button class="clear-btn" onclick="clearSelection()">Clear</button></div>
-  <table><thead><tr><th style="width:30px"><input type="checkbox" onchange="selectAll(this)" id="selAll"></th><th>Type</th><th>Title</th><th>Price / Budget</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="postsBody"><tr><td colspan="7" class="empty-state">Loading...</td></tr></tbody></table>
+  <div class="bulk-bar" id="bulkBar"><span id="bulkCount">0 selected</span><button class="del-btn" onclick="bulkDelete()" data-i18n="seller.deleteSelected">🗑 Delete Selected</button><button class="clear-btn" onclick="clearSelection()" data-i18n="seller.clear">Clear</button></div>
+  <table><thead><tr><th style="width:30px"><input type="checkbox" onchange="selectAll(this)" id="selAll"></th><th data-i18n="seller.type">Type</th><th data-i18n="seller.title">Title</th><th data-i18n="seller.priceBudget">Price / Budget</th><th data-i18n="seller.status">Status</th><th data-i18n="seller.date">Date</th><th data-i18n="seller.actions">Actions</th></tr></thead><tbody id="postsBody"><tr><td colspan="7" class="empty-state" data-i18n="seller.loading">Loading...</td></tr></tbody></table>
 </div>
 
 <div class="panel" id="panel-sales">
-  <table><thead><tr><th>Item</th><th>Buyer</th><th>Type</th><th>Amount</th><th>Fee</th><th>Net</th><th>Date</th></tr></thead><tbody id="salesBody"><tr><td colspan="7" class="empty-state">Loading...</td></tr></tbody></table>
+  <table><thead><tr><th data-i18n="seller.item">Item</th><th data-i18n="seller.buyer">Buyer</th><th data-i18n="seller.type">Type</th><th data-i18n="seller.amount">Amount</th><th data-i18n="seller.fee">Fee</th><th data-i18n="seller.net">Net</th><th data-i18n="seller.date">Date</th></tr></thead><tbody id="salesBody"><tr><td colspan="7" class="empty-state" data-i18n="seller.loading">Loading...</td></tr></tbody></table>
 </div>
 
 <div class="panel" id="panel-overview">
-  <div class="empty-state" id="overviewContent">Loading statistics...</div>
+  <div class="empty-state" id="overviewContent" data-i18n="seller.loadingData">Loading statistics...</div>
 </div>
 </main></div>
 <script>
@@ -88,16 +88,16 @@ function filterPosts(f,el){
 function selectAll(e){selectedPosts=e.target.checked?allPosts.filter(function(p){return currentFilter==='all'||(currentFilter==='selling'?p.type!=='reverse_auction':p.type==='reverse_auction')}).map(p=>p.id):[];renderPosts();updateBulkBar()}
 function toggleSelect(id){var i=selectedPosts.indexOf(id);if(i>-1)selectedPosts.splice(i,1);else selectedPosts.push(id);renderPosts();updateBulkBar()}
 function clearSelection(){selectedPosts=[];renderPosts();updateBulkBar()}
-function updateBulkBar(){var b=document.getElementById('bulkBar');if(selectedPosts.length){b.classList.add('show');document.getElementById('bulkCount').textContent=selectedPosts.length+' selected'}else{b.classList.remove('show')};document.getElementById('selAll').checked=false}
+function updateBulkBar(){var b=document.getElementById('bulkBar');if(selectedPosts.length){b.classList.add('show');document.getElementById('bulkCount').textContent=selectedPosts.length+' '+t('seller.selected','selected')}else{b.classList.remove('show')};document.getElementById('selAll').checked=false}
 
 function renderPosts(){
   var filtered=currentFilter==='all'?allPosts:currentFilter==='selling'?allPosts.filter(function(p){return p.type!=='reverse_auction'}):allPosts.filter(function(p){return p.type==='reverse_auction'});
   document.getElementById('postCount').textContent='('+allPosts.length+')';
-  document.getElementById('filtAll').textContent='All ('+allPosts.length+')';
-  if(!filtered.length){document.getElementById('postsBody').innerHTML='<tr><td colspan="7" class="empty-state">'+t('listing.noResults','No listings yet.')+' <a href="/shop/create">Create one →</a></td></tr>';return}
+  document.getElementById('filtAll').textContent=t('filters.all','All')+' ('+allPosts.length+')';
+  if(!filtered.length){document.getElementById('postsBody').innerHTML='<tr><td colspan="7" class="empty-state">'+t('listing.noResults','No listings yet.')+' <a href="/shop/create">'+t('seller.createOne','Create one →')+'</a></td></tr>';return}
   document.getElementById('postsBody').innerHTML=filtered.map(function(p){
-    var typeLabel=p.type==='reverse_auction'?'📋 Procuring':p.type==='auction'?'🔨 Auction':p.type==='classifieds'?'📰 Classified':'🛍 Mall';
-    var priceLabel=p.type==='reverse_auction'?'Budget: $'+((p.max_bid_cents||0)/100).toFixed(2):p.price_cents?'$'+(p.price_cents/100).toFixed(2):p.min_bid_cents?'From $'+(p.min_bid_cents/100).toFixed(2):'FREE';
+    var typeLabel=p.type==='reverse_auction'?t('seller.procuring','📋 Procuring'):p.type==='auction'?t('seller.auction','🔨 Auction'):p.type==='classifieds'?t('seller.classified','📰 Classified'):t('seller.mall','🛍 Mall');
+    var priceLabel=p.type==='reverse_auction'?t('seller.budget','Budget:')+' $'+((p.max_bid_cents||0)/100).toFixed(2):p.price_cents?'$'+(p.price_cents/100).toFixed(2):p.min_bid_cents?t('seller.from','From')+' $'+(p.min_bid_cents/100).toFixed(2):t('seller.free','FREE');
     var date=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     return'<tr><td><input type="checkbox" '+(selectedPosts.includes(p.id)?'checked':'')+' onchange="toggleSelect(\''+p.id+'\')"></td><td><span class="type-badge '+p.type+'">'+typeLabel+'</span></td><td><strong>'+esc(p.title)+'</strong></td><td>'+priceLabel+'</td><td><span class="status-badge '+p.status+'">'+p.status+'</span></td><td>'+date+'</td><td><a class="btn-sm view" href="/shop/listing/'+p.id+'" data-i18n="page.btn_view">View</a> <button class="btn-sm del" onclick="delPost(\''+p.id+'\')" data-i18n="page.btn_delete">Delete</button></td></tr>';
   }).join('');
@@ -127,62 +127,15 @@ async function loadAll(){
     renderPosts();
     
     document.getElementById('salesBody').innerHTML=allSales.length?allSales.map(function(s){
-      var typeLabel=s.listing_type==='reverse_auction'?'📋 Procurement':'🛍 Sale';
+      var typeLabel=s.listing_type==='reverse_auction'?t('seller.procurement','📋 Procurement'):t('seller.sale','🛍 Sale');
       var feeCents=s.platform_fee_cents||0,net=s.seller_payout_cents||s.amount_cents;
       return'<tr><td><div class="sale-item"><img src="'+(s.image||'/shop-banner.png')+'" alt=""><span>'+esc(s.title||'Item')+'</span></div></td><td>'+(s.buyer_name||s.buyer_email||'Buyer')+'</td><td><span class="type-badge '+s.listing_type+'">'+typeLabel+'</span></td><td>$'+(s.amount_cents/100).toFixed(2)+'</td><td>$'+(feeCents/100).toFixed(2)+'</td><td>$'+(net/100).toFixed(2)+'</td><td>'+new Date(s.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</td></tr>';
-    }).join(''):'<tr><td colspan="7" class="empty-state">No sales yet</td></tr>';
+    }).join(''):'<tr><td colspan="7" class="empty-state">'+t('seller.noSales','No sales yet')+'</td></tr>';
     
     // Offers badge
     try{var o=await(await fetch('/api/shop/seller/offers',{headers:{Authorization:'Bearer '+T}})).json();document.getElementById('offerBadge').textContent=o.offers?o.offers.length:0}catch(e){}
   }catch(e){console.error(e)}
 }
 loadAll();
-</script><script>
-(function(){
-  var lang=localStorage.getItem("hl-lang")||"en";
-  document.documentElement.lang=lang;
-  if(["ar","fa","ur"].includes(lang))document.documentElement.dir="rtl";
-  
-  function applyLoc(s){
-    if(!s)return;
-    document.querySelectorAll("[data-i18n]").forEach(function(el){
-      var key=el.getAttribute("data-i18n"),parts=key.split("."),val=s;
-      for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
-      if(typeof val=="string"&&val){
-        // Preserve leading emoji/icon only if translation doesn't have one
-        var t=el.textContent.trim(),icon="";
-        var m=t.match(/^([📊📋💰🛒📦📨📈🔬📢⚖️🏪🎨💱📱←\+\s]+)/);
-        if(m&&m[1].length<=8){icon=m[1].trim()}
-        var hasIcon=/^[📊📋💰🛒📦📨📈🔬📢⚖️🏪🎨💱📱←\+]/.test(val);
-        el.textContent=(icon&&!hasIcon?icon+' '+val:val);
-      }
-    });
-  }
-  
-  if(lang!=="en"){
-    fetch("/locales/shop-"+lang+".json").then(function(r){return r.json()}).then(function(s){
-      localStorage.setItem("hl-shop-locale",JSON.stringify(s));
-      applyLoc(s);
-    }).catch(function(){});
-  }
-  
-  window.switchLang=function(l){
-    localStorage.setItem("hl-lang",l);document.documentElement.lang=l;
-    document.documentElement.dir=["ar","fa","ur"].includes(l)?"rtl":"ltr";
-    fetch("/locales/shop-"+l+".json").then(function(r){return r.json()}).then(function(s){
-      localStorage.setItem("hl-shop-locale",JSON.stringify(s));
-      applyLoc(s);
-    }).catch(function(){});
-  };
-  
-  // Add language selector
-  var sel='<select id="langSel" onchange="switchLang(this.value)" style="padding:5px 8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:var(--text);font-size:.78rem;margin-left:12px">';
-  var langs={en:"English",ar:"العربية",fa:"فارسی",fr:"Français",zh:"中文",es:"Español",de:"Deutsch",ja:"日本語",ko:"한국어",pt:"Português",ru:"Русский",hi:"हिन्दी",vi:"Tiếng Việt",tr:"Türkçe",ur:"اردو",sv:"Svenska",tl:"Tagalog"};
-  for(var l in langs){sel+='<option value="'+l+'">'+langs[l]+'</option>'}
-  sel+='</select>';
-  var nav=document.querySelector('.nav-links');
-  if(nav)nav.insertAdjacentHTML('beforeend',sel);
-  document.getElementById('langSel').value=lang;
-})();
-</script>
+</script><script src="/i18n.js"></script>
 </body></html>
