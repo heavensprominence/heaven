@@ -29,8 +29,8 @@
     "anyAmount": "cualquier cantidad",
     "donateBtn": "Donar ahora",
     "bonusLabel": "Bono de credibilidad",
-    "bonusEarns": "Tu donación de $50 gana",
-    "multiplier": "Multiplicador de 10x en tu primera donación",
+    "bonusEarns": "Tu %s donación gana",
+    "multiplier": "Bonificación del 50% en tu donación",
     "customPrompt": "Ingrese el monto personalizado (USD):"
   },
   "usb": {

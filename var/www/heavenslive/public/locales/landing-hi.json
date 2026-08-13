@@ -29,8 +29,8 @@
     "anyAmount": "कोई भी राशि",
     "donateBtn": "अभी दान करें",
     "bonusLabel": "क्रेडॉन बोनस",
-    "bonusEarns": "आपके $50 के दान से कमाई होती है",
-    "multiplier": "आपके पहले दान पर 10 गुना गुणक",
+    "bonusEarns": "आपका %s दान कमाता है",
+    "multiplier": "आपके दान पर 50% बोनस",
     "customPrompt": "कस्टम राशि दर्ज करें (USD):"
   },
   "usb": {

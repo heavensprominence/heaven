@@ -115,9 +115,9 @@ document.getElementById('welcomeOverlay').addEventListener('click',function(){
 <button class="btn btn-primary" style="width:100%;padding:16px;font-size:1.1rem" onclick="doDonate()" data-i18n="donate.donateBtn">Donate Now</button>
 </div>
 <div class="donate-display"><div style="display:inline-block;background:var(--gold);color:var(--darker);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:16px" data-i18n="donate.bonusLabel">✨ Credon Bonus</div>
-<div style="font-size:1.1rem" data-i18n="donate.bonusEarns">Your $50 donation earns</div>
-<div class="bonus" id="bonusAmount">500 Credon</div>
-<div class="bonus-label" data-i18n="donate.multiplier">10x multiplier on your 1st donation</div></div>
+<div style="font-size:1.1rem" id="bonusEarnsText">Your $50 donation earns</div>
+<div class="bonus" id="bonusAmount">25 Credon</div>
+<div class="bonus-label" data-i18n="donate.multiplier">50% bonus on your donation</div></div>
 </div></section>
 
 <section class="usb"><div class="container">
@@ -200,6 +200,7 @@ function switchLang(l){
     currentLang=l;localStorage.setItem('hl-lang',l);document.documentElement.lang=l;
     document.documentElement.dir=['ar','fa','ur'].includes(l)?'rtl':'ltr';
     applyTranslations(t);
+    if(window.__afterI18n){try{window.__afterI18n()}catch(e){}}
   }).catch(function(){});
 }
 var sl=localStorage.getItem('hl-lang')||'en';
@@ -212,11 +213,20 @@ if(T)try{var b=T.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');var p=JSON.pa
 }catch(e){}
 
 var donationAmount=50;
-function selectDonation(a){donationAmount=a||0;
-  var amt=a||prompt(t('donate.customPrompt','Enter custom amount (USD):'))||50;
-  donationAmount=Number(amt);
-  document.getElementById('bonusAmount').textContent=(donationAmount*10)+' Credon';
+var DONATION_BONUS_RATE=0.5;
+function updateDonationBonus(){
+  var bonus=Math.round(donationAmount*DONATION_BONUS_RATE*100)/100;
+  document.getElementById('bonusAmount').textContent=bonus+' Credon';
+  document.getElementById('bonusEarnsText').textContent=t('donate.bonusEarns','Your %s donation earns').replace('%s','$'+donationAmount);
 }
+function selectDonation(a){
+  donationAmount=a||0;
+  var amt=a||prompt(t('donate.customPrompt','Enter custom amount (USD):'))||50;
+  donationAmount=Number(amt)||50;
+  updateDonationBonus();
+}
+window.__afterI18n=updateDonationBonus;
+updateDonationBonus();
 function doDonate(){
   var T=localStorage.getItem('token');
   fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(T||'')},body:JSON.stringify({amount:donationAmount||50,currency:'USD',description:'Donation to HeavensLive',type:'donation'})}).then(function(r){return r.json()}).then(function(d){

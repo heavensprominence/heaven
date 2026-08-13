@@ -29,8 +29,8 @@
     "anyAmount": "Vilket belopp som helst",
     "donateBtn": "Donera nu",
     "bonusLabel": "Credon bonus",
-    "bonusEarns": "Din donation på $50 tjänar",
-    "multiplier": "10x multiplikator på din första donation",
+    "bonusEarns": "Din %s donation tjänar",
+    "multiplier": "50% bonus på din donation",
     "customPrompt": "Ange anpassat belopp (USD):"
   },
   "usb": {

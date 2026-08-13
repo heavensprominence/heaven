@@ -29,8 +29,8 @@
     "anyAmount": "Anumang Halaga",
     "donateBtn": "Mag-donate Ngayon",
     "bonusLabel": "Bonus ng Credon",
-    "bonusEarns": "Ang iyong $50 na donasyon ay kumikita",
-    "multiplier": "10x multiplier sa iyong unang donasyon",
+    "bonusEarns": "Ang iyong %s na donasyon ay kumikita",
+    "multiplier": "50% na bonus sa iyong donasyon",
     "customPrompt": "Maglagay ng custom na halaga (USD):"
   },
   "usb": {

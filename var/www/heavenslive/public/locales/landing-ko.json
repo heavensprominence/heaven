@@ -29,8 +29,8 @@
     "anyAmount": "모든 금액",
     "donateBtn": "지금 기부하세요",
     "bonusLabel": "크레돈 보너스",
-    "bonusEarns": "50달러 기부로 수익 창출",
-    "multiplier": "첫 번째 기부 시 10배 배수",
+    "bonusEarns": "%s 기부로 수익을 창출하세요",
+    "multiplier": "기부금 50% 보너스",
     "customPrompt": "맞춤 금액(USD) 입력:"
   },
   "usb": {

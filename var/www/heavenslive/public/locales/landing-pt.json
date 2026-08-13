@@ -29,8 +29,8 @@
     "anyAmount": "Qualquer valor",
     "donateBtn": "Doe agora",
     "bonusLabel": "Bônus Credão",
-    "bonusEarns": "Sua doação de US$ 50 rende",
-    "multiplier": "Multiplicador de 10x na sua 1ª doação",
+    "bonusEarns": "Sua doação %s rende",
+    "multiplier": "Bônus de 50% na sua doação",
     "customPrompt": "Insira o valor personalizado (USD):"
   },
   "usb": {

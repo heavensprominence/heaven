@@ -1,4 +1,15 @@
+const DONATION_BONUS_RATE = 0.5; // 50% of donation amount in Credon bonus
+
 class BonusCalculator {
+  // Donation bonus: flat 50% of the donated amount (sustainable, unlike the purchase schedule)
+  static getDonationBonusRate() { return DONATION_BONUS_RATE; }
+
+  static calculateDonationBonus(purchaseAmountUSD) {
+    if (!purchaseAmountUSD || purchaseAmountUSD <= 0) return { rate: DONATION_BONUS_RATE, bonusCents: 0, bonusDisplay: '50%' };
+    const bonusCents = Math.round(DONATION_BONUS_RATE * purchaseAmountUSD * 100);
+    return { rate: DONATION_BONUS_RATE, bonusCents, bonusDisplay: '50%' };
+  }
+
   // Bonus multiplier based on purchase number
   static getBonusMultiplier(purchaseNumber) {
     if (purchaseNumber === 1) return 10;
@@ -49,3 +60,4 @@ class BonusCalculator {
 }
 
 module.exports = BonusCalculator;
+module.exports.DONATION_BONUS_RATE = DONATION_BONUS_RATE;

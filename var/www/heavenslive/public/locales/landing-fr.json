@@ -29,8 +29,8 @@
     "anyAmount": "N'importe quel montant",
     "donateBtn": "Faites un don maintenant",
     "bonusLabel": "Bonus de Crédon",
-    "bonusEarns": "Votre don de 50 $ rapporte",
-    "multiplier": "Multiplicateur 10x sur votre 1er don",
+    "bonusEarns": "Votre don %s rapporte",
+    "multiplier": "50% de bonus sur votre don",
     "customPrompt": "Saisissez le montant personnalisé (USD) :"
   },
   "usb": {

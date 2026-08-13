@@ -29,8 +29,8 @@
     "anyAmount": "Any Amount",
     "donateBtn": "Donate Now",
     "bonusLabel": "✨ Credon Bonus",
-    "bonusEarns": "Your $50 donation earns",
-    "multiplier": "10x multiplier on your 1st donation",
+    "bonusEarns": "Your %s donation earns",
+    "multiplier": "50% bonus on your donation",
     "customPrompt": "Enter custom amount (USD):"
   },
   "usb": {

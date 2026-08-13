@@ -29,8 +29,8 @@
     "anyAmount": "Beliebiger Betrag",
     "donateBtn": "Jetzt spenden",
     "bonusLabel": "Credon-Bonus",
-    "bonusEarns": "Ihre Spende in Höhe von 50 $ bringt Geld",
-    "multiplier": "10-facher Multiplikator für Ihre erste Spende",
+    "bonusEarns": "Ihre %s-Spende verdient",
+    "multiplier": "50 % Bonus auf Ihre Spende",
     "customPrompt": "Geben Sie einen benutzerdefinierten Betrag (USD) ein:"
   },
   "usb": {

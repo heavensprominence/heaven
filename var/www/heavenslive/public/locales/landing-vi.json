@@ -29,8 +29,8 @@
     "anyAmount": "Bất kỳ số tiền nào",
     "donateBtn": "Đóng góp ngay",
     "bonusLabel": "Tiền thưởng Credon",
-    "bonusEarns": "Khoản quyên góp $50 của bạn kiếm được",
-    "multiplier": "Số nhân gấp 10 lần cho lần quyên góp đầu tiên của bạn",
+    "bonusEarns": "Khoản quyên góp %s của bạn kiếm được",
+    "multiplier": "Tiền thưởng 50% cho khoản đóng góp của bạn",
     "customPrompt": "Nhập số tiền tùy chỉnh (USD):"
   },
   "usb": {

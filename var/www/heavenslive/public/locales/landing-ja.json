@@ -29,8 +29,8 @@
     "anyAmount": "任意の量",
     "donateBtn": "今すぐ寄付してください",
     "bonusLabel": "クレドンボーナス",
-    "bonusEarns": "50 ドルの寄付で収益が得られます",
-    "multiplier": "初回寄付で10倍の倍率",
+    "bonusEarns": "%s の寄付で得られる収益",
+    "multiplier": "寄付に対する 50% のボーナス",
     "customPrompt": "カスタム金額 (USD) を入力してください:"
   },
   "usb": {

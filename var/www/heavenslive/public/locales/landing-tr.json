@@ -29,8 +29,8 @@
     "anyAmount": "Herhangi Bir Tutar",
     "donateBtn": "Şimdi Bağış Yapın",
     "bonusLabel": "Kredi Bonusu",
-    "bonusEarns": "50$ bağışınız kazanır",
-    "multiplier": "1. bağışınızda 10 kat çarpan",
+    "bonusEarns": "%s bağışınız kazandırıyor",
+    "multiplier": "Bağışınız üzerinden %50 bonus",
     "customPrompt": "Özel tutarı girin (USD):"
   },
   "usb": {

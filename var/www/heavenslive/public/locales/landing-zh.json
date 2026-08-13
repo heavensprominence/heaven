@@ -29,8 +29,8 @@
     "anyAmount": "任意金额",
     "donateBtn": "立即捐款",
     "bonusLabel": "信用奖金",
-    "bonusEarns": "您的 50 美元捐款可赚取",
-    "multiplier": "第一次捐款即可获得 10 倍乘数",
+    "bonusEarns": "您的 %s 捐款可赚取",
+    "multiplier": "您捐款的 50% 奖金",
     "customPrompt": "输入自定义金额（美元）："
   },
   "usb": {

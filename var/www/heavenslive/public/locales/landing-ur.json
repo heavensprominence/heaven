@@ -29,8 +29,8 @@
     "anyAmount": "کوئی بھی رقم",
     "donateBtn": "ابھی عطیہ کریں۔",
     "bonusLabel": "کریڈن بونس",
-    "bonusEarns": "آپ کا $50 عطیہ کماتا ہے۔",
-    "multiplier": "آپ کے پہلے عطیہ پر 10x ضرب",
+    "bonusEarns": "آپ کا %s عطیہ کماتا ہے۔",
+    "multiplier": "آپ کے عطیہ پر 50% بونس",
     "customPrompt": "حسب ضرورت رقم درج کریں (USD):"
   },
   "usb": {
