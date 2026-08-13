@@ -272,7 +272,31 @@ async function sendDisputeNotification(email, title, action) {
     };
     try { await transporter.sendMail(mailOptions); console.log('📧 Dispute email sent to', email); } catch(e) {}
 }
+const sendCredonApproval = async (email, name) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || 'service@heavenslive.com',
+    to: email,
+    subject: '✅ Your Credon account is approved - HeavensLive',
+    html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0F0F1A;color:#E8E6E3;padding:32px;border-radius:12px;border:1px solid rgba(200,169,81,.2)"><div style="text-align:center;margin-bottom:24px"><h1 style="color:#C8A951;margin:0;font-size:1.4rem">HeavensLive</h1><p style="color:#A0A0B0;font-size:.8rem;margin-top:4px">Credon Account</p></div><h2 style="color:#C8A951;font-size:1.05rem;margin-bottom:14px">Welcome, ${name}!</h2><p style="line-height:1.6;font-size:.9rem">Good news — your Credon account has been <strong>approved</strong>. You can now access your wallet, send and exchange funds, and use the full Credon platform.</p><div style="background:rgba(200,169,81,.06);padding:16px;border-radius:8px;margin:16px 0;border-left:3px solid #C8A951"><p style="font-size:.9rem;color:#C8A951;margin:0"><a href="https://heavenslive.com/credon/wallet" style="color:#C8A951">Open your Credon wallet →</a></p></div><hr style="border:none;border-top:1px solid rgba(255,255,255,.05);margin:24px 0 16px"><p style="color:#A0A0B0;font-size:.7rem;text-align:center">HeavensLive · Divinely Underwritten Commerce<br>This is an automated message. Please do not reply.</p></div>`
+  };
+  try { await transporter.sendMail(mailOptions); console.log('📧 Credon approval email sent to', email); }
+  catch (error) { console.error('Failed to send Credon approval email:', error); }
+};
+
+const sendLoanApproval = async (email, name, amountDisplay, currency, rateDisplay) => {
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || 'service@heavenslive.com',
+    to: email,
+    subject: '💸 Your loan has been approved - HeavensLive',
+    html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0F0F1A;color:#E8E6E3;padding:32px;border-radius:12px;border:1px solid rgba(200,169,81,.2)"><div style="text-align:center;margin-bottom:24px"><h1 style="color:#C8A951;margin:0;font-size:1.4rem">HeavensLive</h1><p style="color:#A0A0B0;font-size:.8rem;margin-top:4px">Loan Approval</p></div><h2 style="color:#C8A951;font-size:1.05rem;margin-bottom:14px">Good news, ${name}!</h2><p style="line-height:1.6;font-size:.9rem">Your loan request has been <strong>approved</strong> and the funds are now in your wallet.</p><div style="background:rgba(200,169,81,.06);padding:16px;border-radius:8px;margin:16px 0;border-left:3px solid #C8A951"><p style="font-size:1.1rem;color:#C8A951;margin:0">${amountDisplay} ${currency}</p><p style="font-size:.85rem;color:#A0A0B0;margin:4px 0 0">Terms: ${rateDisplay}</p></div><p style="line-height:1.6;font-size:.9rem"><a href="https://heavenslive.com/credon/wallet" style="color:#C8A951">Open your wallet →</a></p><hr style="border:none;border-top:1px solid rgba(255,255,255,.05);margin:24px 0 16px"><p style="color:#A0A0B0;font-size:.7rem;text-align:center">HeavensLive · Divinely Underwritten Commerce<br>This is an automated message. Please do not reply.</p></div>`
+  };
+  try { await transporter.sendMail(mailOptions); console.log('📧 Loan approval email sent to', email); }
+  catch (error) { console.error('Failed to send loan approval email:', error); }
+};
+
 module.exports = {
+    sendCredonApproval,
+    sendLoanApproval,
     sendDisputeNotification,
     sendLotteryWinNotification,
     sendVerificationEmail,

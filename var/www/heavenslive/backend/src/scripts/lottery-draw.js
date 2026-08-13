@@ -78,10 +78,15 @@ async function drawLottery() {
     await client.query('COMMIT');
     console.log(`Week ${week} lottery drawn: ${entries.rows.length} winners`);
 
-    // Email winners (TODO: wire up email service)
+    // Email winners
+    const { sendLotteryWinNotification } = require('../services/emailService');
     for (const entry of entries.rows) {
-      const user = await pool.query('SELECT email FROM users WHERE id = $1', [entry.user_id]);
-      console.log(`  Winner: ${user.rows[0]?.email} — Business plan granted`);
+      const user = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [entry.user_id]);
+      const u = user.rows[0];
+      if (u) {
+        console.log(`  Winner: ${u.email} — Business plan granted`);
+        await sendLotteryWinNotification(u.email, u.full_name || 'Friend', 'Business');
+      }
     }
   } catch (error) {
     await client.query('ROLLBACK');

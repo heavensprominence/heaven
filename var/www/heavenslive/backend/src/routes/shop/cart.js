@@ -26,10 +26,12 @@ async function optionalAuth(req, res, next) {
       return next();
     } catch (err) {
       console.error('CART AUTH FAILED:', err.name, err.message, 'secretLen='+(jwtSecret||'').length);
-      // Token invalid, fall through to guest
+      // A token was supplied but is invalid/expired — tell the client instead of
+      // silently treating the user as a guest (which orphaned their cart items).
+      return res.status(401).json({ sessionExpired: true, message: 'Your session has expired. Please sign in again.' });
     }
   }
-  // Guest flow
+  // Guest flow (no token supplied)
   req.isGuest = true;
   req.guestToken = req.headers['x-guest-token'] || req.body?.guest_token;
   if (!req.guestToken) {

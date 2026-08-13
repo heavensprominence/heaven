@@ -819,6 +819,17 @@ router.post('/loans/:id/approve', verifyToken, requireAdmin, async (req, res) =>
             if (commission) console.log(`📢 Affiliate commission: ${commission} cents for loan approval`);
         } catch (e) { console.error('Affiliate commission failed:', e.message); }
         
+        // Notify the user their loan/grant was approved
+        try {
+            const u = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [lr.user_id]);
+            if (u.rows[0]) {
+                const { sendLoanApproval } = require('../services/emailService');
+                const amountDisplay = (amount_cents / 100).toFixed(2);
+                const rateDisplay = isGrant ? 'Grant (no repayment)' : `${rate}% interest`;
+                await sendLoanApproval(u.rows[0].email, u.rows[0].full_name || 'Friend', amountDisplay, finalCurrency, rateDisplay);
+            }
+        } catch (e) { console.error('Loan approval email failed:', e.message); }
+        
         res.json({ 
             success: true, 
             type: isGrant ? 'grant' : 'loan',
@@ -878,10 +889,15 @@ router.get('/credon/pending', verifyToken, requireAdmin, async (req, res) => {
 router.post('/credon/approve', verifyToken, requireAdmin, async (req, res) => {
     try {
         const { userId } = req.body;
+        const target = await pool.query('SELECT email, full_name FROM users WHERE id = $1', [userId]);
         await pool.query(
             "UPDATE users SET credon_approved = true, credon_pending = false WHERE id = $1",
             [userId]
         );
+        if (target.rows[0]) {
+            const { sendCredonApproval } = require('../services/emailService');
+            await sendCredonApproval(target.rows[0].email, target.rows[0].full_name || 'Friend');
+        }
         res.json({ success: true });
     } catch (error) {
         res.status(500).json({ error: error.message });
