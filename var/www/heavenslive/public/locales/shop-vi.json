@@ -580,5 +580,32 @@
     "backToShop": "Quay lại trang chủ",
     "addToCart": "Thêm vào giỏ hàng",
     "messageSeller": "Gửi tin nhắn cho người bán"
+  },
+  "checkout": {
+    "title": "🛒 Thanh toán",
+    "backToShop": "← Cửa hàng",
+    "shipping": "📦 Vận chuyển",
+    "streetPlaceholder": "Địa chỉ đường phố",
+    "cityPlaceholder": "Thành phố",
+    "zipPlaceholder": "Mã bưu chính",
+    "shippingUsdNote": "Vận chuyển luôn được tính bằng USD.",
+    "estimatedShipping": "vận chuyển ước tính",
+    "payment": "💳 Thanh toán",
+    "walletFirstNote": "Ưu tiên ví: Chúng tôi sẽ khấu trừ từ số dư Credon của bạn nếu có sẵn tiền. Nếu không, bạn sẽ được chuyển hướng đến PayPal. Phí vận chuyển luôn là USD.",
+    "checkingBalance": "Đang kiểm tra số dư...",
+    "total": "Tổng cộng",
+    "payNow": "Thanh toán ngay",
+    "items": "Mặt hàng",
+    "subtotal": "Tổng phụ",
+    "couldNotLoadCart": "Không thể tải giỏ hàng",
+    "balance": "Số dư:",
+    "usdEquivalent": "USD tương đương",
+    "signInToSeeBalance": "Đăng nhập để xem số dư",
+    "processing": "Xử lý...",
+    "paidFromCredon": "Đã thanh toán %s từ ví Credon! Đang chuyển hướng...",
+    "redirectingToPayPal": "Đang chuyển hướng tới PayPal...",
+    "orderPlaced": "Đã đặt hàng!",
+    "checkoutFailed": "Thanh toán không thành công",
+    "serverError": "Lỗi máy chủ"
   }
 }

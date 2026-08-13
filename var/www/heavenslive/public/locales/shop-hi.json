@@ -580,5 +580,32 @@
     "backToShop": "दुकान पर वापस",
     "addToCart": "कार्ट में जोड़ें",
     "messageSeller": "संदेश विक्रेता"
+  },
+  "checkout": {
+    "title": "🛒 चेकआउट",
+    "backToShop": "← दुकान",
+    "shipping": "📦 शिपिंग",
+    "streetPlaceholder": "सड़क का पता",
+    "cityPlaceholder": "शहर",
+    "zipPlaceholder": "पिन कोड",
+    "shippingUsdNote": "शिपिंग का शुल्क हमेशा USD में लिया जाता है।",
+    "estimatedShipping": "अनुमानित नौवहन",
+    "payment": "💳 भुगतान",
+    "walletFirstNote": "वॉलेट-प्रथम: यदि धनराशि उपलब्ध है तो हम आपके क्रेडॉन बैलेंस से कटौती करेंगे। अन्यथा, आपको PayPal पर पुनः निर्देशित कर दिया जाएगा। शिपिंग हमेशा USD होती है।",
+    "checkingBalance": "शेष राशि जाँची जा रही है...",
+    "total": "कुल",
+    "payNow": "अब भुगतान करें",
+    "items": "सामान",
+    "subtotal": "उप-योग",
+    "couldNotLoadCart": "कार्ट लोड नहीं किया जा सका",
+    "balance": "शेष राशि:",
+    "usdEquivalent": "अमरीकी डालर के बराबर",
+    "signInToSeeBalance": "शेष राशि देखने के लिए साइन इन करें",
+    "processing": "प्रसंस्करण...",
+    "paidFromCredon": "क्रेडॉन वॉलेट से %s का भुगतान किया! पुनर्निर्देशन...",
+    "redirectingToPayPal": "PayPal पर पुनर्निर्देशित किया जा रहा है...",
+    "orderPlaced": "आदेश रखा!",
+    "checkoutFailed": "चेकआउट विफल रहा",
+    "serverError": "सर्वर त्रुटि"
   }
 }

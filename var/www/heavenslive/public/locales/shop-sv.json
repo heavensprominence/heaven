@@ -580,5 +580,32 @@
     "backToShop": "Tillbaka till butik",
     "addToCart": "Lägg till i kundvagn",
     "messageSeller": "Meddelande Säljare"
+  },
+  "checkout": {
+    "title": "🛒 Till kassan",
+    "backToShop": "← Butik",
+    "shipping": "📦 Frakt",
+    "streetPlaceholder": "Gatuadress",
+    "cityPlaceholder": "Stad",
+    "zipPlaceholder": "Postnummer",
+    "shippingUsdNote": "Frakt debiteras alltid i USD.",
+    "estimatedShipping": "Beräknad frakt",
+    "payment": "💳 Betalning",
+    "walletFirstNote": "Plånboken först: Vi drar av från ditt Credon-saldo om pengar finns tillgängliga. Annars omdirigeras du till PayPal. Frakt är alltid USD.",
+    "checkingBalance": "Kontrollerar saldo...",
+    "total": "Total",
+    "payNow": "Betala nu",
+    "items": "Artiklar",
+    "subtotal": "Delsumma",
+    "couldNotLoadCart": "Kunde inte ladda vagnen",
+    "balance": "Saldo:",
+    "usdEquivalent": "motsvarande USD",
+    "signInToSeeBalance": "Logga in för att se balans",
+    "processing": "Bearbetar...",
+    "paidFromCredon": "Betalade %s från Credon plånbok! Omdirigerar...",
+    "redirectingToPayPal": "Omdirigerar till PayPal...",
+    "orderPlaced": "Beställning gjord!",
+    "checkoutFailed": "Utcheckningen misslyckades",
+    "serverError": "Serverfel"
   }
 }

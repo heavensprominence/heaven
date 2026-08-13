@@ -580,5 +580,32 @@
     "backToShop": "Bumalik sa Tindahan",
     "addToCart": "Idagdag sa cart",
     "messageSeller": "Mangangalakal ng Mensahe"
+  },
+  "checkout": {
+    "title": "🛒 Checkout",
+    "backToShop": "← Mamili",
+    "shipping": "📦 Pagpapadala",
+    "streetPlaceholder": "Address ng kalye",
+    "cityPlaceholder": "lungsod",
+    "zipPlaceholder": "ZIP code",
+    "shippingUsdNote": "Palaging sinisingil ang pagpapadala sa USD.",
+    "estimatedShipping": "Tinatayang pagpapadala",
+    "payment": "💳 Pagbabayad",
+    "walletFirstNote": "Wallet-first: Ibawas namin sa iyong balanse sa Credon kung available ang mga pondo. Kung hindi, ire-redirect ka sa PayPal. Ang pagpapadala ay palaging USD.",
+    "checkingBalance": "Sinusuri ang balanse...",
+    "total": "Kabuuan",
+    "payNow": "Magbayad na",
+    "items": "Mga bagay",
+    "subtotal": "Subtotal",
+    "couldNotLoadCart": "Hindi ma-load ang cart",
+    "balance": "Balanse:",
+    "usdEquivalent": "katumbas ng USD",
+    "signInToSeeBalance": "Mag-sign in para makita ang balanse",
+    "processing": "Pinoproseso...",
+    "paidFromCredon": "Binayaran ang %s mula sa wallet ng Credon! Nire-redirect...",
+    "redirectingToPayPal": "Nire-redirect sa PayPal...",
+    "orderPlaced": "Nailagay na ang order!",
+    "checkoutFailed": "Nabigo ang pag-checkout",
+    "serverError": "Error sa server"
   }
 }

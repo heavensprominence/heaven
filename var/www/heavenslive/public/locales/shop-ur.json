@@ -580,5 +580,32 @@
     "backToShop": "دکان پر واپس",
     "addToCart": "ٹوکری میں شامل کریں",
     "messageSeller": "پیغام بیچنے والا"
+  },
+  "checkout": {
+    "title": "🛒 چیک آؤٹ",
+    "backToShop": "← دکان",
+    "shipping": "📦 شپنگ",
+    "streetPlaceholder": "گلی کا پتہ",
+    "cityPlaceholder": "شہر",
+    "zipPlaceholder": "زپ کوڈ",
+    "shippingUsdNote": "شپنگ ہمیشہ USD میں وصول کی جاتی ہے۔",
+    "estimatedShipping": "تخمینہ شدہ شپنگ",
+    "payment": "💳 ادائیگی",
+    "walletFirstNote": "والیٹ فرسٹ: اگر فنڈز دستیاب ہوں گے تو ہم آپ کے کریڈون بیلنس سے کٹوتی کریں گے۔ بصورت دیگر، آپ کو پے پال پر بھیج دیا جائے گا۔ شپنگ ہمیشہ USD ہے۔",
+    "checkingBalance": "بیلنس چیک کر رہا ہے...",
+    "total": "کل",
+    "payNow": "ابھی ادائیگی کریں۔",
+    "items": "اشیاء",
+    "subtotal": "ذیلی کل",
+    "couldNotLoadCart": "کارٹ لوڈ نہیں ہو سکا",
+    "balance": "بیلنس:",
+    "usdEquivalent": "امریکی ڈالر کے برابر",
+    "signInToSeeBalance": "بیلنس دیکھنے کے لیے سائن ان کریں۔",
+    "processing": "پروسیسنگ...",
+    "paidFromCredon": "کریڈون والیٹ سے %s ادا کیا! ری ڈائریکٹ ہو رہا ہے...",
+    "redirectingToPayPal": "پے پال پر ری ڈائریکٹ کیا جا رہا ہے...",
+    "orderPlaced": "آرڈر دیا گیا!",
+    "checkoutFailed": "چیک آؤٹ ناکام ہو گیا۔",
+    "serverError": "سرور کی خرابی۔"
   }
 }

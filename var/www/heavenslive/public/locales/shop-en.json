@@ -573,5 +573,32 @@
     "amountPlaceholder": "Amount (USD)",
     "notePlaceholder": "Note (optional)",
     "purposePlaceholder": "Purpose"
+  },
+  "checkout": {
+    "title": "🛒 Checkout",
+    "backToShop": "← Shop",
+    "shipping": "📦 Shipping",
+    "streetPlaceholder": "Street address",
+    "cityPlaceholder": "City",
+    "zipPlaceholder": "ZIP",
+    "shippingUsdNote": "Shipping is always charged in USD.",
+    "estimatedShipping": "Estimated shipping",
+    "payment": "💳 Payment",
+    "walletFirstNote": "Wallet-first: We'll deduct from your Credon balance if funds are available. Otherwise, you'll be redirected to PayPal. Shipping is always USD.",
+    "checkingBalance": "Checking balance...",
+    "total": "Total",
+    "payNow": "Pay Now",
+    "items": "Items",
+    "subtotal": "Subtotal",
+    "couldNotLoadCart": "Could not load cart",
+    "balance": "Balance:",
+    "usdEquivalent": "USD equivalent",
+    "signInToSeeBalance": "Sign in to see balance",
+    "processing": "Processing...",
+    "paidFromCredon": "Paid %s from Credon wallet! Redirecting...",
+    "redirectingToPayPal": "Redirecting to PayPal...",
+    "orderPlaced": "Order placed!",
+    "checkoutFailed": "Checkout failed",
+    "serverError": "Server error"
   }
 }

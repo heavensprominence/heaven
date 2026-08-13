@@ -580,5 +580,32 @@
     "backToShop": "쇼핑으로 돌아가기",
     "addToCart": "장바구니에 담기",
     "messageSeller": "메시지 판매자"
+  },
+  "checkout": {
+    "title": "🛒 결제",
+    "backToShop": "← 상점",
+    "shipping": "📦 배송",
+    "streetPlaceholder": "거리 주소",
+    "cityPlaceholder": "도시",
+    "zipPlaceholder": "우편번호",
+    "shippingUsdNote": "배송비는 항상 USD로 청구됩니다.",
+    "estimatedShipping": "예상 배송비",
+    "payment": "💳 결제",
+    "walletFirstNote": "지갑 우선: 자금이 사용 가능한 경우 Credon 잔액에서 해당 금액이 차감됩니다. 그렇지 않으면 PayPal로 리디렉션됩니다. 배송비는 항상 USD입니다.",
+    "checkingBalance": "잔액 확인 중...",
+    "total": "총",
+    "payNow": "지금 결제",
+    "items": "품목",
+    "subtotal": "소계",
+    "couldNotLoadCart": "장바구니를 로드할 수 없습니다.",
+    "balance": "잔액:",
+    "usdEquivalent": "USD 상당",
+    "signInToSeeBalance": "잔액을 확인하려면 로그인하세요.",
+    "processing": "처리 중...",
+    "paidFromCredon": "Credon 지갑에서 %s을(를) 지불했습니다! 리디렉션 중...",
+    "redirectingToPayPal": "PayPal로 리디렉션 중...",
+    "orderPlaced": "주문 완료!",
+    "checkoutFailed": "결제 실패",
+    "serverError": "서버 오류"
   }
 }

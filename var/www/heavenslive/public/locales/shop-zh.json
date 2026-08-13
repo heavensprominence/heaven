@@ -580,5 +580,32 @@
     "backToShop": "返回商店",
     "addToCart": "添加到购物车",
     "messageSeller": "卖家留言"
+  },
+  "checkout": {
+    "title": "🛒 结账",
+    "backToShop": "← 商店",
+    "shipping": "📦 配送",
+    "streetPlaceholder": "街道地址",
+    "cityPlaceholder": "城市",
+    "zipPlaceholder": "邮编",
+    "shippingUsdNote": "运费始终以美元收费。",
+    "estimatedShipping": "预计运费",
+    "payment": "💳 付款",
+    "walletFirstNote": "钱包优先：如果资金可用，我们将从您的 Credon 余额中扣除。否则，您将被重定向至 PayPal。运费始终为美元。",
+    "checkingBalance": "检查余额...",
+    "total": "总计",
+    "payNow": "立即付款",
+    "items": "项目",
+    "subtotal": "小计",
+    "couldNotLoadCart": "无法加载购物车",
+    "balance": "余额：",
+    "usdEquivalent": "等值美元",
+    "signInToSeeBalance": "登录查看余额",
+    "processing": "处理中...",
+    "paidFromCredon": "从 Credon 钱包支付 %s！正在重定向...",
+    "redirectingToPayPal": "正在重定向至 PayPal...",
+    "orderPlaced": "已下订单！",
+    "checkoutFailed": "结账失败",
+    "serverError": "服务器错误"
   }
 }

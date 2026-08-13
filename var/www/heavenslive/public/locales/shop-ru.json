@@ -580,5 +580,32 @@
     "backToShop": "Назад в магазин",
     "addToCart": "Добавить в корзину",
     "messageSeller": "Сообщение продавца"
+  },
+  "checkout": {
+    "title": "🛒 Оформить заказ",
+    "backToShop": "← Магазин",
+    "shipping": "📦 Доставка",
+    "streetPlaceholder": "адрес улицы",
+    "cityPlaceholder": "Город",
+    "zipPlaceholder": "Почтовый индекс",
+    "shippingUsdNote": "Стоимость доставки всегда взимается в долларах США.",
+    "estimatedShipping": "Предполагаемая доставка",
+    "payment": "💳 Оплата",
+    "walletFirstNote": "В первую очередь кошелек: мы снимем средства с вашего баланса Credon, если средства будут доступны. В противном случае вы будете перенаправлены на PayPal. Стоимость доставки всегда составляет доллары США.",
+    "checkingBalance": "Проверка баланса...",
+    "total": "Итого",
+    "payNow": "Оплатить сейчас",
+    "items": "Товары",
+    "subtotal": "Промежуточный итог",
+    "couldNotLoadCart": "Не удалось загрузить корзину",
+    "balance": "Баланс:",
+    "usdEquivalent": "Эквивалент доллара США",
+    "signInToSeeBalance": "Войдите, чтобы увидеть баланс",
+    "processing": "Обработка...",
+    "paidFromCredon": "Выплачено %s с кошелька Credon! Перенаправление...",
+    "redirectingToPayPal": "Перенаправление на PayPal...",
+    "orderPlaced": "Заказ оформлен!",
+    "checkoutFailed": "Оформить заказ не удалось",
+    "serverError": "Ошибка сервера"
   }
 }

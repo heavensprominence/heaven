@@ -580,5 +580,32 @@
     "backToShop": "العودة إلى المتجر",
     "addToCart": "إضافة إلى عربة التسوق",
     "messageSeller": "بائع الرسائل"
+  },
+  "checkout": {
+    "title": "🛒 الخروج",
+    "backToShop": "← متجر",
+    "shipping": "📦 الشحن",
+    "streetPlaceholder": "عنوان الشارع",
+    "cityPlaceholder": "مدينة",
+    "zipPlaceholder": "الرمز البريدي",
+    "shippingUsdNote": "يتم شحن الشحن دائمًا بالدولار الأمريكي.",
+    "estimatedShipping": "الشحن المقدر",
+    "payment": "💳 الدفع",
+    "walletFirstNote": "المحفظة أولاً: سنخصم من رصيد Credon الخاص بك في حالة توفر الأموال. وإلا سيتم إعادة توجيهك إلى PayPal. الشحن دائما بالدولار الأمريكي.",
+    "checkingBalance": "التحقق من الرصيد...",
+    "total": "المجموع",
+    "payNow": "ادفع الآن",
+    "items": "أصناف",
+    "subtotal": "المجموع الفرعي",
+    "couldNotLoadCart": "تعذر تحميل سلة التسوق",
+    "balance": "الرصيد:",
+    "usdEquivalent": "ما يعادلها بالدولار الأمريكي",
+    "signInToSeeBalance": "قم بتسجيل الدخول لرؤية الرصيد",
+    "processing": "جارٍ المعالجة...",
+    "paidFromCredon": "تم دفع %s من محفظة Credon! إعادة التوجيه...",
+    "redirectingToPayPal": "جارٍ إعادة التوجيه إلى PayPal...",
+    "orderPlaced": "تم وضع الطلب!",
+    "checkoutFailed": "فشل الخروج",
+    "serverError": "خطأ في الخادم"
   }
 }

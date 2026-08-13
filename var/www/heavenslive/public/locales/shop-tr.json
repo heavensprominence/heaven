@@ -580,5 +580,32 @@
     "backToShop": "Mağazaya Geri Dön",
     "addToCart": "Sepete Ekle",
     "messageSeller": "Mesaj Satıcısı"
+  },
+  "checkout": {
+    "title": "🛒 Ödeme",
+    "backToShop": "← Mağaza",
+    "shipping": "📦 Nakliye",
+    "streetPlaceholder": "Açık adres",
+    "cityPlaceholder": "Şehir",
+    "zipPlaceholder": "Posta Kodu",
+    "shippingUsdNote": "Nakliye her zaman USD cinsinden ücretlendirilir.",
+    "estimatedShipping": "Tahmini nakliye",
+    "payment": "💳 Ödeme",
+    "walletFirstNote": "Önce Cüzdan: Para mevcutsa Credon bakiyenizden düşeceğiz. Aksi halde PayPal'a yönlendirileceksiniz. Nakliye her zaman USD'dir.",
+    "checkingBalance": "Bakiye kontrol ediliyor...",
+    "total": "Toplam",
+    "payNow": "Şimdi Öde",
+    "items": "Öğeler",
+    "subtotal": "Ara toplam",
+    "couldNotLoadCart": "Sepet yüklenemedi",
+    "balance": "Bakiye:",
+    "usdEquivalent": "ABD doları eşdeğeri",
+    "signInToSeeBalance": "Bakiyeyi görmek için oturum açın",
+    "processing": "İşleme...",
+    "paidFromCredon": "Credon cüzdanından %s ödendi! Yönlendiriliyor...",
+    "redirectingToPayPal": "PayPal'a yönlendiriliyorsunuz...",
+    "orderPlaced": "Sipariş verildi!",
+    "checkoutFailed": "Ödeme başarısız oldu",
+    "serverError": "Sunucu hatası"
   }
 }

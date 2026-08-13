@@ -580,5 +580,32 @@
     "backToShop": "بازگشت به فروشگاه",
     "addToCart": "افزودن به سبد خرید",
     "messageSeller": "پیام‌فروش"
+  },
+  "checkout": {
+    "title": "🛒 تسویه حساب",
+    "backToShop": "← خرید",
+    "shipping": "📦 ارسال",
+    "streetPlaceholder": "آدرس خیابان",
+    "cityPlaceholder": "شهر",
+    "zipPlaceholder": "کد پستی",
+    "shippingUsdNote": "هزینه حمل و نقل همیشه به دلار آمریکا است.",
+    "estimatedShipping": "حمل و نقل تخمینی",
+    "payment": "💳 پرداخت",
+    "walletFirstNote": "Wallet-first: در صورت وجود وجوه، از موجودی Credon شما کسر می کنیم. در غیر این صورت، به پی پال هدایت می شوید. حمل و نقل همیشه دلار آمریکا است.",
+    "checkingBalance": "در حال بررسی موجودی...",
+    "total": "مجموع",
+    "payNow": "اکنون پرداخت کنید",
+    "items": "اقلام",
+    "subtotal": "جمع فرعی",
+    "couldNotLoadCart": "سبد خرید بارگیری نشد",
+    "balance": "موجودی:",
+    "usdEquivalent": "معادل دلار آمریکا",
+    "signInToSeeBalance": "برای مشاهده موجودی وارد سیستم شوید",
+    "processing": "در حال پردازش...",
+    "paidFromCredon": "پرداخت %s از کیف پول Credon! در حال تغییر مسیر...",
+    "redirectingToPayPal": "در حال تغییر مسیر به پی پال...",
+    "orderPlaced": "سفارش انجام شد!",
+    "checkoutFailed": "تسویه حساب انجام نشد",
+    "serverError": "خطای سرور"
   }
 }

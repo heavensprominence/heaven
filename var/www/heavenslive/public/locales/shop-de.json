@@ -580,5 +580,32 @@
     "backToShop": "Zurück zum Shop",
     "addToCart": "Zum Warenkorb hinzufügen",
     "messageSeller": "Nachricht Verkäufer"
+  },
+  "checkout": {
+    "title": "🛒 Zur Kasse",
+    "backToShop": "← Shop",
+    "shipping": "📦 Versand",
+    "streetPlaceholder": "Straßenadresse",
+    "cityPlaceholder": "Stadt",
+    "zipPlaceholder": "PLZ",
+    "shippingUsdNote": "Der Versand erfolgt immer in USD.",
+    "estimatedShipping": "Geschätzter Versand",
+    "payment": "💳 Zahlung",
+    "walletFirstNote": "Wallet-first: Wir ziehen den Betrag von Ihrem Credon-Guthaben ab, sofern Mittel verfügbar sind. Andernfalls werden Sie zu PayPal weitergeleitet. Der Versand erfolgt immer in USD.",
+    "checkingBalance": "Guthaben prüfen...",
+    "total": "Gesamt",
+    "payNow": "Jetzt bezahlen",
+    "items": "Artikel",
+    "subtotal": "Zwischensumme",
+    "couldNotLoadCart": "Der Warenkorb konnte nicht geladen werden",
+    "balance": "Guthaben:",
+    "usdEquivalent": "USD-Äquivalent",
+    "signInToSeeBalance": "Melden Sie sich an, um den Kontostand zu sehen",
+    "processing": "Verarbeitung...",
+    "paidFromCredon": "Bezahlt %s aus der Credon-Wallet! Weiterleitung...",
+    "redirectingToPayPal": "Weiterleitung zu PayPal...",
+    "orderPlaced": "Bestellung aufgegeben!",
+    "checkoutFailed": "Der Checkout ist fehlgeschlagen",
+    "serverError": "Serverfehler"
   }
 }

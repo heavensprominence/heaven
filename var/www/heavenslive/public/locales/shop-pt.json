@@ -580,5 +580,32 @@
     "backToShop": "Voltar à loja",
     "addToCart": "Adicionar ao carrinho",
     "messageSeller": "Vendedor de mensagens"
+  },
+  "checkout": {
+    "title": "🛒 Finalização da compra",
+    "backToShop": "← Loja",
+    "shipping": "📦 Envio",
+    "streetPlaceholder": "endereço da Rua",
+    "cityPlaceholder": "Cidade",
+    "zipPlaceholder": "CEP",
+    "shippingUsdNote": "O frete é sempre cobrado em USD.",
+    "estimatedShipping": "Frete estimado",
+    "payment": "💳 Pagamento",
+    "walletFirstNote": "A carteira primeiro: deduziremos do seu saldo Credon se houver fundos disponíveis. Caso contrário, você será redirecionado para o PayPal. O frete é sempre em dólares.",
+    "checkingBalance": "Verificando saldo...",
+    "total": "Total",
+    "payNow": "Pague agora",
+    "items": "Itens",
+    "subtotal": "Subtotal",
+    "couldNotLoadCart": "Não foi possível carregar o carrinho",
+    "balance": "Saldo:",
+    "usdEquivalent": "Equivalente em dólares americanos",
+    "signInToSeeBalance": "Faça login para ver o saldo",
+    "processing": "Processamento...",
+    "paidFromCredon": "Pago %s da carteira Credon! Redirecionando...",
+    "redirectingToPayPal": "Redirecionando para o PayPal...",
+    "orderPlaced": "Encomenda realizada!",
+    "checkoutFailed": "Falha na finalização da compra",
+    "serverError": "Erro no servidor"
   }
 }

@@ -580,5 +580,32 @@
     "backToShop": "ショップへ戻る",
     "addToCart": "カートに入れる",
     "messageSeller": "メッセージ販売者"
+  },
+  "checkout": {
+    "title": "🛒 チェックアウト",
+    "backToShop": "← ショップ",
+    "shipping": "📦 配送",
+    "streetPlaceholder": "住所",
+    "cityPlaceholder": "市",
+    "zipPlaceholder": "郵便番号",
+    "shippingUsdNote": "送料は常に米ドルで請求されます。",
+    "estimatedShipping": "発送予定日",
+    "payment": "💳お支払い",
+    "walletFirstNote": "ウォレットファースト: 資金が利用可能であれば、Credon 残高から差し引かれます。それ以外の場合は、PayPal にリダイレクトされます。送料は常に米ドルです。",
+    "checkingBalance": "残高を確認中...",
+    "total": "合計",
+    "payNow": "今すぐ支払う",
+    "items": "アイテム",
+    "subtotal": "小計",
+    "couldNotLoadCart": "カートをロードできませんでした",
+    "balance": "残高：",
+    "usdEquivalent": "米ドル相当額",
+    "signInToSeeBalance": "サインインして残高を確認してください",
+    "processing": "処理...",
+    "paidFromCredon": "Credon ウォレットから %s を支払いました!リダイレクト中...",
+    "redirectingToPayPal": "PayPal にリダイレクトしています...",
+    "orderPlaced": "注文完了しました！",
+    "checkoutFailed": "チェックアウトに失敗しました",
+    "serverError": "サーバーエラー"
   }
 }

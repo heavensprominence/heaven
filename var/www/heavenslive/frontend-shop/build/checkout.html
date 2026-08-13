@@ -23,25 +23,25 @@ input,select{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px
 .pay-option .title{font-weight:600;color:var(--gold)}.pay-option .sub{font-size:.78rem;color:var(--muted)}.pay-option .bal{font-size:.75rem;color:var(--success);margin-top:4px}
 .shipping-note{background:rgba(200,169,81,.06);border:1px solid rgba(200,169,81,.15);border-radius:6px;padding:10px;font-size:.78rem;color:var(--muted);margin:8px 0}</style><script src="/error-recovery.js"></script>
 </head><body>
-<nav><div class="nav-brand">Heavens<span style="color:var(--gold)">Market</span></div><div class="nav-links"><a href="/shop/">← Shop</a><a href="/shop/cart">Cart</a></div></nav>
+<nav><div class="nav-brand">Heavens<span style="color:var(--gold)">Market</span></div><div class="nav-links"><a href="/shop/" data-i18n="checkout.backToShop">← Shop</a><a href="/shop/cart" data-i18n="nav.cart">Cart</a></div></nav>
 <div class="container">
-<h1>🛒 Checkout</h1>
+<h1 data-i18n="checkout.title">🛒 Checkout</h1>
 <div id="items"></div>
 <div class="card" id="shippingCard">
-  <h2>📦 Shipping</h2>
-  <input id="shipAddr" placeholder="Street address">
-  <div style="display:flex;gap:8px"><input id="shipCity" placeholder="City" style="flex:1"><input id="shipZip" placeholder="ZIP" style="flex:1"></div>
-  <p class="muted" style="margin-top:8px">Shipping is always charged in <strong>USD</strong>.</p>
-  <div class="row"><span>Estimated shipping</span><span class="price" id="shipCost">$5.00 USD</span></div>
+  <h2 data-i18n="checkout.shipping">📦 Shipping</h2>
+  <input id="shipAddr" placeholder="Street address" data-i18n-placeholder="checkout.streetPlaceholder">
+  <div style="display:flex;gap:8px"><input id="shipCity" placeholder="City" style="flex:1" data-i18n-placeholder="checkout.cityPlaceholder"><input id="shipZip" placeholder="ZIP" style="flex:1" data-i18n-placeholder="checkout.zipPlaceholder"></div>
+  <p class="muted" style="margin-top:8px" data-i18n="checkout.shippingUsdNote">Shipping is always charged in USD.</p>
+  <div class="row"><span data-i18n="checkout.estimatedShipping">Estimated shipping</span><span class="price" id="shipCost">$5.00 USD</span></div>
 </div>
 <div class="card">
-  <h2>💳 Payment</h2>
-  <div class="shipping-note">💡 <strong>Wallet-first</strong>: We'll deduct from your Credon balance if funds are available. Otherwise, you'll be redirected to PayPal. <strong>Shipping is always USD.</strong></div>
-  <div class="bal" id="walletBal" style="font-size:.8rem;margin-top:8px">Checking balance...</div>
+  <h2 data-i18n="checkout.payment">💳 Payment</h2>
+  <div class="shipping-note">💡 <span data-i18n="checkout.walletFirstNote">Wallet-first: We'll deduct from your Credon balance if funds are available. Otherwise, you'll be redirected to PayPal. Shipping is always USD.</span></div>
+  <div class="bal" id="walletBal" style="font-size:.8rem;margin-top:8px" data-i18n="checkout.checkingBalance">Checking balance...</div>
 </div>
 <div class="card">
-  <div class="row total"><span>Total</span><span class="price" id="grandTotal">$0.00</span></div>
-  <button class="btn" id="payBtn" onclick="doCheckout()">Pay Now</button>
+  <div class="row total"><span data-i18n="checkout.total">Total</span><span class="price" id="grandTotal">$0.00</span></div>
+  <button class="btn" id="payBtn" onclick="doCheckout()" data-i18n="checkout.payNow">Pay Now</button>
   <p class="muted" id="result" style="text-align:center;margin-top:8px"></p>
 </div>
 </div>
@@ -56,14 +56,14 @@ fetch("/api/shop/cart",{headers:{"Authorization":"Bearer "+T}}).then(function(r)
     html+='<div class="row"><span>'+i.title+'</span><span class="price">'+((cur!=="USD"?cur+" ":"$")+p.toFixed(2))+'</span></div>';
     total+=p;
   });
-  document.getElementById("items").innerHTML='<div class="card"><h2>Items ('+items.length+')</h2>'+html+'<div class="row total"><span>Subtotal</span><span class="price" id="subtotal">$'+total.toFixed(2)+'</span></div></div>';
+  document.getElementById("items").innerHTML='<div class="card"><h2><span data-i18n="checkout.items">Items</span> ('+items.length+')</h2>'+html+'<div class="row total"><span data-i18n="checkout.subtotal">Subtotal</span><span class="price" id="subtotal">$'+total.toFixed(2)+'</span></div></div>';
   updateTotal();
-}).catch(function(){document.getElementById("items").innerHTML='<div class="card muted">Could not load cart</div>'});
+}).catch(function(){document.getElementById("items").innerHTML='<div class="card muted" data-i18n="checkout.couldNotLoadCart">Could not load cart</div>'});
 
 fetch("/api/wallet/balance",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(function(d){
   balance=(d.balance_cents||0)/100;
-  document.getElementById("walletBal").textContent="Balance: $"+balance.toFixed(2)+" USD equivalent";
-}).catch(function(){document.getElementById("walletBal").textContent="Sign in to see balance"});
+  document.getElementById("walletBal").innerHTML='<span data-i18n="checkout.balance">Balance:</span> $'+balance.toFixed(2)+' <span data-i18n="checkout.usdEquivalent">USD equivalent</span>';
+}).catch(function(){document.getElementById("walletBal").innerHTML='<span data-i18n="checkout.signInToSeeBalance">Sign in to see balance</span>'});
 
 function updateTotal(){
   var sub=parseFloat((document.getElementById("subtotal")||{}).textContent||"$0".replace("$",""))||0;
@@ -72,7 +72,7 @@ function updateTotal(){
 
 async function doCheckout(){
   var b=document.getElementById("payBtn"),r=document.getElementById("result");
-  b.disabled=true;b.textContent="Processing...";
+  b.disabled=true;b.textContent=t('checkout.processing','Processing...');
   var addr={street:document.getElementById("shipAddr").value,city:document.getElementById("shipCity").value,zip:document.getElementById("shipZip").value};
   var cartItems=items.map(function(i){return{listing_id:i.listing_id||i.id,quantity:1}});
   try{
@@ -80,22 +80,22 @@ async function doCheckout(){
     var d=await resp.json();
     if(d.success){
       if(d.paymentMethod==="credon_wallet"){
-        r.innerHTML='<span style="color:var(--success)">✅ Paid $'+(d.deducted/100).toFixed(2)+' from Credon wallet! Redirecting...</span>';
+        r.innerHTML='<span style="color:var(--success)">✅ '+t('checkout.paidFromCredon','Paid %s from Credon wallet! Redirecting...').replace('%s','$'+(d.deducted/100).toFixed(2))+'</span>';
         setTimeout(function(){location.href="/shop/"},1500);
       }else if(d.approvalUrl){
-        r.innerHTML='<span style="color:var(--gold)">🅿️ Redirecting to PayPal...</span>';
+        r.innerHTML='<span style="color:var(--gold)">🅿️ '+t('checkout.redirectingToPayPal','Redirecting to PayPal...')+'</span>';
         setTimeout(function(){location.href=d.approvalUrl},1000);
       }else{
-        r.innerHTML='<span style="color:var(--success)">✅ Order placed!</span>';
+        r.innerHTML='<span style="color:var(--success)">✅ '+t('checkout.orderPlaced','Order placed!')+'</span>';
         setTimeout(function(){location.href="/shop/"},1500);
       }
     }else{
-      r.innerHTML='<span style="color:var(--danger)">❌ '+(d.error||"Checkout failed")+'</span>';
+      r.innerHTML='<span style="color:var(--danger)">❌ '+(d.error||t('checkout.checkoutFailed','Checkout failed'))+'</span>';
     }
-  }catch(e){r.innerHTML='<span style="color:var(--danger)">❌ Server error</span>'}
-  b.disabled=false;b.textContent="Pay Now";
+  }catch(e){r.innerHTML='<span style="color:var(--danger)">❌ '+t('checkout.serverError','Server error')+'</span>'}
+  b.disabled=false;b.textContent=t('checkout.payNow','Pay Now');
 }
-</script>
+</script><script src="/i18n.js"></script>
 <!-- Default Statcounter code for HeavenS on Earth
 https://heavenslive.com -->
 <script type="text/javascript">
