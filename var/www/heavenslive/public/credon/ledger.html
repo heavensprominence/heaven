@@ -73,42 +73,42 @@
 </style>
 </head>
 <body>
-<div class="bg-grid"></div><nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(15,15,26,.95);border-bottom:1px solid rgba(99,102,241,.2);margin-bottom:32px">  <a href="/" style="color:#888;text-decoration:none;font-size:.82rem">🏠 Home</a>  <div style="font-size:1rem;font-weight:700;color:#a78bfa">📖 Open Books</div>  <div style="display:flex;gap:12px">    <a href="/credon/wallet" style="color:#888;text-decoration:none;font-size:.82rem">← Wallet</a>    <a href="/credon/faq.html" style="color:#888;text-decoration:none;font-size:.82rem">❓ FAQ</a>    <a href="/shop/" style="color:#888;text-decoration:none;font-size:.82rem">Shop</a>  </div></nav>
+<div class="bg-grid"></div><nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(15,15,26,.95);border-bottom:1px solid rgba(99,102,241,.2);margin-bottom:32px">  <a href="/" style="color:#888;text-decoration:none;font-size:.82rem" data-i18n="ledger.home">🏠 Home</a>  <div style="font-size:1rem;font-weight:700;color:#a78bfa" data-i18n="ledger.openBooks">📖 Open Books</div>  <div style="display:flex;gap:12px">    <a href="/credon/wallet" style="color:#888;text-decoration:none;font-size:.82rem" data-i18n="ledger.wallet">← Wallet</a>    <a href="/credon/faq.html" style="color:#888;text-decoration:none;font-size:.82rem" data-i18n="ledger.faq">❓ FAQ</a>    <a href="/shop/" style="color:#888;text-decoration:none;font-size:.82rem" data-i18n="ledger.shop">Shop</a>  </div></nav>
 <div class="bg-grid"></div>
 <div class="container">
   <header>
-    <h1>📖 Open Books</h1>
-    <p>Every Credon-USD transaction on HeavensLive is recorded on this public ledger. Full transparency, zero trust required.</p>
-    <div class="badge">🟢 Live · Updated in real-time</div>
+    <h1 data-i18n="ledger.openBooks">📖 Open Books</h1>
+    <p data-i18n="ledger.subtitle">Every Credon-USD transaction on HeavensLive is recorded on this public ledger. Full transparency, zero trust required.</p>
+    <div class="badge" data-i18n="ledger.liveBadge">🟢 Live · Updated in real-time</div>
   </header>
 
   <div class="stats-bar" id="statsBar">
-    <div class="stat-card"><div class="label">💰 Total Minted</div><div class="value neutral" id="statMint">—</div></div>
-    <div class="stat-card"><div class="label">📨 Total Distributed</div><div class="value neutral" id="statDist">—</div></div>
-    <div class="stat-card"><div class="label">🎁 Signup Bonuses</div><div class="value positive" id="statBonus">—</div></div>
-    <div class="stat-card"><div class="label">🔥 Total Burned</div><div class="value" id="statBurn">—</div></div>
-    <div class="stat-card"><div class="label">⚖️ Net Circulation</div><div class="value" id="statNet">—</div></div>
+    <div class="stat-card"><div class="label" data-i18n="ledger.totalMinted">💰 Total Minted</div><div class="value neutral" id="statMint">—</div></div>
+    <div class="stat-card"><div class="label" data-i18n="ledger.totalDistributed">📨 Total Distributed</div><div class="value neutral" id="statDist">—</div></div>
+    <div class="stat-card"><div class="label" data-i18n="ledger.signupBonuses">🎁 Signup Bonuses</div><div class="value positive" id="statBonus">—</div></div>
+    <div class="stat-card"><div class="label" data-i18n="ledger.totalBurned">🔥 Total Burned</div><div class="value" id="statBurn">—</div></div>
+    <div class="stat-card"><div class="label" data-i18n="ledger.netCirculation">⚖️ Net Circulation</div><div class="value" id="statNet">—</div></div>
   </div>
 
   <div class="controls">
-    <label>Action:</label>
-    <select id="filterAction"><option value="">All</option></select>
-    <label>From:</label>
+    <label data-i18n="ledger.actionFilter">Action:</label>
+    <select id="filterAction"><option value="" data-i18n="ledger.all">All</option></select>
+    <label data-i18n="ledger.from">From:</label>
     <input type="date" id="filterFrom">
-    <label>To:</label>
+    <label data-i18n="ledger.to">To:</label>
     <input type="date" id="filterTo">
-    <button class="btn-reset" onclick="resetFilters()">Reset</button>
+    <button class="btn-reset" onclick="resetFilters()" data-i18n="ledger.reset">Reset</button>
   </div>
 
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Action</th>
-          <th>Amount</th>
-          <th>Description</th>
-          <th>Reference</th>
+          <th data-i18n="ledger.date">Date</th>
+          <th data-i18n="ledger.action">Action</th>
+          <th data-i18n="ledger.amount">Amount</th>
+          <th data-i18n="ledger.description">Description</th>
+          <th data-i18n="ledger.reference">Reference</th>
         </tr>
       </thead>
       <tbody id="tableBody"><tr><td colspan="5" class="loading">Loading...</td></tr></tbody>
@@ -118,11 +118,12 @@
   <div class="pagination" id="pagination"></div>
 
   <footer>
-    <p>HeavensLive Open Books · All treasury activity since inception · <span id="footerRange"></span></p>
-    <p class="summary-note">Net Circulation = Minted − Distributed + Bonuses − Burned. Every cent accounted for.</p>
+    <p><span data-i18n="ledger.footer">HeavensLive Open Books · All treasury activity since inception ·</span> <span id="footerRange"></span></p>
+    <p class="summary-note" data-i18n="ledger.footerSummary">Net Circulation = Minted − Distributed + Bonuses − Burned. Every cent accounted for.</p>
   </footer>
 </div>
 
+<script src="/i18n.js"></script>
 <script>
 const API = '/api/ledger';
 let currentPage = 1;
@@ -155,8 +156,26 @@ function actionClass(a) {
 }
 
 function actionLabel(a) {
-  if (a.startsWith('burn')) return '🔥 ' + a.replace(/_/g, ' ').replace('burn', 'Burned').replace('Burned user', 'User');
-  return a.replace(/_/g, ' ');
+  const map = { mint:'ledger.actionMint', distribute:'ledger.actionDistribute', signup_bonus:'ledger.actionSignupBonus', commission:'ledger.actionCommission', burn:'ledger.actionBurn', burn_user_deleted:'ledger.actionBurnUserDeleted' };
+  if (map[a]) { const v = t(map[a], ''); if (v) return v; }
+  if (a && a.startsWith('burn')) return '🔥 ' + t('ledger.actionBurn', 'Burned');
+  return (a || '').replace(/_/g, ' ');
+}
+
+function trTitle(title) {
+  const map = { 'Minted Digital Currency':'ledger.titleMint', 'Currency Distribution':'ledger.titleDistribute', 'Signup Bonus':'ledger.titleSignupBonus', 'Affiliate Commission':'ledger.titleCommission', 'Burn: User Deleted':'ledger.titleBurnUserDeleted', 'Burn: Supply Reduction':'ledger.titleBurnSupply' };
+  if (map[title]) { const v = t(map[title], ''); if (v) return v; }
+  return title;
+}
+
+function trReason(reason) {
+  if (!reason) return '';
+  const exact = { 'Welcome bonus for new signup':'ledger.reasonSignupBonus', 'Auto-mint for loan/grant approval':'ledger.reasonAutoMint', 'Balance destroyed on user deletion':'ledger.reasonUserDeleted', 'Manual supply reduction':'ledger.reasonManualBurn' };
+  if (exact[reason]) { const v = t(exact[reason], ''); if (v) return v; }
+  if (reason.indexOf('Commission from signup') === 0) return t('ledger.reasonCommissionSignup','Commission from signup') + reason.slice('Commission from signup'.length);
+  const m = reason.match(/^(Grant|Loan) approved: (.+)$/);
+  if (m) { const base = m[1] === 'Grant' ? t('ledger.reasonGrantApproved','Grant approved') : t('ledger.reasonLoanApproved','Loan approved'); return base + ': ' + m[2]; }
+  return reason;
 }
 
 function shortRef(id) { return id ? id.slice(0,8)+'...' : '—'; }
@@ -197,7 +216,7 @@ async function loadActions() {
 
 async function loadEntries() {
   const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = '<tr><td colspan="5" class="loading">Loading...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="5" class="loading">' + t('ledger.loading','Loading...') + '</td></tr>';
   
   const params = new URLSearchParams({ page: currentPage, limit });
   const action = document.getElementById('filterAction').value;
@@ -210,15 +229,15 @@ async function loadEntries() {
   try {
     const r = await fetch(API + '/entries?' + params);
     const d = await r.json();
-    if (d.error) { tbody.innerHTML = '<tr><td colspan="5" class="error">Error: ' + d.error + '</td></tr>'; return; }
-    if (!d.entries.length) { tbody.innerHTML = '<tr><td colspan="5" class="no-results">No entries found</td></tr>'; }
+    if (d.error) { tbody.innerHTML = '<tr><td colspan="5" class="error">' + t('ledger.error','Error') + ': ' + d.error + '</td></tr>'; return; }
+    if (!d.entries.length) { tbody.innerHTML = '<tr><td colspan="5" class="no-results">' + t('ledger.noEntries','No entries found') + '</td></tr>'; }
     else {
       tbody.innerHTML = d.entries.map(e => `
         <tr>
           <td>${fmtDate(e.createdAt)}</td>
           <td><span class="action-badge ${actionClass(e.action)}">${actionLabel(e.action)}</span></td>
           <td class="${e.amountCents > 0 ? 'amount-positive' : e.amountCents < 0 ? 'amount-negative' : 'amount-zero'}">${fmtCents(e.amountCents, e.currency || 'USD')}<span class="currency-badge">${e.currency || 'USD'}</span></td>
-          <td>${e.title || e.reason || '—'}</td>
+          <td>${e.title ? trTitle(e.title) : (e.reason ? trReason(e.reason) : '—')}</td>
           <td>${shortRef(e.referenceId)}</td>
         </tr>
       `).join('');
@@ -231,12 +250,12 @@ async function loadEntries() {
       pg.innerHTML = `
         <button onclick="goTo(1)" ${currentPage===1?'disabled':''}>«</button>
         <button onclick="goTo(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>
-        <span class="page-info">Page ${d.page} of ${d.totalPages} (${d.total} entries)</span>
+        <span class="page-info">${t('ledger.page','Page')} ${d.page} ${t('ledger.of','of')} ${d.totalPages} (${d.total} ${t('ledger.entries','entries')})</span>
         <button onclick="goTo(${currentPage+1})" ${currentPage>=d.totalPages?'disabled':''}>›</button>
         <button onclick="goTo(${d.totalPages})" ${currentPage>=d.totalPages?'disabled':''}>»</button>
       `;
     }
-  } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="error">Failed to load</td></tr>'; }
+  } catch(e) { tbody.innerHTML = '<tr><td colspan="5" class="error">' + t('ledger.failedToLoad','Failed to load') + '</td></tr>'; }
 }
 
 function goTo(p) { currentPage = p; loadEntries(); window.scrollTo({ top: 300, behavior: 'smooth' }); }
@@ -261,6 +280,10 @@ let filterTimeout;
 loadSummary();
 loadActions();
 loadEntries();
+
+// Re-render dynamic content when the language changes
+const _origSwitchLang = window.switchLang;
+window.switchLang = function(lang) { const p = _origSwitchLang ? _origSwitchLang(lang) : null; loadActions(); loadSummary(); loadEntries(); return p; };
 </script>
 </body>
 <!-- Default Statcounter code for HeavenS on Earth
