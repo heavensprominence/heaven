@@ -31,7 +31,8 @@
     "bonusLabel": "信用奖金",
     "bonusEarns": "您的 %s 捐款可赚取",
     "multiplier": "您捐款的 50% 奖金",
-    "customPrompt": "输入自定义金额（美元）："
+    "customPrompt": "输入自定义金额（美元）：",
+    "emailPlaceholder": "用于领取 50% 奖金的电子邮件（可选）"
   },
   "usb": {
     "title": "高级USB祈祷集",

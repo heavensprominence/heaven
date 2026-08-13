@@ -31,7 +31,8 @@
     "bonusLabel": "크레돈 보너스",
     "bonusEarns": "%s 기부로 수익을 창출하세요",
     "multiplier": "기부금 50% 보너스",
-    "customPrompt": "맞춤 금액(USD) 입력:"
+    "customPrompt": "맞춤 금액(USD) 입력:",
+    "emailPlaceholder": "50% 보너스를 요청하려면 이메일을 보내세요(선택 사항)."
   },
   "usb": {
     "title": "프리미엄 USB 기도 컬렉션",

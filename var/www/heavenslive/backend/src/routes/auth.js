@@ -54,6 +54,7 @@ router.post('/login', async (req, res) => {
             );
             await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
             res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
+            try { const { claimPendingDonationBonuses } = require('../services/donationBonus'); await claimPendingDonationBonuses(user.email, user.id); } catch(e) {}
             return res.json({ success: true, token, user: { id: user.id, email: user.email, full_name: user.full_name, is_super_admin: user.is_super_admin || false, referral_code: user.referral_code } });
           }
           
@@ -85,6 +86,7 @@ router.post('/login', async (req, res) => {
         );
         await db.query("UPDATE users SET last_login = NOW() WHERE id = $1", [user.id]);
         res.cookie('is_admin', user.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
+        try { const { claimPendingDonationBonuses } = require('../services/donationBonus'); await claimPendingDonationBonuses(user.email, user.id); } catch(e) {}
         res.json({ success: true, token, user: { id: user.id, email: user.email, full_name: user.full_name, is_super_admin: user.is_super_admin || false, referral_code: user.referral_code } });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
@@ -116,6 +118,8 @@ await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) V
             "INSERT INTO treasury_ledger (amount_cents, reason, action, reference_id, title) VALUES ($1, 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
             [welcomeBonus, user.id]
         );
+        // Claim any guest-donation bonuses held for this email
+        try { const { claimPendingDonationBonuses } = require('../services/donationBonus'); await claimPendingDonationBonuses(user.email, user.id); } catch(e) { console.error('Claim donation bonus failed:', e.message); }
         // Track referral if code provided (from URL param or cookie)
         const refCode = referralCode || req.cookies?.hl_ref || null;
         if (refCode) {
@@ -287,6 +291,7 @@ router.post('/verify-2fa', async (req, res) => {
     await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
     res.cookie('trusted_device', 'hl_' + u.id, { httpOnly: false, sameSite: 'lax', maxAge: 365 * 24 * 60 * 60 * 1000 });
     res.cookie('is_admin', u.is_super_admin ? '1' : '0', { httpOnly: false, sameSite: 'lax', maxAge: 86400000 });
+    try { const { claimPendingDonationBonuses } = require('../services/donationBonus'); await claimPendingDonationBonuses(u.email, u.id); } catch(e) {}
     res.json({ success: true, token, user: { id: u.id, email: u.email, full_name: u.full_name, is_super_admin: u.is_super_admin || false, referral_code: u.referral_code } });
   } catch(e) { res.status(500).json({ error: e.message }); }
 });

@@ -31,7 +31,8 @@
     "bonusLabel": "Bonus de Crédon",
     "bonusEarns": "Votre don %s rapporte",
     "multiplier": "50% de bonus sur votre don",
-    "customPrompt": "Saisissez le montant personnalisé (USD) :"
+    "customPrompt": "Saisissez le montant personnalisé (USD) :",
+    "emailPlaceholder": "E-mail pour réclamer votre bonus de 50 % (facultatif)"
   },
   "usb": {
     "title": "Collection de prières USB premium",

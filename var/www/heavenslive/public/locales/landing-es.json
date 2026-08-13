@@ -31,7 +31,8 @@
     "bonusLabel": "Bono de credibilidad",
     "bonusEarns": "Tu %s donación gana",
     "multiplier": "Bonificación del 50% en tu donación",
-    "customPrompt": "Ingrese el monto personalizado (USD):"
+    "customPrompt": "Ingrese el monto personalizado (USD):",
+    "emailPlaceholder": "Envíe un correo electrónico para reclamar su bono del 50% (opcional)"
   },
   "usb": {
     "title": "Colección de oración USB premium",

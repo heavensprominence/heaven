@@ -31,7 +31,8 @@
     "bonusLabel": "Credon bonus",
     "bonusEarns": "Din %s donation tjänar",
     "multiplier": "50% bonus på din donation",
-    "customPrompt": "Ange anpassat belopp (USD):"
+    "customPrompt": "Ange anpassat belopp (USD):",
+    "emailPlaceholder": "E-post för att hämta din 50% bonus (valfritt)"
   },
   "usb": {
     "title": "Premium USB-bönsamling",

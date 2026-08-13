@@ -17,9 +17,11 @@ async function completeDonation(donationId, paypalOrderId) {
   if (!donation || donation.status === 'completed') return; // missing or already credited (idempotent)
 
   // Confirm payment by capturing the PayPal order (when we have a real order id)
+  let payerEmail = null;
   if (paypalOrderId) {
     try {
-      await capturePayPalOrder(paypalOrderId);
+      const capture = await capturePayPalOrder(paypalOrderId);
+      payerEmail = capture && capture.payer && capture.payer.email_address ? capture.payer.email_address : null;
     } catch (error) {
       if (error.message === 'PayPal not configured') {
         // Sandbox/test without PayPal — treat the redirect as paid
@@ -30,21 +32,34 @@ async function completeDonation(donationId, paypalOrderId) {
     }
   }
 
-  await db.query(`UPDATE donations SET status = 'completed' WHERE id = $1`, [donationId]);
+  const BonusCalculator = require('../services/bonusCalculator');
+  const amountUSD = (parseInt(donation.amount_cents, 10) || 0) / 100;
+  const bonus = BonusCalculator.calculateDonationBonus(amountUSD);
 
-  // Credit the 50% Credon bonus to authenticated donors
+  // For authenticated donors, credit now. For guests, hold the bonus keyed to their email.
+  const donorEmail = donation.user_id ? null : (donation.donor_email || payerEmail || null);
+
+  await db.query(
+    `UPDATE donations SET status = 'completed', donor_email = COALESCE($2, donor_email) WHERE id = $1`,
+    [donationId, donorEmail]
+  );
+
   if (donation.user_id) {
-    const BonusCalculator = require('../services/bonusCalculator');
-    const MockMinting = require('../services/mockMinting');
-    const amountUSD = (parseInt(donation.amount_cents, 10) || 0) / 100;
-    const bonus = BonusCalculator.calculateDonationBonus(amountUSD);
     if (bonus.bonusCents > 0) {
+      const MockMinting = require('../services/mockMinting');
       let treasury = await MockMinting.getTreasuryBalance();
       if (treasury < bonus.bonusCents) {
         await MockMinting.mintToTreasury(bonus.bonusCents - treasury, 'Auto-mint for donation bonus', null);
       }
       await MockMinting.distributeFromTreasury(donation.user_id, bonus.bonusCents, '50% donation bonus', donationId);
     }
+  } else if (donorEmail && bonus.bonusCents > 0) {
+    // Hold the guest's bonus until they register with this email (claimed later in auth.js)
+    await db.query(
+      `INSERT INTO donation_bonuses (donation_id, email, bonus_cents, status)
+       VALUES ($1, lower($2), $3, 'pending')`,
+      [donationId, donorEmail, bonus.bonusCents]
+    );
   }
 }
 
@@ -54,15 +69,16 @@ async function completeDonation(donationId, paypalOrderId) {
 router.post('/create', optionalAuth, async (req, res) => {
     let finalOrderId = req.body.orderId;
     try {
-        const { amount, currency, description, type } = req.body;
+        const { amount, currency, description, type, email } = req.body;
         if (!amount || amount <= 0) return res.status(400).json({ error: 'Amount required' });
 
         // Record donations up-front so the 50% bonus can be credited after payment
         if (type === 'donation') {
+            const donorEmail = req.userId ? null : (email ? String(email).toLowerCase().trim() : null);
             const donation = await db.query(
-                `INSERT INTO donations (user_id, amount_cents, currency, status)
-                 VALUES ($1, $2, $3, 'pending_payment') RETURNING id`,
-                [req.userId || null, Math.round(Number(amount) * 100), currency || 'USD']
+                `INSERT INTO donations (user_id, amount_cents, currency, status, donor_email)
+                 VALUES ($1, $2, $3, 'pending_payment', $4) RETURNING id`,
+                [req.userId || null, Math.round(Number(amount) * 100), currency || 'USD', donorEmail]
             );
             finalOrderId = donation.rows[0].id;
         }

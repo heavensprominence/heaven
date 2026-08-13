@@ -31,7 +31,8 @@
     "bonusLabel": "Kredi Bonusu",
     "bonusEarns": "%s bağışınız kazandırıyor",
     "multiplier": "Bağışınız üzerinden %50 bonus",
-    "customPrompt": "Özel tutarı girin (USD):"
+    "customPrompt": "Özel tutarı girin (USD):",
+    "emailPlaceholder": "%50 bonusunuzu talep etmek için e-posta (isteğe bağlı)"
   },
   "usb": {
     "title": "Premium USB Dua Koleksiyonu",

@@ -31,7 +31,8 @@
     "bonusLabel": "Credon-Bonus",
     "bonusEarns": "Ihre %s-Spende verdient",
     "multiplier": "50 % Bonus auf Ihre Spende",
-    "customPrompt": "Geben Sie einen benutzerdefinierten Betrag (USD) ein:"
+    "customPrompt": "Geben Sie einen benutzerdefinierten Betrag (USD) ein:",
+    "emailPlaceholder": "E-Mail zur Inanspruchnahme Ihres 50 %-Bonus (optional)"
   },
   "usb": {
     "title": "Premium-USB-Gebetssammlung",

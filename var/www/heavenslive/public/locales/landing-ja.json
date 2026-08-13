@@ -31,7 +31,8 @@
     "bonusLabel": "クレドンボーナス",
     "bonusEarns": "%s の寄付で得られる収益",
     "multiplier": "寄付に対する 50% のボーナス",
-    "customPrompt": "カスタム金額 (USD) を入力してください:"
+    "customPrompt": "カスタム金額 (USD) を入力してください:",
+    "emailPlaceholder": "50% ボーナスを請求するためのメール (オプション)"
   },
   "usb": {
     "title": "プレミアムUSB祈りコレクション",

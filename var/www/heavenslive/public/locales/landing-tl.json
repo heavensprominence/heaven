@@ -31,7 +31,8 @@
     "bonusLabel": "Bonus ng Credon",
     "bonusEarns": "Ang iyong %s na donasyon ay kumikita",
     "multiplier": "50% na bonus sa iyong donasyon",
-    "customPrompt": "Maglagay ng custom na halaga (USD):"
+    "customPrompt": "Maglagay ng custom na halaga (USD):",
+    "emailPlaceholder": "Email para i-claim ang iyong 50% na bonus (opsyonal)"
   },
   "usb": {
     "title": "Premium na Koleksyon ng Panalangin sa USB",

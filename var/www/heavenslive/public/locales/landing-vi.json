@@ -31,7 +31,8 @@
     "bonusLabel": "Tiền thưởng Credon",
     "bonusEarns": "Khoản quyên góp %s của bạn kiếm được",
     "multiplier": "Tiền thưởng 50% cho khoản đóng góp của bạn",
-    "customPrompt": "Nhập số tiền tùy chỉnh (USD):"
+    "customPrompt": "Nhập số tiền tùy chỉnh (USD):",
+    "emailPlaceholder": "Gửi email để nhận 50% tiền thưởng của bạn (tùy chọn)"
   },
   "usb": {
     "title": "Bộ sưu tập cầu nguyện USB cao cấp",

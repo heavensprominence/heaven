@@ -31,7 +31,8 @@
     "bonusLabel": "Bônus Credão",
     "bonusEarns": "Sua doação %s rende",
     "multiplier": "Bônus de 50% na sua doação",
-    "customPrompt": "Insira o valor personalizado (USD):"
+    "customPrompt": "Insira o valor personalizado (USD):",
+    "emailPlaceholder": "Email para reivindicar seu bônus de 50% (opcional)"
   },
   "usb": {
     "title": "Coleção Premium de Oração USB",

@@ -112,6 +112,7 @@ document.getElementById('welcomeOverlay').addEventListener('click',function(){
 <div class="donate-amt" onclick="selectDonation(100)"><div class="amt">$100</div><div class="label" data-i18n="donate.harvest">Harvest</div></div>
 <div class="donate-amt" onclick="selectDonation(0)"><div class="amt" data-i18n="donate.custom">Custom</div><div class="label" data-i18n="donate.anyAmount">Any</div></div>
 </div>
+<div id="donorEmailWrap" style="display:none"><input id="donorEmail" type="email" placeholder="Email to claim your 50% bonus (optional)" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.9rem;margin-bottom:10px" data-i18n-placeholder="donate.emailPlaceholder"></div>
 <button class="btn btn-primary" style="width:100%;padding:16px;font-size:1.1rem" onclick="doDonate()" data-i18n="donate.donateBtn">Donate Now</button>
 </div>
 <div class="donate-display"><div style="display:inline-block;background:var(--gold);color:var(--darker);padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:16px" data-i18n="donate.bonusLabel">✨ Credon Bonus</div>
@@ -187,6 +188,11 @@ function applyTranslations(t){
     if(typeof val!=='string'||!val)return;
     if(val.indexOf('<')>=0)el.innerHTML=val;else el.textContent=val;
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){
+    var key=el.getAttribute('data-i18n-placeholder'),parts=key.split('.'),val=t;
+    for(var i=0;i<parts.length;i++){if(!val)break;val=val[parts[i]]}
+    if(typeof val==='string'&&val)el.placeholder=val;
+  });
 }
 window.t = function(key, fallback){
   var parts=key.split('.'), val=LANDING_TRANS;
@@ -211,6 +217,7 @@ var T=localStorage.getItem('token');
 if(T)try{var b=T.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');var p=JSON.parse(atob(b));
   if(p.email)document.getElementById('navLinks').innerHTML+='<span>👤 '+p.email.split('@')[0]+'</span>';
 }catch(e){}
+if(!T){var _ew=document.getElementById('donorEmailWrap');if(_ew)_ew.style.display='block';}
 
 var donationAmount=50;
 var DONATION_BONUS_RATE=0.5;
@@ -229,7 +236,8 @@ window.__afterI18n=updateDonationBonus;
 updateDonationBonus();
 function doDonate(){
   var T=localStorage.getItem('token');
-  fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(T||'')},body:JSON.stringify({amount:donationAmount||50,currency:'USD',description:'Donation to HeavensLive',type:'donation'})}).then(function(r){return r.json()}).then(function(d){
+  var _email=document.getElementById('donorEmail')?document.getElementById('donorEmail').value.trim():'';
+  fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(T||'')},body:JSON.stringify({amount:donationAmount||50,currency:'USD',description:'Donation to HeavensLive',type:'donation',email:_email})}).then(function(r){return r.json()}).then(function(d){
     if(d.approvalUrl)location.href=d.approvalUrl;
     else alert(t('paypalRedirect','Redirecting to PayPal...'));
   });
