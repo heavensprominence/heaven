@@ -5,17 +5,69 @@
 const express = require('express');
 const router = express.Router();
 const { createPayPalOrder, capturePayPalOrder } = require('../services/paypalService');
+const { optionalAuth } = require('../middleware/auth');
 const db = require('../db');
+
+/**
+ * Complete a donation after the PayPal redirect: capture the order and credit the 50% bonus.
+ */
+async function completeDonation(donationId, paypalOrderId) {
+  const found = await db.query('SELECT * FROM donations WHERE id = $1', [donationId]);
+  const donation = found.rows[0];
+  if (!donation || donation.status === 'completed') return; // missing or already credited (idempotent)
+
+  // Confirm payment by capturing the PayPal order (when we have a real order id)
+  if (paypalOrderId) {
+    try {
+      await capturePayPalOrder(paypalOrderId);
+    } catch (error) {
+      if (error.message === 'PayPal not configured') {
+        // Sandbox/test without PayPal — treat the redirect as paid
+      } else {
+        console.error('Donation PayPal capture failed:', error.message);
+        return; // payment not confirmed — do not credit
+      }
+    }
+  }
+
+  await db.query(`UPDATE donations SET status = 'completed' WHERE id = $1`, [donationId]);
+
+  // Credit the 50% Credon bonus to authenticated donors
+  if (donation.user_id) {
+    const BonusCalculator = require('../services/bonusCalculator');
+    const MockMinting = require('../services/mockMinting');
+    const amountUSD = (parseInt(donation.amount_cents, 10) || 0) / 100;
+    const bonus = BonusCalculator.calculateDonationBonus(amountUSD);
+    if (bonus.bonusCents > 0) {
+      let treasury = await MockMinting.getTreasuryBalance();
+      if (treasury < bonus.bonusCents) {
+        await MockMinting.mintToTreasury(bonus.bonusCents - treasury, 'Auto-mint for donation bonus', null);
+      }
+      await MockMinting.distributeFromTreasury(donation.user_id, bonus.bonusCents, '50% donation bonus', donationId);
+    }
+  }
+}
 
 /**
  * POST /api/payment/create — Create PayPal order, return redirect URL
  */
-router.post('/create', async (req, res) => {
+router.post('/create', optionalAuth, async (req, res) => {
+    let finalOrderId = req.body.orderId;
     try {
-        const { amount, currency, description, type, orderId } = req.body;
+        const { amount, currency, description, type } = req.body;
         if (!amount || amount <= 0) return res.status(400).json({ error: 'Amount required' });
 
-        const result = await createPayPalOrder(amount, currency, description || 'HeavensLive Purchase', orderId, type);
+        // Record donations up-front so the 50% bonus can be credited after payment
+        if (type === 'donation') {
+            const donation = await db.query(
+                `INSERT INTO donations (user_id, amount_cents, currency, status)
+                 VALUES ($1, $2, $3, 'pending_payment') RETURNING id`,
+                [req.userId || null, Math.round(Number(amount) * 100), currency || 'USD']
+            );
+            finalOrderId = donation.rows[0].id;
+        }
+
+        const result = await createPayPalOrder(amount, currency, description || 'HeavensLive Purchase', finalOrderId, type);
         
         res.json({
             paypalOrderId: result.paypalOrderId,
@@ -25,12 +77,14 @@ router.post('/create', async (req, res) => {
             originalCurrency: result.originalCurrency,
             conversionRate: result.conversionRate,
             isFallback: result.isFallback || false,
+            orderId: finalOrderId,
             message: result.isFallback ? 'Currency conversion unavailable — using 1:1 rate' : 'Redirect to PayPal to complete payment',
         });
     } catch (error) {
         if (error.message === 'PayPal not configured') {
             return res.json({
-                approvalUrl: `${process.env.FRONTEND_URL || 'http://localhost:5000'}/payment/success?orderId=mock-${Date.now()}&type=purchase`,
+                approvalUrl: `${process.env.FRONTEND_URL || 'http://localhost:5000'}/payment/success?orderId=${finalOrderId || 'mock-' + Date.now()}&type=${req.body.type || 'purchase'}&amount=${req.body.amount}&origAmount=${req.body.amount}&origCurrency=${req.body.currency || 'USD'}`,
+                orderId: finalOrderId,
                 message: 'PayPal not configured — using mock redirect',
             });
         }
@@ -43,7 +97,16 @@ router.post('/create', async (req, res) => {
  */
 router.get('/success', async (req, res) => {
     const { orderId, type, token, amount, origAmount, origCurrency } = req.query;
-    
+
+    // Complete donations: capture the PayPal order and credit the 50% bonus
+    if (type === 'donation' && orderId) {
+        try {
+            await completeDonation(orderId, token);
+        } catch (error) {
+            console.error('Donation completion error:', error.message);
+        }
+    }
+
     res.send(`<!DOCTYPE html><html><head><title>Payment Successful</title>
 <style>body{font-family:system-ui;background:#0F0F1A;color:#E8E6E3;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center}
 .card{background:#16213E;padding:48px;border-radius:16px;border:1px solid rgba(200,169,81,0.3);max-width:500px}

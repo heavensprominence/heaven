@@ -38,4 +38,20 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken: authMiddleware };
+const optionalAuth = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, jwtSecret);
+      req.userId = decoded.id;
+      req.userEmail = decoded.email;
+      req.isSuperAdmin = decoded.isSuperAdmin || false;
+    }
+  } catch (error) {
+    // Optional auth: ignore missing/invalid/expired tokens
+  }
+  next();
+};
+
+module.exports = { verifyToken: authMiddleware, optionalAuth };
