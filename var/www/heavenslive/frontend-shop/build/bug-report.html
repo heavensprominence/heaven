@@ -19,41 +19,41 @@ textarea{min-height:100px;resize:vertical}
 .msg{padding:8px;border-radius:6px;font-size:.8rem;margin:8px 0;text-align:center;display:none}.ok{background:rgba(46,204,113,.1);color:var(--success)}.err{background:rgba(231,76,60,.1);color:#E74C3C}
 </style></head><body>
 <div class="card">
-<h1>🐛 Report a Bug</h1>
-<p>Help us improve HeavensLive. Describe what went wrong and on which page.</p>
-<input id="email" type="email" placeholder="Your email (optional)">
+<h1 data-i18n="bugreport.title">🐛 Report a Bug</h1>
+<p data-i18n="bugreport.subtitle">Help us improve HeavensLive. Describe what went wrong and on which page.</p>
+<input id="email" type="email" placeholder="Your email (optional)" data-i18n-placeholder="bugreport.emailPlaceholder">
 <select id="page">
-<option value="">Which page?</option>
-<option value="landing">Landing Page</option>
-<option value="shop">Shop / Marketplace</option>
-<option value="credon">Credon Wallet</option>
-<option value="admin">Admin Panel</option>
-<option value="create">Create Listing</option>
-<option value="checkout">Checkout</option>
-<option value="pricing">Pricing</option>
-<option value="other">Other</option>
+<option value="" data-i18n="bugreport.whichPage">Which page?</option>
+<option value="landing" data-i18n="bugreport.pageLanding">Landing Page</option>
+<option value="shop" data-i18n="bugreport.pageShop">Shop / Marketplace</option>
+<option value="credon" data-i18n="bugreport.pageCredon">Credon Wallet</option>
+<option value="admin" data-i18n="bugreport.pageAdmin">Admin Panel</option>
+<option value="create" data-i18n="bugreport.pageCreate">Create Listing</option>
+<option value="checkout" data-i18n="bugreport.pageCheckout">Checkout</option>
+<option value="pricing" data-i18n="bugreport.pagePricing">Pricing</option>
+<option value="other" data-i18n="bugreport.pageOther">Other</option>
 </select>
-<textarea id="desc" placeholder="Describe the bug..."></textarea>
-<label for="screenshot" style="color:var(--muted);font-size:.8rem;margin-bottom:4px;display:block">📸 Screenshot (optional)</label>
+<textarea id="desc" placeholder="Describe the bug..." data-i18n-placeholder="bugreport.descPlaceholder"></textarea>
+<label for="screenshot" style="color:var(--muted);font-size:.8rem;margin-bottom:4px;display:block" data-i18n="bugreport.screenshotLabel">📸 Screenshot (optional)</label>
 <input id="screenshot" type="file" accept="image/*" style="margin-bottom:10px">
 <div id="msg" class="msg"></div>
-<button class="btn" onclick="submitBug()">📤 Submit Report</button>
+<button class="btn" onclick="submitBug()" data-i18n="bugreport.submit">📤 Submit Report</button>
 </div>
 <script>
 async function submitBug(){
   var b=document.querySelector('.btn'),m=document.getElementById('msg'),d=document.getElementById('desc').value.trim();
-  if(!d){m.textContent='Please describe the bug.';m.className='msg err';m.style.display='block';return}
-  b.disabled=true;b.textContent='Submitting...';
+  if(!d){m.textContent=t('bugreport.describeRequired','Please describe the bug.');m.className='msg err';m.style.display='block';return}
+  b.disabled=true;b.textContent=t('bugreport.submitting','Submitting...');
   var screenshot=null,file=document.getElementById('screenshot').files[0];
   if(file&&file.size<5*1024*1024){screenshot=await new Promise(function(ok){var r=new FileReader();r.onload=function(e){ok(e.target.result)};r.readAsDataURL(file)})}
   try{
     var r=await fetch('/api/shop/bug-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:document.getElementById('page').value,description:d,email:document.getElementById('email').value,screenshot:screenshot})});
     var j=await r.json();
-    m.textContent=j.success?'✅ Submitted! Thank you.':'❌ '+j.error;
+    m.textContent=j.success?t('bugreport.submitted','✅ Submitted! Thank you.'):'❌ '+j.error;
     m.className=j.success?'msg ok':'msg err';m.style.display='block';
     if(j.success)document.getElementById('desc').value='';
-  }catch(e){m.textContent='Server error';m.className='msg err';m.style.display='block'}
-  b.disabled=false;b.textContent='📤 Submit Report';
+  }catch(e){m.textContent=t('bugreport.serverError','Server error');m.className='msg err';m.style.display='block'}
+  b.disabled=false;b.textContent=t('bugreport.submit','📤 Submit Report');
 }
-</script>
+</script><script src="/i18n.js"></script>
 </body></html>
