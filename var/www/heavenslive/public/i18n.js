@@ -53,12 +53,12 @@
     document.documentElement.dir=['ar','fa','ur'].includes(lang)?'rtl':'ltr';
     // Update any existing hardcoded language selectors
     document.querySelectorAll('select[id="langSelect"], select[id="langSel"]').forEach(function(s){s.value=lang});
-    loadAndApply(lang);
+    return loadAndApply(lang);
   };
   
   function loadAndApply(lang){console.log('i18n: loadAndApply('+lang+') nav a count='+document.querySelectorAll('nav a').length);
   if(typeof resetCategoryTree==='function')resetCategoryTree();
-    Promise.all([
+    return Promise.all([
       fetch('/locales/landing-'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
       fetch('/locales/shop-'+lang+'.json?v=10').then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
       fetch('/locales/'+lang+'.json').then(function(r){return r.ok?r.json():null}).catch(function(){return null})
@@ -76,15 +76,22 @@
       applyShop(shop);
       translatePlaceholders(landing, shop);
       translateCommonStrings(landing,shop);
+      _fireI18nReadyOnce();
     });
   }
   
   // Pre-load English locales as fallback
   var EN_SHOP = null, EN_LANDING = null, EN_CREDON = null;
   var CUR = null; // merged current-locale dict for dynamic-content translation
-  fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){});
-  fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){});
-  fetch('/locales/en.json').then(function(r){return r.json()}).then(function(j){EN_CREDON=j}).catch(function(){});
+  var _i18nReadyFired = false;
+  var _i18nReadyCbs = [];
+  window.__onI18nReady = function(cb){ if(!cb) return; _i18nReadyCbs.push(cb); if(_i18nReadyFired){ try{cb()}catch(e){} } };
+  function _fireI18nReadyOnce(){ if(_i18nReadyFired) return; _i18nReadyFired = true; var _c = _i18nReadyCbs.slice(); _i18nReadyCbs = []; _c.forEach(function(cb){ try{cb()}catch(e){} }); }
+  var _enLoaded = 0;
+  function _enFallbackDone(){ if(++_enLoaded === 3 && currentLang === 'en'){ _fireI18nReadyOnce(); } }
+  fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){}).then(_enFallbackDone);
+  fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){}).then(_enFallbackDone);
+  fetch('/locales/en.json').then(function(r){return r.json()}).then(function(j){EN_CREDON=j}).catch(function(){}).then(_enFallbackDone);
 
   // Global translation helper for dynamically-created content (modals, JS-rendered strings)
   window.t = function(key, fallback){
@@ -98,6 +105,9 @@
     if(typeof val === 'string' && val) return val;
     val = EN_LANDING;
     for(var k=0;k<parts.length;k++){ if(!val) break; val = val[parts[k]]; }
+    if(typeof val === 'string' && val) return val;
+    val = EN_CREDON;
+    for(var m=0;m<parts.length;m++){ if(!val) break; val = val[parts[m]]; }
     if(typeof val === 'string' && val) return val;
     return fallback || parts[parts.length-1] || key;
   };

@@ -53,6 +53,7 @@
   .action-badge.commission { background: rgba(251,191,36,0.15); color: #fbbf24; }
   .action-badge.default { background: rgba(255,255,255,0.05); color: #999; }
   .amount-positive { color: #34d399; font-weight: 600; }
+  .currency-badge { margin-left: 6px; font-size: 0.72rem; color: #888; font-weight: 500; }
   .amount-negative { color: #f87171; font-weight: 600; }
   .amount-zero { color: #666; }
 
@@ -278,12 +279,16 @@ let filterTimeout;
 });
 
 loadSummary();
-loadActions();
-loadEntries();
+window.__onI18nReady(function(){ loadActions(); loadEntries(); });
 
-// Re-render dynamic content when the language changes
+// Re-render dynamic content after the new locale loads
 const _origSwitchLang = window.switchLang;
-window.switchLang = function(lang) { const p = _origSwitchLang ? _origSwitchLang(lang) : null; loadActions(); loadSummary(); loadEntries(); return p; };
+window.switchLang = function(lang) {
+  const p = _origSwitchLang ? _origSwitchLang(lang) : null;
+  if (p && p.then) { p.then(function(){ loadActions(); loadSummary(); loadEntries(); }); }
+  else { loadActions(); loadSummary(); loadEntries(); }
+  return p;
+};
 </script>
 </body>
 <!-- Default Statcounter code for HeavenS on Earth
