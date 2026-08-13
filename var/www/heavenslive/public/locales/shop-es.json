@@ -95,7 +95,13 @@
     "other": "Otro",
     "suggest": "💡 Sugerir subcategoría",
     "allListings": "Todos los anuncios",
-    "showFilters": "☰ Filtros"
+    "showFilters": "☰ Filtros",
+    "parentCategory": "Categoría principal",
+    "subcategoryName": "Nombre de la subcategoría",
+    "subcategoryPlaceholder": "p. ej., teléfonos inteligentes",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "suggestionSubmitted": "¡Sugerencia enviada!"
   },
   "footer": {
     "market": "Mercado de los cielos",

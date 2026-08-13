@@ -95,7 +95,13 @@
     "other": "अन्य",
     "suggest": "💡 उपश्रेणी सुझाएँ",
     "allListings": "सभी लिस्टिंग",
-    "showFilters": "☰ फ़िल्टर"
+    "showFilters": "☰ फ़िल्टर",
+    "parentCategory": "मूल श्रेणी",
+    "subcategoryName": "उपश्रेणी का नाम",
+    "subcategoryPlaceholder": "जैसे, स्मार्टफ़ोन",
+    "submit": "जमा करें",
+    "cancel": "रद्द करें",
+    "suggestionSubmitted": "सुझाव भेज दिया गया!"
   },
   "footer": {
     "market": "हेवन्समार्केट",

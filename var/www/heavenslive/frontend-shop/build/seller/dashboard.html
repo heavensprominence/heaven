@@ -94,7 +94,7 @@ function renderPosts(){
   var filtered=currentFilter==='all'?allPosts:currentFilter==='selling'?allPosts.filter(function(p){return p.type!=='reverse_auction'}):allPosts.filter(function(p){return p.type==='reverse_auction'});
   document.getElementById('postCount').textContent='('+allPosts.length+')';
   document.getElementById('filtAll').textContent='All ('+allPosts.length+')';
-  if(!filtered.length){document.getElementById('postsBody').innerHTML='<tr><td colspan="7" class="empty-state">No listings yet. <a href="/shop/create">Create one →</a></td></tr>';return}
+  if(!filtered.length){document.getElementById('postsBody').innerHTML='<tr><td colspan="7" class="empty-state">'+t('listing.noResults','No listings yet.')+' <a href="/shop/create">Create one →</a></td></tr>';return}
   document.getElementById('postsBody').innerHTML=filtered.map(function(p){
     var typeLabel=p.type==='reverse_auction'?'📋 Procuring':p.type==='auction'?'🔨 Auction':p.type==='classifieds'?'📰 Classified':'🛍 Mall';
     var priceLabel=p.type==='reverse_auction'?'Budget: $'+((p.max_bid_cents||0)/100).toFixed(2):p.price_cents?'$'+(p.price_cents/100).toFixed(2):p.min_bid_cents?'From $'+(p.min_bid_cents/100).toFixed(2):'FREE';

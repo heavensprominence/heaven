@@ -54,7 +54,7 @@ async function load(){
       (listings.length?'<div class="listing-grid">'+listings.map(function(l){
         var price=l.type==='auction'?'Starting $'+((l.min_bid_cents||0)/100).toFixed(2):l.price_cents===0?'<span style="color:var(--success);font-weight:800">FREE</span>':'$'+(l.price_cents/100).toFixed(2);
         return'<div class="listing-card" onclick="location.href=\'/shop/listing/'+l.id+'\'"><div class="listing-img">'+(l.is_featured?'<span class="badge badge-featured" data-i18n="brand.featured">★ Featured</span>':'')+(l.type==='auction'?'<span class="badge badge-auction" data-i18n="brand.auctionBadge">Auction</span>':'')+'📦</div><div class="listing-body"><div class="listing-title">'+esc(l.title)+'</div><div class="listing-price">'+price+'</div></div></div>';
-      }).join('')+'</div>':'<div class="muted">No listings yet.</div>');
+      }).join('')+'</div>':'<div class="muted">'+t('listing.noResults','No listings yet.')+'</div>');
   }catch(e){document.getElementById('loading').innerHTML='<h1>Error</h1><p class="muted" data-i18n="page.sub_could_not_load_store">Could not load store.</p>'}
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}

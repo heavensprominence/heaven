@@ -95,7 +95,13 @@
     "other": "Andra",
     "suggest": "💡 Föreslå en underkategori",
     "allListings": "Alla listningar",
-    "showFilters": "☰ Filter"
+    "showFilters": "☰ Filter",
+    "parentCategory": "Överordnad kategori",
+    "subcategoryName": "Underkategorins namn",
+    "subcategoryPlaceholder": "t.ex. smartphones",
+    "submit": "Skicka",
+    "cancel": "Avbryt",
+    "suggestionSubmitted": "Förslag inskickat!"
   },
   "footer": {
     "market": "HeavensMarket",

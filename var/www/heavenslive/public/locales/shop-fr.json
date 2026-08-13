@@ -95,7 +95,13 @@
     "other": "Autre",
     "suggest": "💡 Suggérer une sous-catégorie",
     "allListings": "Toutes les inscriptions",
-    "showFilters": "☰ Filtres"
+    "showFilters": "☰ Filtres",
+    "parentCategory": "Catégorie parente",
+    "subcategoryName": "Nom de la sous-catégorie",
+    "subcategoryPlaceholder": "par ex. les smartphones",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+    "suggestionSubmitted": "Suggestion soumise !"
   },
   "footer": {
     "market": "Marché céleste",

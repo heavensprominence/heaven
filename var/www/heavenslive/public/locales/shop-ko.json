@@ -95,7 +95,13 @@
     "other": "다른",
     "suggest": "💡 하위 카테고리 제안",
     "allListings": "모든 목록",
-    "showFilters": "☰ 필터"
+    "showFilters": "☰ 필터",
+    "parentCategory": "상위 카테고리",
+    "subcategoryName": "하위 카테고리 이름",
+    "subcategoryPlaceholder": "예: 스마트폰",
+    "submit": "제출",
+    "cancel": "취소",
+    "suggestionSubmitted": "제안이 제출되었습니다!"
   },
   "footer": {
     "market": "헤븐스마켓",

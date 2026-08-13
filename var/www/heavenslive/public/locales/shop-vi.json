@@ -89,7 +89,13 @@
     "other": "Khác",
     "suggest": "💡 Đề xuất một danh mục con",
     "allListings": "Tất cả các tin đăng",
-    "showFilters": "☰ Bộ lọc"
+    "showFilters": "☰ Bộ lọc",
+    "parentCategory": "Danh mục cha",
+    "subcategoryName": "Tên danh mục con",
+    "subcategoryPlaceholder": "vd: Điện thoại thông minh",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "suggestionSubmitted": "Đã gửi đề xuất!"
   },
   "footer": {
     "market": "Thiên ĐườngThị Trường",

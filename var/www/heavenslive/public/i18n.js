@@ -67,6 +67,10 @@
       // Merge credontoken + wallet keys into landing so applyLanding picks them up
       if(!landing) landing={};
       if(credontoken){for(var k in credontoken){if(credontoken.hasOwnProperty(k))landing[k]=credontoken[k]}}
+      // Cache merged dictionary for dynamic-content translation (window.t)
+      CUR = {};
+      if(shop){for(var ck in shop){if(shop.hasOwnProperty(ck))CUR[ck]=shop[ck]}}
+      for(var ck2 in landing){if(landing.hasOwnProperty(ck2))CUR[ck2]=landing[ck2]}
       applyLanding(landing);
       applyShopI18n(shop);
       applyShop(shop);
@@ -77,9 +81,26 @@
   
   // Pre-load English locales as fallback
   var EN_SHOP = null, EN_LANDING = null, EN_CREDON = null;
+  var CUR = null; // merged current-locale dict for dynamic-content translation
   fetch('/locales/shop-en.json').then(function(r){return r.json()}).then(function(j){EN_SHOP=j}).catch(function(){});
   fetch('/locales/landing-en.json').then(function(r){return r.json()}).then(function(j){EN_LANDING=j}).catch(function(){});
   fetch('/locales/en.json').then(function(r){return r.json()}).then(function(j){EN_CREDON=j}).catch(function(){});
+
+  // Global translation helper for dynamically-created content (modals, JS-rendered strings)
+  window.t = function(key, fallback){
+    if(!key) return fallback || '';
+    var parts = key.split('.');
+    var val = CUR;
+    for(var i=0;i<parts.length;i++){ if(!val) break; val = val[parts[i]]; }
+    if(typeof val === 'string' && val) return val;
+    val = EN_SHOP;
+    for(var j=0;j<parts.length;j++){ if(!val) break; val = val[parts[j]]; }
+    if(typeof val === 'string' && val) return val;
+    val = EN_LANDING;
+    for(var k=0;k<parts.length;k++){ if(!val) break; val = val[parts[k]]; }
+    if(typeof val === 'string' && val) return val;
+    return fallback || parts[parts.length-1] || key;
+  };
 
   // Translate placeholder attributes
   function translatePlaceholders(landing, shop){

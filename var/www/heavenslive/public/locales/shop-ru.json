@@ -95,7 +95,13 @@
     "other": "Другой",
     "suggest": "💡 Предложить подкатегорию",
     "allListings": "Все объявления",
-    "showFilters": "☰ Фильтры"
+    "showFilters": "☰ Фильтры",
+    "parentCategory": "Родительская категория",
+    "subcategoryName": "Название подкатегории",
+    "subcategoryPlaceholder": "напр., смартфоны",
+    "submit": "Отправить",
+    "cancel": "Отмена",
+    "suggestionSubmitted": "Предложение отправлено!"
   },
   "footer": {
     "market": "Небесный Рынок",

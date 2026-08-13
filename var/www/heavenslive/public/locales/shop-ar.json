@@ -95,7 +95,13 @@
     "other": "آخر",
     "suggest": "💡 اقترح فئة فرعية",
     "allListings": "جميع القوائم",
-    "showFilters": "☰ الفلاتر"
+    "showFilters": "☰ الفلاتر",
+    "parentCategory": "الفئة الأم",
+    "subcategoryName": "اسم الفئة الفرعية",
+    "subcategoryPlaceholder": "مثال: الهواتف الذكية",
+    "submit": "إرسال",
+    "cancel": "إلغاء",
+    "suggestionSubmitted": "تم إرسال الاقتراح!"
   },
   "footer": {
     "market": "سوق السماء",

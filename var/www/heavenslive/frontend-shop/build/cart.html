@@ -39,6 +39,7 @@ function loadCart() {
   var gt=localStorage.getItem("hl-guest-token");
   if(!T&&gt)h["X-Guest-Token"]=gt;
   fetch("/api/shop/cart",{headers:h}).then(function(r){return r.json()}).then(function(d){
+    if(d.sessionExpired){localStorage.removeItem("token");alert("Your session expired. Please sign in again.");location.href="/credon/";return;}
     if(d.guest_token)localStorage.setItem("hl-guest-token",d.guest_token);
     var items=d.cart||[];
     if(!items.length){

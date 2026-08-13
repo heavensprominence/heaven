@@ -95,7 +95,13 @@
     "other": "Iba pa",
     "suggest": "💡 Mungkahi ng isang subkategorya",
     "allListings": "Lahat ng mga listahan",
-    "showFilters": "☰ Mga filter"
+    "showFilters": "☰ Mga filter",
+    "parentCategory": "Pangunahing Kategorya",
+    "subcategoryName": "Pangalan ng Subcategory",
+    "subcategoryPlaceholder": "hal., Mga Smartphone",
+    "submit": "Isumite",
+    "cancel": "Kanselahin",
+    "suggestionSubmitted": "Naisumite ang mungkahi!"
   },
   "footer": {
     "market": "Merkado ng Langit",

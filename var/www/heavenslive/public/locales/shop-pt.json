@@ -95,7 +95,13 @@
     "other": "Outro",
     "suggest": "💡 Sugerir uma subcategoria",
     "allListings": "Todos os anúncios",
-    "showFilters": "☰ Filtros"
+    "showFilters": "☰ Filtros",
+    "parentCategory": "Categoria principal",
+    "subcategoryName": "Nome da subcategoria",
+    "subcategoryPlaceholder": "ex.: smartphones",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "suggestionSubmitted": "Sugestão enviada!"
   },
   "footer": {
     "market": "Mercado Celestial",

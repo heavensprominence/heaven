@@ -95,7 +95,13 @@
     "other": "其他",
     "suggest": "💡 建议子类别",
     "allListings": "所有列表",
-    "showFilters": "干 过滤器"
+    "showFilters": "干 过滤器",
+    "parentCategory": "上级分类",
+    "subcategoryName": "子分类名称",
+    "subcategoryPlaceholder": "例如：智能手机",
+    "submit": "提交",
+    "cancel": "取消",
+    "suggestionSubmitted": "建议已提交！"
   },
   "footer": {
     "market": "天堂市场",

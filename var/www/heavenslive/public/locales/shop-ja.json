@@ -95,7 +95,13 @@
     "other": "その他",
     "suggest": "💡 サブカテゴリを提案",
     "allListings": "すべてのリスト",
-    "showFilters": "フィルター"
+    "showFilters": "フィルター",
+    "parentCategory": "親カテゴリ",
+    "subcategoryName": "サブカテゴリ名",
+    "subcategoryPlaceholder": "例：スマートフォン",
+    "submit": "送信",
+    "cancel": "キャンセル",
+    "suggestionSubmitted": "提案を送信しました！"
   },
   "footer": {
     "market": "ヘブンズマーケット",

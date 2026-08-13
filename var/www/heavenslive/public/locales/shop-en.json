@@ -90,7 +90,13 @@
     "other": "Other",
     "suggest": "💡 Suggest a Subcategory",
     "allListings": "All Listings",
-    "showFilters": "☰ Filters"
+    "showFilters": "☰ Filters",
+    "parentCategory": "Parent Category",
+    "subcategoryName": "Subcategory Name",
+    "subcategoryPlaceholder": "e.g., Smartphones",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "suggestionSubmitted": "Suggestion submitted!"
   },
   "footer": {
     "market": "HeavensMarket",

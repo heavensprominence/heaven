@@ -95,7 +95,13 @@
     "other": "Diğer",
     "suggest": "💡 Bir Alt Kategori Önerin",
     "allListings": "Tüm Listeler",
-    "showFilters": "☰ Filtreler"
+    "showFilters": "☰ Filtreler",
+    "parentCategory": "Üst Kategori",
+    "subcategoryName": "Alt Kategori Adı",
+    "subcategoryPlaceholder": "ör. Akıllı Telefonlar",
+    "submit": "Gönder",
+    "cancel": "İptal",
+    "suggestionSubmitted": "Öneri gönderildi!"
   },
   "footer": {
     "market": "Cennet Pazarı",

@@ -64,6 +64,7 @@ function addCart() {
     headers: h,
     body: JSON.stringify(b)
   }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.sessionExpired) { localStorage.removeItem('token'); alert('Your session expired. Please sign in again.'); location.href='/credon/'; return; }
     if (d.guest_token) localStorage.setItem('hl-guest-token', d.guest_token);
     alert(d.success ? 'Added!' : (d.error || 'Failed'));
   });

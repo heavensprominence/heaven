@@ -95,7 +95,13 @@
     "other": "دیگر",
     "suggest": "💡 پیشنهاد زیرمجموعه",
     "allListings": "همه لیست ها",
-    "showFilters": "☰ فیلترها"
+    "showFilters": "☰ فیلترها",
+    "parentCategory": "دسته مادر",
+    "subcategoryName": "نام زیرمجموعه",
+    "subcategoryPlaceholder": "مثلاً گوشی‌های هوشمند",
+    "submit": "ارسال",
+    "cancel": "لغو",
+    "suggestionSubmitted": "پیشنهاد ارسال شد!"
   },
   "footer": {
     "market": "بازار آسمان‌ها",

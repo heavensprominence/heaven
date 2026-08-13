@@ -95,7 +95,13 @@
     "other": "Andere",
     "suggest": "💡 Unterkategorie vorschlagen",
     "allListings": "Alle Inserate",
-    "showFilters": "☰ Filter"
+    "showFilters": "☰ Filter",
+    "parentCategory": "Übergeordnete Kategorie",
+    "subcategoryName": "Name der Unterkategorie",
+    "subcategoryPlaceholder": "z. B. Smartphones",
+    "submit": "Absenden",
+    "cancel": "Abbrechen",
+    "suggestionSubmitted": "Vorschlag eingereicht!"
   },
   "footer": {
     "market": "HeavensMarket",

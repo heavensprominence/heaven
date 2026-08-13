@@ -95,7 +95,13 @@
     "other": "دیگر",
     "suggest": "💡 ذیلی زمرہ تجویز کریں",
     "allListings": "تمام فہرستیں",
-    "showFilters": "☰ فلٹرز"
+    "showFilters": "☰ فلٹرز",
+    "parentCategory": "بنیادی زمرہ",
+    "subcategoryName": "ذیلی زمرے کا نام",
+    "subcategoryPlaceholder": "مثلاً اسمارٹ فونز",
+    "submit": "جمع کروائیں",
+    "cancel": "منسوخ کریں",
+    "suggestionSubmitted": "تجویز جمع کرائی گئی!"
   },
   "footer": {
     "market": "ہیونز مارکیٹ",
