@@ -32,7 +32,7 @@ function render(){
   var filtered=currentFilter==='all'?allPurchases:allPurchases.filter(function(p){return p.status===currentFilter});
   var total=filtered.reduce(function(s,p){return s+(p.amount_cents||0)},0)/100;
   document.getElementById('purchasesBody').innerHTML=allPurchases.length?filtered.map(function(p){
-    var d=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    var d=formatDate(p.created_at);
     return'<tr><td><div class="purchase-item"><img src="'+(p.image||'/shop-banner.png')+'" alt=""><span>'+esc(p.title||'Item')+'</span></div></td><td>'+esc(p.seller_name||p.seller_email||'Seller')+'</td><td>$'+(p.amount_cents/100).toFixed(2)+'</td><td><span class="status-badge '+p.status+'">'+p.status+'</span></td><td>'+d+'</td><td><a class="btn-sm view" href="/shop/listing/'+p.listing_id+'">View</a> <a class="btn-sm rate" href="/shop/rate/'+p.id+'?type=seller">⭐ Rate</a><a class="btn-sm disp" href="/shop/disputes?tx='+p.id+'">⚖️</a></td></tr>';
   }).join(''):'<tr><td colspan="6" class="empty-state">No purchases yet. <a href="/shop/">Start shopping →</a></td></tr>';
 }

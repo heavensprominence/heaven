@@ -31,7 +31,7 @@ setTimeout(function(){
   var T=localStorage.getItem("token");
   if(!T){document.getElementById("pdata").innerHTML='<div class="card" style="text-align:center"><h2 data-i18n="nav.signIn">Please Sign In</h2><a href="/credon/" class="btn" data-i18n="nav.signIn">Sign In</a></div>';return}
   fetch("/api/auth/me",{headers:{"Authorization":"Bearer "+T}}).then(function(r){return r.json()}).then(async function(d){
-    var u=d.user||{},joined=u.created_at?new Date(u.created_at).toLocaleDateString('en-US',{year:'numeric',month:'long'}):'';
+    var u=d.user||{},joined=u.created_at?formatDate(u.created_at,{year:'numeric',month:'long'}):'';
     document.getElementById("pdata").innerHTML=''+
       '<div class="profile-header">'+
         '<div class="avatar">'+(u.full_name||'?')[0].toUpperCase()+'</div>'+

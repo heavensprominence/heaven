@@ -379,7 +379,9 @@
     "not_set": "Hindi pa nakatakda",
     "super_admin": "Super Admin",
     "member": "Kasapi",
-    "label_images": "📸 Mga larawan"
+    "label_images": "📸 Mga larawan",
+    "delete_account_confirm": "I-delete ang iyong account nang permanente?",
+    "delete_account_support": "Makipag-ugnayan sa suporta para kumpletuhin ang pagtanggal"
   },
   "brand": {
     "disputes": "⚖️ Mga hindi pagkakaunawaan",
@@ -843,6 +845,8 @@
     "classified": "📰 Classified",
     "budget": "Badyet:",
     "from": "Mula sa",
-    "free": "LIBRE"
+    "free": "LIBRE",
+    "deleteConfirm": "Permanenteng i-delete ang listing na ito?",
+    "bulkDeleteConfirm": "Permanenteng tanggalin ang %s na napiling listahan?"
   }
 }

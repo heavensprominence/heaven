@@ -418,7 +418,9 @@
     "not_set": "Chưa được thiết lập",
     "super_admin": "Quản trị viên cao cấp",
     "member": "Thành viên",
-    "label_images": "📸 Hình ảnh"
+    "label_images": "📸 Hình ảnh",
+    "delete_account_confirm": "Xóa tài khoản của bạn vĩnh viễn?",
+    "delete_account_support": "Liên hệ bộ phận hỗ trợ để hoàn tất việc xóa"
   },
   "errors": {
     "noResults": "Không tìm thấy mục nào",
@@ -843,6 +845,8 @@
     "classified": "📰 Đã phân loại",
     "budget": "Ngân sách:",
     "from": "Từ",
-    "free": "MIỄN PHÍ"
+    "free": "MIỄN PHÍ",
+    "deleteConfirm": "Xóa danh sách này vĩnh viễn?",
+    "bulkDeleteConfirm": "Xóa vĩnh viễn %s danh sách đã chọn?"
   }
 }

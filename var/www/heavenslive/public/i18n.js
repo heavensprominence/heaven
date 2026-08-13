@@ -102,6 +102,17 @@
     return fallback || parts[parts.length-1] || key;
   };
 
+  // Localized date formatter (follows the site language, not the browser locale)
+  window.formatDate = function(dateStr, opts){
+    var d = new Date(dateStr);
+    if(isNaN(d.getTime())) return '';
+    var localeMap = {en:'en-US',ar:'ar',de:'de-DE',es:'es-ES',fa:'fa-IR',fr:'fr-FR',hi:'hi-IN',ja:'ja-JP',ko:'ko-KR',pt:'pt-BR',ru:'ru-RU',sv:'sv-SE',tl:'tl-PH',tr:'tr-TR',ur:'ur-PK',vi:'vi-VN',zh:'zh-CN'};
+    var loc = localeMap[currentLang] || 'en-US';
+    var o = opts || {month:'short',day:'numeric',year:'numeric'};
+    try { return d.toLocaleDateString(loc, o); }
+    catch(e){ return d.toLocaleDateString('en-US', o); }
+  };
+
   // Translate placeholder attributes
   function translatePlaceholders(landing, shop){
     document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el){

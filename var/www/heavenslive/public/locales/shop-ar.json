@@ -390,7 +390,9 @@
     "not_set": "غير محدد",
     "super_admin": "المسؤول الفائق",
     "member": "عضو",
-    "label_images": "📸 الصور"
+    "label_images": "📸 الصور",
+    "delete_account_confirm": "هل تريد حذف حسابك نهائيًا؟",
+    "delete_account_support": "اتصل بالدعم لإكمال الحذف"
   },
   "brand": {
     "disputes": "⚖️ النزاعات",
@@ -843,6 +845,8 @@
     "classified": "📰 مصنف",
     "budget": "ميزانية:",
     "from": "من",
-    "free": "حر"
+    "free": "حر",
+    "deleteConfirm": "هل تريد حذف هذه القائمة نهائيًا؟",
+    "bulkDeleteConfirm": "هل تريد حذف %s من قوائم البيانات المحددة نهائيًا؟"
   }
 }

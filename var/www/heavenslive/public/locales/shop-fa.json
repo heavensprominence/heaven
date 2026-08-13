@@ -440,7 +440,9 @@
     "not_set": "تنظیم نشده",
     "super_admin": "ابرمدیر",
     "member": "عضو",
-    "label_images": "📸تصاویر"
+    "label_images": "📸تصاویر",
+    "delete_account_confirm": "حساب خود را برای همیشه حذف کنید؟",
+    "delete_account_support": "برای حذف کامل با پشتیبانی تماس بگیرید"
   },
   "create": {
     "step1": "۱. اطلاعات",
@@ -843,6 +845,8 @@
     "classified": "📰 طبقه بندی شده",
     "budget": "بودجه:",
     "from": "از",
-    "free": "رایگان"
+    "free": "رایگان",
+    "deleteConfirm": "این فهرست برای همیشه حذف شود؟",
+    "bulkDeleteConfirm": "%s فهرست انتخابی برای همیشه حذف شود؟"
   }
 }

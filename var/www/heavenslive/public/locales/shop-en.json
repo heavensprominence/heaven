@@ -435,7 +435,9 @@
     "h3_delete_account": "Delete Account",
     "p_delete_account": "Permanently delete your account and all data",
     "session_info": "Signed in as",
-    "label_images": "📸 Images"
+    "label_images": "📸 Images",
+    "delete_account_confirm": "Delete your account permanently?",
+    "delete_account_support": "Contact support to complete deletion"
   },
   "create": {
     "step1": "1. Info",
@@ -836,6 +838,8 @@
     "classified": "📰 Classified",
     "budget": "Budget:",
     "from": "From",
-    "free": "FREE"
+    "free": "FREE",
+    "deleteConfirm": "Delete this listing permanently?",
+    "bulkDeleteConfirm": "Permanently delete %s selected listings?"
   }
 }

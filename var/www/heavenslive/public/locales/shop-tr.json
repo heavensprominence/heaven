@@ -379,7 +379,9 @@
     "not_set": "Ayarlanmamış",
     "super_admin": "Süper Yönetici",
     "member": "Üye",
-    "label_images": "📸 Görseller"
+    "label_images": "📸 Görseller",
+    "delete_account_confirm": "Hesabınız kalıcı olarak silinsin mi?",
+    "delete_account_support": "Silme işlemini tamamlamak için destek ekibiyle iletişime geçin"
   },
   "brand": {
     "disputes": "⚖️ Anlaşmazlıklar",
@@ -843,6 +845,8 @@
     "classified": "📰 Gizli",
     "budget": "Bütçe:",
     "from": "İtibaren",
-    "free": "ÖZGÜR"
+    "free": "ÖZGÜR",
+    "deleteConfirm": "Bu giriş kalıcı olarak silinsin mi?",
+    "bulkDeleteConfirm": "Seçilen %s listeleme kalıcı olarak silinsin mi?"
   }
 }

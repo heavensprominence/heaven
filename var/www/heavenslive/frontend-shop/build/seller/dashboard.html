@@ -98,15 +98,15 @@ function renderPosts(){
   document.getElementById('postsBody').innerHTML=filtered.map(function(p){
     var typeLabel=p.type==='reverse_auction'?t('seller.procuring','📋 Procuring'):p.type==='auction'?t('seller.auction','🔨 Auction'):p.type==='classifieds'?t('seller.classified','📰 Classified'):t('seller.mall','🛍 Mall');
     var priceLabel=p.type==='reverse_auction'?t('seller.budget','Budget:')+' $'+((p.max_bid_cents||0)/100).toFixed(2):p.price_cents?'$'+(p.price_cents/100).toFixed(2):p.min_bid_cents?t('seller.from','From')+' $'+(p.min_bid_cents/100).toFixed(2):t('seller.free','FREE');
-    var date=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    var date=formatDate(p.created_at);
     return'<tr><td><input type="checkbox" '+(selectedPosts.includes(p.id)?'checked':'')+' onchange="toggleSelect(\''+p.id+'\')"></td><td><span class="type-badge '+p.type+'">'+typeLabel+'</span></td><td><strong>'+esc(p.title)+'</strong></td><td>'+priceLabel+'</td><td><span class="status-badge '+p.status+'">'+p.status+'</span></td><td>'+date+'</td><td><a class="btn-sm view" href="/shop/listing/'+p.id+'" data-i18n="page.btn_view">View</a> <button class="btn-sm del" onclick="delPost(\''+p.id+'\')" data-i18n="page.btn_delete">Delete</button></td></tr>';
   }).join('');
 }
 
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-async function delPost(id){if(!confirm('Delete this listing permanently?'))return;await fetch('/api/shop/listings/'+id,{method:'DELETE',headers:{Authorization:'Bearer '+T}});loadAll()}
-async function bulkDelete(){if(!selectedPosts.length)return;if(!confirm('Permanently delete '+selectedPosts.length+' selected listings?'))return;await fetch('/api/shop/listings/bulk-delete',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({ids:selectedPosts})});selectedPosts=[];loadAll()}
+async function delPost(id){if(!confirm(t('seller.deleteConfirm','Delete this listing permanently?')))return;await fetch('/api/shop/listings/'+id,{method:'DELETE',headers:{Authorization:'Bearer '+T}});loadAll()}
+async function bulkDelete(){if(!selectedPosts.length)return;if(!confirm(t('seller.bulkDeleteConfirm','Permanently delete %s selected listings?').replace('%s',selectedPosts.length)))return;await fetch('/api/shop/listings/bulk-delete',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({ids:selectedPosts})});selectedPosts=[];loadAll()}
 
 async function loadAll(){
   try{
@@ -129,7 +129,7 @@ async function loadAll(){
     document.getElementById('salesBody').innerHTML=allSales.length?allSales.map(function(s){
       var typeLabel=s.listing_type==='reverse_auction'?t('seller.procurement','📋 Procurement'):t('seller.sale','🛍 Sale');
       var feeCents=s.platform_fee_cents||0,net=s.seller_payout_cents||s.amount_cents;
-      return'<tr><td><div class="sale-item"><img src="'+(s.image||'/shop-banner.png')+'" alt=""><span>'+esc(s.title||'Item')+'</span></div></td><td>'+(s.buyer_name||s.buyer_email||'Buyer')+'</td><td><span class="type-badge '+s.listing_type+'">'+typeLabel+'</span></td><td>$'+(s.amount_cents/100).toFixed(2)+'</td><td>$'+(feeCents/100).toFixed(2)+'</td><td>$'+(net/100).toFixed(2)+'</td><td>'+new Date(s.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+'</td></tr>';
+      return'<tr><td><div class="sale-item"><img src="'+(s.image||'/shop-banner.png')+'" alt=""><span>'+esc(s.title||'Item')+'</span></div></td><td>'+(s.buyer_name||s.buyer_email||'Buyer')+'</td><td><span class="type-badge '+s.listing_type+'">'+typeLabel+'</span></td><td>$'+(s.amount_cents/100).toFixed(2)+'</td><td>$'+(feeCents/100).toFixed(2)+'</td><td>$'+(net/100).toFixed(2)+'</td><td>'+formatDate(s.created_at)+'</td></tr>';
     }).join(''):'<tr><td colspan="7" class="empty-state">'+t('seller.noSales','No sales yet')+'</td></tr>';
     
     // Offers badge

@@ -75,7 +75,7 @@ async function loadAll(){
       '<div class="stat-card"><div class="val">'+(s.unread_messages||0)+'</div><div class="lbl">💬 Unread Messages</div></div>';
     
     document.getElementById('purchasesBody').innerHTML=allPurchases.length?allPurchases.map(function(p){
-      var date=new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      var date=formatDate(p.created_at);
       return'<tr><td><div class="purchase-item"><img src="'+(p.image||'/shop-banner.png')+'" alt=""><span>'+esc(p.title||'Item')+'</span></div></td><td>'+(p.seller_name||p.seller_email||'Seller')+'</td><td>$'+(p.amount_cents/100).toFixed(2)+'</td><td><span class="status-badge '+p.status+'">'+p.status+'</span></td><td>'+date+'</td><td><a class="btn-sm view" href="/shop/listing/'+p.listing_id+'">View</a> <a class="btn-sm rate" href="/shop/rate/'+p.id+'?type=seller">⭐ Rate</a> <a class="btn-sm disp" href="/shop/disputes?tx='+p.id+'">⚖️ Dispute</a></td></tr>';
     }).join(''):'<tr><td colspan="6" class="empty-state">No purchases yet. <a href="/shop/">Start shopping →</a></td></tr>';
   }catch(e){console.error(e)}

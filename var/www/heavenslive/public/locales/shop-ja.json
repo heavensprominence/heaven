@@ -440,7 +440,9 @@
     "not_set": "未設定",
     "super_admin": "スーパー管理者",
     "member": "メンバー",
-    "label_images": "📸画像"
+    "label_images": "📸画像",
+    "delete_account_confirm": "アカウントを完全に削除しますか?",
+    "delete_account_support": "削除を完了するにはサポートに連絡してください"
   },
   "create": {
     "step1": "1.情報",
@@ -843,6 +845,8 @@
     "classified": "📰 機密扱い",
     "budget": "予算：",
     "from": "から",
-    "free": "無料"
+    "free": "無料",
+    "deleteConfirm": "このリストを完全に削除しますか?",
+    "bulkDeleteConfirm": "選択した %s のリストを完全に削除しますか?"
   }
 }

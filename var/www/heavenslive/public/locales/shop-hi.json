@@ -379,7 +379,9 @@
     "not_set": "सेट नहीं किया गया",
     "super_admin": "सुपर एडमिन",
     "member": "सदस्य",
-    "label_images": "📸 छवियाँ"
+    "label_images": "📸 छवियाँ",
+    "delete_account_confirm": "अपना खाता स्थायी रूप से हटाएं?",
+    "delete_account_support": "पूर्ण विलोपन के लिए सहायता से संपर्क करें"
   },
   "brand": {
     "disputes": "⚖️ विवाद",
@@ -843,6 +845,8 @@
     "classified": "📰 वर्गीकृत",
     "budget": "बजट:",
     "from": "से",
-    "free": "मुक्त"
+    "free": "मुक्त",
+    "deleteConfirm": "क्या आप इस सूची को स्थायी रूप से हटा देंगे?",
+    "bulkDeleteConfirm": "%s चयनित सूचियाँ स्थायी रूप से हटाएँ?"
   }
 }

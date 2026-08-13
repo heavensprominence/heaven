@@ -42,7 +42,7 @@ footer{background:#1A1A2E;border-top:1px solid rgba(200,169,81,.1);padding:20px;
 <div class="card">
   <h2 data-i18n="page.h2_account">Account</h2>
   <div class="toggle"><div class="info"><h3 data-i18n="page.h3_change_password">Change Password</h3><p data-i18n="page.p_change_password">Update your account password</p></div><button class="btn outline" onclick="location.href='/credon/'" style="font-size:.75rem;padding:6px 14px" data-i18n="page.btn_change">Change</button></div>
-  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_delete_account">Delete Account</h3><p data-i18n="page.p_delete_account">Permanently delete your account and all data</p></div><button class="btn danger" onclick="if(confirm('Delete your account permanently?'))alert('Contact support to complete deletion')" style="font-size:.75rem;padding:6px 14px" data-i18n="page.btn_delete">Delete</button></div>
+  <div class="toggle"><div class="info"><h3 data-i18n="page.h3_delete_account">Delete Account</h3><p data-i18n="page.p_delete_account">Permanently delete your account and all data</p></div><button class="btn danger" onclick="if(confirm(t('page.delete_account_confirm','Delete your account permanently?')))alert(t('page.delete_account_support','Contact support to complete deletion'))" style="font-size:.75rem;padding:6px 14px" data-i18n="page.btn_delete">Delete</button></div>
 </div>
 
 <div class="card" style="text-align:center">

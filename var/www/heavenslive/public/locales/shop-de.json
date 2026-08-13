@@ -379,7 +379,9 @@
     "gift_sent": "Geschenkkarte gesendet!",
     "gift_sent_desc": "Ihre Geschenkkarte wurde gekauft und wird dem Empfänger zugestellt.",
     "btn_back_to_shop": "Zurück zum Shop",
-    "label_images": "📸 Bilder"
+    "label_images": "📸 Bilder",
+    "delete_account_confirm": "Ihr Konto dauerhaft löschen?",
+    "delete_account_support": "Wenden Sie sich an den Support, um den Löschvorgang abzuschließen"
   },
   "brand": {
     "disputes": "⚖️ Streitigkeiten",
@@ -843,6 +845,8 @@
     "classified": "📰 Geheimtipp",
     "budget": "Budget:",
     "from": "Aus",
-    "free": "FREI"
+    "free": "FREI",
+    "deleteConfirm": "Diesen Eintrag endgültig löschen?",
+    "bulkDeleteConfirm": "%s ausgewählte Einträge dauerhaft löschen?"
   }
 }

@@ -46,7 +46,7 @@ async function loadConvos(){
     var d=await(await fetch('/api/shop/messages/conversations',{headers:{Authorization:'Bearer '+T}})).json();
     var convos=d.conversations||d.messages||[];
     if(!convos.length){document.getElementById('convos').innerHTML='<div class="empty-state"><span data-i18n="messages.noConversations">No messages yet. Start a conversation from a listing page.</span></div>';return}
-    document.getElementById('convos').innerHTML=convos.map(function(c){return'<div class="convo" onclick="openChat('+c.id+',\''+(c.with_name||c.with_email||'User')+'\')"><img src="'+(c.avatar||'')+'" alt=""><div class="info"><h3>'+(c.with_name||c.with_email||'User')+(c.unread?'<span class="unread">'+c.unread+'</span>':'')+'</h3><div class="preview">'+(c.last_message||'No messages yet')+'</div></div><div class="meta"><div class="time">'+(c.updated_at?new Date(c.updated_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'')+'</div></div></div>'}).join('')
+    document.getElementById('convos').innerHTML=convos.map(function(c){return'<div class="convo" onclick="openChat('+c.id+',\''+(c.with_name||c.with_email||'User')+'\')"><img src="'+(c.avatar||'')+'" alt=""><div class="info"><h3>'+(c.with_name||c.with_email||'User')+(c.unread?'<span class="unread">'+c.unread+'</span>':'')+'</h3><div class="preview">'+(c.last_message||'No messages yet')+'</div></div><div class="meta"><div class="time">'+(c.updated_at?formatDate(c.updated_at,{month:'short',day:'numeric'}):'')+'</div></div></div>'}).join('')
   }catch(e){document.getElementById('convos').innerHTML='<div class="empty-state"><span data-i18n="messages.loadError">Could not load messages.</span> <a href="/shop/">Browse listings →</a></div>'}
 }
 

@@ -9,7 +9,9 @@
 <meta name="twitter:description" content="Shop, sell, and auction across 84 currencies. Grants, 0% interest loans, and a public treasury ledger.">
 <meta name="twitter:image" content="https://heavenslive.com/hl-icon-512.png"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Bug Report — HeavensLive</title>
 <style>:root{--gold:#C8A951;--darker:#0F0F1A;--card:#16213E;--text:#E8E6E3;--muted:#A0A0B0;--success:#2ECC71}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:var(--darker);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding-top:60px}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+.nav-brand{font-size:1rem;font-weight:700;color:var(--gold)}.nav-links a{color:var(--muted);text-decoration:none;font-size:.82rem;margin-left:12px}
 .card{background:var(--card);padding:32px;border-radius:14px;border:1px solid rgba(200,169,81,.15);max-width:460px;width:90%}
 h1{color:var(--gold);font-size:1.2rem;margin-bottom:16px}p{color:var(--muted);font-size:.85rem;margin-bottom:16px}
 input,select,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);font-size:.9rem;margin-bottom:10px}
@@ -18,6 +20,7 @@ textarea{min-height:100px;resize:vertical}
 .btn:hover{opacity:.9}.btn:disabled{opacity:.5}
 .msg{padding:8px;border-radius:6px;font-size:.8rem;margin:8px 0;text-align:center;display:none}.ok{background:rgba(46,204,113,.1);color:var(--success)}.err{background:rgba(231,76,60,.1);color:#E74C3C}
 </style></head><body>
+<nav><div class="nav-brand">HeavensLive</div><div class="nav-links"><a href="/shop/">← Shop</a></div></nav>
 <div class="card">
 <h1 data-i18n="bugreport.title">🐛 Report a Bug</h1>
 <p data-i18n="bugreport.subtitle">Help us improve HeavensLive. Describe what went wrong and on which page.</p>

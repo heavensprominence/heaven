@@ -379,7 +379,9 @@
     "not_set": "Inte inställd",
     "super_admin": "Superadministratör",
     "member": "Ledamot",
-    "label_images": "📸 Bilder"
+    "label_images": "📸 Bilder",
+    "delete_account_confirm": "Vill du ta bort ditt konto permanent?",
+    "delete_account_support": "Kontakta support för att slutföra borttagningen"
   },
   "brand": {
     "disputes": "⚖️ Tvister",
@@ -843,6 +845,8 @@
     "classified": "📰 Klassificerad",
     "budget": "Budget:",
     "from": "Från",
-    "free": "GRATIS"
+    "free": "GRATIS",
+    "deleteConfirm": "Vill du ta bort den här annonsen permanent?",
+    "bulkDeleteConfirm": "Vill du ta bort %s valda listor permanent?"
   }
 }
