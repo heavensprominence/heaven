@@ -19,7 +19,7 @@ h1{color:var(--gold);margin-bottom:12px}h2{color:var(--gold);margin:12px 0 8px}.
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:768px){.grid3{grid-template-columns:1fr}}
 </style></head><body>
-<nav><div class="nav-brand" data-i18n="brand.title">HeavensMarket</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
+<nav><div class="nav-brand">HeavensMarket</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
 <div class="container"><h1 data-i18n="brand.wantedItems">📋 Wanted Items</h1><div class="card"><h2 data-i18n="page.h2_procurement_requests">Procurement Requests</h2><div id="wlist"><span class="muted">Loading...</span></div></div></div>
 <script>var T=localStorage.getItem("token");if(!T)document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh"><div style="text-align:center"><h2 style="color:#C8A951" data-i18n="page.h2_please_sign_in">Please Sign In</h2><a href="/credon/" class="btn">Sign In</a></div></div>';</script>
 <script>fetch("/api/shop/listings?type=reverse_auction").then(r=>r.json()).then(d=>{document.getElementById("wlist").innerHTML=(d.listings||[]).map(l=>'<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)"><strong>'+l.title+'</strong><br><span class="muted">Budget: $'+(l.max_bid_cents/100).toFixed(2)+' | '+l.location_city+'</span></div>').join("")||'<span class="muted">No wanted items yet</span>'})</script>

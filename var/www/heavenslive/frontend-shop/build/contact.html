@@ -16,7 +16,7 @@ nav{background:rgba(15,15,26,.95);border-bottom:1px solid rgba(200,169,81,.2);pa
 h1{color:var(--gold)}.muted{color:var(--muted);font-size:.85rem}.btn{padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;background:var(--gold);color:var(--darker)}
 input,textarea{width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text);margin-bottom:8px}
 </style></head><body>
-<nav><div class="nav-brand" data-i18n="brand.title">HeavensLive</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
+<nav><div class="nav-brand">HeavensLive</div><div class="nav-links"><a href="/shop/">Browse</a><a href="/shop/cart">🛒</a><a href="/shop/create">+ Post</a><a href="/credon/wallet">Wallet</a><a href="/">Home</a></div></nav>
 <div class="container"><h1 data-i18n="brand.contactUs">Contact Us</h1><div class="card" id="contactForm"><input id="contactName" placeholder="Name"><input type="email" id="contactEmail" placeholder="Email"><textarea id="contactMsg" placeholder="Message"></textarea><button class="btn" onclick="submitContact()">Send</button><div id="contactStatus" style="display:none;margin-top:12px;padding:12px;border-radius:8px"></div></div></div>
 <script>var T=localStorage.getItem('token')||'';
 async function submitContact(){

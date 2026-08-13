@@ -259,13 +259,6 @@
       if(typeof val==='string'&&val)h1.textContent=val;
     });
     
-    // Mirror translated h1 to nav-brand
-    var h1i18n=document.querySelector('h1[data-i18n]');
-    if(h1i18n){
-      document.querySelectorAll('.nav-brand').forEach(function(nb){
-        nb.textContent=h1i18n.textContent;
-      });
-    }
     
     // Translate footer links
     if(sft){
