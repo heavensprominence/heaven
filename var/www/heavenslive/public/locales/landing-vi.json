@@ -4,7 +4,9 @@
     "subtitle": "Thương mại dựa trên đức tin, tiền tệ công bằng và hoạt động quyên góp dựa vào cộng đồng — tất cả đều trên một nền tảng.",
     "shopBtn": "Khám phá thị trường",
     "credonBtn": "Tìm hiểu về Credon",
-    "joinBtn": "🚀 Tham gia miễn phí"
+    "joinBtn": "🚀 Tham gia miễn phí",
+    "bonusFree": "MIỄN PHÍ",
+    "bonusWhen": "khi bạn tham gia - được thêm ngay vào ví của bạn"
   },
   "features": {
     "title": "Một nền tảng, ba trụ cột",
@@ -28,7 +30,8 @@
     "donateBtn": "Đóng góp ngay",
     "bonusLabel": "Tiền thưởng Credon",
     "bonusEarns": "Khoản quyên góp $50 của bạn kiếm được",
-    "multiplier": "Số nhân gấp 10 lần cho lần quyên góp đầu tiên của bạn"
+    "multiplier": "Số nhân gấp 10 lần cho lần quyên góp đầu tiên của bạn",
+    "customPrompt": "Nhập số tiền tùy chỉnh (USD):"
   },
   "usb": {
     "title": "Bộ sưu tập cầu nguyện USB cao cấp",
@@ -38,7 +41,8 @@
     "feature3": "Tương thích với mọi thiết bị",
     "feature4": "Bao gồm mã tải xuống kỹ thuật số",
     "feature5": "Miễn phí vận chuyển trên toàn thế giới",
-    "purchaseBtn": "Mua ngay"
+    "purchaseBtn": "Mua ngay",
+    "label": "Ổ USB kim loại cao cấp"
   },
   "nav": {
     "shop": "Cửa hàng",
@@ -49,7 +53,10 @@
     "home": "Trang chủ",
     "signOut": "Đăng xuất",
     "register": "Đăng ký",
-    "api": "Giao diện lập trình ứng dụng (API)"
+    "api": "Giao diện lập trình ứng dụng (API)",
+    "openBooks": "📒 Mở sách",
+    "whyCredon": "❓ Tại sao lại là Credon?",
+    "faq": "❓ Câu hỏi thường gặp"
   },
   "footer": {
     "desc": "Thương mại được bảo lãnh thiêng liêng cho một thế giới được kết nối. Mua sắm, cho đi và cùng nhau phát triển.",
@@ -66,7 +73,7 @@
     "donateFooter": "Quyên tặng",
     "usbFooter": "USB cầu nguyện",
     "contact": "Liên hệ",
-    "copyright": "© 2026 HeavensLive · Tất cả các loại tiền tệ được hiển thị là tiền tệ nhân bản Credon để thử nghiệm",
+    "copyright": "© 2026 HeavensLive · Tất cả các loại tiền tệ được hiển thị là các loại tiền tệ nhân bản Credon để thử nghiệm",
     "affiliate": "liên kết",
     "pricing": "Giá cả",
     "register": "Đăng ký",
@@ -75,13 +82,36 @@
     "terms": "Điều khoản",
     "privacy": "Quyền riêng tư",
     "apiDocs": "Tài liệu API",
-    "tagline": "Thương mại được bảo lãnh thiêng liêng. Mở cho tất cả."
+    "tagline": "Thương mại được bảo lãnh thiêng liêng. Mở cho tất cả.",
+    "bottom": "© 2026 HeavensLive · Có thể truy cập bằng AI · Chào đón tất cả những sinh vật thông minh"
   },
   "prayer": {
     "label": "Âm thanh cầu nguyện",
     "download": "Tải xuống miễn phí"
   },
   "rates": {
-    "title": "Tỷ giá hối đoái trực tiếp"
-  }
+    "title": "Tỷ giá hối đoái trực tiếp",
+    "loading": "Đang tải tốc độ...",
+    "unavailable": "Không có giá"
+  },
+  "faqBanner": {
+    "title": "📖 Tại sao Credon trung thực hơn ngân hàng của bạn →",
+    "subtitle": "Trường hợp của một sổ cái công khai duy nhất so với ngân hàng phân mảnh"
+  },
+  "welcome": {
+    "title": "$20 miễn phí",
+    "subtitle": "Đăng ký. Ngay lập tức được thêm vào ví của bạn.",
+    "points": "Cho vay lãi suất 0% · 84 loại tiền tệ · Bán trên toàn cầu",
+    "prayer": "🕊️ Nhấn để bắt đầu bằng lời cầu nguyện",
+    "claim": "Nhận $20 →",
+    "note": "Không có thẻ tín dụng. Không có nghĩa vụ. Chỉ cần có vốn miễn phí để bắt đầu."
+  },
+  "tours": {
+    "title": "🎬 Xem nó thực tế",
+    "subtitle": "Ba chuyến tham quan — trang đích, cửa hàng và ví.",
+    "landing": "🏠 Chuyến tham quan hạ cánh",
+    "shop": "🛒 Tham quan cửa hàng",
+    "wallet": "💳 Tham quan ví"
+  },
+  "paypalRedirect": "Đang chuyển hướng tới PayPal..."
 }

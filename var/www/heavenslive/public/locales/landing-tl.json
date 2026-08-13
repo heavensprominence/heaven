@@ -2,9 +2,11 @@
   "hero": {
     "title": "Divin<span class=\"gold\">ely Underwritten Para sa Ating Lahat",
     "subtitle": "Komersiyo na batay sa pananampalataya, patas na pera, at pagbibigay na batay sa komunidad — lahat sa isang platform.",
-    "shopBtn": "Galugarin ang Marketplace",
+    "shopBtn": "Galugarin ang palengke",
     "credonBtn": "Alamin ang Tungkol kay Credon",
-    "joinBtn": "🚀 Sumali ng Libre"
+    "joinBtn": "🚀 Sumali ng Libre",
+    "bonusFree": "LIBRE",
+    "bonusWhen": "kapag sumali ka — agad na idinagdag sa iyong wallet"
   },
   "features": {
     "title": "Isang Plataporma, Tatlong Haligi",
@@ -28,7 +30,8 @@
     "donateBtn": "Mag-donate Ngayon",
     "bonusLabel": "Bonus ng Credon",
     "bonusEarns": "Ang iyong $50 na donasyon ay kumikita",
-    "multiplier": "10x multiplier sa iyong unang donasyon"
+    "multiplier": "10x multiplier sa iyong unang donasyon",
+    "customPrompt": "Maglagay ng custom na halaga (USD):"
   },
   "usb": {
     "title": "Premium na Koleksyon ng Panalangin sa USB",
@@ -38,7 +41,8 @@
     "feature3": "Compatible sa lahat ng device",
     "feature4": "May kasamang digital download code",
     "feature5": "Libreng pagpapadala sa buong mundo",
-    "purchaseBtn": "Bumili na"
+    "purchaseBtn": "Bumili na",
+    "label": "Premium Metal USB Drive"
   },
   "nav": {
     "shop": "Mamili",
@@ -49,7 +53,10 @@
     "home": "Mula",
     "signOut": "Mag-log out",
     "register": "Magrehistro",
-    "api": "Awtomatikong Programa ng Interfas"
+    "api": "Awtomatikong Programa ng Interfas",
+    "openBooks": "📒 Buksan ang mga Aklat",
+    "whyCredon": "❓ Bakit Credon?",
+    "faq": "❓ FAQ"
   },
   "footer": {
     "desc": "Divinely underwritten commerce para sa isang konektadong mundo. Mamili, magbigay, at lumago nang sama-sama.",
@@ -66,7 +73,7 @@
     "donateFooter": "Mag-donate",
     "usbFooter": "USB na Panalangin",
     "contact": "Makipag-ugnayan",
-    "copyright": "© 2026 HeavensLive · Lahat ng mga currency na ipinapakita ay Credon clone currency para sa pagsubok",
+    "copyright": "© 2026 HeavensLive · Lahat ng currency na ipinapakita ay Credon clone currency para sa pagsubok",
     "affiliate": "Kaakibat",
     "pricing": "Pagpepresyo",
     "register": "Magrehistro",
@@ -75,13 +82,36 @@
     "terms": "Mga tuntunin",
     "privacy": "Pagkapribado",
     "apiDocs": "API Docs",
-    "tagline": "Komersyong may banal na garantiya. Bukas para sa lahat."
+    "tagline": "Komersyong may banal na garantiya. Bukas para sa lahat.",
+    "bottom": "© 2026 HeavensLive · AI-accessible · Lahat ng matatalinong nilalang ay tinatanggap"
   },
   "prayer": {
     "label": "Audio ng Panalangin",
     "download": "Libreng Download"
   },
   "rates": {
-    "title": "Mga Real-time na Pangkatono ng Palitan"
-  }
+    "title": "Mga Real-time na Pangkatono ng Palitan",
+    "loading": "Naglo-load ng mga rate...",
+    "unavailable": "Hindi available ang mga rate"
+  },
+  "faqBanner": {
+    "title": "📖 Bakit Mas Matapat ang Credon Kaysa sa Iyong Bangko →",
+    "subtitle": "Ang kaso para sa isang pampublikong ledger kumpara sa pira-pirasong pagbabangko"
+  },
+  "welcome": {
+    "title": "$20 Libre",
+    "subtitle": "Mag-sign up. Agad na idinagdag sa iyong wallet.",
+    "points": "0% interest loan · 84 na pera · Ibenta sa buong mundo",
+    "prayer": "🕊️ I-tap para magsimula sa isang panalangin",
+    "claim": "Kumuha ng $20 →",
+    "note": "Walang credit card. Walang obligasyon. Libreng puhunan lang para makapagsimula."
+  },
+  "tours": {
+    "title": "🎬 Tingnan Ito Sa Aksyon",
+    "subtitle": "Tatlong paglilibot — landing page, shop, at wallet.",
+    "landing": "🏠 Landing Tour",
+    "shop": "🛒 Shop Tour",
+    "wallet": "💳 Wallet Tour"
+  },
+  "paypalRedirect": "Nire-redirect sa PayPal..."
 }

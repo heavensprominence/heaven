@@ -4,7 +4,9 @@
     "subtitle": "Comercio religioso, moneda justa y donaciones impulsadas por la comunidad, todo en una sola plataforma.",
     "shopBtn": "Explora el mercado",
     "credonBtn": "Más información sobre Credón",
-    "joinBtn": "🚀 Únete gratis"
+    "joinBtn": "🚀 Únete gratis",
+    "bonusFree": "GRATIS",
+    "bonusWhen": "cuando te unes, se agrega instantáneamente a tu billetera"
   },
   "features": {
     "title": "Una plataforma, tres pilares",
@@ -28,7 +30,8 @@
     "donateBtn": "Donar ahora",
     "bonusLabel": "Bono de credibilidad",
     "bonusEarns": "Tu donación de $50 gana",
-    "multiplier": "Multiplicador de 10x en tu primera donación"
+    "multiplier": "Multiplicador de 10x en tu primera donación",
+    "customPrompt": "Ingrese el monto personalizado (USD):"
   },
   "usb": {
     "title": "Colección de oración USB premium",
@@ -38,7 +41,8 @@
     "feature3": "Compatible con todos los dispositivos",
     "feature4": "Incluye código de descarga digital.",
     "feature5": "Envío mundial gratuito",
-    "purchaseBtn": "Compra ahora"
+    "purchaseBtn": "Compra ahora",
+    "label": "Unidad USB de metal de primera calidad"
   },
   "nav": {
     "shop": "Comercio",
@@ -49,7 +53,10 @@
     "home": "Inicio",
     "signOut": "Cerrar sesión",
     "register": "Registro",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Libros abiertos",
+    "whyCredon": "❓ ¿Por qué Credon?",
+    "faq": "❓ Preguntas frecuentes"
   },
   "footer": {
     "desc": "Comercio divinamente respaldado para un mundo conectado. Compre, done y crezcamos juntos.",
@@ -75,13 +82,36 @@
     "terms": "Términos",
     "privacy": "Privacidad",
     "apiDocs": "Documentos API",
-    "tagline": "Comercio divinamente suscrito. Abierto a todos."
+    "tagline": "Comercio divinamente suscrito. Abierto a todos.",
+    "bottom": "© 2026 HeavensLive · Accesible por IA · Todos los seres inteligentes son bienvenidos"
   },
   "prayer": {
     "label": "Audio de oración",
     "download": "Descarga gratuita"
   },
   "rates": {
-    "title": "Tipos de cambio en vivo"
-  }
+    "title": "Tipos de cambio en vivo",
+    "loading": "Cargando tarifas...",
+    "unavailable": "Tarifas no disponibles"
+  },
+  "faqBanner": {
+    "title": "📖 Por qué Credon es más honesto que su banco →",
+    "subtitle": "El argumento a favor de un único libro público frente a una banca fragmentada"
+  },
+  "welcome": {
+    "title": "$20 gratis",
+    "subtitle": "Inscribirse. Agregado instantáneamente a su billetera.",
+    "points": "Préstamos al 0% de interés · 84 divisas · Vender globalmente",
+    "prayer": "🕊️ Toca para comenzar con una oración.",
+    "claim": "Obtenga $20 →",
+    "note": "Sin tarjeta de crédito. Sin obligaciones. Sólo capital libre para empezar."
+  },
+  "tours": {
+    "title": "🎬 Véalo en acción",
+    "subtitle": "Tres recorridos: página de destino, tienda y billetera.",
+    "landing": "🏠 Tour de aterrizaje",
+    "shop": "🛒 Visita a la tienda",
+    "wallet": "💳 Tour de billetera"
+  },
+  "paypalRedirect": "Redirigiendo a PayPal..."
 }

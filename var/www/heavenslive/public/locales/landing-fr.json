@@ -4,7 +4,9 @@
     "subtitle": "Commerce fondé sur la foi, monnaie équitable et dons communautaires, le tout sur une seule plateforme.",
     "shopBtn": "Explorez le marché",
     "credonBtn": "En savoir plus sur Crédon",
-    "joinBtn": "🚀 Inscrivez-vous gratuitement"
+    "joinBtn": "🚀 Inscrivez-vous gratuitement",
+    "bonusFree": "GRATUIT",
+    "bonusWhen": "lorsque vous vous inscrivez — instantanément ajouté à votre portefeuille"
   },
   "features": {
     "title": "Une plateforme, trois piliers",
@@ -28,7 +30,8 @@
     "donateBtn": "Faites un don maintenant",
     "bonusLabel": "Bonus de Crédon",
     "bonusEarns": "Votre don de 50 $ rapporte",
-    "multiplier": "Multiplicateur 10x sur votre 1er don"
+    "multiplier": "Multiplicateur 10x sur votre 1er don",
+    "customPrompt": "Saisissez le montant personnalisé (USD) :"
   },
   "usb": {
     "title": "Collection de prières USB premium",
@@ -38,7 +41,8 @@
     "feature3": "Compatible avec tous les appareils",
     "feature4": "Comprend un code de téléchargement numérique",
     "feature5": "Livraison gratuite dans le monde entier",
-    "purchaseBtn": "Achetez maintenant"
+    "purchaseBtn": "Achetez maintenant",
+    "label": "Clé USB en métal de qualité supérieure"
   },
   "nav": {
     "shop": "Boutique",
@@ -49,7 +53,10 @@
     "home": "Accueil",
     "signOut": "Déconnexion",
     "register": "Registre",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Livres ouverts",
+    "whyCredon": "❓Pourquoi Credon ?",
+    "faq": "❓FAQ"
   },
   "footer": {
     "desc": "Un commerce divinement garanti pour un monde connecté. Achetez, donnez et grandissez ensemble.",
@@ -66,7 +73,7 @@
     "donateFooter": "Faire un don",
     "usbFooter": "Prière USB",
     "contact": "Contact",
-    "copyright": "© 2026 HeavensLive · Toutes les devises affichées sont des devises clones de Credon à des fins de test",
+    "copyright": "© 2026 HeavensLive · Toutes les devises affichées sont des devises clones de Credon à des fins de test.",
     "affiliate": "Affiliation",
     "pricing": "Tarifs",
     "register": "Inscription",
@@ -75,13 +82,36 @@
     "terms": "Conditions",
     "privacy": "Confidentialité",
     "apiDocs": "Docs API",
-    "tagline": "Commerce divinement souscrit. Ouvert à tous."
+    "tagline": "Commerce divinement souscrit. Ouvert à tous.",
+    "bottom": "© 2026 HeavensLive · Accessible à l'IA · Tous les êtres intelligents sont les bienvenus"
   },
   "prayer": {
     "label": "Audio de prière",
     "download": "Téléchargement gratuit"
   },
   "rates": {
-    "title": "Taux en direct"
-  }
+    "title": "Taux en direct",
+    "loading": "Chargement des tarifs...",
+    "unavailable": "Tarifs indisponibles"
+  },
+  "faqBanner": {
+    "title": "📖 Pourquoi Credon est plus honnête que votre banque →",
+    "subtitle": "Les arguments en faveur d’un grand livre public unique plutôt que d’un système bancaire fragmenté"
+  },
+  "welcome": {
+    "title": "20 $ gratuit",
+    "subtitle": "S'inscrire. Instantanément ajouté à votre portefeuille.",
+    "points": "Prêts à 0 % d'intérêt · 84 devises · Vendre dans le monde entier",
+    "prayer": "🕊️ Appuyez pour commencer par une prière",
+    "claim": "Obtenez 20$ →",
+    "note": "Pas de carte de crédit. Aucune obligation. Juste du capital gratuit pour commencer."
+  },
+  "tours": {
+    "title": "🎬 Voyez-le en action",
+    "subtitle": "Trois visites : page de destination, boutique et portefeuille.",
+    "landing": "🏠 Visite de l'atterrissage",
+    "shop": "🛒 Visite de la boutique",
+    "wallet": "💳 Visite du portefeuille"
+  },
+  "paypalRedirect": "Redirection vers PayPal..."
 }

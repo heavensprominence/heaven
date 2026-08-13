@@ -4,7 +4,9 @@
     "subtitle": "基于信仰的商业、公平货币和社区驱动的捐赠——一切都在一个平台上。",
     "shopBtn": "探索市场",
     "credonBtn": "了解克雷登",
-    "joinBtn": "🚀 免费加入"
+    "joinBtn": "🚀 免费加入",
+    "bonusFree": "自由的",
+    "bonusWhen": "当您加入时 - 立即添加到您的钱包中"
   },
   "features": {
     "title": "一个平台，三大支柱",
@@ -28,7 +30,8 @@
     "donateBtn": "立即捐款",
     "bonusLabel": "信用奖金",
     "bonusEarns": "您的 50 美元捐款可赚取",
-    "multiplier": "第一次捐款即可获得 10 倍乘数"
+    "multiplier": "第一次捐款即可获得 10 倍乘数",
+    "customPrompt": "输入自定义金额（美元）："
   },
   "usb": {
     "title": "高级USB祈祷集",
@@ -38,7 +41,8 @@
     "feature3": "与所有设备兼容",
     "feature4": "包括数字下载代码",
     "feature5": "全球免费送货",
-    "purchaseBtn": "立即购买"
+    "purchaseBtn": "立即购买",
+    "label": "优质金属 U 盘"
   },
   "nav": {
     "shop": "店铺",
@@ -49,7 +53,10 @@
     "home": "首页",
     "signOut": "登出",
     "register": "登记",
-    "api": "应用程序编程接口"
+    "api": "应用程序编程接口",
+    "openBooks": "📒 打开书本",
+    "whyCredon": "❓ 为什么是Credon？",
+    "faq": "❓ 常见问题解答"
   },
   "footer": {
     "desc": "为互联世界提供神圣的商业保障。一起购物、给予和成长。",
@@ -66,7 +73,7 @@
     "donateFooter": "捐",
     "usbFooter": "USB祈祷",
     "contact": "接触",
-    "copyright": "© 2026 HeavensLive · 所有显示的货币均为用于测试的 Credon 克隆货币",
+    "copyright": "© 2026 HeavensLive · 显示的所有货币均为用于测试的 Credon 克隆货币",
     "affiliate": "联盟",
     "pricing": "定价",
     "register": "注册",
@@ -75,13 +82,36 @@
     "terms": "条款",
     "privacy": "隐私",
     "apiDocs": "API文档",
-    "tagline": "神圣承保的商业。向所有人开放。"
+    "tagline": "神圣承保的商业。向所有人开放。",
+    "bottom": "© 2026 HeavensLive · 人工智能可访问 · 欢迎所有智慧生物"
   },
   "prayer": {
     "label": "祷告音频",
     "download": "免费下载"
   },
   "rates": {
-    "title": "实时汇率"
-  }
+    "title": "实时汇率",
+    "loading": "加载率...",
+    "unavailable": "价格不详"
+  },
+  "faqBanner": {
+    "title": "📖 为什么Credon比你的银行更诚实 →",
+    "subtitle": "单一公共分类账与分散银行业务的案例"
+  },
+  "welcome": {
+    "title": "20 美元免费",
+    "subtitle": "报名。立即添加到您的钱包中。",
+    "points": "0% 利息贷款 · 84 种货币 · 全球销售",
+    "prayer": "🕊️ 点击即可开始祈祷",
+    "claim": "获得 20 美元 →",
+    "note": "没有信用卡。没有义务。只需释放资金即可启动。"
+  },
+  "tours": {
+    "title": "🎬 看看实际效果",
+    "subtitle": "三个游览——登陆页面、商店和钱包。",
+    "landing": "🏠 登陆之旅",
+    "shop": "🛒 商店参观",
+    "wallet": "💳 钱包之旅"
+  },
+  "paypalRedirect": "正在重定向至 PayPal..."
 }

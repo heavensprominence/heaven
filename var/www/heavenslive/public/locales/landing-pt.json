@@ -4,7 +4,9 @@
     "subtitle": "Comércio baseado na fé, moeda justa e doações voltadas para a comunidade — tudo em uma única plataforma.",
     "shopBtn": "Explore o mercado",
     "credonBtn": "Saiba mais sobre Credon",
-    "joinBtn": "🚀 Cadastre-se gratuitamente"
+    "joinBtn": "🚀 Cadastre-se gratuitamente",
+    "bonusFree": "LIVRE",
+    "bonusWhen": "quando você entra – adicionado instantaneamente à sua carteira"
   },
   "features": {
     "title": "Uma plataforma, três pilares",
@@ -28,7 +30,8 @@
     "donateBtn": "Doe agora",
     "bonusLabel": "Bônus Credão",
     "bonusEarns": "Sua doação de US$ 50 rende",
-    "multiplier": "Multiplicador de 10x na sua 1ª doação"
+    "multiplier": "Multiplicador de 10x na sua 1ª doação",
+    "customPrompt": "Insira o valor personalizado (USD):"
   },
   "usb": {
     "title": "Coleção Premium de Oração USB",
@@ -38,7 +41,8 @@
     "feature3": "Compatível com todos os dispositivos",
     "feature4": "Inclui código de download digital",
     "feature5": "Frete grátis para todo o mundo",
-    "purchaseBtn": "Compre agora"
+    "purchaseBtn": "Compre agora",
+    "label": "Unidade USB de metal premium"
   },
   "nav": {
     "shop": "Comprar",
@@ -49,7 +53,10 @@
     "home": "Início",
     "signOut": "Sair",
     "register": "Cadastre-se",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Livros abertos",
+    "whyCredon": "❓ Por que Credon?",
+    "faq": "❓ Perguntas frequentes"
   },
   "footer": {
     "desc": "Comércio divinamente subscrito para um mundo conectado. Compre, dê e cresça juntos.",
@@ -66,7 +73,7 @@
     "donateFooter": "Doar",
     "usbFooter": "Oração USB",
     "contact": "Contato",
-    "copyright": "© 2026 HeavensLive · Todas as moedas exibidas são moedas clones do Credon para teste",
+    "copyright": "© 2026 HeavensLive · Todas as moedas mostradas são moedas clonadas de Credon para teste",
     "affiliate": "Filial",
     "pricing": "Preços",
     "register": "Cadastre-se",
@@ -75,13 +82,36 @@
     "terms": "Termos",
     "privacy": "Privacidade",
     "apiDocs": "Documentos da API",
-    "tagline": "Comércio divinamente subscrito. Aberto a todos."
+    "tagline": "Comércio divinamente subscrito. Aberto a todos.",
+    "bottom": "© 2026 HeavensLive · Acessível por IA · Todos os seres inteligentes são bem-vindos"
   },
   "prayer": {
     "label": "Áudio de oração",
     "download": "Download grátis"
   },
   "rates": {
-    "title": "Taxas de câmbio em direto"
-  }
+    "title": "Taxas de câmbio em direto",
+    "loading": "Carregando taxas...",
+    "unavailable": "Tarifas indisponíveis"
+  },
+  "faqBanner": {
+    "title": "📖 Por que Credon é mais honesto que seu banco →",
+    "subtitle": "O caso de um único livro-razão público versus um sistema bancário fragmentado"
+  },
+  "welcome": {
+    "title": "$ 20 grátis",
+    "subtitle": "Inscrever-se. Adicionado instantaneamente à sua carteira.",
+    "points": "Empréstimos com juros de 0% · 84 moedas · Venda globalmente",
+    "prayer": "🕊️ Toque para começar com uma oração",
+    "claim": "Ganhe $ 20 →",
+    "note": "Sem cartão de crédito. Sem obrigações. Apenas capital livre para começar."
+  },
+  "tours": {
+    "title": "🎬 Veja em ação",
+    "subtitle": "Três tours – landing page, loja e carteira.",
+    "landing": "🏠 Passeio de desembarque",
+    "shop": "🛒 Visita à loja",
+    "wallet": "💳 Tour da carteira"
+  },
+  "paypalRedirect": "Redirecionando para o PayPal..."
 }

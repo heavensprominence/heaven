@@ -2,9 +2,11 @@
   "hero": {
     "title": "Gudo<span class=\"gold\">mligt garanterad för oss alla",
     "subtitle": "Trosbaserad handel, rättvis valuta och gemenskapsdrivet givande – allt på en plattform.",
-    "shopBtn": "Utforska Marketplace",
+    "shopBtn": "Utforska marknadsplatsen",
     "credonBtn": "Lär dig mer om Credon",
-    "joinBtn": "🚀 Gå med gratis"
+    "joinBtn": "🚀 Gå med gratis",
+    "bonusFree": "GRATIS",
+    "bonusWhen": "när du går med – läggs direkt till din plånbok"
   },
   "features": {
     "title": "En plattform, tre pelare",
@@ -28,7 +30,8 @@
     "donateBtn": "Donera nu",
     "bonusLabel": "Credon bonus",
     "bonusEarns": "Din donation på $50 tjänar",
-    "multiplier": "10x multiplikator på din första donation"
+    "multiplier": "10x multiplikator på din första donation",
+    "customPrompt": "Ange anpassat belopp (USD):"
   },
   "usb": {
     "title": "Premium USB-bönsamling",
@@ -38,7 +41,8 @@
     "feature3": "Kompatibel med alla enheter",
     "feature4": "Inkluderar digital nedladdningskod",
     "feature5": "Fri frakt över hela världen",
-    "purchaseBtn": "Köp nu"
+    "purchaseBtn": "Köp nu",
+    "label": "Premium USB-enhet i metall"
   },
   "nav": {
     "shop": "Handla",
@@ -49,7 +53,10 @@
     "home": "Hem",
     "signOut": "Logga ut",
     "register": "Registrera",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Öppna böcker",
+    "whyCredon": "❓ Varför Credon?",
+    "faq": "❓ FAQ"
   },
   "footer": {
     "desc": "Gudomligt garanterad handel för en uppkopplad värld. Handla, ge och växa tillsammans.",
@@ -75,13 +82,36 @@
     "terms": "Villkor",
     "privacy": "Privatliv",
     "apiDocs": "API-dokument",
-    "tagline": "Gudomligt garanterad handel. Öppen för alla."
+    "tagline": "Gudomligt garanterad handel. Öppen för alla.",
+    "bottom": "© 2026 HeavensLive · AI-tillgänglig · Alla intelligenta varelser välkomna"
   },
   "prayer": {
     "label": "Ljud för bön",
     "download": "Gratis nedladdning"
   },
   "rates": {
-    "title": "Live växelkurser"
-  }
+    "title": "Live växelkurser",
+    "loading": "Laddar priser...",
+    "unavailable": "Priser ej tillgängliga"
+  },
+  "faqBanner": {
+    "title": "📖 Varför Credon är ärligare än din bank →",
+    "subtitle": "Fallet för en enda offentlig reskontra kontra fragmenterad bankverksamhet"
+  },
+  "welcome": {
+    "title": "$20 gratis",
+    "subtitle": "Anmäl dig. Läggs direkt till din plånbok.",
+    "points": "0% ränta lån · 84 valutor · Sälj globalt",
+    "prayer": "🕊️ Tryck för att börja med en bön",
+    "claim": "Få $20 →",
+    "note": "Inget kreditkort. Inga skyldigheter. Bara fritt kapital att börja."
+  },
+  "tours": {
+    "title": "🎬 Se det i aktion",
+    "subtitle": "Tre turer – målsida, butik och plånbok.",
+    "landing": "🏠 Landningstur",
+    "shop": "🛒 Butiksrundtur",
+    "wallet": "💳 Plånbokstur"
+  },
+  "paypalRedirect": "Omdirigerar till PayPal..."
 }

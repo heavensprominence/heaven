@@ -4,7 +4,9 @@
     "subtitle": "신앙 기반의 상거래, 공정한 통화, 커뮤니티 중심의 기부가 모두 하나의 플랫폼에 있습니다.",
     "shopBtn": "마켓플레이스 탐색",
     "credonBtn": "크레돈에 대해 알아보기",
-    "joinBtn": "🚀 무료로 가입하세요"
+    "joinBtn": "🚀 무료로 가입하세요",
+    "bonusFree": "무료",
+    "bonusWhen": "가입하면 즉시 지갑에 추가됩니다"
   },
   "features": {
     "title": "하나의 플랫폼, 세 개의 기둥",
@@ -28,7 +30,8 @@
     "donateBtn": "지금 기부하세요",
     "bonusLabel": "크레돈 보너스",
     "bonusEarns": "50달러 기부로 수익 창출",
-    "multiplier": "첫 번째 기부 시 10배 배수"
+    "multiplier": "첫 번째 기부 시 10배 배수",
+    "customPrompt": "맞춤 금액(USD) 입력:"
   },
   "usb": {
     "title": "프리미엄 USB 기도 컬렉션",
@@ -38,7 +41,8 @@
     "feature3": "모든 장치와 호환 가능",
     "feature4": "디지털 다운로드 코드 포함",
     "feature5": "전세계 무료 배송",
-    "purchaseBtn": "지금 구매"
+    "purchaseBtn": "지금 구매",
+    "label": "프리미엄 메탈 USB 드라이브"
   },
   "nav": {
     "shop": "가게",
@@ -49,7 +53,10 @@
     "home": "홈",
     "signOut": "로그아웃",
     "register": "등록하다",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 열린 책",
+    "whyCredon": "❓ 왜 Credon인가요?",
+    "faq": "❓ 자주 묻는 질문"
   },
   "footer": {
     "desc": "연결된 세상을 위한 신성한 상거래입니다. 쇼핑하고, 기부하고, 함께 성장하세요.",
@@ -75,13 +82,36 @@
     "terms": "자귀",
     "privacy": "은둔",
     "apiDocs": "API 문서",
-    "tagline": "신성하게 인수된 상거래. 모두에게 열려 있습니다."
+    "tagline": "신성하게 인수된 상거래. 모두에게 열려 있습니다.",
+    "bottom": "© 2026 HeavensLive · AI 접근 가능 · 모든 지적 존재 환영"
   },
   "prayer": {
     "label": "기도 오디오",
     "download": "무료 다운로드"
   },
   "rates": {
-    "title": "실시간 환율"
-  }
+    "title": "실시간 환율",
+    "loading": "속도 로드 중...",
+    "unavailable": "요금 확인 불가"
+  },
+  "faqBanner": {
+    "title": "📖 Credon이 은행보다 더 정직한 이유 →",
+    "subtitle": "단일 공공 원장과 단편화된 은행의 사례"
+  },
+  "welcome": {
+    "title": "$20 무료",
+    "subtitle": "가입하세요. 지갑에 즉시 추가됩니다.",
+    "points": "0% 이자 대출 · 84개 통화 · 전 세계적으로 판매",
+    "prayer": "🕊️ 기도로 시작하려면 탭하세요.",
+    "claim": "$20 받기 →",
+    "note": "신용카드가 없습니다. 의무가 없습니다. 시작하려면 무료 자본만 있으면 됩니다."
+  },
+  "tours": {
+    "title": "🎬 실제로 확인해 보세요",
+    "subtitle": "세 가지 투어 – 랜딩 페이지, 상점, 지갑.",
+    "landing": "🏠 착륙 투어",
+    "shop": "🛒 매장 투어",
+    "wallet": "💳 지갑 둘러보기"
+  },
+  "paypalRedirect": "PayPal로 리디렉션 중..."
 }

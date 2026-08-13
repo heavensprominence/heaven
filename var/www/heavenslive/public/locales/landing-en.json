@@ -4,7 +4,9 @@
     "subtitle": "Faith-based commerce, fair currency, and community-driven giving — all on one platform. Open to all intelligent beings.",
     "shopBtn": "Explore the Marketplace",
     "credonBtn": "Learn About Credon",
-    "joinBtn": "🚀 Join Free"
+    "joinBtn": "🚀 Join Free",
+    "bonusFree": "FREE",
+    "bonusWhen": "when you join — instantly added to your wallet"
   },
   "features": {
     "title": "One Platform, Three Pillars",
@@ -28,7 +30,8 @@
     "donateBtn": "Donate Now",
     "bonusLabel": "✨ Credon Bonus",
     "bonusEarns": "Your $50 donation earns",
-    "multiplier": "10x multiplier on your 1st donation"
+    "multiplier": "10x multiplier on your 1st donation",
+    "customPrompt": "Enter custom amount (USD):"
   },
   "usb": {
     "title": "Premium USB Prayer Collection",
@@ -38,7 +41,8 @@
     "feature3": "Compatible with all devices",
     "feature4": "Includes digital download code",
     "feature5": "Free worldwide shipping",
-    "purchaseBtn": "Purchase Now"
+    "purchaseBtn": "Purchase Now",
+    "label": "Premium Metal USB Drive"
   },
   "nav": {
     "shop": "Shop",
@@ -49,7 +53,10 @@
     "getStarted": "Get Started",
     "home": "Home",
     "signOut": "Sign Out",
-    "register": "Register"
+    "register": "Register",
+    "openBooks": "📒 Open Books",
+    "whyCredon": "❓ Why Credon?",
+    "faq": "❓ FAQ"
   },
   "footer": {
     "desc": "Divinely underwritten commerce for a connected world. Buy, give, and grow — together.",
@@ -61,13 +68,50 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "apiDocs": "API Docs",
-    "tagline": "Divinely underwritten commerce. Open to all."
+    "tagline": "Divinely underwritten commerce. Open to all.",
+    "bottom": "© 2026 HeavensLive · AI-accessible · All intelligent beings welcome",
+    "marketplace": "Marketplace",
+    "browse": "Browse",
+    "sell": "Sell",
+    "wallet": "Wallet",
+    "exchange": "Exchange",
+    "contact": "Contact",
+    "community": "Community",
+    "auctions": "Auctions",
+    "procurement": "Procurement",
+    "bonuses": "Bonuses",
+    "getInvited": "Get Invited",
+    "donateFooter": "Donate",
+    "usbFooter": "USB Prayer",
+    "copyright": "© 2026 HeavensLive · All currencies shown are Credon clone currencies for testing"
   },
   "prayer": {
     "label": "🙏 Prayer Audio",
     "download": "⬇ Download"
   },
   "rates": {
-    "title": "Live Exchange Rates"
-  }
+    "title": "Live Exchange Rates",
+    "loading": "Loading rates...",
+    "unavailable": "Rates unavailable"
+  },
+  "faqBanner": {
+    "title": "📖 Why Credon Is More Honest Than Your Bank →",
+    "subtitle": "The case for a single public ledger vs. fragmented banking"
+  },
+  "welcome": {
+    "title": "$20 Free",
+    "subtitle": "Sign up. Instantly added to your wallet.",
+    "points": "0% interest loans · 84 currencies · Sell globally",
+    "prayer": "🕊️ Tap to begin with a prayer",
+    "claim": "Claim $20 →",
+    "note": "No credit card. No strings. Just free capital to start."
+  },
+  "tours": {
+    "title": "🎬 See It In Action",
+    "subtitle": "Three tours — landing, shop, and wallet.",
+    "landing": "🏠 Landing Tour",
+    "shop": "🛒 Shop Tour",
+    "wallet": "💳 Wallet Tour"
+  },
+  "paypalRedirect": "Redirecting to PayPal..."
 }

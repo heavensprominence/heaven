@@ -4,7 +4,9 @@
     "subtitle": "İnanca dayalı ticaret, adil para birimi ve topluluk odaklı bağış — hepsi tek bir platformda.",
     "shopBtn": "Pazar Yerini Keşfedin",
     "credonBtn": "Credon Hakkında Bilgi Edinin",
-    "joinBtn": "🚀 Ücretsiz Katılın"
+    "joinBtn": "🚀 Ücretsiz Katılın",
+    "bonusFree": "ÖZGÜR",
+    "bonusWhen": "katıldığınızda anında cüzdanınıza eklenir"
   },
   "features": {
     "title": "Tek Platform, Üç Sütun",
@@ -28,7 +30,8 @@
     "donateBtn": "Şimdi Bağış Yapın",
     "bonusLabel": "Kredi Bonusu",
     "bonusEarns": "50$ bağışınız kazanır",
-    "multiplier": "1. bağışınızda 10 kat çarpan"
+    "multiplier": "1. bağışınızda 10 kat çarpan",
+    "customPrompt": "Özel tutarı girin (USD):"
   },
   "usb": {
     "title": "Premium USB Dua Koleksiyonu",
@@ -38,7 +41,8 @@
     "feature3": "Tüm cihazlarla uyumlu",
     "feature4": "Dijital indirme kodunu içerir",
     "feature5": "Dünya çapında ücretsiz gönderim",
-    "purchaseBtn": "Şimdi Satın Al"
+    "purchaseBtn": "Şimdi Satın Al",
+    "label": "Birinci Sınıf Metal USB Sürücü"
   },
   "nav": {
     "shop": "Mağaza",
@@ -49,7 +53,10 @@
     "home": "Ana Sayfa",
     "signOut": "Çıkış",
     "register": "Kayıt olmak",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Kitapları Aç",
+    "whyCredon": "❓ Neden Credon?",
+    "faq": "❓ SSS"
   },
   "footer": {
     "desc": "Bağlantılı bir dünya için ilahi garantili ticaret. Birlikte alışveriş yapın, verin ve büyüyün.",
@@ -66,7 +73,7 @@
     "donateFooter": "Bağış yapmak",
     "usbFooter": "USB Duası",
     "contact": "Temas etmek",
-    "copyright": "© 2026 HeavensLive · Görüntülenen tüm para birimleri test amaçlı Credon klon para birimleridir",
+    "copyright": "© 2026 HeavensLive · Gösterilen tüm para birimleri test amaçlı Credon klon para birimleridir",
     "affiliate": "İştirak",
     "pricing": "Fiyatlandırma",
     "register": "Kayıt Olun",
@@ -75,13 +82,36 @@
     "terms": "Şartlar",
     "privacy": "Gizlilik",
     "apiDocs": "API Dokümanları",
-    "tagline": "İlahi olarak garanti altına alınmış ticaret. Herkese açık."
+    "tagline": "İlahi olarak garanti altına alınmış ticaret. Herkese açık.",
+    "bottom": "© 2026 HeavensLive · Yapay zekayla erişilebilir · Tüm akıllı varlıklar hoş karşılanır"
   },
   "prayer": {
     "label": "Dua Sesi",
     "download": "Ücretsiz İndir"
   },
   "rates": {
-    "title": "Canlı Döviz Kurları"
-  }
+    "title": "Canlı Döviz Kurları",
+    "loading": "Oranlar yükleniyor...",
+    "unavailable": "Fiyatlar mevcut değil"
+  },
+  "faqBanner": {
+    "title": "📖 Neden Credon Bankanızdan Daha Dürüst →",
+    "subtitle": "Tek bir kamu defterinin parçalanmış bankacılığa karşı durumu"
+  },
+  "welcome": {
+    "title": "20$ Bedava",
+    "subtitle": "Üye olmak. Anında cüzdanınıza eklenir.",
+    "points": "%0 faizli kredi · 84 para birimi · Dünya çapında satış",
+    "prayer": "🕊️ Bir duayla başlamak için dokunun",
+    "claim": "20 $ kazanın →",
+    "note": "Kredi kartı yok. Hiçbir yükümlülük yok. Başlamak için sadece bedava sermaye."
+  },
+  "tours": {
+    "title": "🎬 İş Başında Görün",
+    "subtitle": "Üç tur — açılış sayfası, mağaza ve cüzdan.",
+    "landing": "🏠 İniş Turu",
+    "shop": "🛒 Mağaza Turu",
+    "wallet": "💳 Cüzdan Turu"
+  },
+  "paypalRedirect": "PayPal'a yönlendiriliyorsunuz..."
 }

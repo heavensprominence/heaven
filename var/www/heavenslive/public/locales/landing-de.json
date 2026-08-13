@@ -4,7 +4,9 @@
     "subtitle": "Glaubensbasierter Handel, faire Währung und gemeinschaftsorientiertes Spenden – alles auf einer Plattform.",
     "shopBtn": "Erkunden Sie den Marktplatz",
     "credonBtn": "Erfahren Sie mehr über Credon",
-    "joinBtn": "🚀 Kostenlos anmelden"
+    "joinBtn": "🚀 Kostenlos anmelden",
+    "bonusFree": "FREI",
+    "bonusWhen": "wenn Sie beitreten – sofort Ihrem Guthaben gutgeschrieben"
   },
   "features": {
     "title": "Eine Plattform, drei Säulen",
@@ -28,7 +30,8 @@
     "donateBtn": "Jetzt spenden",
     "bonusLabel": "Credon-Bonus",
     "bonusEarns": "Ihre Spende in Höhe von 50 $ bringt Geld",
-    "multiplier": "10-facher Multiplikator für Ihre erste Spende"
+    "multiplier": "10-facher Multiplikator für Ihre erste Spende",
+    "customPrompt": "Geben Sie einen benutzerdefinierten Betrag (USD) ein:"
   },
   "usb": {
     "title": "Premium-USB-Gebetssammlung",
@@ -38,7 +41,8 @@
     "feature3": "Kompatibel mit allen Geräten",
     "feature4": "Enthält digitalen Downloadcode",
     "feature5": "Kostenloser weltweiter Versand",
-    "purchaseBtn": "Jetzt kaufen"
+    "purchaseBtn": "Jetzt kaufen",
+    "label": "Premium-USB-Laufwerk aus Metall"
   },
   "nav": {
     "shop": "Geschäft",
@@ -49,7 +53,10 @@
     "home": "Startseite",
     "signOut": "Abmelden",
     "register": "Registrieren",
-    "api": "API"
+    "api": "API",
+    "openBooks": "📒 Offene Bücher",
+    "whyCredon": "❓ Warum Credon?",
+    "faq": "❓FAQ"
   },
   "footer": {
     "desc": "Göttlich garantierter Handel für eine vernetzte Welt. Gemeinsam einkaufen, spenden und wachsen.",
@@ -75,13 +82,36 @@
     "terms": "Bedingungen",
     "privacy": "Datenschutz",
     "apiDocs": "API-Dokumente",
-    "tagline": "Göttlich gezeichneter Handel. Offen für alle."
+    "tagline": "Göttlich gezeichneter Handel. Offen für alle.",
+    "bottom": "© 2026 HeavensLive · KI-zugänglich · Alle intelligenten Wesen willkommen"
   },
   "prayer": {
     "label": "Gebets-Audio",
     "download": "Kostenloser Download"
   },
   "rates": {
-    "title": "Live-Wechselkurse"
-  }
+    "title": "Live-Wechselkurse",
+    "loading": "Ladepreise...",
+    "unavailable": "Preise nicht verfügbar"
+  },
+  "faqBanner": {
+    "title": "📖 Warum Credon ehrlicher ist als Ihre Bank →",
+    "subtitle": "Die Argumente für ein einziges öffentliches Hauptbuch vs. fragmentiertes Bankwesen"
+  },
+  "welcome": {
+    "title": "20 $ gratis",
+    "subtitle": "Melden Sie sich an. Wird sofort Ihrem Portemonnaie hinzugefügt.",
+    "points": "0 % Zinsdarlehen · 84 Währungen · Weltweit verkaufen",
+    "prayer": "🕊️ Tippen Sie, um mit einem Gebet zu beginnen",
+    "claim": "Holen Sie sich 20 $ →",
+    "note": "Keine Kreditkarte. Keine Verpflichtungen. Einfach freies Kapital zum Starten."
+  },
+  "tours": {
+    "title": "🎬 Sehen Sie es in Aktion",
+    "subtitle": "Drei Touren – Landingpage, Shop und Wallet.",
+    "landing": "🏠 Landungstour",
+    "shop": "🛒 Shop-Tour",
+    "wallet": "💳 Wallet-Tour"
+  },
+  "paypalRedirect": "Weiterleitung zu PayPal..."
 }
