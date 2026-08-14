@@ -16,6 +16,10 @@ var/www/heavenslive/public/static/media/
 key.properties
 !var/www/heavenslive/public/uploads/listings/.gitkeep
 !var/www/heavenslive/public/uploads/stores/.gitkeep
+# Auto-generated local backups + legacy upload path (production-only content)
+var/www/heavenslive/backups/
+var/www/heavenslive/backend/public/uploads/
+
 
 # Secrets & DB dumps (never track)
 .secrets/
