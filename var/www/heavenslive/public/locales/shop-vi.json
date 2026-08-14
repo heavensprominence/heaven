@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Quay lại trang chủ",
     "addToCart": "Thêm vào giỏ hàng",
-    "messageSeller": "Gửi tin nhắn cho người bán"
+    "messageSeller": "Gửi tin nhắn cho người bán",
+    "currentBid": "Giá thầu hiện tại",
+    "reserve": "Giá dự trữ",
+    "yourBid": "Giá thầu của bạn ($)",
+    "placeBid": "Đặt giá thầu",
+    "buyNow": "Mua ngay",
+    "retractBid": "Rút lại giá thầu",
+    "proposal": "Đề xuất của bạn ($)",
+    "submitProposal": "Gửi đề xuất",
+    "makeOffer": "đưa ra lời đề nghị",
+    "offerAmount": "Số tiền ưu đãi ($)",
+    "sendOffer": "Gửi ưu đãi"
   },
   "checkout": {
     "title": "🛒 Thanh toán",

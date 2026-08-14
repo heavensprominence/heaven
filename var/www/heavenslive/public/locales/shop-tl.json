@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Bumalik sa Tindahan",
     "addToCart": "Idagdag sa cart",
-    "messageSeller": "Mangangalakal ng Mensahe"
+    "messageSeller": "Mangangalakal ng Mensahe",
+    "currentBid": "Kasalukuyang bid",
+    "reserve": "Presyo ng reserba",
+    "yourBid": "Ang iyong bid ($)",
+    "placeBid": "Place Bid",
+    "buyNow": "Bumili na",
+    "retractBid": "Bawiin ang Bid",
+    "proposal": "Ang iyong panukala ($)",
+    "submitProposal": "Isumite ang Panukala",
+    "makeOffer": "Mag-alok",
+    "offerAmount": "Halaga ng alok ($)",
+    "sendOffer": "Magpadala ng Alok"
   },
   "checkout": {
     "title": "🛒 Checkout",

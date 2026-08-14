@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "返回商店",
     "addToCart": "添加到购物车",
-    "messageSeller": "卖家留言"
+    "messageSeller": "卖家留言",
+    "currentBid": "当前出价",
+    "reserve": "保留价",
+    "yourBid": "您的出价（$）",
+    "placeBid": "出价",
+    "buyNow": "立即购买",
+    "retractBid": "撤回投标",
+    "proposal": "您的建议（$）",
+    "submitProposal": "提交提案",
+    "makeOffer": "提出报价",
+    "offerAmount": "报价金额（$）",
+    "sendOffer": "发送报价"
   },
   "checkout": {
     "title": "🛒 结账",

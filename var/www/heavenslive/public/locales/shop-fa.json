@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "بازگشت به فروشگاه",
     "addToCart": "افزودن به سبد خرید",
-    "messageSeller": "پیامفروش"
+    "messageSeller": "پیامفروش",
+    "currentBid": "پیشنهاد فعلی",
+    "reserve": "قیمت رزرو",
+    "yourBid": "پیشنهاد شما ($)",
+    "placeBid": "محل پیشنهاد",
+    "buyNow": "اکنون بخرید",
+    "retractBid": "پس گرفتن پیشنهاد",
+    "proposal": "پیشنهاد شما ($)",
+    "submitProposal": "ارائه پیشنهاد",
+    "makeOffer": "ارائه پیشنهاد",
+    "offerAmount": "مبلغ پیشنهاد (دلار)",
+    "sendOffer": "ارسال پیشنهاد"
   },
   "checkout": {
     "title": "🛒 تسویه حساب",

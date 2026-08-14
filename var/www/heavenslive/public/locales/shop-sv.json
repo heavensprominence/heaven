@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Tillbaka till butik",
     "addToCart": "Lägg till i kundvagn",
-    "messageSeller": "Meddelande Säljare"
+    "messageSeller": "Meddelande Säljare",
+    "currentBid": "Aktuellt bud",
+    "reserve": "Reservpris",
+    "yourBid": "Ditt bud ($)",
+    "placeBid": "Lägg bud",
+    "buyNow": "Köp nu",
+    "retractBid": "Dra tillbaka bud",
+    "proposal": "Ditt förslag ($)",
+    "submitProposal": "Skicka in förslag",
+    "makeOffer": "Lägg ett bud",
+    "offerAmount": "Erbjudandebelopp ($)",
+    "sendOffer": "Skicka erbjudande"
   },
   "checkout": {
     "title": "🛒 Till kassan",

@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "दुकान पर वापस",
     "addToCart": "कार्ट में जोड़ें",
-    "messageSeller": "संदेश विक्रेता"
+    "messageSeller": "संदेश विक्रेता",
+    "currentBid": "वर्तमान बोली",
+    "reserve": "आरक्षित मूल्य",
+    "yourBid": "आपकी बोली ($)",
+    "placeBid": "बोली लगाना",
+    "buyNow": "अभी खरीदें",
+    "retractBid": "बोली वापस लें",
+    "proposal": "आपका प्रस्ताव ($)",
+    "submitProposal": "प्रस्ताव जमा करें",
+    "makeOffer": "प्रस्ताव देना",
+    "offerAmount": "ऑफर राशि ($)",
+    "sendOffer": "प्रस्ताव भेजें"
   },
   "checkout": {
     "title": "🛒 चेकआउट",

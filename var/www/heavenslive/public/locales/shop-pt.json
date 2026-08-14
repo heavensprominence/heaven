@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Voltar à loja",
     "addToCart": "Adicionar ao carrinho",
-    "messageSeller": "Vendedor de mensagens"
+    "messageSeller": "Vendedor de mensagens",
+    "currentBid": "Lance atual",
+    "reserve": "Preço de reserva",
+    "yourBid": "Seu lance ($)",
+    "placeBid": "Fazer lance",
+    "buyNow": "Comprar agora",
+    "retractBid": "Retrair lance",
+    "proposal": "Sua proposta ($)",
+    "submitProposal": "Enviar proposta",
+    "makeOffer": "Faça uma oferta",
+    "offerAmount": "Valor da oferta ($)",
+    "sendOffer": "Enviar oferta"
   },
   "checkout": {
     "title": "🛒 Finalização da compra",

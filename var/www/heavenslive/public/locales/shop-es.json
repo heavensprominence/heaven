@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Volver a la tienda",
     "addToCart": "Añadir a la cesta",
-    "messageSeller": "Mensaje Vendedor"
+    "messageSeller": "Mensaje Vendedor",
+    "currentBid": "Oferta actual",
+    "reserve": "Precio de reserva",
+    "yourBid": "Su oferta ($)",
+    "placeBid": "Realizar una oferta",
+    "buyNow": "Comprar ahora",
+    "retractBid": "Retirar oferta",
+    "proposal": "Tu propuesta ($)",
+    "submitProposal": "Enviar propuesta",
+    "makeOffer": "Hacer oferta",
+    "offerAmount": "Monto de la oferta ($)",
+    "sendOffer": "Enviar oferta"
   },
   "checkout": {
     "title": "🛒 Pagar",

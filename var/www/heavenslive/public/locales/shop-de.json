@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Zurück zum Shop",
     "addToCart": "Zum Warenkorb hinzufügen",
-    "messageSeller": "Nachricht Verkäufer"
+    "messageSeller": "Nachricht Verkäufer",
+    "currentBid": "Aktuelles Gebot",
+    "reserve": "Mindestpreis",
+    "yourBid": "Ihr Gebot ($)",
+    "placeBid": "Gebot abgeben",
+    "buyNow": "Jetzt kaufen",
+    "retractBid": "Gebot zurückziehen",
+    "proposal": "Ihr Vorschlag ($)",
+    "submitProposal": "Vorschlag einreichen",
+    "makeOffer": "Angebot machen",
+    "offerAmount": "Angebotsbetrag ($)",
+    "sendOffer": "Angebot senden"
   },
   "checkout": {
     "title": "🛒 Zur Kasse",

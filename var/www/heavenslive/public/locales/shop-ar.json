@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "العودة إلى المتجر",
     "addToCart": "إضافة إلى عربة التسوق",
-    "messageSeller": "بائع الرسائل"
+    "messageSeller": "بائع الرسائل",
+    "currentBid": "العطاء الحالي",
+    "reserve": "سعر الاحتياطي",
+    "yourBid": "عرضك ($)",
+    "placeBid": "مكان العطاء",
+    "buyNow": "اشتري الآن",
+    "retractBid": "سحب العطاء",
+    "proposal": "اقتراحك ($)",
+    "submitProposal": "تقديم الاقتراح",
+    "makeOffer": "تقديم العرض",
+    "offerAmount": "مبلغ العرض ($)",
+    "sendOffer": "إرسال العرض"
   },
   "checkout": {
     "title": "🛒 الخروج",

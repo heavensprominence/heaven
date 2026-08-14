@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "쇼핑으로 돌아가기",
     "addToCart": "장바구니에 담기",
-    "messageSeller": "메시지 판매자"
+    "messageSeller": "메시지 판매자",
+    "currentBid": "현재 입찰",
+    "reserve": "예약 가격",
+    "yourBid": "귀하의 입찰가($)",
+    "placeBid": "입찰하기",
+    "buyNow": "지금 구매",
+    "retractBid": "입찰 철회",
+    "proposal": "귀하의 제안($)",
+    "submitProposal": "제안서 제출",
+    "makeOffer": "제안하기",
+    "offerAmount": "제안금액($)",
+    "sendOffer": "제안 보내기"
   },
   "checkout": {
     "title": "🛒 결제",

@@ -26,11 +26,18 @@ async function loadOffers(){
   try{
     var d=await(await fetch('/api/shop/seller/offers',{headers:{Authorization:'Bearer '+T}})).json();var offers=d.offers||[];
     document.getElementById('offersBody').innerHTML=offers.length?offers.map(function(o,i){
-      return'<tr><td>'+esc(o.buyer_name||o.buyer_email)+'</td><td><a href="/shop/listing/'+o.listing_id+'" style="color:var(--text);text-decoration:none">'+esc(o.title||'Listing')+'</a></td><td class="offer-amount">$'+(o.amount_cents/100).toFixed(2)+'</td><td>'+formatDate(o.created_at)+'</td><td><button class="btn-sm accept" onclick="respond('+o.id+',\'accepted\')" data-i18n="seller.accept">✅ Accept</button><button class="btn-sm counter" onclick="toggleCounter('+i+')" data-i18n="seller.counter">💬 Counter</button><button class="btn-sm reject" onclick="respond('+o.id+',\'rejected\')" data-i18n="seller.reject">❌ Reject</button></td></tr>';
+      var msg=o.message?'<div class="muted" style="margin-top:4px">\u201c'+esc(o.message)+'\u201d</div>':'';
+      return'<tr><td>'+esc(o.buyer_name||o.buyer_email)+'</td><td><a href="/shop/listing/'+o.listing_id+'" style="color:var(--text);text-decoration:none">'+esc(o.title||'Listing')+'</a>'+msg+'</td><td class="offer-amount">$'+((o.offer_cents||0)/100).toFixed(2)+'</td><td>'+formatDate(o.created_at)+'</td><td><button class="btn-sm accept" onclick="respond(\''+o.id+'\',\'accept\')" data-i18n="seller.accept">✅ Accept</button><button class="btn-sm counter" onclick="toggleCounter('+i+')" data-i18n="seller.counter">💬 Counter</button><button class="btn-sm reject" onclick="respond(\''+o.id+'\',\'reject\')" data-i18n="seller.reject">❌ Reject</button><div class="counter-row" id="counter_'+i+'"><input id="counterMsg_'+i+'" placeholder="Counter message"><button class="btn-sm counter" onclick="sendCounter(\''+o.id+'\','+i+')">Send</button></div></td></tr>';
     }).join(''):'<tr><td colspan="5" class="empty-state" data-i18n="seller.noOffers">No offers yet. When buyers make offers on your listings, they will appear here.</td></tr>';
   }catch(e){console.error(e)}
 }
-async function respond(id,status){await fetch('/api/shop/offers/'+id,{method:'PUT',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify({status:status})});loadOffers()}
+async function respond(id,action,msg){
+  var body = msg !== undefined ? { message: msg } : {};
+  await fetch('/api/shop/offers/'+id+'/'+action,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+T},body:JSON.stringify(body)});
+  loadOffers();
+}
+function toggleCounter(i){var r=document.getElementById('counter_'+i);if(r)r.classList.toggle('show')}
+function sendCounter(id,i){var m=document.getElementById('counterMsg_'+i).value;respond(id,'counter',m||null)}
 loadOffers();
 </script><script src="/i18n.js"></script>
 </body></html>

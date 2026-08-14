@@ -570,7 +570,18 @@
   "detail": {
     "backToShop": "Back to Shop",
     "addToCart": "Add to Cart",
-    "messageSeller": "Message Seller"
+    "messageSeller": "Message Seller",
+    "currentBid": "Current bid",
+    "reserve": "Reserve price",
+    "yourBid": "Your bid ($)",
+    "placeBid": "Place Bid",
+    "buyNow": "Buy Now",
+    "retractBid": "Retract Bid",
+    "proposal": "Your proposal ($)",
+    "submitProposal": "Submit Proposal",
+    "makeOffer": "Make Offer",
+    "offerAmount": "Offer amount ($)",
+    "sendOffer": "Send Offer"
   },
   "wallet": {
     "amountPlaceholder": "Amount (USD)",

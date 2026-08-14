@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "Mağazaya Geri Dön",
     "addToCart": "Sepete Ekle",
-    "messageSeller": "Mesaj Satıcısı"
+    "messageSeller": "Mesaj Satıcısı",
+    "currentBid": "Geçerli teklif",
+    "reserve": "Rezerv fiyatı",
+    "yourBid": "Teklifiniz ($)",
+    "placeBid": "Teklif Ver",
+    "buyNow": "Şimdi al",
+    "retractBid": "Teklifi Geri Çek",
+    "proposal": "Teklifiniz ($)",
+    "submitProposal": "Teklif Gönder",
+    "makeOffer": "Teklif Yap",
+    "offerAmount": "Teklif tutarı ($)",
+    "sendOffer": "Teklif Gönder"
   },
   "checkout": {
     "title": "🛒 Ödeme",

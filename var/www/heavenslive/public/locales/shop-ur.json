@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "دکان پر واپس",
     "addToCart": "ٹوکری میں شامل کریں",
-    "messageSeller": "پیغام بیچنے والا"
+    "messageSeller": "پیغام بیچنے والا",
+    "currentBid": "موجودہ بولی",
+    "reserve": "ریزرو قیمت",
+    "yourBid": "آپ کی بولی ($)",
+    "placeBid": "جگہ بولی",
+    "buyNow": "ابھی خریدیں۔",
+    "retractBid": "بولی واپس لیں۔",
+    "proposal": "آپ کی تجویز ($)",
+    "submitProposal": "تجویز پیش کریں۔",
+    "makeOffer": "پیشکش کریں۔",
+    "offerAmount": "پیشکش کی رقم ($)",
+    "sendOffer": "پیشکش بھیجیں۔"
   },
   "checkout": {
     "title": "🛒 چیک آؤٹ",

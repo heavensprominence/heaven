@@ -582,7 +582,18 @@
   "detail": {
     "backToShop": "ショップへ戻る",
     "addToCart": "カートに入れる",
-    "messageSeller": "メッセージ販売者"
+    "messageSeller": "メッセージ販売者",
+    "currentBid": "現在の入札額",
+    "reserve": "予約価格",
+    "yourBid": "あなたの入札額 ($)",
+    "placeBid": "入札する",
+    "buyNow": "今すぐ購入",
+    "retractBid": "入札の撤回",
+    "proposal": "あなたの提案 ($)",
+    "submitProposal": "提案を提出する",
+    "makeOffer": "オファーをする",
+    "offerAmount": "オファー金額 ($)",
+    "sendOffer": "オファーを送信する"
   },
   "checkout": {
     "title": "🛒 チェックアウト",

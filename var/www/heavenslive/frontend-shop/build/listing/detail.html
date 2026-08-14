@@ -23,6 +23,7 @@ fetch('/api/shop/listings/' + id + '?lang=' + lang)
   .then(function(r) { return r.json(); })
   .then(function(d) {
     var l = d.listing;
+    window.currentListing = l;
     sellerId = l.seller_id || '';
     if (!l) {
       document.getElementById('content').innerHTML = '<h1>Not Found</h1>';
@@ -43,7 +44,7 @@ fetch('/api/shop/listings/' + id + '?lang=' + lang)
       '<div class="price">' + price + '</div>' +
       '<p style="margin:16px 0;line-height:1.6">' + (l.description||'') + '</p>' +
       (l.quantity_available ? '<p style="color:var(--muted);font-size:.85rem)">Qty: ' + l.quantity_available + '</p>' : '') +
-      '<div style="margin-top:16px;display:flex;gap:8px"><button class="btn" onclick="addCart()" data-i18n="detail.addToCart">Add to Cart</button><button class="btn-o" onclick="msgSeller()" data-i18n="detail.messageSeller">Message Seller</button></div></div>';
+      renderActions(l) + '</div>';
     
     // SEO: Inject JSON-LD structured data + meta tags for Google Shopping
     injectSEO(l);
@@ -84,6 +85,72 @@ function msgSeller() {
     else { alert(d.error || 'Failed to send'); }
   }).catch(function() { alert('Error sending message'); });
 }
+// Render type-specific actions (auction / procurement / mall+classifieds)
+function renderActions(l){
+  var a = '';
+  var ph = 'style="width:100%;padding:10px;margin:8px 0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--text)"';
+  if (l.type === 'auction') {
+    a += '<div class="price" style="font-size:.9rem">' + t('detail.currentBid','Current bid') + ': $' + ((l.current_bid_cents || l.min_bid_cents || 0)/100).toFixed(2) + '</div>';
+    if (l.reserve_price_cents) a += '<p class="muted" style="font-size:.8rem">' + t('detail.reserve','Reserve price') + ': $' + (l.reserve_price_cents/100).toFixed(2) + '</p>';
+    a += '<input id="bidAmt" type="number" min="0" step="0.01" placeholder="' + t('detail.yourBid','Your bid ($)') + '" ' + ph + '>';
+    a += '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="placeBid()">' + t('detail.placeBid','Place Bid') + '</button>';
+    if (l.buy_it_now_price_cents) a += '<button class="btn" onclick="buyNow()">⚡ ' + t('detail.buyNow','Buy Now') + ' $' + (l.buy_it_now_price_cents/100).toFixed(2) + '</button>';
+    a += '<button class="btn-o" onclick="retractBid()">' + t('detail.retractBid','Retract Bid') + '</button></div>';
+  } else if (l.type === 'reverse_auction') {
+    a += '<input id="proposalAmt" type="number" min="0" step="0.01" placeholder="' + t('detail.proposal','Your proposal ($)') + '" ' + ph + '>';
+    a += '<button class="btn" onclick="submitProposal()">' + t('detail.submitProposal','Submit Proposal') + '</button>';
+  } else {
+    a += '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="addCart()">' + t('detail.addToCart','Add to Cart') + '</button><button class="btn-o" onclick="toggleOffer()">' + t('detail.makeOffer','Make Offer') + '</button></div>';
+    a += '<div id="offerWrap" style="display:none;margin-top:8px"><input id="offerAmt" type="number" min="0" step="0.01" placeholder="' + t('detail.offerAmount','Offer amount ($)') + '" ' + ph + '><button class="btn" onclick="makeOffer()" style="margin-top:6px">' + t('detail.sendOffer','Send Offer') + '</button></div>';
+  }
+  a += '<button class="btn-o" onclick="msgSeller()" style="margin-top:8px;width:100%">' + t('detail.messageSeller','Message Seller') + '</button>';
+  return '<div style="margin-top:16px">' + a + '</div>';
+}
+
+function _shopFetch(url, opts) {
+  var T = localStorage.getItem('token');
+  if (!T) { alert('Sign in to continue'); location.href = '/credon/'; return Promise.reject('no token'); }
+  opts = opts || {}; opts.headers = opts.headers || {};
+  opts.headers['Authorization'] = 'Bearer ' + T;
+  if (opts.body && typeof opts.body === 'object') { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(opts.body); }
+  return fetch(url, opts).then(function(r){ return r.json(); });
+}
+function placeBid() {
+  var amt = parseFloat(document.getElementById('bidAmt').value);
+  if (!amt || amt <= 0) { alert(t('detail.yourBid','Enter a bid amount')); return; }
+  _shopFetch('/api/shop/listings/' + id + '/bid', { method: 'POST', body: { bid_cents: Math.round(amt*100) } }).then(function(d){
+    if (d.success) { alert(d.message || 'Bid placed!'); location.reload(); } else alert(d.error || 'Failed');
+  });
+}
+function buyNow() {
+  var l = window.currentListing || {};
+  if (!confirm(t('detail.buyNow','Buy Now') + ' $' + ((l.buy_it_now_price_cents||0)/100).toFixed(2) + '?')) return;
+  _shopFetch('/api/shop/listings/' + id + '/buy-now', { method: 'POST', body: {} }).then(function(d){
+    if (d.success) { alert(d.message || 'Reserved!'); location.reload(); } else alert(d.error || 'Failed');
+  });
+}
+function retractBid() {
+  if (!confirm(t('detail.retractBid','Retract your bid?'))) return;
+  _shopFetch('/api/shop/listings/' + id + '/bid/retract', { method: 'POST', body: {} }).then(function(d){
+    if (d.success) { alert('Done'); location.reload(); } else alert(d.error || 'Failed');
+  });
+}
+function toggleOffer(){ var w=document.getElementById('offerWrap'); if(w) w.style.display = (w.style.display==='none'?'block':'none'); }
+function makeOffer() {
+  var amt = parseFloat(document.getElementById('offerAmt').value);
+  if (!amt || amt <= 0) { alert(t('detail.offerAmount','Enter an offer amount')); return; }
+  _shopFetch('/api/shop/listings/' + id + '/offer', { method: 'POST', body: { offer_cents: Math.round(amt*100) } }).then(function(d){
+    if (d.success) { alert('Offer sent!'); } else alert(d.error || 'Failed');
+  });
+}
+function submitProposal() {
+  var amt = parseFloat(document.getElementById('proposalAmt').value);
+  if (!amt || amt <= 0) { alert(t('detail.proposal','Enter a proposal amount')); return; }
+  _shopFetch('/api/shop/listings/' + id + '/bid', { method: 'POST', body: { bid_cents: Math.round(amt*100) } }).then(function(d){
+    if (d.success) { alert(d.message || 'Proposal submitted!'); } else alert(d.error || 'Failed');
+  });
+}
+
 // SEO: Inject structured data for Google Shopping
 function injectSEO(l){
   // Update page title
