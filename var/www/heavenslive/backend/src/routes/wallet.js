@@ -207,6 +207,9 @@ router.post('/withdraw', verifyToken, async (req, res) => {
 
 
 // === LOAN MANAGEMENT ===
+const loanService = require('../services/loanService');
+
+// GET /loans — list active loans with live daily accrual
 router.get('/loans', verifyToken, async (req, res) => {
     try {
         const loans = await db.query(
@@ -215,25 +218,24 @@ router.get('/loans', verifyToken, async (req, res) => {
              WHERE al.user_id = $1 AND al.status = 'active' ORDER BY al.created_at DESC`,
             [req.userId]
         );
-        
-        // Calculate accrued interest for each loan
-        const now = new Date();
-        const enriched = loans.rows.map(loan => {
-            const daysSinceLastCalc = Math.max(0, (now - new Date(loan.last_interest_calc)) / 86400000);
-            const dailyRate = (loan.interest_rate / 100) / 365;
-            const accruedInterest = Math.round(loan.remaining_cents * dailyRate * daysSinceLastCalc);
-            return {
+
+        const enriched = [];
+        for (const loan of loans.rows) {
+            const state = await loanService.getLoanState(loan.id);
+            enriched.push({
                 ...loan,
-                accrued_interest_cents: accruedInterest,
-                total_owing_cents: loan.remaining_cents + accruedInterest,
-                days_active: Math.ceil((now - new Date(loan.start_date)) / 86400000)
-            };
-        });
-        
+                accrued_interest_cents: state.accruedInterestCents,
+                total_owing_cents: state.totalOwedCents,
+                daily_rate: state.dailyRate,
+                annual_rate_percent: state.annualRatePercent,
+                days_active: Math.ceil(loanService.daysSince(loan.start_date, new Date())),
+            });
+        }
         res.json({ loans: enriched });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
+// POST /loans — apply for a loan (admin approves with an amount + annual rate)
 router.post('/loans', verifyToken, async (req, res) => {
     try {
         const { amount, reason, currency } = req.body;
@@ -248,115 +250,95 @@ router.post('/loans', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-router.post('/loans/:id/repay', verifyToken, async (req, res) => {
+// GET /loans/:id — single loan detail with live accrual
+router.get('/loans/:id', verifyToken, async (req, res) => {
     try {
-        const { amount_cents } = req.body;
-        if (!amount_cents || amount_cents <= 0) return res.status(400).json({ error: 'Positive amount required' });
-        
         const loan = await db.query('SELECT * FROM active_loans WHERE id = $1 AND user_id = $2', [req.params.id, req.userId]);
         if (loan.rows.length === 0) return res.status(404).json({ error: 'Loan not found' });
-        
-        const l = loan.rows[0];
-        const now = new Date();
-        
-        // Calculate accrued interest
-        const daysSinceLastCalc = Math.max(0, (now - new Date(l.last_interest_calc)) / 86400000);
-        const dailyRate = (l.interest_rate / 100) / 365;
-        const accruedInterest = Math.round(l.remaining_cents * dailyRate * daysSinceLastCalc);
-        
-        // Check balance
-        const balance = await Wallet.getBalance(req.userId);
-        if (balance < amount_cents) return res.status(400).json({ error: 'Insufficient balance' });
-        
-        // Apply payment: interest first, then principal
-        let interestPaid = 0, principalPaid = 0;
-        let remaining = amount_cents;
-        
-        if (accruedInterest > 0 && remaining > 0) {
-            interestPaid = Math.min(accruedInterest, remaining);
-            remaining -= interestPaid;
-        }
-        if (remaining > 0) {
-            principalPaid = Math.min(l.remaining_cents, remaining);
-            remaining -= principalPaid;
-        }
-        
-        // Deduct from wallet
-        await Wallet.updateBalance(req.userId, -amount_cents, 'loan_repayment',
-            `Loan repayment: $${(principalPaid/100).toFixed(2)} principal + $${(interestPaid/100).toFixed(2)} interest`);
-        
-        // Return to treasury
-        await db.query('INSERT INTO treasury_ledger (amount_cents, reason, action, title) VALUES ($1, $2, $3, $4)',
-            [amount_cents, 'Loan repayment', 'burn_return', 'Loan Repayment']);
-        
-        // Record repayment
-        await db.query('INSERT INTO loan_repayments (active_loan_id, user_id, amount_cents, principal_paid_cents, interest_paid_cents) VALUES ($1, $2, $3, $4, $5)',
-            [l.id, req.userId, amount_cents, principalPaid, interestPaid]);
-        
-        // Update loan balance
-        const newRemaining = l.remaining_cents - principalPaid;
-        if (newRemaining <= 0) {
-            await db.query("UPDATE active_loans SET remaining_cents = 0, status = 'repaid', last_interest_calc = NOW() WHERE id = $1", [l.id]);
-        } else {
-            await db.query('UPDATE active_loans SET remaining_cents = $1, last_interest_calc = NOW() WHERE id = $2', [newRemaining, l.id]);
-        }
-        
+        const state = await loanService.getLoanState(req.params.id);
         res.json({
-            success: true,
-            principal_paid: principalPaid / 100,
-            interest_paid: interestPaid / 100,
-            total_paid: amount_cents / 100,
-            remaining: newRemaining / 100,
-            status: newRemaining <= 0 ? 'repaid' : 'active'
+            ...loan.rows[0],
+            accrued_interest_cents: state.accruedInterestCents,
+            total_owing_cents: state.totalOwedCents,
+            daily_rate: state.dailyRate,
+            annual_rate_percent: state.annualRatePercent,
         });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// Repay loan — any amount, any time
+// GET /loans/:id/payoff — exact payoff quote (annual rate, daily accrual)
+router.get('/loans/:id/payoff', verifyToken, async (req, res) => {
+    try {
+        const loan = await db.query('SELECT * FROM active_loans WHERE id = $1 AND user_id = $2', [req.params.id, req.userId]);
+        if (loan.rows.length === 0) return res.status(404).json({ error: 'Loan not found' });
+        const state = await loanService.getLoanState(req.params.id);
+        res.json({
+            principal_cents: state.principalCents,
+            accrued_interest_cents: state.accruedInterestCents,
+            total_owed_cents: state.totalOwedCents,
+            annual_rate_percent: state.annualRatePercent,
+            daily_rate: state.dailyRate,
+            days_since_last_calc: state.daysSinceLastCalc,
+        });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// GET /loans/:id/repayments — repayment history
+router.get('/loans/:id/repayments', verifyToken, async (req, res) => {
+    try {
+        const result = await db.query(
+            'SELECT * FROM loan_repayments WHERE active_loan_id = $1 AND user_id = $2 ORDER BY created_at DESC',
+            [req.params.id, req.userId]
+        );
+        res.json({ repayments: result.rows });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /loans/:id/repay — any amount, any time; Credon wallet or PayPal
 router.post('/loans/:id/repay', verifyToken, async (req, res) => {
     try {
-        const { id } = req.params;
-        const { amount } = req.body;
-        const amt = parseFloat(amount);
-        
-        if (!amt || amt <= 0) return res.status(400).json({ error: 'Amount required' });
-        
-        const loan = await db.query('SELECT * FROM active_loans WHERE id = $1 AND user_id = $2', [id, req.userId]);
+        const { amount, method = 'credon_wallet' } = req.body;
+        const amountCents = Math.round(parseFloat(amount) * 100);
+        if (!amountCents || amountCents <= 0) return res.status(400).json({ error: 'Positive amount required' });
+
+        const loan = await db.query('SELECT * FROM active_loans WHERE id = $1 AND user_id = $2', [req.params.id, req.userId]);
         if (loan.rows.length === 0) return res.status(404).json({ error: 'Loan not found' });
-        
-        const l = loan.rows[0];
-        const days = Math.max(1, Math.ceil((Date.now() - new Date(l.start_date).getTime()) / 86400000));
-        const dailyRate = l.interest_rate_percent / 100 / 365;
-        const interestAccrued = Math.round(l.principal_cents * dailyRate * days);
-        const totalOwed = l.principal_cents + interestAccrued;
-        const repayCents = Math.min(Math.round(amt * 100), l.remaining_cents + interestAccrued);
-        
-        // Check wallet balance
-        const wallet = await db.query('SELECT balance_cents FROM wallets WHERE user_id = $1', [req.userId]);
-        if ((wallet.rows[0]?.balance_cents || 0) < repayCents) {
-            return res.status(402).json({ error: 'Insufficient balance', needed: repayCents });
+
+        if (method === 'paypal') {
+            // Create a PayPal order; the repayment is applied on the success callback.
+            const { createPayPalOrder } = require('../services/paypalService');
+            const intent = await db.query(
+                `INSERT INTO loan_repayment_intents (active_loan_id, user_id, amount_cents, status)
+                 VALUES ($1, $2, $3, 'pending') RETURNING id`,
+                [req.params.id, req.userId, amountCents]
+            );
+            const result = await createPayPalOrder(amount, 'USD', 'Loan repayment', intent.rows[0].id, 'loan_repayment');
+            return res.json({
+                success: true,
+                paypalOrderId: result.paypalOrderId,
+                approvalUrl: result.approvalUrl,
+                orderId: intent.rows[0].id,
+                message: 'Redirect to PayPal to complete the repayment',
+            });
         }
-        
-        // Deduct from wallet
-    await db.query('UPDATE wallets SET balance_cents = balance_cents - $1 WHERE user_id = $2', [repayCents, req.userId]);
-    // Burn the principal portion (returned to treasury → burned out of existence)
-    try{await db.query("INSERT INTO treasury_ledger (amount_cents, reason, action, admin_id, title) VALUES ($1, $2, 'burn', $3, $4)",[repayCents,'Loan principal repayment burned',req.userId,'Loan Repayment Burn'])}catch(e){}
-        
-        const newRemaining = Math.max(0, l.remaining_cents - repayCents);
-        await db.query('UPDATE active_loans SET remaining_cents = $1, last_payment_at = NOW(), interest_accrued_cents = COALESCE(interest_accrued_cents,0) + $2 WHERE id = $3', [newRemaining, interestAccrued, id]);
-        
-        await db.query(
-            "INSERT INTO loan_repayments (active_loan_id, user_id, amount_cents, interest_cents) VALUES ($1, $2, $3, $4)",
-            [id, req.userId, repayCents, interestAccrued]
-        );
-        
-        await db.query(
-            "INSERT INTO transactions (user_id, amount_cents, type, description) VALUES ($1, $2, 'debit', $3)",
-            [req.userId, -repayCents, 'Loan repayment']
-        );
-        
-        res.json({ success: true, remaining: newRemaining, repaid: repayCents, interest: interestAccrued });
-    } catch (e) { res.status(500).json({ error: e.message }); }
+
+        // Credon wallet repayment (default)
+        const outcome = await loanService.processRepayment(req.params.id, amountCents, 'wallet');
+        res.json({
+            success: true,
+            principal_paid: outcome.principalPaid / 100,
+            interest_paid: outcome.interestPaid / 100,
+            total_paid: outcome.effective / 100,
+            remaining: outcome.newPrincipal / 100,
+            status: outcome.status,
+        });
+    } catch (error) {
+        if (error.code === 'OVERPAYMENT') {
+            return res.status(400).json({ error: error.message, total_owed_cents: error.totalOwedCents });
+        }
+        res.status(500).json({ error: error.message });
+    }
 });
+
 
 module.exports = router;

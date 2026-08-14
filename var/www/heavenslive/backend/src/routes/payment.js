@@ -64,6 +64,39 @@ async function completeDonation(donationId, paypalOrderId) {
 }
 
 /**
+ * Complete a loan repayment after the PayPal redirect: capture and apply the payment.
+ */
+async function completeLoanRepayment(intentId, paypalOrderId) {
+  const ir = await db.query('SELECT * FROM loan_repayment_intents WHERE id = $1', [intentId]);
+  const intent = ir.rows[0];
+  if (!intent || intent.status === 'completed') return;
+
+  if (paypalOrderId) {
+    try {
+      await capturePayPalOrder(paypalOrderId);
+    } catch (error) {
+      if (error.message === 'PayPal not configured') {
+        // Sandbox/test without PayPal — treat the redirect as paid
+      } else {
+        console.error('Loan repayment PayPal capture failed:', error.message);
+        return; // payment not confirmed — do not apply
+      }
+    }
+  }
+
+  const loanService = require('../services/loanService');
+  const state = await loanService.getLoanState(intent.active_loan_id);
+  // Cap at the current total owed (interest may have accrued since the intent was created)
+  const committed = parseInt(intent.amount_cents, 10) || 0;
+  const amountCents = state ? Math.min(committed, state.totalOwedCents) : committed;
+
+  if (amountCents > 0) {
+    await loanService.processRepayment(intent.active_loan_id, amountCents, 'paypal');
+  }
+  await db.query("UPDATE loan_repayment_intents SET status = 'completed', completed_at = NOW() WHERE id = $1", [intentId]);
+}
+
+/**
  * POST /api/payment/create — Create PayPal order, return redirect URL
  */
 router.post('/create', optionalAuth, async (req, res) => {
@@ -120,6 +153,15 @@ router.get('/success', async (req, res) => {
             await completeDonation(orderId, token);
         } catch (error) {
             console.error('Donation completion error:', error.message);
+        }
+    }
+
+    // Complete loan repayments: capture the PayPal order and apply the payment
+    if (type === 'loan_repayment' && orderId) {
+        try {
+            await completeLoanRepayment(orderId, token);
+        } catch (error) {
+            console.error('Loan repayment completion error:', error.message);
         }
     }
 

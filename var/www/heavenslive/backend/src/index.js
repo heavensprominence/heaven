@@ -387,6 +387,8 @@ app.get('/sitemap.xml', async (req, res) => {
 
 (async () => { try { const db = require('./db'); await db.query(`CREATE TABLE IF NOT EXISTS donation_bonuses (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, donation_id UUID, email TEXT NOT NULL, bonus_cents BIGINT NOT NULL DEFAULT 0, status VARCHAR(20) DEFAULT 'pending', user_id UUID, created_at TIMESTAMPTZ DEFAULT NOW(), claimed_at TIMESTAMPTZ)`); console.log('✅ donation_bonuses table ready'); } catch(e) { console.log('Donation bonus migration:', e.message); } })();
 
+(async () => { try { const db = require('./db'); await db.query(`CREATE TABLE IF NOT EXISTS loan_accruals (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, active_loan_id UUID NOT NULL UNIQUE, accrued_interest_cents BIGINT NOT NULL DEFAULT 0, last_interest_calc TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW())`); await db.query(`CREATE TABLE IF NOT EXISTS loan_repayment_intents (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, active_loan_id UUID NOT NULL, user_id UUID, amount_cents BIGINT NOT NULL, status VARCHAR(20) DEFAULT 'pending', created_at TIMESTAMPTZ DEFAULT NOW(), completed_at TIMESTAMPTZ)`); console.log('✅ loan accrual + repayment-intent tables ready'); } catch(e) { console.log('Loan tables migration:', e.message); } })();
+
 // Enable email 2FA for all existing users
 (async () => { try { const db = require('./db'); await db.query("UPDATE users SET two_factor_enabled = true WHERE two_factor_enabled IS NOT true"); console.log('✅ Email 2FA enabled for existing users'); } catch(e) { console.log('2FA enable error:', e.message); } })();
 
