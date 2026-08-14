@@ -294,6 +294,53 @@ const sendLoanApproval = async (email, name, amountDisplay, currency, rateDispla
   catch (error) { console.error('Failed to send loan approval email:', error); }
 };
 
+
+const _sendEmail = async (email, subject, html) => {
+  if (!email) return;
+  try {
+    await transporter.sendMail({ from: process.env.EMAIL_FROM || 'noreply@heavenslive.com', to: email, subject, html });
+    console.log('📧 ' + subject + ' -> ' + email);
+  } catch (e) { console.error('Email send failed:', e.message); }
+};
+
+const _emailShell = (title, inner) => `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;background:#0F0F1A;color:#E8E6E3;padding:32px;border-radius:12px;border:1px solid rgba(200,169,81,.2)"><div style="text-align:center;margin-bottom:24px"><h1 style="color:#C8A951;margin:0;font-size:1.4rem">HeavensLive</h1><p style="color:#A0A0B0;font-size:.8rem;margin-top:4px">Marketplace</p></div><h2 style="color:#C8A951;font-size:1.05rem;margin-bottom:14px">${title}</h2>${inner}<hr style="border:none;border-top:1px solid rgba(255,255,255,.05);margin:24px 0 16px"><p style="color:#A0A0B0;font-size:.7rem;text-align:center">HeavensLive · Divinely Underwritten Commerce<br>This is an automated message. Please do not reply.</p></div>`;
+
+const _listingBox = (listing, line) => `<div style="background:rgba(200,169,81,.06);padding:12px 16px;border-radius:8px;margin:16px 0;border-left:3px solid #C8A951"><strong style="color:#C8A951">${listing.title}</strong><br>${line}</div>`;
+
+// Auction won (buyer)
+const sendAuctionWonNotification = async (email, name, listing, amountCents, clearingPriceCents) => {
+  const amt = ((amountCents || clearingPriceCents || 0) / 100).toFixed(2);
+  await _sendEmail(email, '🎉 You won the auction - ' + listing.title,
+    _emailShell('Auction Won! 🎉', `<p style="line-height:1.6;font-size:.9rem">Congratulations ${name || ''}, you won this auction. Please complete payment for your item.</p>` + _listingBox(listing, `Winning amount: <strong>$${amt}</strong>`) + `<a href="https://shop.heavenslive.com/listing/${listing.id}" style="display:inline-block;padding:12px 28px;background:#C8A951;color:#0F0F1A;text-decoration:none;border-radius:8px;font-weight:700;font-size:.9rem;margin-top:8px">View Listing →</a>`));
+};
+
+// Outbid notice (previous high bidder)
+const sendOutbidNotification = async (email, name, listing, newBidCents) => {
+  const amt = ((newBidCents || 0) / 100).toFixed(2);
+  await _sendEmail(email, 'You\'ve been outbid - ' + listing.title,
+    _emailShell('You\'ve Been Outbid', `<p style="line-height:1.6;font-size:.9rem">Someone placed a higher bid. You can bid again to stay in the lead.</p>` + _listingBox(listing, `New leading bid: <strong>$${amt}</strong>`) + `<a href="https://shop.heavenslive.com/listing/${listing.id}" style="display:inline-block;padding:12px 28px;background:#C8A951;color:#0F0F1A;text-decoration:none;border-radius:8px;font-weight:700;font-size:.9rem;margin-top:8px">Bid Again →</a>`));
+};
+
+// New offer received (seller)
+const sendOfferReceived = async (email, name, listing, offerCents, message) => {
+  const amt = ((offerCents || 0) / 100).toFixed(2);
+  await _sendEmail(email, '💬 New offer on ' + listing.title,
+    _emailShell('New Offer Received 💬', `<p style="line-height:1.6;font-size:.9rem">A buyer made an offer on your listing${message ? ': "' + message + '"' : ''}.</p>` + _listingBox(listing, `Offer amount: <strong>$${amt}</strong>`) + `<a href="https://shop.heavenslive.com/seller/dashboard" style="display:inline-block;padding:12px 28px;background:#C8A951;color:#0F0F1A;text-decoration:none;border-radius:8px;font-weight:700;font-size:.9rem;margin-top:8px">Review Offers →</a>`));
+};
+
+// Offer response (buyer): status = accepted | rejected | countered
+const sendOfferResponse = async (email, name, listing, status, response) => {
+  const label = status === 'accepted' ? 'Offer Accepted! ✅' : status === 'rejected' ? 'Offer Declined' : 'Seller Countered 💬';
+  const note = status === 'accepted'
+    ? 'Great news — the seller accepted your offer. Complete checkout to secure the item.'
+    : status === 'rejected'
+      ? 'The seller declined your offer. You can make another offer or buy at the listed price.'
+      : (response ? 'The seller responded: "' + response + '"' : 'The seller made a counter offer. You can respond with a new offer.');
+  await _sendEmail(email, label + ' - ' + listing.title,
+    _emailShell(label, `<p style="line-height:1.6;font-size:.9rem">${note}</p>` + _listingBox(listing, 'Offer on this listing') + `<a href="https://shop.heavenslive.com/listing/${listing.id}" style="display:inline-block;padding:12px 28px;background:#C8A951;color:#0F0F1A;text-decoration:none;border-radius:8px;font-weight:700;font-size:.9rem;margin-top:8px">View Listing →</a>`));
+};
+
+
 module.exports = {
     sendCredonApproval,
     sendLoanApproval,
@@ -310,5 +357,9 @@ module.exports = {
     sendSellerSaleNotification,
     sendAbandonedCartReminder,
     sendProcurementMatchAlert,
-    sendSavedSearchAlert
+    sendSavedSearchAlert,
+    sendAuctionWonNotification,
+    sendOutbidNotification,
+    sendOfferReceived,
+    sendOfferResponse
 };

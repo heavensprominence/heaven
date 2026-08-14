@@ -5,9 +5,10 @@
  * Dutch / multi-unit auction (quantity_available > 1 or is_dutch_auction):
  *   top bidders win up to quantity_available units; all winners pay the clearing
  *   price (the lowest winning bid). Uniform-price.
+ * Reserve price: if the winning/clearing price is below reserve_price_cents, no sale.
  */
 const db = require('../db');
-const { sendBuyerSaleConfirmation, sendSellerSaleNotification } = require('./emailService');
+const { sendAuctionWonNotification, sendSellerSaleNotification } = require('./emailService');
 
 async function sellerInfo(sellerId) {
   const r = await db.query('SELECT email, full_name FROM users WHERE id = $1', [sellerId]);
@@ -31,6 +32,8 @@ async function settleAuction(listing) {
     return { winners: 0, listingId: listing.id };
   }
 
+  const reserve = parseInt(listing.reserve_price_cents, 10) || 0;
+
   if (isDutch) {
     const qty = parseInt(listing.quantity_available, 10) || 1;
     let remaining = qty;
@@ -43,12 +46,18 @@ async function settleAuction(listing) {
     }
     const clearing = winners.length ? winners[winners.length - 1].amount_cents : null;
 
+    // Reserve not met → no sale
+    if (clearing === null || (reserve > 0 && parseInt(clearing, 10) < reserve)) {
+      await db.query(`UPDATE listings SET status = 'ended' WHERE id = $1`, [listing.id]);
+      return { winners: 0, listingId: listing.id, reserveNotMet: true };
+    }
+
     for (const w of winners) {
       await db.query(
         `UPDATE auction_bids SET is_winning = true, winning_quantity = $2, clearing_price_cents = $3 WHERE id = $1`,
         [w.id, w.winning_quantity, clearing]
       );
-      try { await sendBuyerSaleConfirmation(w.email, listing, (parseInt(clearing, 10) || 0) / 100, seller.full_name); } catch (e) {}
+      try { await sendAuctionWonNotification(w.email, w.full_name, listing, clearing, clearing); } catch (e) {}
     }
     await db.query(
       `UPDATE listings SET status = 'sold', dutch_clearing_price_cents = $2, current_bid_cents = $2 WHERE id = $1`,
@@ -62,6 +71,13 @@ async function settleAuction(listing) {
 
   // Single-unit, first-price
   const winner = bids.rows[0];
+
+  // Reserve not met → no sale
+  if (reserve > 0 && parseInt(winner.amount_cents, 10) < reserve) {
+    await db.query(`UPDATE listings SET status = 'ended' WHERE id = $1`, [listing.id]);
+    return { winners: 0, listingId: listing.id, reserveNotMet: true };
+  }
+
   await db.query(
     `UPDATE auction_bids SET is_winning = true, winning_quantity = 1, clearing_price_cents = $2 WHERE id = $1`,
     [winner.id, winner.amount_cents]
@@ -70,7 +86,7 @@ async function settleAuction(listing) {
     `UPDATE listings SET status = 'sold', current_bidder_id = $2, current_bid_cents = $3 WHERE id = $1`,
     [listing.id, winner.bidder_id, winner.amount_cents]
   );
-  try { await sendBuyerSaleConfirmation(winner.email, listing, winner.amount_cents / 100, seller.full_name); } catch (e) {}
+  try { await sendAuctionWonNotification(winner.email, winner.full_name, listing, winner.amount_cents, winner.amount_cents); } catch (e) {}
   if (seller.email) {
     try { await sendSellerSaleNotification(seller.email, listing, winner.amount_cents / 100, 0, winner.amount_cents / 100, winner.full_name || 'Buyer'); } catch (e) {}
   }

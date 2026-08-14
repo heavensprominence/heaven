@@ -329,8 +329,8 @@ router.post('/checkout', verifyToken, async (req, res) => {
             const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct, l.currency);
             
             await db.query(
-                'INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, shipping_address, delivery_method, status, currency_code, payment_method) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
-                [userId, item.listing_id, l.seller_id, amountCents, platformFeeCents, sellerPayoutCents, shippingAddress ? JSON.stringify(shippingAddress) : null, deliveryMethod || 'shipping', useWallet ? 'paid' : 'pending_payment', l.currency || 'USD', paymentMethod || 'paypal']
+                'INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, shipping_address, delivery_method, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+                [userId, item.listing_id, l.seller_id, amountCents, platformFeeCents, sellerPayoutCents, shippingAddress ? JSON.stringify(shippingAddress) : null, deliveryMethod || 'shipping', useWallet ? 'paid' : 'pending_payment']
             );
             
             await db.query(
@@ -468,6 +468,15 @@ router.post('/listings/:id/bid', verifyToken, async (req, res) => {
             INSERT INTO auction_bids (listing_id, bidder_id, amount_cents, quantity, is_winning)
             VALUES ($1, $2, $3, $4, false)
         `, [id, userId, bid_cents, quantity]);
+
+        // Outbid notice to the previous high bidder (regular single-unit auctions)
+        if (!isReverseAuction && !isDutch && l.current_bidder_id && l.current_bidder_id !== userId) {
+            const prev = await db.query('SELECT email, full_name FROM users WHERE id = $1', [l.current_bidder_id]);
+            if (prev.rows[0]) {
+                const { sendOutbidNotification } = require('../../services/emailService');
+                sendOutbidNotification(prev.rows[0].email, prev.rows[0].full_name, l, bid_cents).catch(() => {});
+            }
+        }
         
         await db.query(`
             UPDATE listings 
@@ -487,6 +496,56 @@ router.post('/listings/:id/bid', verifyToken, async (req, res) => {
         console.error('Bid error:', error);
         res.status(500).json({ error: error.message });
     }
+});
+
+// POST /listings/:id/buy-now — instant purchase at the buy-it-now price (auctions)
+router.post('/listings/:id/buy-now', verifyToken, async (req, res) => {
+    try {
+        const listing = await db.query('SELECT * FROM listings WHERE id = $1 AND status = $2', [req.params.id, 'active']);
+        if (listing.rows.length === 0) return res.status(404).json({ error: 'Listing not available' });
+        const l = listing.rows[0];
+        if (l.type !== 'auction') return res.status(400).json({ error: 'Buy Now is only for auctions' });
+        if (!l.buy_it_now_price_cents) return res.status(400).json({ error: 'Buy Now is not available for this listing' });
+        if (l.seller_id === req.userId) return res.status(400).json({ error: 'Cannot buy your own listing' });
+
+        const price = parseInt(l.buy_it_now_price_cents, 10);
+        await db.query('BEGIN');
+        const platformFeePct = await getPlatformFeePercent();
+        const { platformFeeCents, sellerPayoutCents } = calcPayout(price, platformFeePct, l.currency);
+        await db.query(
+            `INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, status)
+             VALUES ($1, $2, $3, $4, $5, $6, 'pending_payment')`,
+            [req.userId, l.id, l.seller_id, price, platformFeeCents, sellerPayoutCents]
+        );
+        await db.query(`UPDATE listings SET status = 'sold', current_bidder_id = $2, current_bid_cents = $3 WHERE id = $1`, [l.id, req.userId, price]);
+        await db.query('COMMIT');
+        res.json({ success: true, price_cents: price, message: 'Item reserved! Complete payment to finalize.' });
+    } catch (error) {
+        await db.query('ROLLBACK');
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST /listings/:id/bid/retract — retract my bid
+router.post('/listings/:id/bid/retract', verifyToken, async (req, res) => {
+    try {
+        const listing = await db.query('SELECT * FROM listings WHERE id = $1', [req.params.id]);
+        if (listing.rows.length === 0) return res.status(404).json({ error: 'Listing not found' });
+        const l = listing.rows[0];
+        if (l.status !== 'active') return res.status(400).json({ error: 'Auction has ended' });
+        if (l.auction_end_time && new Date(l.auction_end_time) < new Date()) return res.status(400).json({ error: 'Auction has ended' });
+
+        const removed = await db.query('DELETE FROM auction_bids WHERE listing_id = $1 AND bidder_id = $2 RETURNING id', [req.params.id, req.userId]);
+        // If I was the high bidder, restore the next highest bid
+        if (l.current_bidder_id === req.userId) {
+            const next = await db.query('SELECT * FROM auction_bids WHERE listing_id = $1 ORDER BY amount_cents DESC, created_at ASC LIMIT 1', [req.params.id]);
+            await db.query(
+                `UPDATE listings SET current_bid_cents = $2, current_bidder_id = $3, bid_count = GREATEST(COALESCE(bid_count, 0) - $4, 0) WHERE id = $1`,
+                [req.params.id, next.rows[0]?.amount_cents || null, next.rows[0]?.bidder_id || null, removed.rows.length]
+            );
+        }
+        res.json({ success: true, retracted: removed.rows.length });
+    } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
 // GET /listings/:id/bids — seller view of bids (auctions + procurement proposals)
@@ -543,6 +602,11 @@ router.post('/listings/:id/offer', verifyToken, async (req, res) => {
             `INSERT INTO offers (listing_id, buyer_id, offer_cents, message, status) VALUES ($1, $2, $3, $4, 'pending') RETURNING *`,
             [req.params.id, req.userId, offer_cents, message || null]
         );
+        const _offerSeller = await db.query('SELECT email, full_name FROM users WHERE id = $1', [l.seller_id]);
+        if (_offerSeller.rows[0]) {
+            const { sendOfferReceived } = require('../../services/emailService');
+            sendOfferReceived(_offerSeller.rows[0].email, _offerSeller.rows[0].full_name, l, offer_cents, message || '').catch(() => {});
+        }
         res.json({ success: true, offer: result.rows[0] });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -550,13 +614,18 @@ router.post('/listings/:id/offer', verifyToken, async (req, res) => {
 // POST /offers/:id/accept — seller accepts an offer
 router.post('/offers/:id/accept', verifyToken, async (req, res) => {
     try {
-        const offer = await db.query(`SELECT o.*, l.seller_id, l.quantity_available FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        const offer = await db.query(`SELECT o.*, l.seller_id, l.quantity_available, l.title FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
         if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
         const o = offer.rows[0];
         if (o.seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
         if (o.status !== 'pending') return res.status(400).json({ error: 'Offer already resolved' });
 
         await db.query(`UPDATE offers SET status = 'accepted', updated_at = NOW() WHERE id = $1`, [req.params.id]);
+        const _acceptBuyer = await db.query('SELECT email, full_name FROM users WHERE id = $1', [o.buyer_id]);
+        if (_acceptBuyer.rows[0]) {
+            const { sendOfferResponse } = require('../../services/emailService');
+            sendOfferResponse(_acceptBuyer.rows[0].email, _acceptBuyer.rows[0].full_name, { id: o.listing_id, title: o.title }, 'accepted', null).catch(() => {});
+        }
         if ((o.quantity_available || 1) <= 1) {
             await db.query(`UPDATE listings SET status = 'sold' WHERE id = $1`, [o.listing_id]);
         } else {
@@ -569,10 +638,15 @@ router.post('/offers/:id/accept', verifyToken, async (req, res) => {
 // POST /offers/:id/reject — seller rejects an offer
 router.post('/offers/:id/reject', verifyToken, async (req, res) => {
     try {
-        const offer = await db.query(`SELECT o.*, l.seller_id FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        const offer = await db.query(`SELECT o.*, l.seller_id, l.title FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
         if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
         if (offer.rows[0].seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
         await db.query(`UPDATE offers SET status = 'rejected', seller_response = $2, updated_at = NOW() WHERE id = $1`, [req.params.id, req.body.message || null]);
+        const _rejBuyer = await db.query('SELECT email, full_name FROM users WHERE id = $1', [offer.rows[0].buyer_id]);
+        if (_rejBuyer.rows[0]) {
+            const { sendOfferResponse } = require('../../services/emailService');
+            sendOfferResponse(_rejBuyer.rows[0].email, _rejBuyer.rows[0].full_name, { id: offer.rows[0].listing_id, title: offer.rows[0].title }, 'rejected', req.body.message || null).catch(() => {});
+        }
         res.json({ success: true });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -580,10 +654,15 @@ router.post('/offers/:id/reject', verifyToken, async (req, res) => {
 // POST /offers/:id/counter — seller counters (free-text response)
 router.post('/offers/:id/counter', verifyToken, async (req, res) => {
     try {
-        const offer = await db.query(`SELECT o.*, l.seller_id FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        const offer = await db.query(`SELECT o.*, l.seller_id, l.title FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
         if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
         if (offer.rows[0].seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
         await db.query(`UPDATE offers SET status = 'countered', seller_response = $2, updated_at = NOW() WHERE id = $1`, [req.params.id, req.body.message || null]);
+        const _ctrBuyer = await db.query('SELECT email, full_name FROM users WHERE id = $1', [offer.rows[0].buyer_id]);
+        if (_ctrBuyer.rows[0]) {
+            const { sendOfferResponse } = require('../../services/emailService');
+            sendOfferResponse(_ctrBuyer.rows[0].email, _ctrBuyer.rows[0].full_name, { id: offer.rows[0].listing_id, title: offer.rows[0].title }, 'countered', req.body.message || null).catch(() => {});
+        }
         res.json({ success: true });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -704,9 +783,9 @@ router.post('/purchases/complete', verifyToken, async (req, res) => {
         const { platformFeeCents, sellerPayoutCents } = calcPayout(amountCents, platformFeePct, l.currency);
         
         const result = await db.query(
-            `INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, status, currency_code, paypal_order_id)
-             VALUES ($1, $2, $3, $4, $5, $6, 'completed', $7, $8) RETURNING *`,
-            [req.userId, listingId, l.seller_id, amountCents, platformFeeCents, sellerPayoutCents, currency || l.currency || 'USD', paypalOrderId || null]
+            `INSERT INTO purchases (buyer_id, listing_id, seller_id, amount_cents, platform_fee_cents, seller_payout_cents, status, paypal_order_id)
+             VALUES ($1, $2, $3, $4, $5, $6, 'completed', $7) RETURNING *`,
+            [req.userId, listingId, l.seller_id, amountCents, platformFeeCents, sellerPayoutCents, paypalOrderId || null]
         );
         
         // Process affiliate commissions (buyer + seller side)
