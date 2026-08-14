@@ -164,8 +164,8 @@ router.post('/listings', verifyToken, async (req, res) => {
                 location_country, latitude, longitude, shipping_options, weight_oz, dimensions, 
                 status, expires_at, auction_end_time, quantity_available,
                 allow_local_pickup, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
-                is_featured, currency, accepted_currencies, accepted_payment_methods
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, 'pending_approval', $19, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31)
+                is_featured, currency, accepted_currencies, accepted_payment_methods, is_dutch_auction
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, 'pending_approval', $19, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32)
             RETURNING *
         `, [
             userId, store_id || null, type, title, description, category, price_cents || 0,
@@ -173,7 +173,7 @@ router.post('/listings', verifyToken, async (req, res) => {
             location_country, coords.lat, coords.lng, JSON.stringify(shipping_options || []), weight_oz, JSON.stringify(dimensions || {}),
             expires_at, quantity_available || 1,
             allow_local_pickup || false, pickup_address, pickup_city, pickup_state, pickup_zip, pickup_country, pickup_instructions,
-            is_featured, currency || 'USD', accepted_currencies ? JSON.stringify(accepted_currencies) : null, accepted_payment_methods ? JSON.stringify(accepted_payment_methods) : JSON.stringify(["paypal", "credon_wallet"])
+            is_featured, currency || 'USD', accepted_currencies ? JSON.stringify(accepted_currencies) : null, accepted_payment_methods ? JSON.stringify(accepted_payment_methods) : JSON.stringify(["paypal", "credon_wallet"]), (type === 'auction' && (quantity_available || 1) > 1)
         ]);
         
         res.status(201).json({ success: true, listing: result.rows[0] });
@@ -429,7 +429,7 @@ router.post('/listings/:id/bid', verifyToken, async (req, res) => {
         
         const l = listing.rows[0];
         const isReverseAuction = l.type === 'reverse_auction';
-        const isDutch = l.quantity_available > 1;
+        const isDutch = l.is_dutch_auction === true || l.quantity_available > 1;
         
         if (l.auction_end_time && new Date(l.auction_end_time) < new Date()) {
             await db.query('ROLLBACK');
@@ -443,6 +443,13 @@ router.post('/listings/:id/bid', verifyToken, async (req, res) => {
                 return res.status(400).json({ 
                     error: `Proposal must be less than $${(maxAllowed / 100).toFixed(2)}` 
                 });
+            }
+        } else if (isDutch) {
+            // Dutch / multi-unit: bid must be at/above the floor (min_bid_cents)
+            const floor = l.min_bid_cents || 1;
+            if (bid_cents < floor) {
+                await db.query('ROLLBACK');
+                return res.status(400).json({ error: `Bid must be at least $${(floor / 100).toFixed(2)}` });
             }
         } else {
             const minRequired = l.current_bid_cents 
@@ -480,6 +487,105 @@ router.post('/listings/:id/bid', verifyToken, async (req, res) => {
         console.error('Bid error:', error);
         res.status(500).json({ error: error.message });
     }
+});
+
+// GET /listings/:id/bids — seller view of bids (auctions + procurement proposals)
+router.get('/listings/:id/bids', verifyToken, async (req, res) => {
+    try {
+        const listing = await db.query('SELECT seller_id, type FROM listings WHERE id = $1', [req.params.id]);
+        if (listing.rows.length === 0) return res.status(404).json({ error: 'Listing not found' });
+        if (listing.rows[0].seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
+
+        const bids = await db.query(
+            `SELECT b.*, u.full_name as bidder_name, u.email as bidder_email
+             FROM auction_bids b JOIN users u ON b.bidder_id = u.id
+             WHERE b.listing_id = $1 ORDER BY b.amount_cents DESC, b.created_at ASC`,
+            [req.params.id]
+        );
+        res.json({ bids: bids.rows, listing_type: listing.rows[0].type });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /listings/:id/accept-bid — procurement: buyer accepts a seller's proposal
+router.post('/listings/:id/accept-bid', verifyToken, async (req, res) => {
+    try {
+        const { bidId } = req.body;
+        if (!bidId) return res.status(400).json({ error: 'bidId required' });
+
+        const listing = await db.query('SELECT * FROM listings WHERE id = $1 AND seller_id = $2', [req.params.id, req.userId]);
+        if (listing.rows.length === 0) return res.status(404).json({ error: 'Listing not found' });
+        const l = listing.rows[0];
+        if (l.type !== 'reverse_auction') return res.status(400).json({ error: 'Only procurement (reverse auction) listings accept proposals' });
+
+        const bid = await db.query('SELECT * FROM auction_bids WHERE id = $1 AND listing_id = $2', [bidId, req.params.id]);
+        if (bid.rows.length === 0) return res.status(404).json({ error: 'Bid not found' });
+        const b = bid.rows[0];
+
+        await db.query(`UPDATE auction_bids SET is_winning = true, winning_quantity = 1, clearing_price_cents = amount_cents WHERE id = $1`, [bidId]);
+        await db.query(`UPDATE listings SET status = 'sold', current_bidder_id = $2, current_bid_cents = $3 WHERE id = $1`, [req.params.id, b.bidder_id, b.amount_cents]);
+        res.json({ success: true, accepted_bid_cents: b.amount_cents });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /listings/:id/offer — buyer makes an offer on a mall/classifieds listing
+router.post('/listings/:id/offer', verifyToken, async (req, res) => {
+    try {
+        const { offer_cents, message } = req.body;
+        if (!offer_cents || offer_cents <= 0) return res.status(400).json({ error: 'Offer amount required' });
+
+        const listing = await db.query('SELECT * FROM listings WHERE id = $1', [req.params.id]);
+        if (listing.rows.length === 0) return res.status(404).json({ error: 'Listing not found' });
+        const l = listing.rows[0];
+        if (l.status !== 'active') return res.status(400).json({ error: 'Listing not available' });
+        if (l.seller_id === req.userId) return res.status(400).json({ error: 'Cannot offer on your own listing' });
+
+        const result = await db.query(
+            `INSERT INTO offers (listing_id, buyer_id, offer_cents, message, status) VALUES ($1, $2, $3, $4, 'pending') RETURNING *`,
+            [req.params.id, req.userId, offer_cents, message || null]
+        );
+        res.json({ success: true, offer: result.rows[0] });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /offers/:id/accept — seller accepts an offer
+router.post('/offers/:id/accept', verifyToken, async (req, res) => {
+    try {
+        const offer = await db.query(`SELECT o.*, l.seller_id, l.quantity_available FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
+        const o = offer.rows[0];
+        if (o.seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
+        if (o.status !== 'pending') return res.status(400).json({ error: 'Offer already resolved' });
+
+        await db.query(`UPDATE offers SET status = 'accepted', updated_at = NOW() WHERE id = $1`, [req.params.id]);
+        if ((o.quantity_available || 1) <= 1) {
+            await db.query(`UPDATE listings SET status = 'sold' WHERE id = $1`, [o.listing_id]);
+        } else {
+            await db.query(`UPDATE listings SET quantity_available = quantity_available - 1, quantity_sold = COALESCE(quantity_sold, 0) + 1 WHERE id = $1`, [o.listing_id]);
+        }
+        res.json({ success: true });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /offers/:id/reject — seller rejects an offer
+router.post('/offers/:id/reject', verifyToken, async (req, res) => {
+    try {
+        const offer = await db.query(`SELECT o.*, l.seller_id FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
+        if (offer.rows[0].seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
+        await db.query(`UPDATE offers SET status = 'rejected', seller_response = $2, updated_at = NOW() WHERE id = $1`, [req.params.id, req.body.message || null]);
+        res.json({ success: true });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// POST /offers/:id/counter — seller counters (free-text response)
+router.post('/offers/:id/counter', verifyToken, async (req, res) => {
+    try {
+        const offer = await db.query(`SELECT o.*, l.seller_id FROM offers o JOIN listings l ON o.listing_id = l.id WHERE o.id = $1`, [req.params.id]);
+        if (offer.rows.length === 0) return res.status(404).json({ error: 'Offer not found' });
+        if (offer.rows[0].seller_id !== req.userId) return res.status(403).json({ error: 'Not authorized' });
+        await db.query(`UPDATE offers SET status = 'countered', seller_response = $2, updated_at = NOW() WHERE id = $1`, [req.params.id, req.body.message || null]);
+        res.json({ success: true });
+    } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
 router.get('/buyer/purchases', verifyToken, async (req, res) => {

@@ -276,6 +276,15 @@ setInterval(async () => {
   } catch(e) { console.error('Periodic cleanup error:', e.message); }
 }, 6 * 60 * 60 * 1000);
 
+// Auction settlement — close ended auctions and determine winners (every 5 min)
+setInterval(async () => {
+  try {
+    const { settleEndedAuctions } = require('./services/auctionSettlement');
+    const settled = await settleEndedAuctions();
+    if (settled) console.log(`🔨 Settled ${settled} ended auctions`);
+  } catch(e) { console.error('Auction settlement error:', e.message); }
+}, 5 * 60 * 1000);
+
 // Weekly Business plan lottery (every Monday 9 AM check)
 const { runWeeklyLottery } = require("./services/promotionEngine");
 const { regenerateSitemap } = require("./services/sitemapService");
