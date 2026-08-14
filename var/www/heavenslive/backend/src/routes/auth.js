@@ -92,7 +92,15 @@ router.post('/login', async (req, res) => {
 });
 
 // POST /api/auth/register
-router.post('/register', async (req, res) => {
+const rateLimit = require('express-rate-limit');
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 3, // max 3 registrations per IP per hour
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many registration attempts. Please try again later.' }
+});
+router.post('/register', registerLimiter, async (req, res) => {
     try {
         const { email, password, fullName, referralCode, joinReason, source } = req.body;
         if (!email || !password || !fullName) return res.status(400).json({ error: 'Name, email, and password required' });
@@ -110,14 +118,8 @@ router.post('/register', async (req, res) => {
         // Create wallet
         await db.query("INSERT INTO wallets (user_id, balance_cents) VALUES ($1, 0) ON CONFLICT DO NOTHING", [user.id]);
 await db.query("INSERT INTO wallet_balances (user_id, currency, balance_cents) VALUES ($1, 'USD', 0) ON CONFLICT DO NOTHING", [user.id]);
-        // Award 20 Credon-USD welcome bonus to every new signup
-        const welcomeBonus = 2000; // 20 Credon-USD in cents
-        await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, user.id]);
-        await Wallet.updateBalance(user.id, welcomeBonus, 'signup_bonus', 'Welcome bonus for new signup', null, 'USD');
-        await db.query(
-            "INSERT INTO treasury_ledger (amount_cents, reason, action, reference_id, title) VALUES ($1, 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
-            [welcomeBonus, user.id]
-        );
+        // Welcome bonus is now awarded on email verification (see /verify-2fa), not at registration,
+        // to prevent bots from farming the $20 signup bonus with unverified emails.
         // Claim any guest-donation bonuses held for this email
         try { const { claimPendingDonationBonuses } = require('../services/donationBonus'); await claimPendingDonationBonuses(user.email, user.id); } catch(e) { console.error('Claim donation bonus failed:', e.message); }
         // Track referral if code provided (from URL param or cookie)
@@ -287,6 +289,22 @@ router.post('/verify-2fa', async (req, res) => {
       jwtSecret, { expiresIn: "30d" }
     );
     
+    // Award one-time $20 welcome bonus on first email verification (prevents bot farming)
+    try {
+        const already = await db.query("SELECT COUNT(*) as cnt FROM treasury_ledger WHERE action = 'signup_bonus' AND reference_id = $1", [u.id]);
+        if (parseInt(already.rows[0].cnt) === 0) {
+            const welcomeBonus = 2000;
+            await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, u.id]);
+            const Wallet = require('../models/Wallet');
+            await Wallet.updateBalance(u.id, welcomeBonus, 'signup_bonus', 'Welcome bonus for new signup', null, 'USD');
+            await db.query(
+                "INSERT INTO treasury_ledger (amount_cents, currency, reason, action, reference_id, title) VALUES ($1, 'USD', 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
+                [welcomeBonus, u.id]
+            );
+        }
+        await db.query("UPDATE users SET email_verified = true WHERE id = $1", [u.id]);
+    } catch(e) { console.error('Welcome bonus on verify failed:', e.message); }
+
     // Clear pending session + mark device as trusted
     await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
     res.cookie('trusted_device', 'hl_' + u.id, { httpOnly: false, sameSite: 'lax', maxAge: 365 * 24 * 60 * 60 * 1000 });
