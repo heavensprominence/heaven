@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const db = require('../db');
 
-const UPLOAD_DIR = path.join(__dirname, '../../public/uploads/listings');
+const UPLOAD_DIR = path.join(__dirname, '../../../public/uploads/listings');
 
 // Delete image files from disk
 function deleteImageFiles(imageUrls) {

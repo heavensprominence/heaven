@@ -7,7 +7,7 @@ const sharp = require('sharp');
 const { verifyToken } = require('../../middleware/auth');
 
 // Ensure upload directory exists
-const uploadDir = path.join(__dirname, '../../../public/uploads/listings');
+const uploadDir = path.join(__dirname, '../../../../public/uploads/listings');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
     fs.chmodSync(uploadDir, 0o775);

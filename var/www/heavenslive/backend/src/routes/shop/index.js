@@ -28,7 +28,7 @@ const deleteImageFiles = (images) => {
     images.forEach(imageUrl => {
         if (!imageUrl) return;
         const filename = imageUrl.split('/').pop();
-        const filepath = path.join(__dirname, '../../../public/uploads/listings', filename);
+        const filepath = path.join(__dirname, '../../../../public/uploads/listings', filename);
         try { if (fs.existsSync(filepath)) fs.unlinkSync(filepath); } catch (err) {}
     });
 };
@@ -135,7 +135,7 @@ router.post('/listings', verifyToken, async (req, res) => {
         if (images && Array.isArray(images)) {
             const fs = require('fs');
             const path = require('path');
-            const uploadDir = path.join(__dirname, '../../../public/uploads/listings');
+            const uploadDir = path.join(__dirname, '../../../../public/uploads/listings');
             fs.mkdirSync(uploadDir, { recursive: true });
             for (const img of images.slice(0, 3)) {  // Max 3 images
                 if (typeof img === 'string' && img.startsWith('data:image/')) {
@@ -821,7 +821,7 @@ router.post('/bug-report', async (req, res) => {
             const ext = screenshot.match(/^data:image\/(\w+)/)[1] || 'png';
             const ts = Date.now();
             const filename = `bug-${ts}.${ext}`;
-            const dir = path.join(__dirname, '../../public/uploads/bug-screenshots');
+            const dir = path.join(__dirname, '../../../../public/uploads/bug-screenshots');
             fs.mkdirSync(dir, { recursive: true });
             const base64 = screenshot.replace(/^data:image\/\w+;base64,/, '');
             fs.writeFileSync(path.join(dir, filename), Buffer.from(base64, 'base64'));

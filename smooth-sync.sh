@@ -12,7 +12,7 @@ echo "📦 Backend..."
 rsync -avz --delete "$LOCAL/backend/src/" "$VPS:$REMOTE/backend/src/"
 
 echo "🌐 Public (excluding locales — VPS-managed)..."
-rsync -avz --delete --exclude='locales/' "$LOCAL/public/" "$VPS:$REMOTE/public/"
+rsync -avz --delete --exclude='locales/' --exclude='uploads/' "$LOCAL/public/" "$VPS:$REMOTE/public/"
 
 echo "🛒 Shop..."
 rsync -avz --delete "$LOCAL/frontend-shop/build/" "$VPS:$REMOTE/frontend-shop/build/"
