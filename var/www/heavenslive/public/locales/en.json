@@ -556,7 +556,13 @@
     "recentCommissions": "Recent Commissions",
     "couldNotLoadReferrals": "Could not load referral data",
     "referralCopied": "Referral link copied!",
-    "logout": "Logout"
+    "logout": "Logout",
+    "accruedInterest": "Accrued interest",
+    "totalOwed": "Total owed",
+    "payWithCredon": "💱 Pay with Credon",
+    "payWithPayPal": "🅿️ Pay with PayPal",
+    "payInFull": "Pay in full",
+    "repaymentAmount": "Repayment amount"
   },
   "create": {
     "aiTitle": "AI Listing Assistant",

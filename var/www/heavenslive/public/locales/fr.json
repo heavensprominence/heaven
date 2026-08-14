@@ -556,7 +556,13 @@
     "recentCommissions": "Commandes récentes",
     "couldNotLoadReferrals": "Impossible de charger les données de référence",
     "referralCopied": "Lien de parrainage copié !",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "accruedInterest": "Intérêts courus",
+    "totalOwed": "Total dû",
+    "payWithCredon": "💱 Payez avec Credon",
+    "payWithPayPal": "🅿️ Payez avec PayPal",
+    "payInFull": "Payer intégralement",
+    "repaymentAmount": "Montant du remboursement"
   },
   "create": {
     "aiTitle": "Assistant de référencement IA",

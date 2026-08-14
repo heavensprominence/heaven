@@ -556,7 +556,13 @@
     "recentCommissions": "Comisiones recientes",
     "couldNotLoadReferrals": "No se pudieron cargar los datos de referencia",
     "referralCopied": "¡Enlace de referencia copiado!",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "accruedInterest": "Interés acumulado",
+    "totalOwed": "Total adeudado",
+    "payWithCredon": "💱 Paga con Credon",
+    "payWithPayPal": "🅿️ Paga con PayPal",
+    "payInFull": "Pagar todo",
+    "repaymentAmount": "Monto del reembolso"
   },
   "create": {
     "aiTitle": "Asistente de listado de IA",

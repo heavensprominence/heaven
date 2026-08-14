@@ -556,7 +556,13 @@
     "recentCommissions": "Недавние комиссии",
     "couldNotLoadReferrals": "Не удалось загрузить реферальные данные.",
     "referralCopied": "Реферальная ссылка скопирована!",
-    "logout": "Выход из системы"
+    "logout": "Выход из системы",
+    "accruedInterest": "Начисленные проценты",
+    "totalOwed": "Общая задолженность",
+    "payWithCredon": "💱 Оплата с помощью Credon",
+    "payWithPayPal": "🅿️ Оплата через PayPal",
+    "payInFull": "Оплатить полностью",
+    "repaymentAmount": "Сумма погашения"
   },
   "create": {
     "aiTitle": "AI-помощник по листингу",

@@ -556,7 +556,13 @@
     "recentCommissions": "حالیہ کمیشن",
     "couldNotLoadReferrals": "ریفرل ڈیٹا لوڈ نہیں ہو سکا",
     "referralCopied": "ریفرل لنک کاپی ہو گیا!",
-    "logout": "لاگ آؤٹ"
+    "logout": "لاگ آؤٹ",
+    "accruedInterest": "جمع شدہ سود",
+    "totalOwed": "کل واجب الادا",
+    "payWithCredon": "💱 Credon سے ادائیگی کریں۔",
+    "payWithPayPal": "🅿️ PayPal سے ادائیگی کریں۔",
+    "payInFull": "پوری ادائیگی کریں۔",
+    "repaymentAmount": "ادائیگی کی رقم"
   },
   "ledger": {
     "home": "🏠 گھر",

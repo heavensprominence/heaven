@@ -556,7 +556,13 @@
     "recentCommissions": "Aktuelle Aufträge",
     "couldNotLoadReferrals": "Empfehlungsdaten konnten nicht geladen werden",
     "referralCopied": "Empfehlungslink kopiert!",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "accruedInterest": "Aufgelaufene Zinsen",
+    "totalOwed": "Gesamtbetrag geschuldet",
+    "payWithCredon": "💱 Bezahlen Sie mit Credon",
+    "payWithPayPal": "🅿️ Bezahlen Sie mit PayPal",
+    "payInFull": "Bezahlen Sie vollständig",
+    "repaymentAmount": "Rückzahlungsbetrag"
   },
   "create": {
     "aiTitle": "AI-Listing-Assistent",

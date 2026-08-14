@@ -556,7 +556,13 @@
     "recentCommissions": "Mga Kamakailang Komisyon",
     "couldNotLoadReferrals": "Hindi ma-load ang data ng referral",
     "referralCopied": "Nakopya ang referral link!",
-    "logout": "Mag-logout"
+    "logout": "Mag-logout",
+    "accruedInterest": "Naipong interes",
+    "totalOwed": "Kabuuang utang",
+    "payWithCredon": "💱 Magbayad gamit ang Credon",
+    "payWithPayPal": "🅿️ Magbayad gamit ang PayPal",
+    "payInFull": "Magbayad ng buo",
+    "repaymentAmount": "Halaga ng pagbabayad"
   },
   "ledger": {
     "home": "🏠 Tahanan",

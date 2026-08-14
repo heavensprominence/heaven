@@ -556,7 +556,13 @@
     "recentCommissions": "Senaste kommissioner",
     "couldNotLoadReferrals": "Det gick inte att läsa in hänvisningsdata",
     "referralCopied": "Remisslänken kopierad!",
-    "logout": "Utloggning"
+    "logout": "Utloggning",
+    "accruedInterest": "Ackumulerad ränta",
+    "totalOwed": "Totalt skyldig",
+    "payWithCredon": "💱 Betala med Credon",
+    "payWithPayPal": "🅿️ Betala med PayPal",
+    "payInFull": "Betala fullt ut",
+    "repaymentAmount": "Återbetalningsbelopp"
   },
   "create": {
     "aiTitle": "AI Listing Assistant",

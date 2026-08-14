@@ -178,14 +178,37 @@ function loadLoans(){
   F('/api/wallet/loans').then(function(d){
     var loans=d.loans||[],h='';
     if(!loans.length)h+='<p class="muted">'+t('wallet.noActiveLoans','No active loans')+'</p>';
-    else loans.forEach(function(l){var cur=(l.currency||'Credon-USD').replace('Credon-','');h+='<div class="card"><div class="row"><strong>'+t('wallet.loan','Loan')+' — '+cur+'</strong><span>'+(l.principal_cents/100).toFixed(2)+' '+cur+'</span></div><div class="row"><span class="muted">'+t('wallet.remaining','Remaining')+'</span><span>'+(l.remaining_cents/100).toFixed(2)+' '+cur+'</span></div><button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\')">'+t('wallet.repay','Repay')+'</button></div>'});
+    else loans.forEach(function(l){
+      var cur=(l.currency||'Credon-USD').replace('Credon-','');
+      var principal=((l.principal_cents||0)/100).toFixed(2);
+      var remaining=((l.remaining_cents||0)/100).toFixed(2);
+      var accruedCents=(l.accrued_interest_cents||0);
+      var accrued=(accruedCents/100).toFixed(2);
+      var accruedDisplay=(accruedCents>0?'+':'')+accrued;
+      var accruedColor=accruedCents<0?'color:#2ECC71':'';
+      var totalOwed=((l.total_owing_cents||0)/100).toFixed(2);
+      var apr=(l.annual_rate_percent!=null?l.annual_rate_percent:(l.interest_rate||0));
+      h+='<div class="card">'
+        +'<div class="row"><strong>'+t('wallet.loan','Loan')+' — '+cur+'</strong><span>'+principal+' '+cur+'</span></div>'
+        +'<div class="row"><span class="muted">'+t('wallet.remaining','Remaining')+'</span><span>'+remaining+' '+cur+'</span></div>'
+        +'<div class="row"><span class="muted">'+t('wallet.accruedInterest','Accrued interest')+'</span><span style="'+accruedColor+'">'+accruedDisplay+' '+cur+'</span></div>'
+        +'<div class="row"><span class="muted">'+t('wallet.interestRate','Interest rate')+'</span><span>'+(apr>=0?'+':'')+apr+'% APR</span></div>'
+        +'<div class="row total"><strong>'+t('wallet.totalOwed','Total owed')+'</strong><strong>'+totalOwed+' '+cur+'</strong></div>'
+        +'<input id="repayAmt_'+l.id+'" type="number" min="0" step="0.01" placeholder="'+t('wallet.repaymentAmount','Repayment amount')+'" style="width:100%;margin-top:10px;margin-bottom:6px">'
+        +'<div style="display:flex;gap:6px;flex-wrap:wrap">'
+        +'<button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\',\'credon_wallet\')">'+t('wallet.payWithCredon','💱 Pay with Credon')+'</button>'
+        +'<button class="btn btn-sm" onclick="repayLoan(\''+l.id+'\',\'paypal\')">'+t('wallet.payWithPayPal','🅿️ Pay with PayPal')+'</button>'
+        +'<button class="btn btn-sm" onclick="payInFull(\''+l.id+'\',\'credon_wallet\')">'+t('wallet.payInFull','Pay in full')+'</button>'
+        +'</div>'
+        +'</div>';
+    });
     h+='<div class="card" style="margin-top:12px"><h3>'+t('wallet.applyForLoan','Apply for Loan')+'</h3>';
-    // Build currency dropdown
     h+='<select id="loanCurrency" style="margin-bottom:8px"><option value="Credon-USD">💵 Credon-USD</option><option value="Credon-EUR">💶 Credon-EUR</option><option value="Credon-GBP">💷 Credon-GBP</option><option value="Credon-CAD">🇨🇦 Credon-CAD</option><option value="Credon-KES">🇰🇪 Credon-KES</option><option value="Credon-NGN">🇳🇬 Credon-NGN</option><option value="Credon-ZAR">🇿🇦 Credon-ZAR</option><option value="Credon-INR">🇮🇳 Credon-INR</option><option value="Credon-JPY">🇯🇵 Credon-JPY</option><option value="Credon-AUD">🇦🇺 Credon-AUD</option></select>';
     h+='<input id="loanAmount" type="number" placeholder="Amount"><input id="loanReason" data-i18n-placeholder="wallet.purposePlaceholder" placeholder="Purpose"><button class="btn" onclick="applyLoan()">'+t('wallet.apply','Apply')+'</button></div>';
     document.getElementById('loanContent').innerHTML=h;
   }).catch(function(){document.getElementById('loanContent').innerHTML='<p class="muted">'+t('wallet.couldNotLoad','Could not load')+'</p>'});
 }
+
 function applyLoan(){
   var a=document.getElementById('loanAmount').value,r=document.getElementById('loanReason').value;
   var c=document.getElementById('loanCurrency');
@@ -195,7 +218,28 @@ function applyLoan(){
     if(d.success){alert(t('wallet.loanSubmitted','Loan application submitted! Book an appointment to review it.'));showTab('appointments')}else alert(d.error||'Failed');
   }).catch(function(e){alert('Error: '+(e.message||'Could not submit'))});
 }
-function repayLoan(id){var a=parseFloat(document.getElementById('repayAmt_'+id).value);if(!a||a<=0){alert(t('wallet.enterAmount','Enter an amount'));return}F('/api/wallet/loans/'+id+'/repay',{method:'POST',body:{amount:a}}).then(function(d){if(d.success){alert('Repaid $'+a.toFixed(2)+'! Remaining: $'+(d.remaining/100).toFixed(2));loadLoans()}else alert(d.error||'Failed')})}
+function repayLoan(id,method){
+  var a=parseFloat(document.getElementById('repayAmt_'+id).value);
+  if(!a||a<=0){alert(t('wallet.enterAmount','Enter an amount'));return}
+  doRepay(id,a,method);
+}
+function payInFull(id,method){
+  F('/api/wallet/loans/'+id+'/payoff').then(function(p){
+    var total=(p.total_owed_cents||0)/100;
+    if(total<=0){alert(t('wallet.noActiveLoans','No active loans'));loadLoans();return}
+    doRepay(id,total,method);
+  }).catch(function(){alert(t('wallet.error','Error'))});
+}
+function doRepay(id,amount,method){
+  F('/api/wallet/loans/'+id+'/repay',{method:'POST',body:{amount:amount,method:method||'credon_wallet'}}).then(function(d){
+    if(d.success){
+      if(d.approvalUrl){window.location.href=d.approvalUrl;return}
+      var rem=(typeof d.remaining==='number')?d.remaining.toFixed(2):'0.00';
+      alert(t('wallet.repaid','Repaid')+' $'+amount.toFixed(2)+' — '+t('wallet.remaining','Remaining')+': $'+rem);
+      loadLoans();
+    }else alert(d.error||t('wallet.error','Error'));
+  }).catch(function(){alert(t('wallet.error','Error'))});
+}
 
 // APPOINTMENTS
 function loadAppointments(){

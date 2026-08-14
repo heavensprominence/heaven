@@ -556,7 +556,13 @@
     "recentCommissions": "کمیسیون های اخیر",
     "couldNotLoadReferrals": "داده های ارجاع بارگیری نشد",
     "referralCopied": "لینک ارجاع کپی شد!",
-    "logout": "خروج از سیستم"
+    "logout": "خروج از سیستم",
+    "accruedInterest": "سود تعهدی",
+    "totalOwed": "کل بدهکار",
+    "payWithCredon": "💱 با Credon پرداخت کنید",
+    "payWithPayPal": "🅿️ پرداخت با PayPal",
+    "payInFull": "به طور کامل پرداخت کنید",
+    "repaymentAmount": "مبلغ بازپرداخت"
   },
   "create": {
     "aiTitle": "دستیار فهرست AI",

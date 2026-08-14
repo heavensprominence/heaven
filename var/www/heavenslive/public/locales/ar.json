@@ -556,7 +556,13 @@
     "recentCommissions": "اللجان الأخيرة",
     "couldNotLoadReferrals": "تعذر تحميل بيانات الإحالة",
     "referralCopied": "تم نسخ رابط الإحالة!",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "accruedInterest": "الفائدة المستحقة",
+    "totalOwed": "إجمالي المستحق",
+    "payWithCredon": "💱 ادفع باستخدام Credon",
+    "payWithPayPal": "🅿️ الدفع باستخدام PayPal",
+    "payInFull": "ادفع بالكامل",
+    "repaymentAmount": "مبلغ السداد"
   },
   "create": {
     "aiTitle": "مساعد قائمة الذكاء الاصطناعي",

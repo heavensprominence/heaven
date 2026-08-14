@@ -556,7 +556,13 @@
     "recentCommissions": "हाल के आयोग",
     "couldNotLoadReferrals": "रेफरल डेटा लोड नहीं किया जा सका",
     "referralCopied": "रेफ़रल लिंक कॉपी किया गया!",
-    "logout": "लॉग आउट"
+    "logout": "लॉग आउट",
+    "accruedInterest": "उपार्जित ब्याज",
+    "totalOwed": "कुल बकाया",
+    "payWithCredon": "💱 Credon से भुगतान करें",
+    "payWithPayPal": "🅿️ PayPal से भुगतान करें",
+    "payInFull": "पूरा भुगतान करें",
+    "repaymentAmount": "चुकौती राशि"
   },
   "create": {
     "aiTitle": "एआई लिस्टिंग सहायक",

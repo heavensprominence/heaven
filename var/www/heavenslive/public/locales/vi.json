@@ -556,7 +556,13 @@
     "recentCommissions": "Hoa hồng gần đây",
     "couldNotLoadReferrals": "Không thể tải dữ liệu giới thiệu",
     "referralCopied": "Đã sao chép liên kết giới thiệu!",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "accruedInterest": "Lãi tích lũy",
+    "totalOwed": "Tổng nợ",
+    "payWithCredon": "💱 Thanh toán bằng Credon",
+    "payWithPayPal": "🅿️ Thanh toán bằng PayPal",
+    "payInFull": "Thanh toán đầy đủ",
+    "repaymentAmount": "Số tiền hoàn trả"
   },
   "ledger": {
     "home": "🏠 Trang chủ",

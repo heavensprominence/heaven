@@ -556,7 +556,13 @@
     "recentCommissions": "최근 커미션",
     "couldNotLoadReferrals": "추천 데이터를 로드할 수 없습니다.",
     "referralCopied": "추천링크가 복사되었습니다!",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "accruedInterest": "발생이자",
+    "totalOwed": "총 빚",
+    "payWithCredon": "💱 Credon으로 결제",
+    "payWithPayPal": "🅿️ PayPal로 결제",
+    "payInFull": "전액 지불",
+    "repaymentAmount": "상환금액"
   },
   "create": {
     "aiTitle": "AI 상장 도우미",

@@ -556,7 +556,13 @@
     "recentCommissions": "最近的佣金",
     "couldNotLoadReferrals": "无法加载推荐数据",
     "referralCopied": "推荐链接已复制！",
-    "logout": "退出"
+    "logout": "退出",
+    "accruedInterest": "应计利息",
+    "totalOwed": "欠款总额",
+    "payWithCredon": "💱 使用 Credon 付款",
+    "payWithPayPal": "🅿️使用PayPal付款",
+    "payInFull": "全额付款",
+    "repaymentAmount": "还款金额"
   },
   "ledger": {
     "home": "🏠 首页",

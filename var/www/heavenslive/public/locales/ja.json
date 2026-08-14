@@ -556,7 +556,13 @@
     "recentCommissions": "最近のコミッション",
     "couldNotLoadReferrals": "紹介データを読み込めませんでした",
     "referralCopied": "紹介リンクをコピーしました!",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "accruedInterest": "未収利息",
+    "totalOwed": "未払い総額",
+    "payWithCredon": "💱 Credon で支払う",
+    "payWithPayPal": "🅿️ PayPalで支払う",
+    "payInFull": "全額支払う",
+    "repaymentAmount": "返済額"
   },
   "create": {
     "aiTitle": "AIリストアシスタント",

@@ -556,7 +556,13 @@
     "recentCommissions": "Son Komisyonlar",
     "couldNotLoadReferrals": "Yönlendirme verileri yüklenemedi",
     "referralCopied": "Yönlendirme bağlantısı kopyalandı!",
-    "logout": "Oturumu kapat"
+    "logout": "Oturumu kapat",
+    "accruedInterest": "Tahakkuk eden faiz",
+    "totalOwed": "Toplam borçlu",
+    "payWithCredon": "💱 Credon ile öde",
+    "payWithPayPal": "🅿️ PayPal ile ödeme yapın",
+    "payInFull": "Tamamını öde",
+    "repaymentAmount": "Geri ödeme tutarı"
   },
   "ledger": {
     "home": "🏠 Ana Sayfa",
