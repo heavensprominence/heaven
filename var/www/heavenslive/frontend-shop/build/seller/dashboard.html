@@ -41,6 +41,7 @@ table{width:100%;border-collapse:collapse;font-size:.84rem}th{text-align:left;pa
 </aside>
 <main class="main">
 <h1 data-i18n="brand.sellerDashboard">📋 Seller Dashboard</h1><p class="subtitle" id="subtitle" data-i18n="page.sub_manage">Manage your listings, orders, and store</p>
+<div id="missingImagesWarn" style="display:none;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:12px 16px;margin-bottom:16px;color:#E74C3C;font-size:.85rem"></div>
 
 <div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="val">--</div><div class="lbl">Loading...</div></div></div>
 
@@ -137,5 +138,16 @@ async function loadAll(){
   }catch(e){console.error(e)}
 }
 loadAll();
+async function checkMissingImages(){
+  try{
+    var d=await(await fetch('/api/shop/seller/missing-images',{headers:{Authorization:'Bearer '+T}})).json();
+    if(d && d.count>0){
+      var names=d.missing.map(function(m){return m.title}).join(', ');
+      var el=document.getElementById('missingImagesWarn');
+      if(el){el.innerHTML='\u26a0\ufe0f '+d.count+' of your listings are missing images: '+names+' \u2014 re-upload to restore them.';el.style.display='block';}
+    }
+  }catch(e){}
+}
+checkMissingImages();
 </script><script src="/i18n.js"></script>
 </body></html>

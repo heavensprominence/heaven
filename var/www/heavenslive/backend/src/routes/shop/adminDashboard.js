@@ -134,6 +134,24 @@ router.get('/listings', verifyToken, adminOnly, async (req, res) => {
   } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
+// GET /api/admin/listings/missing-images — flag listings whose image files are gone
+router.get('/listings/missing-images', verifyToken, adminOnly, async (req, res) => {
+  try {
+    const { findListingsWithMissingImages } = require('../../services/imageHealth');
+    const missing = await findListingsWithMissingImages(db, null);
+    const sellerIds = [...new Set(missing.map(m => m.seller_id).filter(Boolean))];
+    const emails = {};
+    if (sellerIds.length) {
+      const r = await db.query('SELECT id, email FROM users WHERE id = ANY($1::uuid[])', [sellerIds]);
+      r.rows.forEach(u => { emails[u.id] = u.email; });
+    }
+    res.json({
+      missing: missing.map(m => ({ ...m, seller_email: emails[m.seller_id] || null })),
+      count: missing.length
+    });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
 // PUT /api/admin/listings/:id — approve/reject/toggle listing
 router.put('/listings/:id', verifyToken, adminOnly, async (req, res) => {
   try {

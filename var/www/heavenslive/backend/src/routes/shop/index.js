@@ -548,6 +548,15 @@ router.post('/listings/:id/bid/retract', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
+// GET /seller/missing-images — seller's own listings with missing image files
+router.get('/seller/missing-images', verifyToken, async (req, res) => {
+    try {
+        const { findListingsWithMissingImages } = require('../../services/imageHealth');
+        const missing = await findListingsWithMissingImages(db, req.userId);
+        res.json({ missing, count: missing.length });
+    } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
 // GET /listings/:id/bids — seller view of bids (auctions + procurement proposals)
 router.get('/listings/:id/bids', verifyToken, async (req, res) => {
     try {
