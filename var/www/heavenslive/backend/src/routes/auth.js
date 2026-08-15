@@ -289,11 +289,21 @@ router.post('/verify-2fa', async (req, res) => {
       jwtSecret, { expiresIn: "30d" }
     );
     
-    // $20 signup bonus program retired (2026-08-15). Email verification only marks the account verified.
-    // Affiliate commissions are still awarded separately via the referral service.
+    // Award one-time $20 welcome bonus on first email verification (prevents bot farming)
     try {
+        const already = await db.query("SELECT COUNT(*) as cnt FROM treasury_ledger WHERE action = 'signup_bonus' AND reference_id = $1", [u.id]);
+        if (parseInt(already.rows[0].cnt) === 0) {
+            const welcomeBonus = 2000;
+            await db.query("UPDATE wallets SET balance_cents = balance_cents + $1 WHERE user_id = $2", [welcomeBonus, u.id]);
+            const Wallet = require('../models/Wallet');
+            await Wallet.updateBalance(u.id, welcomeBonus, 'signup_bonus', 'Welcome bonus for new signup', null, 'USD');
+            await db.query(
+                "INSERT INTO treasury_ledger (amount_cents, currency, reason, action, reference_id, title) VALUES ($1, 'USD', 'Welcome bonus for new signup', 'signup_bonus', $2, 'Signup Bonus')",
+                [welcomeBonus, u.id]
+            );
+        }
         await db.query("UPDATE users SET email_verified = true WHERE id = $1", [u.id]);
-    } catch(e) { console.error('Email verify failed:', e.message); }
+    } catch(e) { console.error('Welcome bonus on verify failed:', e.message); }
 
     // Clear pending session + mark device as trusted
     await db.query('UPDATE users SET pending_2fa_session = NULL, pending_2fa_expires = NULL, pending_2fa_code = NULL, last_login = NOW() WHERE id = $1', [u.id]);
