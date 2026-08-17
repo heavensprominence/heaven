@@ -314,6 +314,13 @@ setInterval(async () => {
 setInterval(regenerateSitemap, 60 * 60 * 1000);
 regenerateSitemap(); // Run on startup
 
+// Unverified-account cleanup (bot defense) — hourly check
+const { cleanupUnverifiedUsers } = require("./services/userCleanup");
+setInterval(async () => {
+  try { await cleanupUnverifiedUsers(); } catch(e) { console.error("User cleanup error:", e.message); }
+}, 60 * 60 * 1000);
+cleanupUnverifiedUsers(); // run on startup
+
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
   try {
